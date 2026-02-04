@@ -1,0 +1,34 @@
+<div class="flex items-center gap-5 sm:hidden">
+	{{ if site.Params.searchEnabled | default true }}
+		<button
+			id="mobile-search-button"
+			aria-label="{{ i18n "search.open_button_title" }}"
+			class="text-foreground hover:text-link-hover transition-colors"
+			title="{{ i18n "search.open_button_title" }}">
+			{{ partial "components/icon.html" "search" }}
+		</button>
+	{{ end }}
+
+	{{ if site.Params.themeLightDarkSwitcher | default true }}
+		<button
+			id="mobile-appearance-switcher"
+			aria-label="Toggle dark mode"
+			type="button"
+			class="text-foreground hover:text-link-hover transition-colors">
+			<span class="block dark:hidden">
+				{{ partial "components/icon.html" "sun" }}
+			</span>
+			<span class="hidden dark:block">
+				{{ partial "components/icon.html" "moon" }}
+			</span>
+		</button>
+	{{ end }}
+
+
+	<button
+		id="mobile-menu-toggle"
+		aria-label="Toggle mobile menu"
+		class="text-foreground hover:text-link-hover py-4 transition-colors">
+		{{ partial "components/icon.html" "bars" }}
+	</button>
+</div>

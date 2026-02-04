@@ -1,0 +1,33 @@
+{{ $related := site.RegularPages.Related . | first (site.Params.pageRelatedLimit | default 3) }}
+
+{{ if $related }}
+	<aside class="border-border mt-16 border-t pt-12">
+		<h2 class="text-foreground mb-6 text-lg font-medium">
+			{{ i18n "article.related_articles" | default "Related Articles" }}
+		</h2>
+
+		<div class="space-y-4">
+			{{ range $related }}
+				<article>
+					<h3 class="text-foreground text-base font-medium">
+						<a href="{{ .RelPermalink }}" class="hover:text-link-hover transition-colors">
+							{{ .LinkTitle }}
+						</a>
+					</h3>
+					<div class="text-muted-foreground mt-2 flex flex-wrap items-center gap-2 text-xs">
+						<time datetime="{{ .Date.Format "2006-01-02" }}">
+							{{ .Date.Format "2006-01-02" }}
+						</time>
+						{{ with .GetTerms "tags" }}
+							{{ range $index, $tag := . }}
+								<a href="{{ .RelPermalink }}" class="hover:text-link-hover transition-colors">
+									#{{ .LinkTitle }}
+								</a>
+							{{ end }}
+						{{ end }}
+					</div>
+				</article>
+			{{ end }}
+		</div>
+	</aside>
+{{ end }}

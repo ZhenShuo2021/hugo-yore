@@ -1,0 +1,201 @@
+<style>
+	.monument-container {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.monument-hero {
+		position: relative;
+		display: flex;
+		min-height: 100vh;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.monument-bg {
+		position: absolute;
+		inset: 0;
+		z-index: -50;
+	}
+
+	.monument-gradient {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom right,
+			var(--color-brand-100),
+			var(--color-accent-50),
+			var(--color-brand-50)
+		);
+		html[data-theme='dark'] & {
+			background: linear-gradient(to bottom right, oklch(18.5% 0 0), oklch(29.5% 0 0), oklch(14.5% 0 0));
+		}
+	}
+
+	.monument-grid-pattern {
+		position: absolute;
+		inset: 0;
+		opacity: 0.2;
+		background-image:
+			linear-gradient(var(--border) 1px, transparent 1px),
+			linear-gradient(90deg, var(--border) 1px, transparent 1px);
+		background-size: 80px 80px;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.monument-grid-pattern {
+			opacity: 0.1;
+		}
+	}
+
+	.monument-hero-content {
+		position: relative;
+		z-index: 10;
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 80rem;
+		padding: 8rem 1.5rem;
+		text-align: center;
+	}
+
+	.monument-title {
+		color: var(--foreground);
+		margin-bottom: 3rem;
+		font-size: 4.5rem;
+		line-height: 1;
+		font-weight: 700;
+		letter-spacing: -0.05em;
+	}
+
+	.monument-tagline {
+		color: var(--muted-foreground);
+		padding-left: 2rem;
+		font-size: 2.25rem;
+		line-height: 1.25;
+		font-weight: 300;
+	}
+
+	.monument-prose {
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 6rem;
+		max-width: 48rem;
+		text-align: left;
+	}
+
+	.monument-stats {
+		position: relative;
+		border-top: 1px solid var(--border);
+		padding: 8rem 0;
+	}
+
+	.monument-stats-grid {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 80rem;
+		padding: 0 1.5rem;
+		display: grid;
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+		gap: 4rem;
+	}
+
+	@media (min-width: 768px) {
+		.monument-stats-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
+	.monument-stat-item {
+		text-align: center;
+	}
+
+	.monument-stat-number {
+		color: var(--foreground);
+		font-size: 6rem;
+		font-weight: 300;
+	}
+
+	.monument-stat-label {
+		color: var(--muted-foreground);
+		font-size: 1.25rem;
+		margin-top: 1rem;
+	}
+
+	.monument-footer {
+		position: relative;
+		padding: 4rem 1.5rem;
+		text-align: center;
+	}
+
+	.btn-monument-cta {
+		display: inline-block;
+		background-color: var(--foreground);
+		color: var(--background);
+		padding: 1.25rem 4rem;
+		font-size: 1.25rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+		text-decoration: none;
+		transition: opacity 0.3s;
+	}
+
+	.btn-monument-cta:hover {
+		opacity: 0.9;
+	}
+</style>
+
+<div class="monument-container">
+	<section class="monument-hero">
+		<div class="monument-bg">
+			<div class="monument-gradient"></div>
+			<div class="monument-grid-pattern"></div>
+		</div>
+
+		<div class="monument-hero-content">
+			<h1 class="monument-title">
+				{{ site.Params.homepageTitle | default site.Title | markdownify }}
+			</h1>
+			<div style="position: relative; display: inline-block;">
+				<div class="monument-tagline">
+					{{ site.Params.homepageTagline | markdownify }}
+				</div>
+			</div>
+			{{ with .Content }}
+				<div class="monument-prose prose dark:prose-invert prose-xl">
+					{{ . }}
+				</div>
+			{{ end }}
+		</div>
+	</section>
+
+	<section class="monument-stats">
+		<div class="monument-stats-grid">
+			<div class="monument-stat-item">
+				<div class="monument-stat-number">{{ len site.RegularPages }}</div>
+				<p class="monument-stat-label">Articles Written</p>
+			</div>
+			<div class="monument-stat-item">
+				<div class="monument-stat-number">
+					{{ $wordCount := 0 }}{{ range site.RegularPages }}
+						{{ $wordCount = add $wordCount .WordCount }}
+					{{ end }}{{ $wordCount }}
+				</div>
+				<p class="monument-stat-label">Words Shared</p>
+			</div>
+			<div class="monument-stat-item">
+				<div class="monument-stat-number">{{ len (where site.Pages "Kind" "term") }}</div>
+				<p class="monument-stat-label">Subject Domains</p>
+			</div>
+		</div>
+	</section>
+
+	{{ if site.Params.homepageShowMoreLink }}
+		<section class="monument-footer">
+			<a href="{{ site.Params.homepageShowMoreLink | relLangURL }}" class="btn-monument-cta">
+				{{ i18n "recent.show_more" | default "Browse Articles" }}
+			</a>
+		</section>
+	{{ end }}
+</div>

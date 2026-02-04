@@ -1,0 +1,28 @@
+a11y:
+  disable_blur: Nonaktifkan blur
+  disable_images: Nonaktifkan gambar
+  font_size: Ukuran font
+  show_link_underline: Tampilkan garis bawah tautan
+  title: Pengaturan aksesibilitas
+article:
+  date: '{{ .Date }}'
+  date_updated: 'Diperbarui: {{ .Date }}'
+  related_articles: Terkait
+  series: Artikel ini merupakan bagian dari sebuah seri.
+code:
+  copied: Disalin
+  copy: Salin
+error:
+  404_description: Tampaknya halaman yang Anda minta tidak ada.
+  404_title: 'Halaman tidak ditemukan :confused:'
+footer:
+  powered_by: Didukung oleh {{ .Theme }}
+nav:
+  scroll_to_top_title: Gulir ke atas
+  skip_to_main: Lewati ke konten utama
+search:
+  close_button_title: Tutup (Esc)
+  input_placeholder: Pencarian
+  open_button_title: Cari (/)
+shortcode:
+  recent_articles: Terbaru

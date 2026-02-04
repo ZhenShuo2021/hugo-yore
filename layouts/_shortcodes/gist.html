@@ -1,0 +1,12 @@
+{{- $user := .Get 0 -}}
+{{- $id := .Get 1 -}}
+{{- $file := .Get 2 -}}
+<div class="gist-container">
+	<script src="https://gist.github.com/{{ $user }}/{{ $id }}.js{{ with $file }}
+			?file={{ . }}
+		{{ end }}"></script>
+</div>
+
+{{ with resources.Get "css/gist.css" | minify | fingerprint }}
+	<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+{{ end }}

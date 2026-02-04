@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <text
+    x="30%" y="35%"
+    font-size="12"
+    font-family="sans-serif"
+    font-weight="500"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    dir="ltr">文</text>
+  <text
+    x="75%" y="75%"
+    font-size="14"
+    font-family="sans-serif"
+    font-weight="500"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    dir="ltr">A</text>
+</svg>

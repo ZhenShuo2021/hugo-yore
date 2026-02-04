@@ -1,0 +1,132 @@
+{{/* Determine page source based on listScope param */}}
+{{ $listScope := .Param "listScope" | default "section" }}
+{{ $pages := .Pages }}
+{{ if eq $listScope "site" }}
+	{{ $pages = site.RegularPages }}
+{{ end }}
+
+
+<div class="main-grid">
+	<!-- Empty Left Spacer -->
+	<div class="main-grid__start--empty"></div>
+
+	<!-- Main Content -->
+	<div class="main-grid__main">
+		<header class="mb-16">
+			{{ if .Param "breadcrumb" }}
+				<div class="text-muted-foreground text-sm">{{ partial "components/breadcrumbs.html" . }}</div>
+			{{ end }}
+			<h1 class="text-foreground mb-4 text-4xl font-medium">
+				{{ .Title }}
+			</h1>
+
+			{{ if .Content }}
+				<div class="prose dark:prose-invert mt-6">
+					{{ .Content }}
+				</div>
+			{{ end }}
+		</header>
+
+		{{/* Quick Reference Component */}}
+		{{ if and $pages (.Param "sectionQuickReference" | default false) }}
+			{{ partial "components/quick-reference.html" . }}
+		{{ end }}
+
+		{{/* Paginate the pages */}}
+		{{ $paginator := .Paginate $pages }}
+
+		{{ if $paginator.Pages }}
+			<div class="space-y-6 sm:space-y-2">
+				{{ range $paginator.Pages }}
+					{{/* Skip pages with pageNoList param */}}
+					{{ if .Params.pageNoList }}{{ continue }}{{ end }}
+
+
+					<article class="flex flex-col items-start text-lg sm:flex-row sm:gap-6">
+						<time
+							datetime="{{ .Date.Format "2006-01-02" }}"
+							class="text-muted-foreground flex-shrink-0 sm:w-28">
+							{{ .Date.Format "2006-01-02" }}
+						</time>
+
+						<span>
+							<a
+								href="{{ .RelPermalink }}"
+								class="text-foreground hover:text-link-hover inline-flex items-center transition-colors">
+								{{ .Title }}
+								{{ if .IsNode }}
+									<span class="ms-1 leading-none">
+										{{ partial "components/icon.html" "folder" }}
+									</span>
+								{{ end }}
+							</a>
+						</span>
+					</article>
+				{{ end }}
+			</div>
+
+			{{/* Pagination Navigation */}}
+			{{ if gt $paginator.TotalPages 1 }}
+				<nav class="pagination mt-16 flex items-center justify-center gap-2" aria-label="Pagination">
+					{{/* Previous Button */}}
+					{{ if $paginator.HasPrev }}
+						<a
+							href="{{ $paginator.Prev.URL }}"
+							class="text-foreground hover:text-link-hover px-4 py-2 transition-colors"
+							aria-label="Previous page">
+							Previous
+						</a>
+					{{ end }}
+
+					{{/* Page Numbers */}}
+					<div class="flex items-center gap-1">
+						{{ $current := $paginator.PageNumber }}
+						{{ $total := $paginator.TotalPages }}
+
+						{{ range $paginator.Pagers }}
+							{{ $page := .PageNumber }}
+							{{ $show := false }}
+
+							{{/* Show first page, last page, and pages near current */}}
+							{{ if or (eq $page 1) (eq $page $total) }}
+								{{ $show = true }}
+							{{ else if and (ge $page (sub $current 2)) (le $page (add $current 2)) }}
+								{{ $show = true }}
+							{{ end }}
+
+							{{ if $show }}
+								{{ if eq . $paginator }}
+									<span class="text-foreground bg-muted rounded px-3 py-2 font-medium">
+										{{ .PageNumber }}
+									</span>
+								{{ else }}
+									<a
+										href="{{ .URL }}"
+										class="text-foreground hover:text-link-hover px-3 py-2 transition-colors"
+										aria-label="Page {{ .PageNumber }}">
+										{{ .PageNumber }}
+									</a>
+								{{ end }}
+							{{ else if or (eq $page 2) (eq $page (sub $total 1)) }}
+								<span class="text-muted-foreground px-2">…</span>
+							{{ end }}
+						{{ end }}
+					</div>
+
+					{{/* Next Button */}}
+					{{ if $paginator.HasNext }}
+						<a
+							href="{{ $paginator.Next.URL }}"
+							class="text-foreground hover:text-link-hover px-4 py-2 transition-colors"
+							aria-label="Next page">
+							Next
+						</a>
+					{{ end }}
+				</nav>
+			{{ end }}
+		{{ end }}
+	</div>
+
+	<!-- Table of Contents Sidebar -->
+	<div class="main-grid__end--empty"></div>
+</div>

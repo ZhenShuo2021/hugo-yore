@@ -1,0 +1,13 @@
+{{- $id := .Get "id" | default "SgXhGb-7QbU" -}}
+{{- $label := .Get "id" | default "Yore" -}}
+{{- $params := .Get "params" -}}
+
+
+<lite-youtube videoid="{{ $id }}" playlabel="{{ $label }}" params="{{ $params }}"></lite-youtube>
+
+<style>
+	lite-youtube {
+		display: block;
+		margin: 0 auto;
+	}
+</style>

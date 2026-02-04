@@ -1,0 +1,84 @@
+{{- $srcRaw := .Get "src" -}}
+{{- $srcURL := urls.Parse $srcRaw -}}
+{{- $src := "" -}}
+
+{{- if $srcURL.IsAbs -}}
+	{{- $src = $srcURL.String -}}
+{{- else -}}
+	{{- $srcPath := strings.TrimPrefix "/" $srcURL.Path -}}
+	{{- $srcRes := $.Page.Resources.GetMatch $srcPath -}}
+	{{- if not $srcRes }}{{ $srcRes = resources.Get $srcPath }}{{ end -}}
+	{{- $src = cond $srcRes $srcRes.RelPermalink (relURL $srcPath) -}}
+{{- end -}}
+
+{{- $poster := "" -}}
+{{- with .Get "poster" -}}
+	{{- $posterURL := urls.Parse . -}}
+	{{- $posterPath := strings.TrimPrefix "/" $posterURL.Path -}}
+	{{- if $posterURL.IsAbs -}}
+		{{- $poster = $posterURL.String -}}
+	{{- else -}}
+		{{- $posterRes := $.Page.Resources.GetMatch $posterPath -}}
+		{{- if not $posterRes }}{{ $posterRes = resources.Get $posterPath }}{{ end -}}
+		{{- $poster = cond $posterRes $posterRes.RelPermalink (relURL $posterPath) -}}
+	{{- end -}}
+{{- else -}}
+	{{- if not $srcURL.IsAbs -}}
+		{{- $baseName := strings.TrimSuffix (path.Base $srcURL.Path) (path.Ext $srcURL.Path) -}}
+		{{- with $.Page.Resources.GetMatch (printf "%s.*" $baseName) -}}
+			{{- if eq .MediaType.MainType "image" }}{{ $poster = .RelPermalink }}{{ end -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- $ratio := replace (strings.TrimSpace (.Get "ratio" | default "16/9")) " " "" -}}
+{{- $ratioStyle := printf "aspect-ratio: %s;" (replace $ratio "/" " / ") -}}
+
+{{- $preload := lower (string (.Get "preload" | default "metadata")) -}}
+
+{{- $fit := lower (string (.Get "fit" | default "contain")) -}}
+{{- $fitMap := dict "contain" "object-contain" "cover" "object-cover" "fill" "object-fill" -}}
+{{- $fitClass := index $fitMap $fit | default "object-contain" -}}
+
+{{- $start := strings.TrimSpace (string (.Get "start")) -}}
+{{- $end := strings.TrimSpace (string (.Get "end")) -}}
+{{- $startOk := findRE `^\d+(\.\d+)?$` $start -}}
+{{- $endOk := findRE `^\d+(\.\d+)?$` $end -}}
+{{- if and $startOk $endOk (ge (float $start) (float $end)) -}}
+	{{- warnf "video shortcode: start must be < end: %s" .Position -}}
+	{{- $startOk = false -}}
+	{{- $endOk = false -}}
+{{- end -}}
+
+{{- $timeParam := "" -}}
+{{- if and $startOk $endOk }}
+	{{ $timeParam = printf "t=%s,%s" $start $end -}}
+{{- else if $startOk }}
+	{{ $timeParam = printf "t=%s" $start -}}
+{{- else if $endOk }}
+	{{ $timeParam = printf "t=,%s" $end -}}
+{{- end -}}
+
+{{- $srcWithTime := $src -}}
+{{- if $timeParam -}}
+	{{- $separator := cond (strings.Contains $src "#") "&" "#" -}}
+	{{- $srcWithTime = printf "%s%s%s" $src $separator $timeParam -}}
+{{- end -}}
+
+
+<figure>
+	<video
+		class="{{ $fitClass }} w-full"
+		style="{{ $ratioStyle }}"
+		preload="{{ $preload }}"
+		{{ with $poster }}poster="{{ . }}"{{ end }}
+		{{ if eq (.Get "autoplay") "true" }}autoplay{{ end }}
+		{{ if eq (.Get "loop") "true" }}loop{{ end }}
+		{{ if eq (.Get "muted") "true" }}muted{{ end }}
+		{{ if ne (.Get "controls") "false" }}controls{{ end }}
+		{{ if ne (.Get "playsinline") "false" }}playsinline{{ end }}>
+		<source src="{{ $srcWithTime }}">
+		<p>Your browser cannot play this video. <a href="{{ $src }}">Download video</a>.</p>
+	</video>
+	{{- with .Get "caption" }}<figcaption>{{ . | markdownify }}</figcaption>{{ end -}}
+</figure>

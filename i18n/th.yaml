@@ -1,0 +1,28 @@
+a11y:
+  disable_blur: ปิดการเบลอ
+  disable_images: ปิดการแสดงรูปภาพ
+  font_size: ขนาดตัวอักษร
+  show_link_underline: แสดงเส้นใต้ลิงก์
+  title: การตั้งค่าการเข้าถึง
+article:
+  date: '{{ .Date }}'
+  date_updated: 'อัปเดต: {{ .Date }}'
+  related_articles: บทความที่เกี่ยวข้อง
+  series: บทความในชุดเดียวกัน
+code:
+  copied: คัดลอกแล้ว
+  copy: คัดลอก
+error:
+  404_description: ดูเหมือนว่าหน้าที่คุณต้องการจะไม่มีอยู่
+  404_title: 'ไม่พบหน้าที่ต้องการ :confused:'
+footer:
+  powered_by: ขับเคลื่อนโดย {{ .Theme }}
+nav:
+  scroll_to_top_title: เลื่อนขึ้นด้านบน
+  skip_to_main: ข้ามไปยังเนื้อหาหลัก
+search:
+  close_button_title: ปิด (Esc)
+  input_placeholder: ค้นหา
+  open_button_title: ค้นหา (/)
+shortcode:
+  recent_articles: บทความล่าสุด

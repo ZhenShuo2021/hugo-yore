@@ -1,0 +1,88 @@
+/* Custom tokens */
+@theme {
+	--color-neutral-50: var(--color-neutral-50);
+	--color-neutral-100: var(--color-neutral-100);
+	--color-neutral-200: var(--color-neutral-200);
+	--color-neutral-300: var(--color-neutral-300);
+	--color-neutral-400: var(--color-neutral-400);
+	--color-neutral-500: var(--color-neutral-500);
+	--color-neutral-600: var(--color-neutral-600);
+	--color-neutral-700: var(--color-neutral-700);
+	--color-neutral-800: var(--color-neutral-800);
+	--color-neutral-900: var(--color-neutral-900);
+	--color-neutral-950: var(--color-neutral-950);
+
+	--color-accent-50: var(--color-accent-50);
+	--color-accent-100: var(--color-accent-100);
+	--color-accent-200: var(--color-accent-200);
+	--color-accent-300: var(--color-accent-300);
+	--color-accent-400: var(--color-accent-400);
+	--color-accent-500: var(--color-accent-500);
+	--color-accent-600: var(--color-accent-600);
+	--color-accent-700: var(--color-accent-700);
+	--color-accent-800: var(--color-accent-800);
+	--color-accent-900: var(--color-accent-900);
+	--color-accent-950: var(--color-accent-950);
+
+	--color-brand-50: var(--color-brand-50);
+	--color-brand-100: var(--color-brand-100);
+	--color-brand-200: var(--color-brand-200);
+	--color-brand-300: var(--color-brand-300);
+	--color-brand-400: var(--color-brand-400);
+	--color-brand-500: var(--color-brand-500);
+	--color-brand-600: var(--color-brand-600);
+	--color-brand-700: var(--color-brand-700);
+	--color-brand-800: var(--color-brand-800);
+	--color-brand-900: var(--color-brand-900);
+	--color-brand-950: var(--color-brand-950);
+
+	/* Background & Foreground */
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+
+	/* Card */
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+
+	/* Popover */
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+
+	/* Primary (CTA Buttons) */
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+
+	/* Secondary (Secondary Buttons) */
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+
+	/* Muted (Low Priority Content) */
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+
+	/* Accent (Accent Color - Links, ToC Indicators, etc.) */
+	--color-brand: var(--color-brand-500);
+	--color-brand-foreground: var(--brand-foreground);
+
+	/* Destructive */
+	--color-destructive: var(--destructive);
+
+	/* Border & Input */
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+
+	/* Sidebar */
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-brand: var(--color-brand);
+	--color-sidebar-brand-foreground: var(--color-brand-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+
+	/* Link */
+	--color-link: var(--link);
+	--color-link-hover: var(--link-hover);
+}

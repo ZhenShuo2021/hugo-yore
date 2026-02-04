@@ -1,0 +1,17 @@
+{{ $imgPos := .Params.imagePosition | default site.Params.imagePosition }}
+{{ $styles := slice (printf "object-position: %s" $imgPos) }}
+{{ $styleAttr := delimit $styles ";" | safeCSS }}
+
+
+<div class="page-hero--big fixed inset-x-0 top-0 -z-50 h-full blur-xs">
+	<img
+		id="hero-image"
+		src="{{ .Store.Get "featuredURL" }}"
+		role="presentation"
+		loading="eager"
+		decoding="async"
+		fetchpriority="high"
+		class="absolute inset-0 h-full w-full object-cover"
+		{{ with $styleAttr }}style="{{ . }}"{{ end }}>
+	<div class="absolute inset-0 bg-neutral-100 opacity-88 dark:bg-neutral-950"></div>
+</div>

@@ -1,0 +1,41 @@
+{{- $minHugoVersion := "0.155.1" }}
+{{- if lt hugo.Version $minHugoVersion }}
+	{{- errorf "Please upgrade Hugo to v%s or later." $minHugoVersion }}
+{{- end -}}
+<!doctype html>
+<html
+	lang="{{ site.Language.Lang }}"
+	dir="{{ site.Language.LanguageDirection | default "ltr" }}"
+	{{- if eq site.Params.themeLightDarkMode "dark" }}
+		data-theme="dark"
+	{{- else }}
+		data-theme="light"
+	{{- end }}
+	data-copy-text="{{ i18n "code.copy" | default "Copy" }}"
+	data-copied-text="{{ i18n "code.copied" | default "Copied" }}"
+	data-search-no-result="{{ i18n "search.no_result" | default "No results for" }}"
+	data-search-preload="{{ site.Params.searchPreload | default "true" }}"
+	data-default-appearance="{{ site.Params.themeLightDarkMode }}"
+	data-anchor-offset="{{ site.Params.enableAnchorOffset }}"
+	data-header-layout="{{ site.Params.headerLayout }}">
+	{{- partial "head/main.html" . -}}
+	{{- $noop := partialCached "init.html" . -}}
+	<body class="bg-background text-foreground">
+		<a
+			href="#main-content"
+			class="focus:bg-foreground focus:text-primary-foreground sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-1000 focus:px-4 focus:py-2">
+			{{- i18n "nav.skip_to_main" }}
+		</a>
+
+		{{- partial "header/main.html" . }}
+		<main id="main-content" class="{{ if ne .Kind `home` }}mx-auto max-w-7xl py-16 px-4 sm:px-0{{ end }}">
+			{{- block "main" . }}{{- end }}
+		</main>
+		{{- partial "footer.html" . }}
+
+		{{- partial "components/body-end.html" . }}
+		{{- if templates.Exists "extend-body-end.html" }}
+			{{- partial "extend-body-end.html" . }}
+		{{- end }}
+	</body>
+</html>

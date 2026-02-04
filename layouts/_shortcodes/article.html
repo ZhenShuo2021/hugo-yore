@@ -1,0 +1,73 @@
+{{ $link := .Get "link" }}
+{{ $showSummary := .Get "showSummary" | default true }}
+{{ $target := .Page }}
+{{ if ne $link .Page.RelPermalink }}
+	{{ $target = index (first 1 (where site.AllPages "RelPermalink" $link)) 0 }}
+{{ end }}
+
+{{ if $target }}
+	{{ $pageFeatureImage := $target.Resources.GetMatch "feature*" }}
+	<div class="not-prose my-6">
+		<a
+			href="{{ $target.RelPermalink }}"
+			class="group border-border bg-card hover:border-card-foreground/30 block overflow-hidden rounded-lg border transition-all hover:shadow-md">
+			<div class="flex flex-col md:flex-row">
+				<div class="bg-card aspect-video flex-shrink-0 overflow-hidden md:aspect-auto md:w-1/3">
+					{{ with $pageFeatureImage }}
+						<img src="{{ .RelPermalink }}" alt="{{ $target.LinkTitle }}" class="h-full w-full object-cover">
+					{{ else }}
+						<div class="flex h-full w-full items-center justify-center">
+							<svg
+								class="text-muted-foreground/30 h-12 w-12"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+							</svg>
+						</div>
+					{{ end }}
+				</div>
+
+				<div class="flex-1 space-y-3 p-5">
+					<div class="flex items-center gap-2">
+						{{/* No icon here */}}
+						<h3 class="text-foreground group-hover:text-link-hover text-lg font-semibold transition-colors">
+							{{ $target.LinkTitle }}
+						</h3>
+					</div>
+
+					{{ if $showSummary }}
+						<p class="text-muted-foreground line-clamp-2 text-sm">
+							{{ $target.Summary | plainify }}
+						</p>
+					{{ end }}
+
+
+					<div class="text-muted-foreground flex flex-col items-start text-xs">
+						{{ if $target.Date }}
+							<div class="flex items-center gap-1">
+								<time datetime="{{ $target.Date.Format "2006-01-02" }}">
+									{{ $target.Date.Format "2006-01-02" }}
+								</time>
+							</div>
+						{{ end }}
+
+						{{ with $target.GetTerms "tags" }}
+							<div class="flex flex-wrap items-center gap-x-1">
+								{{ range . }}
+									<div class="flex items-center">
+										<span>#{{ .LinkTitle }}</span>
+									</div>
+								{{ end }}
+							</div>
+						{{ end }}
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+{{ end }}

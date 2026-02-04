@@ -1,0 +1,15 @@
+{{- $cols := split .Inner "+++" -}}
+{{- $widths := split (.Get "widths") "," -}}
+{{- $total := len $cols -}}
+{{- $dir := .Get "rwd" | default true -}}
+{{- $dir = cond $dir "flex-col sm:flex-row" "flex-row" -}}
+
+
+<div class="{{ $dir }} my-4 flex gap-4">
+	{{- range $i, $col := $cols -}}
+		{{- $width := index $widths $i | default (printf "%.2f%%" (div 100.0 $total)) -}}
+		<div class="min-w-0 flex-1" style="flex-basis: {{ $width }};">
+			{{- $col | safeHTML -}}
+		</div>
+	{{- end -}}
+</div>

@@ -1,0 +1,84 @@
+<style>
+	.mono-article {
+		background-color: var(--color-brand-900);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 3rem 1.5rem;
+		min-height: 100vh;
+	}
+
+	.mono-wrapper {
+		width: 100%;
+		max-width: 56rem;
+		text-align: center;
+	}
+
+	.mono-title {
+		color: var(--color-accent-50);
+		html[data-theme='dark'] & {
+			color: var(--color-accent-50);
+		}
+		margin-bottom: 1rem;
+		font-family: serif;
+		font-size: 4.5rem;
+		font-weight: 700;
+	}
+
+	.mono-tagline {
+		color: var(--color-brand-100);
+		html[data-theme='dark'] & {
+			color: var(--color-brand-100);
+		}
+		margin-bottom: 3rem;
+		font-size: 1.25rem;
+	}
+
+	.mono-content {
+		color: var(--color-accent-50);
+		html[data-theme='dark'] & {
+			color: var(--color-accent-50);
+		}
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 4rem;
+	}
+
+	.btn-mono {
+		display: inline-block;
+		color: var(--color-neutral-100);
+		border: 1px solid var(--color-neutral-100);
+		padding: 0.75rem 2rem;
+		font-size: 0.875rem;
+		text-decoration: none;
+		transition: all 0.3s;
+	}
+
+	.btn-mono:hover {
+		background-color: color-mix(in srgb, var(--color-neutral-400), transparent 50%);
+	}
+</style>
+
+<article class="mono-article">
+	<div class="mono-wrapper">
+		<h1 class="mono-title">
+			{{ site.Params.homepageTitle | default site.Title | markdownify }}
+		</h1>
+
+		<div class="mono-tagline">
+			{{ site.Params.homepageTagline | markdownify }}
+		</div>
+
+		{{ if .Content }}
+			<div class="mono-content prose dark:prose-invert prose-xl">
+				{{ .Content }}
+			</div>
+		{{ end }}
+
+		{{ if site.Params.homepageShowMoreLink }}
+			<a href="{{ site.Params.homepageShowMoreLink | relLangURL }}" class="btn-mono">
+				{{ i18n "recent.show_more" | default "Browse Articles" }}
+			</a>
+		{{ end }}
+	</div>
+</article>

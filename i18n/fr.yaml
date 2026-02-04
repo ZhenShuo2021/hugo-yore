@@ -1,0 +1,28 @@
+a11y:
+  disable_blur: Désactiver le flou
+  disable_images: Désactiver les images
+  font_size: Taille de la police
+  show_link_underline: Afficher le soulignement des liens
+  title: Paramètres d'accessibilité
+article:
+  date: '{{ .Date }}'
+  date_updated: 'Mis à jour : {{ .Date }}'
+  related_articles: Articles connexes
+  series: Cet article fait partie d'une série.
+code:
+  copied: Copié
+  copy: Copier
+error:
+  404_description: Il semble que la page que vous cherchez n'existe pas.
+  404_title: "Cette page n'existe pas :confused:"
+footer:
+  powered_by: Propulsé par {{ .Theme }}
+nav:
+  scroll_to_top_title: Faire défiler jusqu'au bas de la page
+  skip_to_main: Aller au contenu
+search:
+  close_button_title: Fermer (Esc)
+  input_placeholder: Rechercher
+  open_button_title: Rechercher (/)
+shortcode:
+  recent_articles: Articles récents

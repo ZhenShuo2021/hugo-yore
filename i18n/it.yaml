@@ -1,0 +1,44 @@
+a11y:
+  disable_blur: Disattiva sfocatura
+  disable_images: Disattiva immagini
+  font_size: Dimensione del carattere
+  show_link_underline: Mostra sottolineatura link
+  title: Impostazioni di accessibilità
+admonition:
+  abstract: Sommario
+  bug: Bug
+  caution: Attenzione
+  danger: Pericolo
+  example: Esempio
+  failure: Fallimento
+  important: Importante
+  info: Info
+  note: Nota
+  question: Domanda
+  quote: Citazione
+  success: Successo
+  tip: Suggerimento
+  todo: Da fare
+  warning: Avviso
+article:
+  date: '{{ .Date }}'
+  date_updated: 'Aggiornato: {{ .Date }}'
+  related_articles: Articoli correlati
+  series: Questo articolo fa parte di una serie.
+code:
+  copied: Copiato
+  copy: Copia
+error:
+  404_description: Sembra che la pagina che hai richiesto non esista.
+  404_title: 'Pagina non trovata :confused:'
+footer:
+  powered_by: Realizzato con {{ .Theme }}
+nav:
+  scroll_to_top_title: Torna in cima
+  skip_to_main: Salta al contenuto principale
+search:
+  close_button_title: Chiudi (Esc)
+  input_placeholder: Cerca
+  open_button_title: Cerca (/)
+shortcode:
+  recent_articles: Recenti

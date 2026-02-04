@@ -1,0 +1,14 @@
+en:
++ menu.home Home
++ menu.login Login
+- old.key
+
+zh-TW:
++ menu.home 首頁
++ menu.login 登入
+- old.key
+
+ja:
++ menu.home ホーム
++ menu.login ログイン
+- old.key

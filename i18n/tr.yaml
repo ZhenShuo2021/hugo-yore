@@ -1,0 +1,29 @@
+a11y:
+  disable_blur: Bulanıklaştırmayı devre dışı bırak
+  disable_images: Arka plan görsellerini devre dışı bırak
+  font_size: Yazı tipi boyutu
+  show_link_underline: Bağlantı alt çizgisini göster
+  title: Erişilebilirlik ayarları
+article:
+  date: '{{ .Date }}'
+  date_updated: 'Güncellendi: {{ .Date }}'
+  related_articles: Related
+  series: This article is part of a series.
+code:
+  copied: Kopyalandı
+  copy: Kopyala
+error:
+  404_description: Görünüşe göre istediğiniz sayfa mevcut değil.
+  404_title: 'Sayfa Bulunamadı :confused:'
+footer:
+  powered_by: '{{ .Theme }} ile güçlendirilmiştir'
+nav:
+  scroll_to_top_title: Yukarı çık
+  skip_to_main: Ana içeriğe geç
+search:
+  close_button_title: Kapat (Esc)
+  input_placeholder: Ara
+  open_button_title: Ara (/)
+shortcode:
+  icon_none: Icon bulunamadı.
+  recent_articles: Güncel

@@ -1,0 +1,21 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Contributing Guidelines
+    url: https://github.com/ZhenShuo2021/hugo-yore/blob/main/CONTRIBUTING.md
+    about: Read the contributing guidelines for this project.
+
+  - name: Yore Code of Conduct
+    url: https://github.com/ZhenShuo2021/hugo-yore?tab=coc-ov-file#readme
+    about: View the Code of Conduct for this project.
+
+  - name: Ideas for New Features
+    url: https://github.com/ZhenShuo2021/hugo-yore/discussions
+    about: Open a discussion using GitHub Discussions.
+
+  - name: General Questions
+    url: https://github.com/ZhenShuo2021/hugo-yore/discussions
+    about: Open a discussion using GitHub Discussions.
+
+  - name: Yore Homepage
+    url: https://yore.zsl0621.cc/
+    about: Visit the homepage for more information about Yore.

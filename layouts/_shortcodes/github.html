@@ -1,0 +1,84 @@
+{{- $id := printf "%s%s" "github-" (partial "functions/uid.html" .) -}}
+{{- $githubURL := print "https://api.github.com/repos/" (.Get "repo") -}}
+{{- $githubThumbnailURL := print "https://opengraph.githubassets.com/0/" (.Get "repo") -}}
+{{- $showThumbnail := .Get "showThumbnail" | default true -}}
+{{- $githubData := dict -}}
+{{- with try (resources.GetRemote $githubURL) -}}
+	{{- with .Err -}}
+		{{- warnf "github shortcode: failed to fetch remote resource from %q: %s" $githubURL $.Position -}}
+	{{- else with .Value -}}
+		{{- $githubData = . | transform.Unmarshal -}}
+	{{- else -}}
+		{{- warnf "github shortcode: unable to get remote resource from %q: %s" $githubURL $.Position -}}
+	{{- end -}}
+{{- end -}}
+
+{{- with $githubData -}}
+	<div class="not-prose my-6">
+		<a
+			id="{{ $id }}"
+			target="_blank"
+			href="{{ .html_url }}"
+			class="group border-border bg-card hover:border-card-foreground/30 block overflow-hidden rounded-lg border transition-all hover:shadow-md">
+			<div class="{{ if $showThumbnail }}md:flex-row{{ end }} flex flex-col">
+				{{- if $showThumbnail -}}
+					<div class="aspect-video overflow-hidden md:aspect-auto md:w-1/3">
+						<img
+							src="{{ $githubThumbnailURL }}"
+							alt="GitHub Repository Thumbnail"
+							class="h-full w-full object-cover">
+					</div>
+				{{- end -}}
+
+
+				<div class="flex-1 space-y-3 p-5">
+					<div class="flex items-center gap-2">
+						<span class="text-foreground">
+							{{ partial "components/icon.html" "github" }}
+						</span>
+						<h3
+							id="{{ $id }}-full_name"
+							class="text-foreground group-hover:text-link-hover text-lg font-semibold transition-colors">
+							{{ .full_name }}
+						</h3>
+					</div>
+
+					<p id="{{ $id }}-description" class="text-muted-foreground line-clamp-2 text-sm">
+						{{ .description }}
+					</p>
+
+					<div class="text-muted-foreground flex items-center gap-4 text-sm">
+						<div class="flex items-center gap-1">
+							{{ partial "components/icon.html" "code" }}
+							<span>{{ if .language }}{{ .language }}{{ else }}—{{ end }}</span>
+						</div>
+
+						<div class="flex items-center gap-1">
+							{{ partial "components/icon.html" "star" }}
+							<span id="{{ $id }}-stargazers">
+								{{ .stargazers_count }}
+							</span>
+						</div>
+
+						<div class="flex items-center gap-1">
+							{{ partial "components/icon.html" "fork" }}
+							<span id="{{ $id }}-forks">
+								{{ .forks }}
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+	{{ $fetchRepo := resources.Get "js/shortcodes/fetch-repo.js" }}
+	{{ $fetchRepo = $fetchRepo | minify | fingerprint }}
+	<script
+		type="module"
+		src="{{ $fetchRepo.RelPermalink }}"
+		integrity="{{ $fetchRepo.Data.Integrity }}"
+		data-repo-url="{{ $githubURL }}"
+		data-repo-id="{{ $id }}"></script>
+{{- else -}}
+	{{ warnf "github shortcode: unable to fetch %q: %s" $githubURL .Position }}
+{{- end -}}

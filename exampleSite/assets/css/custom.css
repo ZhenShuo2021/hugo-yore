@@ -1,0 +1,90 @@
+/* CSS customization example */
+
+/* Font */
+html {
+	font-size: 100%;
+}
+
+@font-face {
+	font-family: 'CJK-Kai';
+	src: local('DFKai-SB'), local('標楷體'), local('BiauKai'), local('KaiTi');
+	unicode-range:
+		U+4E00-9FFF, U+3400-4DBF, U+3000-303F, U+F900-FAFF, U+FF00-FFEF;
+}
+
+:root {
+	--font-serif: 'CJK-Kai', Georgia, Cambria, 'Times New Roman', ui-serif, serif;
+}
+
+html {
+	font-family: var(--font-serif);
+}
+
+/* Content width */
+:root {
+	--article-width: 65ch;
+	--article-width-grid: minmax(0, 65ch);
+}
+
+/* Text underline */
+.prose :where(a):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+	transition-duration: 200ms;
+	text-decoration: underline;
+	text-decoration-color: transparent;
+	text-underline-offset: 0.25em;
+	&:hover {
+		text-decoration-color: var(--color-link-hover);
+	}
+}
+
+/* Customize the details expand in .prose excludes the admonition */
+.prose {
+	details:not(.admonition, .admonition *) {
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		margin-block: 1.25em;
+		padding: 0.5rem 1rem;
+		background-color: var(--color-card);
+
+		&[open] {
+			padding-bottom: 1rem;
+		}
+
+		& summary {
+			font-weight: 600;
+			cursor: pointer;
+			list-style: none;
+			outline: none;
+
+			&::-webkit-details-marker {
+				display: none;
+			}
+
+			&::before {
+				content: '▶';
+				display: inline-block;
+				margin-right: 0.5rem;
+				transition: transform 0.2s;
+			}
+		}
+
+		&[open] summary::before {
+			transform: rotate(90deg);
+		}
+	}
+}
+
+/* 
+You can also customize how tokens are used.
+See assets/css/tokens.css and assets/css/tailwind/typography.css 
+*/
+/* 
+html[data-theme=light] {
+  --background: var(--color-brand-500);
+	--color-foreground: blue;
+}
+html[data-theme=dark] {
+  --background: var(--color-accent-500);
+	--color-foreground: green;
+} 
+*/

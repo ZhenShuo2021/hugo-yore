@@ -1,0 +1,39 @@
+/* Shared styles */
+#TableOfContents ul {
+	padding-inline-start: 0;
+	margin: 0;
+}
+
+#TableOfContents ul ul {
+	padding-inline-start: 1rem;
+	margin-top: 0.4rem;
+}
+
+#TableOfContents li {
+	margin: 0.25rem 0;
+}
+
+#TableOfContents a:hover {
+	color: var(--link-hover);
+	border-inline-start-color: var(--link-hover);
+}
+
+/* Sidebar TOC */
+.toc-sidebar a.toc--active {
+	color: var(--link-hover);
+	border-inline-start-color: var(--link-hover);
+}
+
+.toc-sidebar ul {
+	list-style: none;
+}
+
+.toc-sidebar a {
+	display: block;
+	padding: 0.1rem;
+	padding-inline-start: 0.5rem;
+	text-decoration: none;
+	border-left: 2px solid transparent;
+	transition: all 0.2s;
+	line-clamp: 2;
+}

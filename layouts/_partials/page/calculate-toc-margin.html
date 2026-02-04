@@ -1,0 +1,26 @@
+{{- $tocMt := 22 -}}
+{{- $added := false -}}
+
+{{- if .Param "breadcrumb" -}}
+	{{- $tocMt = add $tocMt 11.5 -}}
+	{{- $added = true -}}
+{{- end -}}
+
+{{- if .Date -}}
+	{{- if $added -}}
+		{{- $tocMt = add $tocMt 5 -}}
+	{{- else -}}
+		{{- $tocMt = add $tocMt 11.5 -}}
+		{{- $added = true -}}
+	{{- end -}}
+{{- end -}}
+
+{{- if and .Lastmod (gt .Lastmod .Date) -}}
+	{{- if $added -}}
+		{{- $tocMt = add $tocMt 5 -}}
+	{{- else -}}
+		{{- $tocMt = add $tocMt 11.5 -}}
+	{{- end -}}
+{{- end -}}
+
+{{- .Store.Set "tocMt" $tocMt -}}

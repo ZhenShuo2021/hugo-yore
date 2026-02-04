@@ -1,0 +1,20 @@
+{{ $featuredURL := .Store.Get "featuredURL" }}
+{{ $style := "" }}
+{{ with .Params.imagePosition | default site.Params.imagePosition }}
+	{{ $style = printf "object-position: %s;" . }}
+{{ end }}
+
+
+<div class="page-hero--big relative mb-[15vh] w-full sm:px-[1em]">
+	<div class="relative h-[25vh] overflow-hidden rounded-sm sm:h-[50vh]">
+		<img
+			id="hero-image"
+			src="{{ $featuredURL }}"
+			loading="eager"
+			decoding="async"
+			fetchpriority="high"
+			role="presentation"
+			class="absolute inset-0 h-full w-full object-cover"
+			{{ with $style }}style="{{ . | safeCSS }}"{{ end }}>
+	</div>
+</div>

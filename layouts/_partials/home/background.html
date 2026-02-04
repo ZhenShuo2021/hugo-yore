@@ -1,0 +1,133 @@
+<style>
+	article.relative {
+		position: relative;
+	}
+	.bg-hero-container {
+		position: absolute;
+		inset: 0;
+		height: 100vh;
+	}
+	.bg-hero-image {
+		height: 100%;
+		width: 100%;
+		object-fit: cover;
+		opacity: 0.2;
+	}
+
+	.hero-section {
+		position: relative;
+		z-index: 10;
+		padding: 8rem 1.5rem 4rem;
+	}
+	.hero-content {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 56rem;
+		text-align: center;
+	}
+
+	.hero-title {
+		color: var(--color-foreground);
+		margin-bottom: 2rem;
+		font-size: 3.75rem;
+		line-height: 1;
+		font-weight: 700;
+	}
+
+	.hero-tagline {
+		color: var(--color-muted-foreground);
+		padding: 2rem;
+		font-size: 1.875rem;
+		line-height: 1.25;
+		font-weight: 300;
+	}
+
+	.content-section {
+		background-color: var(--color-background);
+		position: relative;
+		z-index: 10;
+		margin-top: 5rem;
+		padding: 4rem 1.5rem;
+	}
+
+	.content-container {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 48rem;
+	}
+
+	.cta-section {
+		background-color: var(--color-background);
+		position: relative;
+		z-index: 10;
+		padding: 4rem 1.5rem;
+	}
+
+	.cta-button {
+		background-color: var(--color-foreground);
+		color: var(--color-background);
+		display: inline-block;
+		padding: 1rem 3rem;
+		font-size: 1.125rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+		transition: all 0.3s;
+		text-decoration: none;
+	}
+
+	.cta-button:hover {
+		opacity: 0.9;
+	}
+
+	@media (min-width: 640px) {
+		.hero-title {
+			font-size: 4.5rem;
+		}
+	}
+	@media (min-width: 1024px) {
+		.hero-title {
+			font-size: 6rem;
+		}
+	}
+</style>
+
+{{ $homepageImage := .Store.Get "homepageImage" }}
+<article class="relative">
+	{{ if $homepageImage }}
+		<div class="bg-hero-container">
+			<img src="{{ $homepageImage.RelPermalink }}" alt="" class="bg-hero-image">
+		</div>
+	{{ end }}
+
+
+	<section class="hero-section">
+		<div class="hero-content">
+			<h1 class="hero-title">
+				{{ site.Params.homepageTitle | default site.Title | markdownify }}
+			</h1>
+			<div class="hero-tagline">
+				{{ site.Params.homepageTagline | markdownify }}
+			</div>
+		</div>
+	</section>
+
+	{{ if .Content }}
+		<section class="content-section">
+			<div class="content-container prose dark:prose-invert">
+				{{ .Content }}
+			</div>
+		</section>
+	{{ end }}
+
+	{{ if site.Params.homepageShowMoreLink }}
+		<section class="cta-section">
+			<div class="hero-content">
+				<a href="{{ site.Params.homepageShowMoreLink | relLangURL }}" class="cta-button">
+					{{ i18n "recent.show_more" | default "Browse Articles" }}
+				</a>
+			</div>
+		</section>
+	{{ end }}
+</article>

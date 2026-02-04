@@ -1,0 +1,28 @@
+a11y:
+  disable_blur: 흐림 효과 끄기
+  disable_images: 이미지 끄기
+  font_size: 글꼴 크기
+  show_link_underline: 링크 밑줄 표시
+  title: 접근성 설정
+article:
+  date: '{{ .Date }}'
+  date_updated: '업데이트 날짜: {{ .Date }}'
+  related_articles: 관련 글
+  series: 이 글은 시리즈의 일부입니다.
+code:
+  copied: 복사되었습니다
+  copy: 복사
+error:
+  404_description: 요청하신 페이지를 찾을 수 없습니다.
+  404_title: '페이지를 찾을 수 없습니다 :confused:'
+footer:
+  powered_by: Powered by {{ .Theme }}
+nav:
+  scroll_to_top_title: 맨 위로 스크롤
+  skip_to_main: 본문으로 건너뛰기
+search:
+  close_button_title: 닫기 (Esc)
+  input_placeholder: 검색
+  open_button_title: 검색하기 (/)
+shortcode:
+  recent_articles: 최근 글

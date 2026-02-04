@@ -1,0 +1,123 @@
+<div class="hidden items-center gap-5 sm:flex">
+	{{ $currentPage := . }}
+	{{ if site.Menus.main }}
+		<nav class="flex items-center gap-5" aria-label="Main navigation">
+			{{ range site.Menus.main }}
+				{{ template "desktop-main-menu" (dict "context" $currentPage "item" .) }}
+			{{ end }}
+		</nav>
+	{{ end }}
+
+
+	<div class="{{ if site.Menus.main }}border-s border-border ps-5{{ end }} flex items-center gap-5">
+		{{ partial "components/translations.html" . }}
+
+		{{ if site.Params.accessibilityEnabled | default true }}
+			<button
+				id="desktop-a11y-toggle"
+				aria-label="Open accessibility panel"
+				aria-expanded="false"
+				type="button"
+				class="text-foreground hover:text-link-hover transition-colors"
+				role="button"
+				aria-pressed="false">
+				{{ partial "components/icon.html" "a11y" }}
+			</button>
+		{{ end }}
+
+		{{ if site.Params.searchEnabled | default true }}
+			<button
+				id="desktop-search-button"
+				aria-label="{{ i18n "search.open_button_title" }}"
+				class="text-foreground hover:text-link-hover transition-colors"
+				title="{{ i18n "search.open_button_title" }}">
+				{{ partial "components/icon.html" "search" }}
+			</button>
+		{{ end }}
+
+		{{ if site.Params.themeLightDarkSwitcher | default true }}
+			<button
+				id="desktop-appearance-switcher"
+				aria-label="Toggle dark mode"
+				type="button"
+				class="text-foreground hover:text-link-hover transition-colors">
+				<span class="block dark:hidden">
+					{{ partial "components/icon.html" "sun" }}
+				</span>
+				<span class="hidden dark:block">
+					{{ partial "components/icon.html" "moon" }}
+				</span>
+			</button>
+		{{ end }}
+	</div>
+</div>
+
+{{ define "desktop-main-menu" }}
+	{{ $context := .context }}
+	{{ $item := .item }}
+
+	{{ $isActive := false }}
+	{{ $isCurrent := false }}
+	{{ if site.Params.menuHighlight }}
+		{{ $isCurrent = $context.IsMenuCurrent "main" $item }}
+		{{ $isActive = or $isCurrent ($context.HasMenuCurrent "main" $item) }}
+	{{ end }}
+
+	{{ $activeClass := cond $isActive " header--active" "" }}
+	{{ $ariaLabel := printf " aria-label=%q" (or $item.Name $item.Pre) | safeHTMLAttr }}
+	{{ $ariaCurrent := cond $isCurrent " aria-current=page" (cond $isActive " aria-current=true" "") | safeHTMLAttr }}
+
+	{{ if $item.HasChildren }}
+		<div class="group relative flex">
+			<div
+				class="text-foreground hover:text-link-hover {{ $activeClass }} flex items-center gap-1 font-medium transition-colors"
+				{{ $ariaLabel }}>
+				{{ if $item.Pre }}
+					<span>{{ partial "components/icon.html" $item.Pre }}</span>
+				{{ end }}
+				<a
+					href="{{ $item.URL }}"
+					class="flex items-center gap-1.5"
+					{{ if $isActive }}{{ $ariaCurrent }}{{ end }}>
+					<span class="break-normal">{{ $item.Name | markdownify }}</span>
+					<span>{{ partial "components/icon.html" "chevron-down" }}</span>
+				</a>
+			</div>
+
+			<div
+				class="dropdown-menu-child absolute top-full right-0 z-50 pt-2 opacity-0 transition-all duration-200">
+				<div class="bg-popover border-border min-w-48 rounded-lg border px-3 py-2 shadow-lg">
+					<div class="flex flex-col gap-1">
+						{{ range $item.Children }}
+							{{ $childActive := false }}
+							{{ if site.Params.menuHighlight }}
+								{{ $childActive = $context.IsMenuCurrent "main" . }}
+							{{ end }}
+							<a
+								href="{{ .URL }}"
+								class="text-popover-foreground hover:text-link-hover hover:bg-muted {{ cond $childActive "header--active" "" }} flex items-center gap-2 rounded px-2 py-1.5 text-sm transition-colors"
+								aria-label="{{ or .Name .Pre }}"
+								{{ if $childActive }}aria-current="page"{{ end }}>
+								{{ if .Pre }}
+									<span>{{ partial "components/icon.html" .Pre }}</span>
+								{{ end }}
+								<span class="break-normal">{{ .Name | markdownify }}</span>
+							</a>
+						{{ end }}
+					</div>
+				</div>
+			</div>
+		</div>
+	{{ else }}
+		<a
+			href="{{ $item.URL }}"
+			class="text-foreground hover:text-link-hover {{ $activeClass }} flex items-center font-medium transition-colors"
+			{{ $ariaLabel }}
+			{{ if $isActive }}{{ $ariaCurrent }}{{ end }}>
+			{{ if $item.Pre }}
+				<span>{{ partial "components/icon.html" $item.Pre }}</span>
+			{{ end }}
+			<span class="break-normal">{{ $item.Name | markdownify }}</span>
+		</a>
+	{{ end }}
+{{ end }}

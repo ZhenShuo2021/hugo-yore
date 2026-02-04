@@ -1,0 +1,18 @@
+{{/* imageOptimization */}}
+{{ site.Store.Set "imageOptimization" (site.Params.imageOptimization | default false) }}
+
+{{/* imageFeatured */}}
+{{ $imageFeatured := "" }}
+{{ $imageFeaturedURL := "" }}
+{{ with site.Params.imageFeatured }}
+	{{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
+		{{ if site.Params.imageHotlink }}
+			{{ $imageFeaturedURL = . }}
+		{{ else }}
+			{{ $imageFeatured = resources.GetRemote . }}
+		{{ end }}
+	{{ else }}
+		{{ $imageFeatured = resources.Get . }}
+	{{ end }}
+{{ end }}
+{{ site.Store.Set "imageFeatured" (dict "url" $imageFeaturedURL "obj" $imageFeatured) }}

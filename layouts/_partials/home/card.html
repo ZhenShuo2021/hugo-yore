@@ -1,0 +1,193 @@
+{{ $imageOptimization := site.Params.imageOptimization | default false }}
+{{ $homepageImage := .Store.Get "homepageImage" }}
+{{ $imagePosition := .Store.Get "imagePosition" }}
+{{ $authorImage := .Store.Get "authorImage" }}
+
+
+<style>
+	.homepage-card {
+		margin: 5rem auto;
+		max-width: 90vw;
+		border-radius: 1rem;
+		box-shadow:
+			0 20px 25px -5px rgba(0, 0, 0, 0.1),
+			0 10px 10px -5px rgba(0, 0, 0, 0.04);
+	}
+
+	.card-inner {
+		position: relative;
+		margin-inline: auto;
+		padding: 0;
+	}
+
+	.bg-container {
+		position: absolute;
+		inset: 0;
+	}
+
+	.bg-image {
+		margin: 0 !important;
+		height: 100%;
+		width: 100%;
+		object-fit: cover;
+		filter: hue-rotate(30deg) saturate(200%);
+	}
+
+	.bg-overlay {
+		position: absolute;
+		inset: 0;
+		background-color: color-mix(in srgb, var(--color-brand-700), black 80%);
+		opacity: 0.4;
+	}
+
+	.content-wrapper {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 4rem 1rem;
+		text-align: center;
+	}
+
+	.author-avatar {
+		margin-bottom: 0.5rem;
+		height: 9rem;
+		width: 9rem;
+		border-radius: 9999px;
+		object-fit: cover;
+	}
+
+	.author-name {
+		margin-bottom: 0.5rem;
+		font-size: 2.25rem;
+		font-weight: 800;
+		color: var(--color-neutral-100);
+	}
+
+	.homepage-tagline {
+		margin-top: 0;
+		margin-bottom: 0;
+		font-size: 1.25rem;
+		color: var(--color-neutral-200);
+	}
+
+	.social-links-wrapper {
+		margin-top: 0.75rem;
+		margin-bottom: 2.5rem;
+		font-size: 1.5rem;
+	}
+
+	.social-flex {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.social-link {
+		padding-left: 0.25rem;
+		padding-right: 0.25rem;
+		color: var(--color-neutral-100);
+		text-decoration: none;
+		transition: color 200ms;
+	}
+
+	.social-link:hover {
+		color: var(--color-primary);
+	}
+
+	.content-prose {
+		width: 100%;
+		color: var(--color-neutral-100);
+	}
+
+	.show-more-wrapper {
+		margin-top: 2rem;
+	}
+
+	.btn-show-more:hover {
+		background-color: var(--color-neutral-200);
+	}
+
+	.content-prose * {
+		color: var(--color-neutral-300);
+	}
+
+	@media (min-width: 640px) {
+		.homepage-card {
+			overflow: hidden;
+		}
+		.content-wrapper {
+			padding: 6rem 1.5rem;
+		}
+	}
+
+	@media (min-width: 768px) {
+		.homepage-card {
+			max-width: 70vw;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.content-wrapper {
+			padding: 8rem 2rem;
+		}
+	}
+</style>
+
+<article class="homepage-card">
+	<div class="card-inner">
+		<div class="bg-container">
+			{{ if $homepageImage }}
+				<img
+					class="bg-image"
+					src="{{ $homepageImage.RelPermalink }}"
+					{{- with $imagePosition }}style="object-position: {{ . }};"{{- end -}}>
+				<div class="bg-overlay"></div>
+			{{ end }}
+		</div>
+
+		<div class="content-wrapper">
+			{{ if $authorImage }}
+				<img
+					class="author-avatar"
+					width="720"
+					height="720"
+					alt="{{ site.Params.author.name | default `Author` }}"
+					src="{{ $authorImage.RelPermalink }}">
+			{{ end }}
+
+			{{ with or site.Params.author.name site.Params.homepageTitle site.Title }}
+				<h1 class="author-name">{{ . | markdownify  }}</h1>
+			{{ end }}
+
+			{{ with site.Params.homepageTagline }}
+				<h2 class="homepage-tagline">{{ . | markdownify }}</h2>
+			{{ end }}
+
+
+			<div class="social-links-wrapper">
+				{{ with site.Params.author.links }}
+					<div class="social-flex">
+						{{ range $links := . }}
+							{{ range $name, $url := $links }}
+								<a
+									class="social-link"
+									href="{{ $url }}"
+									target="_blank"
+									aria-label="{{ $name | title }}"
+									title="{{ $name | title }}"
+									rel="me noopener noreferrer">
+									{{ partial "components/icon.html" $name }}
+								</a>
+							{{ end }}
+						{{ end }}
+					</div>
+				{{ end }}
+			</div>
+
+			<section class="content-prose prose prose-invert">
+				{{ .Content }}
+			</section>
+		</div>
+	</div>
+</article>

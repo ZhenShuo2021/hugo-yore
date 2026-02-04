@@ -1,0 +1,71 @@
+html[data-theme='light'] {
+	color-scheme: light;
+}
+
+html[data-theme='dark'] {
+	color-scheme: dark;
+}
+
+/* Main layout settings */
+.main-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+	justify-items: center;
+	width: 100%;
+}
+
+/* 3-col layout (spacer + content + TOC) */
+@media (width >= 64rem) {
+	.main-grid {
+		grid-template-columns: minmax(0, 1fr) var(--article-width-grid) 1fr;
+		gap: clamp(1rem, 3vw, 4rem);
+		justify-items: stretch;
+	}
+}
+
+/* remove first element to align toc */
+.main-grid__main > header + * {
+	margin-top: 0 !important;
+}
+
+.main-grid__main {
+	max-width: var(--article-width);
+	min-width: 0;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	width: 100%;
+	padding-inline: 0;
+}
+
+@media (width >= 40rem) {
+	.main-grid__main {
+		padding-inline: 1em;
+	}
+}
+
+/* hide sidebars in small screen */
+.main-grid__start,
+.main-grid__start--empty,
+.main-grid__end,
+.main-grid__end--empty {
+	display: none;
+}
+
+@media (width >= 64rem) {
+	.main-grid__start,
+	.main-grid__start--empty,
+	.main-grid__end,
+	.main-grid__end--empty {
+		display: block;
+	}
+}
+
+/* ToC layouts */
+.main-grid__end > * {
+	max-height: calc(100vh - (var(--spacing) * 45));
+	min-height: 0;
+}
+html[data-header-layout='static'] .main-grid__end > * {
+	max-height: calc(100vh - (var(--spacing) * 25));
+}

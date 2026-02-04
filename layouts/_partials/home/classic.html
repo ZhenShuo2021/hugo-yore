@@ -1,0 +1,114 @@
+<style>
+	.classic-article {
+		background-color: var(--color-background);
+		min-height: 100vh;
+	}
+
+	.classic-header {
+		padding: 3rem 1.5rem;
+	}
+
+	.header-container {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 56rem;
+		text-align: center;
+	}
+
+	.header-title {
+		color: var(--color-foreground);
+		margin-bottom: 1rem;
+		font-size: 3rem;
+		font-weight: 700;
+		letter-spacing: -0.025em;
+	}
+
+	.header-tagline {
+		color: var(--color-muted-foreground);
+		font-size: 1.125rem;
+	}
+
+	.classic-content {
+		padding: 4rem 1.5rem;
+	}
+
+	.content-container {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 48rem;
+	}
+
+	.classic-footer {
+		padding: 3rem 1.5rem;
+	}
+
+	.footer-container {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 48rem;
+		text-align: center;
+	}
+
+	.btn-browse {
+		display: inline-block;
+		border: 2px solid var(--color-foreground);
+		color: var(--color-foreground);
+		padding: 1rem 2.5rem;
+		font-size: 0.875rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		text-decoration: none;
+		transition:
+			background-color 0.3s,
+			color 0.3s;
+	}
+
+	.btn-browse:hover {
+		background-color: var(--color-foreground);
+		color: var(--color-background);
+	}
+
+	@media (min-width: 640px) {
+		.header-title {
+			font-size: 3.75rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.header-title {
+			font-size: 4.5rem;
+		}
+	}
+</style>
+
+<article class="classic-article">
+	<header class="classic-header">
+		<div class="header-container">
+			<h1 class="header-title">
+				{{ site.Params.homepageTitle | default site.Title | markdownify }}
+			</h1>
+			{{ with site.Params.homepageTagline }}
+				<div class="header-tagline">{{ . | markdownify }}</div>
+			{{ end }}
+		</div>
+	</header>
+
+	{{ if .Content }}
+		<section class="classic-content">
+			<div class="content-container prose dark:prose-invert prose-xl">
+				{{ .Content }}
+			</div>
+		</section>
+	{{ end }}
+
+	{{ if site.Params.homepageShowMoreLink }}
+		<section class="classic-footer">
+			<div class="footer-container">
+				<a href="{{ site.Params.homepageShowMoreLink | relLangURL }}" class="btn-browse">
+					{{ i18n "recent.show_more" | default "Browse Articles" }}
+				</a>
+			</div>
+		</section>
+	{{ end }}
+</article>

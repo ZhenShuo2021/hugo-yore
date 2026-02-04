@@ -1,0 +1,44 @@
+@import 'tailwindcss';
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* We are not using Tailwind on the homepage because these variants generate over 1K lines of compiled CSS.
+Additionally, this makes it difficult for downstream users to customize, as they would receive plain CSS. */
+@source not '../../../layouts/_partials/home/';
+@source not '../../lib/';
+
+@import './theme.css';
+@import './typography.css';
+@import './components/code.css' layer(utilities);
+@import './components/admonition.css' layer(components);
+
+@layer utilities {
+	.dropdown-menu-child {
+		@apply invisible opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100;
+	}
+
+	/* Dropdown for translations */
+	.translation .dropdown-menu-child {
+		@apply top-full right-0 pt-3 transition-all duration-200;
+
+		.mobile-menu-footer & {
+			@apply top-auto right-auto bottom-full left-0 pb-3 transition-all duration-200;
+			& * {
+				@apply text-lg;
+			}
+		}
+	}
+
+	.mobile-menu-footer {
+		@apply border-border mt-8 flex flex-wrap items-center gap-x-6 border-t ps-2 pt-8;
+		& .icon {
+			@apply text-2xl;
+		}
+	}
+
+	/* use radius in wrapper not pre */
+	.prose {
+		:where(pre):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+			border-radius: unset;
+		}
+	}
+}

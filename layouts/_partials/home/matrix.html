@@ -1,0 +1,245 @@
+<style>
+	.matrix-container {
+		position: relative;
+		min-height: 100vh;
+		overflow: hidden;
+	}
+
+	.matrix-bg-fixed {
+		position: fixed;
+		inset: 0;
+		z-index: -50;
+	}
+
+	.matrix-gradient {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom right,
+			var(--color-brand-300),
+			var(--color-accent-100),
+			var(--color-brand-100)
+		);
+		opacity: 0.6;
+	}
+
+	.matrix-blob {
+		position: absolute;
+		top: 25%;
+		left: 25%;
+		height: 24rem;
+		width: 24rem;
+		border-radius: 9999px;
+		background-color: var(--color-brand-500);
+		opacity: 0.2;
+		filter: blur(64px);
+	}
+
+	.matrix-main {
+		position: relative;
+		display: flex;
+		min-height: 100vh;
+		align-items: center;
+		justify-content: center;
+		padding: 6rem 1.5rem;
+	}
+
+	.matrix-grid-wrapper {
+		width: 100%;
+		max-width: 72rem;
+	}
+
+	.matrix-grid {
+		display: grid;
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+		gap: 1.5rem;
+	}
+
+	.glass-panel {
+		background-color: color-mix(in srgb, var(--background), transparent 50%);
+		border: 1px solid var(--border);
+		border-radius: 1rem;
+		backdrop-filter: blur(24px);
+	}
+
+	.main-card {
+		padding: 3rem;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+	}
+
+	.matrix-title {
+		color: var(--foreground);
+		font-size: 4.5rem;
+		line-height: 1.1;
+		font-weight: 700;
+		margin-bottom: 2rem;
+	}
+
+	.matrix-tagline {
+		color: var(--muted-foreground);
+		font-size: 1.5rem;
+		line-height: 1.625;
+	}
+
+	.matrix-content {
+		max-width: none;
+		overflow: hidden;
+		padding-top: 1.5rem;
+		color: var(--foreground);
+	}
+
+	.stats-column {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.stat-card {
+		flex: 1;
+		border-radius: 1rem;
+		border: 1px solid;
+		padding: 2rem;
+		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+		backdrop-filter: blur(24px);
+	}
+
+	.stat-brand {
+		background-color: color-mix(in srgb, var(--color-brand-500), transparent 80%);
+		border-color: var(--color-brand-400);
+	}
+
+	.stat-accent {
+		background-color: color-mix(in srgb, var(--color-accent-500), transparent 80%);
+		border-color: var(--color-accent-300);
+	}
+
+	.stat-number {
+		font-size: 3.75rem;
+		font-weight: 300;
+		font-variant-numeric: tabular-nums;
+		margin-bottom: 0.5rem;
+		color: var(--foreground);
+	}
+
+	.stat-label {
+		color: var(--foreground);
+		font-size: 1.125rem;
+		margin: 0;
+	}
+
+	.quote-panel {
+		padding: 3rem;
+	}
+
+	.quote-text {
+		color: var(--foreground);
+		text-align: center;
+		font-size: 1.875rem;
+		line-height: 1.625;
+		font-weight: 300;
+		margin: 0;
+	}
+
+	.matrix-footer {
+		position: relative;
+		padding: 4rem 1.5rem;
+		text-align: center;
+	}
+
+	.btn-matrix {
+		display: inline-block;
+		background-color: color-mix(in srgb, var(--primary), transparent 70%);
+		border: 2px solid var(--primary);
+		color: var(--foreground);
+		border-radius: 1rem;
+		padding: 1rem 3rem;
+		font-size: 1.125rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		backdrop-filter: blur(24px);
+		transition: all 0.3s;
+		text-decoration: none;
+	}
+
+	.btn-matrix:hover {
+		background-color: var(--primary);
+		color: var(--primary-foreground);
+	}
+
+	@media (min-width: 1024px) {
+		.matrix-grid {
+			grid-template-columns: repeat(12, minmax(0, 1fr));
+		}
+		.main-card {
+			grid-column: span 7 / span 7;
+		}
+		.stats-column {
+			grid-column: span 5 / span 5;
+		}
+		.quote-panel {
+			grid-column: span 12 / span 12;
+		}
+		.matrix-content {
+			max-height: 50vh;
+		}
+	}
+</style>
+
+<div class="matrix-container">
+	<div class="matrix-bg-fixed">
+		<div class="matrix-gradient"></div>
+		<div class="matrix-blob"></div>
+	</div>
+
+	<div class="matrix-main">
+		<div class="matrix-grid-wrapper">
+			<div class="matrix-grid">
+				<div class="glass-panel main-card">
+					<h1 class="matrix-title">
+						{{ site.Params.homepageTitle | default site.Title | markdownify }}
+					</h1>
+					<div class="matrix-tagline">{{ site.Params.homepageTagline | markdownify }}</div>
+					{{ with .Content }}
+						<div class="matrix-content prose dark:prose-invert">{{ . }}</div>
+					{{ end }}
+				</div>
+
+				<div class="stats-column">
+					<div class="stat-card stat-brand">
+						<div class="stat-number">{{ len site.RegularPages }}</div>
+						<p class="stat-label">Articles Written</p>
+					</div>
+
+					<div class="stat-card stat-accent">
+						<div class="stat-number">
+							{{ $wordCount := 0 }}{{ range site.RegularPages }}
+								{{ $wordCount = add $wordCount .WordCount }}
+							{{ end }}{{ $wordCount }}
+						</div>
+						<p class="stat-label">Words Shared</p>
+					</div>
+
+					<div class="stat-card stat-brand">
+						<div class="stat-number">{{ len (where site.Pages "Kind" "term") }}</div>
+						<p class="stat-label">Subject Domains</p>
+					</div>
+				</div>
+
+				{{ with site.Params.homepageSubTagline }}
+					<div class="glass-panel quote-panel">
+						<blockquote class="quote-text">{{ . | markdownify }}</blockquote>
+					</div>
+				{{ end }}
+			</div>
+		</div>
+	</div>
+
+	{{ if site.Params.homepageShowMoreLink }}
+		<div class="matrix-footer">
+			<a href="{{ site.Params.homepageShowMoreLink | relLangURL }}" class="btn-matrix">
+				{{ i18n "recent.show_more" | default "Browse Articles" }}
+			</a>
+		</div>
+	{{ end }}
+</div>

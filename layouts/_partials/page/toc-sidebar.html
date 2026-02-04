@@ -1,0 +1,9 @@
+{{- $mt := .Store.Get "tocMt" }}
+{{- $top := cond (eq site.Params.headerLayout "static") "top-5" "top-25" }}
+<aside
+	class="main-grid__end toc-sidebar {{ $top }} border-sidebar-border sticky me-2 hidden flex-shrink-0 self-start overflow-hidden border-s lg:me-6 lg:flex"
+	style="margin-top: calc(var(--spacing) * {{ $mt }})">
+	<nav class="toc-sidebar__content text-sidebar-foreground h-full overflow-y-auto p-4 pe-0 text-sm">
+		{{ .TableOfContents }}
+	</nav>
+</aside>

@@ -1,0 +1,30 @@
+import { utils } from './utils.js';
+import { themeManager } from './appearance.js';
+
+{{ if site.Params.accessibilityEnabled }}
+import { a11yPanel } from './a11y.js';
+{{ end }}
+
+{{ if site.Params.scrollToTop }}
+import './scroll-to-top.js';
+{{ end }}
+
+{{ if site.Params.codeCopy }}
+import './code.js';
+{{ end }}
+
+{{ if site.Params.tocHighlight }}
+import './toc.js';
+{{ end }}
+
+import './mobile-menu.js';
+import './shortcodes/tabs.js';
+
+
+{{ if eq site.Params.headerLayout "hideOnScroll" }}
+import './hide-header.js';
+{{ end }}
+
+window.utils = utils;
+window.themeManager = themeManager;
+window.a11yPanel = a11yPanel;

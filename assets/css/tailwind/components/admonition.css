@@ -1,0 +1,176 @@
+html[data-theme='light'] {
+	/* GitHub */
+	--adm-note-accent: theme('colors.sky.600');
+	--adm-note-header-bg: theme('colors.sky.200 / 0.5');
+
+	--adm-tip-accent: theme('colors.emerald.600');
+	--adm-tip-header-bg: theme('colors.emerald.200 / 0.5');
+
+	--adm-important-accent: theme('colors.purple.600');
+	--adm-important-header-bg: theme('colors.purple.200 / 0.5');
+
+	--adm-warning-accent: theme('colors.orange.600');
+	--adm-warning-header-bg: theme('colors.orange.200 / 0.5');
+
+	--adm-caution-accent: theme('colors.red.600');
+	--adm-caution-header-bg: theme('colors.red.200 / 0.5');
+
+	/* Extended */
+	--adm-abstract-accent: theme('colors.cyan.600');
+	--adm-abstract-header-bg: theme('colors.cyan.200 / 0.5');
+
+	--adm-bug-accent: theme('colors.rose.600');
+	--adm-bug-header-bg: theme('colors.rose.200 / 0.5');
+
+	--adm-danger-accent: theme('colors.red.600');
+	--adm-danger-header-bg: theme('colors.red.200 / 0.5');
+
+	--adm-example-accent: theme('colors.purple.600');
+	--adm-example-header-bg: theme('colors.purple.200 / 0.5');
+
+	--adm-failure-accent: theme('colors.pink.600');
+	--adm-failure-header-bg: theme('colors.pink.200 / 0.5');
+
+	--adm-info-accent: theme('colors.blue.600');
+	--adm-info-header-bg: theme('colors.blue.200 / 0.5');
+
+	--adm-question-accent: theme('colors.amber.600');
+	--adm-question-header-bg: theme('colors.amber.200 / 0.5');
+
+	--adm-quote-accent: theme('colors.gray.600');
+	--adm-quote-header-bg: theme('colors.gray.200 / 0.5');
+
+	--adm-success-accent: theme('colors.emerald.600');
+	--adm-success-header-bg: theme('colors.emerald.200 / 0.5');
+
+	--adm-todo-accent: theme('colors.sky.600');
+	--adm-todo-header-bg: theme('colors.sky.200 / 0.5');
+}
+
+html[data-theme='dark'] {
+	/* GitHub */
+	--adm-note-accent: var(--color-foreground);
+	--adm-note-header-bg: theme('colors.sky.400 / 0.35');
+
+	--adm-tip-accent: var(--color-foreground);
+	--adm-tip-header-bg: theme('colors.emerald.400 / 0.35');
+
+	--adm-important-accent: var(--color-foreground);
+	--adm-important-header-bg: theme('colors.purple.400 / 0.35');
+
+	--adm-warning-accent: var(--color-foreground);
+	--adm-warning-header-bg: theme('colors.orange.400 / 0.35');
+
+	--adm-caution-accent: var(--color-foreground);
+	--adm-caution-header-bg: theme('colors.red.400 / 0.35');
+
+	/* Extended */
+	--adm-abstract-accent: var(--color-foreground);
+	--adm-abstract-header-bg: theme('colors.cyan.400 / 0.35');
+
+	--adm-bug-accent: var(--color-foreground);
+	--adm-bug-header-bg: theme('colors.rose.400 / 0.35');
+
+	--adm-danger-accent: var(--color-foreground);
+	--adm-danger-header-bg: theme('colors.red.400 / 0.35');
+
+	--adm-example-accent: var(--color-foreground);
+	--adm-example-header-bg: theme('colors.purple.400 / 0.35');
+
+	--adm-failure-accent: var(--color-foreground);
+	--adm-failure-header-bg: theme('colors.pink.400 / 0.35');
+
+	--adm-info-accent: var(--color-foreground);
+	--adm-info-header-bg: theme('colors.blue.400 / 0.35');
+
+	--adm-question-accent: var(--color-foreground);
+	--adm-question-header-bg: theme('colors.amber.400 / 0.35');
+
+	--adm-quote-accent: var(--color-foreground);
+	--adm-quote-header-bg: theme('colors.gray.400 / 0.35');
+
+	--adm-success-accent: var(--color-foreground);
+	--adm-success-header-bg: theme('colors.emerald.400 / 0.35');
+
+	--adm-todo-accent: var(--color-foreground);
+	--adm-todo-header-bg: theme('colors.sky.400 / 0.35');
+}
+
+/* Base Reset */
+.admonition-content > :first-child {
+	margin-top: 0 !important;
+}
+.admonition-content > :last-child {
+	margin-bottom: 0 !important;
+}
+
+.admonition[data-type] {
+	background-color: transparent !important;
+}
+
+.admonition[data-type] .admonition-header {
+	color: var(--header-color);
+	background-color: var(--header-bg);
+}
+
+/* Type Palettes */
+.admonition[data-type='note'] {
+	--header-color: var(--adm-note-accent);
+	--header-bg: var(--adm-note-header-bg);
+}
+.admonition[data-type='tip'] {
+	--header-color: var(--adm-tip-accent);
+	--header-bg: var(--adm-tip-header-bg);
+}
+.admonition[data-type='important'] {
+	--header-color: var(--adm-important-accent);
+	--header-bg: var(--adm-important-header-bg);
+}
+.admonition[data-type='warning'] {
+	--header-color: var(--adm-warning-accent);
+	--header-bg: var(--adm-warning-header-bg);
+}
+.admonition[data-type='caution'] {
+	--header-color: var(--adm-caution-accent);
+	--header-bg: var(--adm-caution-header-bg);
+}
+.admonition[data-type='abstract'] {
+	--header-color: var(--adm-abstract-accent);
+	--header-bg: var(--adm-abstract-header-bg);
+}
+.admonition[data-type='bug'] {
+	--header-color: var(--adm-bug-accent);
+	--header-bg: var(--adm-bug-header-bg);
+}
+.admonition[data-type='danger'] {
+	--header-color: var(--adm-danger-accent);
+	--header-bg: var(--adm-danger-header-bg);
+}
+.admonition[data-type='example'] {
+	--header-color: var(--adm-example-accent);
+	--header-bg: var(--adm-example-header-bg);
+}
+.admonition[data-type='failure'] {
+	--header-color: var(--adm-failure-accent);
+	--header-bg: var(--adm-failure-header-bg);
+}
+.admonition[data-type='info'] {
+	--header-color: var(--adm-info-accent);
+	--header-bg: var(--adm-info-header-bg);
+}
+.admonition[data-type='question'] {
+	--header-color: var(--adm-question-accent);
+	--header-bg: var(--adm-question-header-bg);
+}
+.admonition[data-type='quote'] {
+	--header-color: var(--adm-quote-accent);
+	--header-bg: var(--adm-quote-header-bg);
+}
+.admonition[data-type='success'] {
+	--header-color: var(--adm-success-accent);
+	--header-bg: var(--adm-success-header-bg);
+}
+.admonition[data-type='todo'] {
+	--header-color: var(--adm-todo-accent);
+	--header-bg: var(--adm-todo-header-bg);
+}

@@ -1,0 +1,132 @@
+{{ if or
+	site.Menus.main
+	site.Menus.subnavigation
+	site.Params.accessibilityEnabled
+}}
+	<div
+		id="mobile-menu-overlay"
+		role="dialog"
+		aria-modal="true"
+		aria-hidden="true"
+		style="scrollbar-gutter: stable;"
+		class="bg-background/95 invisible fixed inset-0 z-50 overflow-y-auto px-6 py-20 opacity-0 backdrop-blur-xl transition-[opacity,visibility] duration-300">
+		<button
+			id="mobile-menu-close"
+			aria-label="Close mobile menu"
+			class="text-foreground hover:text-link-hover border-border hover:border-link-hover bg-background fixed end-8 top-5 z-50 flex h-12 w-12 items-center justify-center rounded-full border transition-colors">
+			{{ partial "components/icon.html" "xmark" }}
+		</button>
+		<nav class="mx-auto max-w-md space-y-6">
+			{{ template "mobile-main-menu" . }}
+			{{ template "mobile-footer-components" . }}
+		</nav>
+	</div>
+{{ end }}
+
+{{ define "mobile-main-menu" }}
+	{{ $allMenus := site.Menus.main }}
+
+	{{ if $allMenus }}
+		{{/* Find last-n consecutive icons */}}
+		{{ $breakPoint := len $allMenus }}
+		{{ range $i := seq (sub (len $allMenus) 1) -1 0 }}
+			{{ $item := index $allMenus $i }}
+			{{ if and $item.Pre (not $item.Name) (not $item.HasChildren) }}
+				{{ $breakPoint = $i }}
+			{{ else }}
+				{{ break }}
+			{{ end }}
+		{{ end }}
+
+		{{ range first $breakPoint $allMenus }}
+			{{ $submenuId := printf "mobile-submenu-%s" (.Identifier | default .Name | anchorize) }}
+			<div class="px-2">
+				<a
+					href="{{ .URL }}"
+					{{ with or .Name .Pre }}aria-label="{{ . }}"{{ end }}
+					class="group text-foreground hover:text-link-hover flex items-center gap-4 transition-colors">
+					{{ with .Pre }}
+						<span class="flex h-8 w-8 items-center justify-center text-2xl">
+							{{ partial "components/icon.html" . }}
+						</span>
+					{{ end }}
+					{{ with .Name }}
+						<span title="{{ $.Title }}" class="text-2xl font-bold tracking-tight">{{ . | markdownify }}</span>
+					{{ end }}
+					{{ if .HasChildren }}
+						<label
+							for="{{ $submenuId }}"
+							class="text-foreground hover:text-link-hover border-border hover:border-link-hover ms-auto flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border transition-colors">
+							{{ partial "components/icon.html" "chevron-down" }}
+						</label>
+					{{ end }}
+				</a>
+
+				{{ if .HasChildren }}
+					<input checked type="checkbox" id="{{ $submenuId }}" autocomplete="off" class="peer hidden">
+					<div
+						class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 peer-checked:grid-rows-[1fr]">
+						<div class="overflow-hidden">
+							<div class="ms-7 mt-4 space-y-1">
+								{{ range .Children }}
+									<a
+										href="{{ .URL }}"
+										{{ with or .Name .Pre }}aria-label="{{ . }}"{{ end }}
+										class="text-foreground hover:text-link-hover flex items-center gap-3 rounded p-2 transition-colors">
+										{{ with .Pre }}
+											<span class="flex h-5 w-5 items-center justify-center">
+												{{ partial "components/icon.html" . }}
+											</span>
+										{{ end }}
+										{{ with .Name }}
+											<span title="{{ $.Title }}" class="text-lg">{{ . | markdownify }}</span>
+										{{ end }}
+									</a>
+								{{ end }}
+							</div>
+						</div>
+					</div>
+				{{ end }}
+			</div>
+		{{ end }}
+
+		{{ if lt $breakPoint (len $allMenus) }}
+			<div class="flex items-center gap-6 px-2 pt-4">
+				{{ range after $breakPoint $allMenus }}
+					<a
+						href="{{ .URL }}"
+						aria-label="{{ .Pre }}"
+						class="text-foreground hover:text-link-hover flex h-8 w-8 items-center justify-center text-2xl transition-colors">
+						{{ partial "components/icon.html" .Pre }}
+					</a>
+				{{ end }}
+			</div>
+		{{ end }}
+	{{ end }}
+{{ end }}
+
+{{ define "mobile-footer-components" }}
+	{{ if or
+		hugo.IsMultilingual
+		site.Params.accessibilityEnabled
+	}}
+		<div class="mobile-menu-footer">
+			{{ partial "components/translations.html" . }}
+
+			{{ if site.Params.accessibilityEnabled | default false }}
+				<div class="flex items-center">
+					<button
+						id="mobile-menu-a11y-toggle"
+						aria-label="Open accessibility panel"
+						aria-expanded="false"
+						type="button"
+						class="text-foreground hover:text-link-hover transition-colors"
+						role="button"
+						aria-pressed="false">
+						{{ partial "components/icon.html" "a11y" }}
+					</button>
+				</div>
+			{{ end }}
+		</div>
+	{{ end }}
+{{ end }}

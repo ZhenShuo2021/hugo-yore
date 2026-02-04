@@ -1,0 +1,105 @@
+<style>
+	.plain-article {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 80rem;
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+	}
+
+	.plain-hero {
+		display: flex;
+		min-height: 95vh;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.plain-hero-link {
+		max-width: 56rem;
+		text-align: center;
+		text-decoration: none;
+	}
+
+	.plain-title {
+		color: var(--foreground);
+		margin-bottom: 2rem;
+		font-size: 3.75rem;
+		line-height: 1.25;
+		font-weight: 700;
+		letter-spacing: -0.025em;
+	}
+
+	.plain-hero-hint {
+		color: var(--muted-foreground);
+		opacity: 0;
+		transition: opacity 300ms;
+	}
+
+	.plain-hero-link:hover .plain-hero-hint {
+		opacity: 1;
+	}
+
+	.plain-content {
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 6rem;
+		max-width: 48rem;
+	}
+
+	.plain-footer {
+		margin-bottom: 6rem;
+		text-align: center;
+	}
+
+	.btn-plain {
+		display: inline-block;
+		border: 1px solid var(--foreground);
+		color: var(--foreground);
+		padding: 0.75rem 2rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		text-decoration: none;
+		transition:
+			background-color 0.3s,
+			color 0.3s;
+	}
+
+	.btn-plain:hover {
+		background-color: var(--foreground);
+		color: var(--background);
+	}
+
+	@media (min-width: 640px) {
+		.plain-title {
+			font-size: 4.5rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.plain-title {
+			font-size: 6rem;
+		}
+	}
+</style>
+
+<article class="plain-article">
+	<section class="plain-hero">
+		<a href="{{ site.Params.homepageShowMoreLink | relLangURL }}" class="plain-hero-link">
+			<h1 class="plain-title">
+				{{ site.Params.homepageTitle | default site.Title | markdownify }}
+			</h1>
+			<p class="plain-hero-hint">
+				{{ i18n "recent.show_more" | default "Browse Articles" }}
+			</p>
+		</a>
+	</section>
+
+	{{ if .Content }}
+		<section class="plain-content prose dark:prose-invert prose-xl">
+			{{ .Content }}
+		</section>
+	{{ end }}
+</article>

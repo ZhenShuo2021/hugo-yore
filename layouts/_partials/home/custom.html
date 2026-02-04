@@ -1,0 +1,64 @@
+<style>
+	.home-layout-selector {
+		position: fixed;
+		bottom: 1rem;
+		left: 1rem;
+		z-index: 50;
+		padding-left: 1rem;
+		padding-right: 2.5rem;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+		background-color: var(--color-card);
+		border: 1px solid var(--color-card-foreground);
+		border-radius: 0.5rem;
+		appearance: none;
+		background-repeat: no-repeat;
+		background-position: right 12px center;
+		background-size: 1.25rem;
+		cursor: pointer;
+		transition: box-shadow 0.3s;
+	}
+
+	.home-layout-selector:hover {
+		box-shadow:
+			0 20px 25px -5px rgba(0, 0, 0, 0.1),
+			0 10px 10px -5px rgba(0, 0, 0, 0.04);
+	}
+</style>
+
+{{ $layouts := slice "background" "card" "classic" "editorial" "matrix" "mono" "monument" "plain" "split" "void" }}
+
+{{ range $layouts }}
+	<div class="home-layout" data-layout="{{ . }}" style="display:none">
+		{{ partial (printf "home/%s.html" .) $ }}
+	</div>
+{{ end }}
+
+{{ $svg := resources.Get "icons/chevron-down.svg" }}
+{{ $svg.Publish }}
+
+<script>
+	(function () {
+		const layouts = Array.from(document.querySelectorAll('.home-layout')).map((el) => el.dataset.layout);
+
+		const select = document.createElement('select');
+		select.id = 'layoutSelector';
+		select.setAttribute('aria-label', 'Select Home Layout');
+		const svgRed = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='gray' viewBox='0 0 20 20'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd' /%3E%3C/svg%3E`;
+
+		select.className = 'home-layout-selector';
+		select.style.backgroundImage = `url("${svgRed}")`;
+		select.innerHTML = layouts.map((name) => `<option value="${name}">${name}</option>`).join('');
+		document.body.appendChild(select);
+
+		select.value = localStorage.getItem('layout') || 'void';
+		document.querySelector(`[data-layout="${select.value}"]`).style.display = 'block';
+
+		select.addEventListener('change', () => {
+			document.querySelectorAll('.home-layout').forEach((el) => {
+				el.style.display = el.dataset.layout === select.value ? 'block' : 'none';
+			});
+			localStorage.setItem('layout', select.value);
+		});
+	})();
+</script>

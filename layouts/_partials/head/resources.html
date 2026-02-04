@@ -1,0 +1,188 @@
+{{ $esVer := "es2023" }}
+
+{{/* Critical JS */}}
+<script>
+	(() => {
+		const theme =
+			localStorage.getItem('appearance') || document.documentElement.getAttribute('data-default-appearance');
+		document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+	})();
+</script>
+
+{{ if eq site.Params.headerLayout "hideOnScroll" }}
+	<style>
+		#site-header {
+			transition: transform 0.2s ease;
+		}
+		.header-hidden {
+			transform: translateY(-100%);
+		}
+	</style>
+{{ end }}
+
+{{/* CSS */}}
+{{/* prettier-ignore-start */}}
+<style>
+	h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
+		scroll-margin-top: {{ cond (eq site.Params.headerLayout "sticky") "4.5rem" "1rem" }};
+	}
+</style>
+{{/* prettier-ignore-end */}}
+{{ $bundle := slice }}
+{{ $schemeName := site.Params.themeColorScheme | default "latex" }}
+{{ $scheme := resources.Get (printf "css/schemes/%s.css" (lower $schemeName)) | default (resources.Get "css/schemes/latex.css") }}
+{{ $bundle = $bundle | append $scheme }}
+{{ $bundle = $bundle | append (resources.Get "css/tailwind/compiled.css") }}
+{{ $bundle = $bundle | append (resources.Get "css/a11y.css") }}
+{{ $bundle = $bundle | append (resources.Get "css/basic.css") }}
+{{ $bundle = $bundle | append (resources.Get "css/chroma.css") }}
+{{ $bundle = $bundle | append (resources.Get "css/misc.css") }}
+{{ $bundle = $bundle | append (resources.Get "css/tabs.css") }}
+{{ $bundle = $bundle | append (resources.Get "css/toc.css") }}
+{{ $bundle = $bundle | append (resources.Get "css/tokens.css") }}
+{{ if site.Params.imageLightbox | default true }}
+	{{ $bundle = $bundle | append (resources.Get "lib/photoswipe/photoswipe.css") }}
+{{ end }}
+{{ $bundle = $bundle | append (resources.Get "css/custom.css") }}
+{{ $cssBundle := $bundle | resources.Concat "css/main.bundle.css" }}
+{{ if hugo.IsProduction }}
+	{{ $cssBundle = $cssBundle | minify }}
+{{ end }}
+{{ $cssBundle = $cssBundle | fingerprint }}
+<link rel="stylesheet" href="{{ $cssBundle.RelPermalink }}" integrity="{{ $cssBundle.Data.Integrity }}">
+
+{{/* Additional file, analytics, CSS, JS, ... */}}
+{{ if templates.Exists "extend-head.html" }}
+	{{ partial "extend-head.html" . }}
+{{ end }}
+
+{{/* Core JS */}}
+{{ with resources.Get "js/main.js.tmpl" }}
+	{{ with resources.ExecuteAsTemplate "js/main.js" $ . }}
+		{{ $opts := dict "format" "esm" "minify" (not hugo.IsServer) "target" $esVer }}
+		{{ $js := . | js.Build $opts }}
+		<script src="{{ $js.RelPermalink }}" type="module"></script>
+	{{ end }}
+{{ end }}
+
+{{/* Math */}}
+{{ if or .Params.mathEnabled site.Params.mathEnabled }}
+	<style>
+		.mathjax-wrapper {
+			overflow-x: auto;
+		}
+		mjx-container {
+			display: inline-grid;
+			overflow-x: auto;
+			overflow-y: hidden;
+			max-width: 100%;
+		}
+	</style>
+	<script>
+		window.MathJax = {
+			options: {
+				skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+			},
+			tex: {
+				packages: { '[+]': ['ams'] },
+				tags: 'ams',
+				tagSide: 'right',
+				tagIndent: '0.8em',
+				displayMath: [
+					['\\[', '\\]'],
+					['$$', '$$'],
+				],
+				inlineMath: [
+					['$', '$'],
+					['\\(', '\\)'],
+				],
+			},
+			svg: {
+				fontCache: 'global',
+			},
+			startup: {
+				ready: () => {
+					MathJax.startup.defaultReady();
+					MathJax.startup.promise.then(() => {
+						document.querySelectorAll('mjx-container[display="true"]').forEach((container) => {
+							if (!container.parentElement.classList.contains('mathjax-wrapper')) {
+								const wrapper = document.createElement('div');
+								wrapper.className = 'mathjax-wrapper';
+								container.parentNode.insertBefore(wrapper, container);
+								wrapper.appendChild(container);
+							}
+						});
+					});
+				},
+			},
+		};
+	</script>
+	<script
+		src="{{ site.Data.cdn.mathjax.src }}"
+		integrity="{{ site.Data.cdn.mathjax.integrity }}"
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"></script>
+{{ end }}
+
+{{/* PhotoSwipe */}}
+{{ if site.Params.imageLightbox | default true }}
+	{{ $opts := dict "format" "esm" "target" $esVer "minify" (not hugo.IsServer) }}
+	{{ $pswp := resources.Get "js/photoswipe.js" | js.Build $opts }}
+	<script src="{{ $pswp.RelPermalink }}" type="module"></script>
+{{ end }}
+
+{{/* TypeIt */}}
+{{ if .Page.HasShortcode "typeit" }}
+	<script
+		defer
+		src="{{ site.Data.cdn.typeit.src }}"
+		integrity="{{ site.Data.cdn.typeit.integrity }}"
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"></script>
+{{ end }}
+
+{{/* YouTube Lite */}}
+{{ if .Page.HasShortcode "youtubeLite" }}
+	<link
+		rel="stylesheet"
+		href="{{ site.Data.cdn.youtubeLite.css.src }}"
+		integrity="{{ site.Data.cdn.youtubeLite.css.integrity }}"
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer">
+	<script
+		defer
+		src="{{ site.Data.cdn.youtubeLite.js.src }}"
+		integrity="{{ site.Data.cdn.youtubeLite.js.integrity }}"
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"></script>
+{{ end }}
+
+{{/* Mermaid */}}
+{{ if .Store.Get "hasMermaid" }}
+	<script
+		defer
+		src="{{ site.Data.cdn.mermaid.src }}"
+		integrity="{{ site.Data.cdn.mermaid.integrity }}"
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"></script>
+	{{ $opts := dict "format" "esm" "minify" (not hugo.IsServer) }}
+	{{ $mermaidJS := resources.Get "js/shortcodes/mermaid.js" | js.Build $opts }}
+	<script defer src="{{ $mermaidJS.RelPermalink }}" type="module"></script>
+{{ end }}
+
+{{/* Chart */}}
+{{ if .Page.HasShortcode "chart" }}
+	<script
+		defer
+		src="{{ site.Data.cdn.echarts.src }}"
+		integrity="{{ site.Data.cdn.echarts.integrity }}"
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"></script>
+{{ end }}
+
+{{/* Search */}}
+{{ if site.Params.searchEnabled | default true }}
+	{{ $opts := dict "format" "esm" "minify" (not hugo.IsServer) "target" $esVer }}
+	{{ $js := resources.Get "js/search.js" | js.Build $opts }}
+	<script src="{{ $js.RelPermalink }}" type="module"></script>
+{{ end }}

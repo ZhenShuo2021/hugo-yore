@@ -1,0 +1,43 @@
+<footer class="mx-auto max-w-7xl px-4 py-12 sm:px-0">
+	<div class="main-grid">
+		<div class="main-grid__start--empty"></div>
+
+		<div class="main-grid__main">
+			<div class="text-link pb-16 text-4xl font-bold">
+				{{ site.Title }}
+			</div>
+			<div class="space-y-4">
+				{{ if site.Params.footerShowMenu | default true }}
+					{{ if site.Menus.footer }}
+						<nav aria-label="Footer navigation">
+							<ul class="flex list-none flex-wrap gap-x-4">
+								{{ range site.Menus.footer }}
+									<li>
+										<a href="{{ .URL }}" class="hover:text-link-hover">
+											{{ .Name }}
+										</a>
+									</li>
+								{{ end }}
+							</ul>
+						</nav>
+					{{ end }}
+				{{ end }}
+
+
+				<div class="text-sm">
+					{{ if site.Params.footerShowCredit | default true }}
+						<p>
+							{{ $theme := printf "<a title='Version %s' class='underline decoration-transparent text-link' href='https://yore.zsl0621.cc/' target='_blank' rel='noopener noreferrer'>Yore</a>" (site.Data.theme.version) }}
+							{{ i18n "footer.powered_by" (dict "Theme" $theme) | safeHTML }}
+						</p>
+					{{ end }}
+					{{ if site.Params.footerShowCopyright | default true }}
+						<p>{{ site.Params.footerCopyrightText | markdownify }}</p>
+					{{ end }}
+				</div>
+			</div>
+		</div>
+
+		<div class="main-grid__end--empty"></div>
+	</div>
+</footer>

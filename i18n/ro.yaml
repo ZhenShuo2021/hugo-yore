@@ -1,0 +1,28 @@
+a11y:
+  disable_blur: Dezactivează estomparea
+  disable_images: Dezactivează imaginile
+  font_size: Dimensiunea fontului
+  show_link_underline: Afișează sublinierea linkurilor
+  title: Setări de accesibilitate
+article:
+  date: '{{ .Date }}'
+  date_updated: 'Modificat la: {{ .Date }}'
+  related_articles: Related
+  series: This article is part of a series.
+code:
+  copied: Copiat
+  copy: Copiază
+error:
+  404_description: Se pare că pagina pe care o cauți nu există.
+  404_title: 'Pagină Lipsă :confused:'
+footer:
+  powered_by: Susținut de {{ .Theme }}
+nav:
+  scroll_to_top_title: Înapoi sus
+  skip_to_main: Sari la conținut
+search:
+  close_button_title: Închide (Esc)
+  input_placeholder: Caută
+  open_button_title: Caută (/)
+shortcode:
+  recent_articles: Cele mai noi

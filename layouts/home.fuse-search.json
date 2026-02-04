@@ -1,0 +1,14 @@
+{{- $index := slice -}}
+{{- range site.RegularPages -}}
+	{{- if .Params.pageNoList -}}
+		{{- continue -}}
+	{{- end -}}
+	{{- $index = $index | append (dict
+		"title" (.Title | emojify | safeJS)
+		"permalink" .RelPermalink
+		"headings" .Fragments.Identifiers
+		"summary" (.Summary | plainify | htmlUnescape | safeJS)
+		"content" (.Plain | safeJS)
+	) -}}
+{{- end -}}
+{{- $index | jsonify -}}

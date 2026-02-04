@@ -1,0 +1,65 @@
+{
+	"name": "hugo-yore-theme",
+	"version": "1.0.0",
+	"description": "yore theme for Hugo.",
+	"keywords": [
+		"hugo",
+		"hugo-theme",
+		"tailwind",
+		"dark-mode"
+	],
+	"homepage": "https://github.com/ZhenShuo2021/hugo-yore#readme",
+	"bugs": {
+		"url": "https://github.com/ZhenShuo2021/hugo-yore/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ZhenShuo2021/hugo-yore.git"
+	},
+	"license": "MIT",
+	"scripts": {
+		"build:css": "tailwindcss -i ./assets/css/tailwind/main.css -o ./assets/css/tailwind/compiled.css",
+		"build:hugo": "hugo --minify -s exampleSite --themesDir ../.. --baseURL https://yore.zsl0621.cc/",
+		"dev:css": "tailwindcss -i ./assets/css/tailwind/main.css -o ./assets/css/tailwind/compiled.css -w",
+		"dev:hugo": "hugo server -DEF --source exampleSite --themesDir ../.. -b 'http://127.0.0.1:1313/'",
+		"format": "prettier --write --list-different .",
+		"format:md": "markdownlint-cli2 \"**/*.md\" \"#node_modules\" --fix",
+		"postinstall": "vendor-copy"
+	},
+	"vendorCopy": [
+		{
+			"from": "node_modules/fuse.js/dist/fuse.min.mjs",
+			"to": "assets/lib/fuse/fuse.min.mjs"
+		},
+		{
+			"from": "node_modules/photoswipe/dist/photoswipe-lightbox.esm.min.js",
+			"to": "assets/lib/photoswipe/photoswipe-lightbox.esm.min.js"
+		},
+		{
+			"from": "node_modules/photoswipe/dist/photoswipe.esm.min.js",
+			"to": "assets/lib/photoswipe/photoswipe.esm.min.js"
+		},
+		{
+			"from": "node_modules/photoswipe/dist/photoswipe.css",
+			"to": "assets/lib/photoswipe/photoswipe.css"
+		}
+	],
+	"dependencies": {
+		"@awmottaz/prettier-plugin-void-html": "^2.0.0",
+		"@tailwindcss/cli": "^4.1.18",
+		"@tailwindcss/forms": "^0.5.11",
+		"@tailwindcss/typography": "^0.5.19",
+		"fuse.js": "^7.1.0",
+		"js-yaml": "^4.1.1",
+		"lite-youtube-embed": "^0.3.4",
+		"photoswipe": "^5.4.4",
+		"prettier": "~3.7.4",
+		"prettier-plugin-go-template": "^0.0.15",
+		"prettier-plugin-tailwindcss": "^0.7.2",
+		"tailwindcss": "^4.1.18",
+		"vendor-copy": "^3.0.1"
+	},
+	"devDependencies": {
+		"markdownlint-cli2": "^0.20.0"
+	}
+}

@@ -1,0 +1,44 @@
+a11y:
+  disable_blur: ぼかしを無効にする
+  disable_images: 背景画像を無効にする
+  font_size: フォントサイズ
+  show_link_underline: リンクの下線を表示する
+  title: アクセシビリティ設定
+admonition:
+  abstract: 概要
+  bug: バグ
+  caution: 注意
+  danger: 危険
+  example: 例
+  failure: 失敗
+  important: 重要
+  info: 情報
+  note: ノート
+  question: 質問
+  quote: 引用
+  success: 成功
+  tip: ヒント
+  todo: TODO
+  warning: 警告
+article:
+  date: '{{ .Date }}'
+  date_updated: '更新日: {{ .Date }}'
+  related_articles: 関連記事
+  series: この記事は連載の一部です
+code:
+  copied: コピーしました
+  copy: コピー
+error:
+  404_description: ご要望のページは存在しないようです。
+  404_title: 'ページが見つかりませんでした。 :confused:'
+footer:
+  powered_by: Powered by {{ .Theme }}
+nav:
+  scroll_to_top_title: TOPへスクロール
+  skip_to_main: メインコンテンツへスキップ
+search:
+  close_button_title: 閉じる (Esc)
+  input_placeholder: 検索
+  open_button_title: 検索 (/)
+shortcode:
+  recent_articles: 最近の記事

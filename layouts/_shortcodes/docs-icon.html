@@ -1,0 +1,31 @@
+{{ $icons := resources.Match "icons/*.svg" }}
+{{ $total := len $icons }}
+{{ $step := 4 }}
+
+
+<table style="width:100%;table-layout:fixed;text-align:center;">
+	<tbody>
+		{{ range $i := seq 0 $step (sub $total 1) }}
+			{{ $batch := first $step (after $i $icons) }}
+
+
+			<tr style="border-bottom:0 solid transparent;">
+				{{ range $batch }}
+					<td style="width:25%;text-align:center;vertical-align:middle;">
+						<code>{{ strings.TrimSuffix ".svg" (path.Base .Name) }}</code>
+					</td>
+				{{ end }}
+			</tr>
+
+			<tr style="border-bottom:32px solid transparent;">
+				{{ range $batch }}
+					<td style="width:25%;text-align:center;vertical-align:middle;">
+						<span style="display:flex;justify-content:center;align-items:center;">
+							{{ partial "components/icon.html" (strings.TrimSuffix ".svg" (path.Base .Name)) }}
+						</span>
+					</td>
+				{{ end }}
+			</tr>
+		{{ end }}
+	</tbody>
+</table>

@@ -1,0 +1,47 @@
+{{ $seriesState := .seriesState | default "open" }}
+
+{{ with .ctx.GetTerms "series" }}
+	{{ range . }}
+		{{ $allPostsInSeries := .Pages }}
+		{{ if gt (len .Pages) 1 }}
+			<details
+				class="bg-muted border-border group mb-12 rounded-lg border"
+				{{ if eq $seriesState "open" }}open{{ end }}>
+				<summary
+					class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 transition-colors [&::-webkit-details-marker]:hidden">
+					<h2 class="text-foreground flex items-center gap-2 text-base">
+						<span>{{ i18n "article.series" | default "Series:" }}{{ .LinkTitle }}</span>
+					</h2>
+					<div
+						class="text-muted-foreground flex-shrink-0 -rotate-90 transition-transform duration-200 group-open:rotate-0">
+						{{ partial "components/icon.html" "chevron-down" }}
+					</div>
+				</summary>
+
+				<ol class="space-y-2.5 px-5 pb-5">
+					{{ range $index, $post := .Pages }}
+						{{ $isCurrent := eq $post.RelPermalink $.ctx.RelPermalink }}
+						<li class="flex items-baseline gap-3">
+							<span
+								class="{{- cond $isCurrent ` text-link font-bold` ` text-muted-foreground` }} w-7 flex-shrink-0 text-right tabular-nums select-none">
+								{{ add $index 1 }}.
+							</span>
+
+							{{ if $isCurrent }}
+								<span class="text-link leading-relaxed font-semibold">
+									{{ $post.LinkTitle }}
+								</span>
+							{{ else }}
+								<a
+									href="{{ $post.RelPermalink }}"
+									class="text-foreground hover:text-link-hover leading-relaxed transition-colors">
+									{{ $post.LinkTitle }}
+								</a>
+							{{ end }}
+						</li>
+					{{ end }}
+				</ol>
+			</details>
+		{{ end }}
+	{{ end }}
+{{ end }}

@@ -1,0 +1,45 @@
+a11y:
+  disable_blur: 停用背景模糊
+  disable_images: 移除背景圖片
+  font_size: 字體大小
+  show_link_underline: 顯示連結底線
+  title: 無障礙設定
+admonition:
+  abstract: 摘要
+  bug: 錯誤
+  caution: 注意
+  danger: 危險
+  example: 範例
+  failure: 失敗
+  important: 重要
+  info: 資訊
+  note: 註記
+  question: 問題
+  quote: 引用
+  success: 成功
+  tip: 提示
+  todo: 待辦
+  warning: 警告
+article:
+  date: 首次發表：
+  date_updated: 最後更新：
+  related_articles: 相關文章
+  series: 系列文章：
+code:
+  copied: 已複製
+  copy: 複製
+error:
+  404_description: 您在尋找的頁面似乎不存在。
+  404_title: '找不到網頁 :confused:'
+footer:
+  powered_by: 由 {{ .Theme }} 製作
+nav:
+  scroll_to_top_title: 捲動到頁頂
+  skip_to_main: 快轉到主要內容
+search:
+  close_button_title: 關閉 (Esc)
+  input_placeholder: 搜尋
+  no_result: 搜尋結果不存在：
+  open_button_title: 搜尋 (/)
+shortcode:
+  recent_articles: 最近的文章

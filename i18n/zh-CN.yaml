@@ -1,0 +1,45 @@
+a11y:
+  disable_blur: 禁用模糊效果
+  disable_images: 禁用背景图片
+  font_size: 字体大小
+  show_link_underline: 显示链接下划线
+  title: 无障碍设定
+admonition:
+  abstract: 摘要
+  bug: 错误
+  caution: 注意
+  danger: 危险
+  example: 示例
+  failure: 失败
+  important: 重要
+  info: 信息
+  note: 笔记
+  question: 问题
+  quote: 引用
+  success: 成功
+  tip: 提示
+  todo: 待办
+  warning: 警告
+article:
+  date: 首次發表：
+  date_updated: 最後更新：
+  related_articles: 相关文章
+  series: 系列文章：
+code:
+  copied: 已复制
+  copy: 复制
+error:
+  404_description: 您请求的页面似乎不存在。
+  404_title: '找不到网页 :confused:'
+footer:
+  powered_by: 由 {{ .Theme }} 驱动
+nav:
+  scroll_to_top_title: 返回顶部
+  skip_to_main: 跳过正文
+search:
+  close_button_title: 关闭 (Esc)
+  input_placeholder: 搜索
+  no_result: 无搜索结果：
+  open_button_title: 搜索 (/)
+shortcode:
+  recent_articles: 最近的文章

@@ -1,0 +1,9 @@
+{{- $debug := true }}
+{{- range site.Pages }}
+	{{- $noop := .Len }}
+{{- end }}
+{{- if $debug }}
+	{{- jsonify (dict "indent" "  ") (.Store.Get "backlinks") }}
+{{- else }}
+	{{- jsonify (dict "indent" "  ") (dict "comment" "This file is intentionally empty.") }}
+{{- end }}

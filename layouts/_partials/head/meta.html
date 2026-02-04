@@ -1,0 +1,44 @@
+<meta charset="utf-8">
+{{ with site.LanguageCode }}
+	<meta http-equiv="content-language" content="{{ . }}">
+{{ end }}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+{{/* Title */}}
+{{ if .IsHome }}
+	<title>{{ site.Title | emojify }}</title>
+	<meta name="title" content="{{ site.Title | emojify }}">
+{{ else }}
+	<title>{{ .Title | emojify }} | {{ site.Title | emojify }}</title>
+	<meta name="title" content="{{ .Title | emojify }} | {{ site.Title | emojify }}">
+{{ end }}
+
+{{/* Metadata */}}
+{{ with (.Params.Summary | default .Params.Description) | default site.Params.description }}
+	<meta name="description" content="{{ . }}">
+{{ end }}
+{{ with or .Params.metaRobots site.Params.metaRobots }}
+	<meta name="robots" content="{{ . }}">
+{{ end }}
+<link rel="canonical" href="{{ .Permalink }}">
+{{ range .AlternativeOutputFormats }}
+	{{ printf `
+		<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .RelPermalink (site.Title | emojify) |
+		safeHTML
+	}}
+{{ end }}
+
+{{/* Me */}}
+{{ with site.Params.author.name }}
+	<meta name="author" content="{{ . }}">
+{{ end }}
+{{ with site.Params.author.links }}
+	{{ range $links := . }}
+		{{ range $name, $url := $links }}
+			{{ if not (strings.HasPrefix $url "mailto:") }}
+				<link rel="me" href="{{ $url }}">
+			{{ end }}
+		{{ end }}
+	{{ end }}
+{{ end }}

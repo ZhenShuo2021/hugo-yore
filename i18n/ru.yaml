@@ -1,0 +1,28 @@
+a11y:
+  disable_blur: Отключить размытие
+  disable_images: Отключить изображения
+  font_size: Размер шрифта
+  show_link_underline: Показать подчеркивание ссылок
+  title: Настройки доступности
+article:
+  date: '{{ .Date }}'
+  date_updated: 'Обновлено: {{ .Date }}'
+  related_articles: Related
+  series: This article is part of a series.
+code:
+  copied: Скопировано
+  copy: Копировать
+error:
+  404_description: Похоже, запрошенная вами страница не существует.
+  404_title: 'Страница не найдена: в замешательстве:'
+footer:
+  powered_by: Работает на {{ .Theme }}
+nav:
+  scroll_to_top_title: Пролистать наверх
+  skip_to_main: Перейти к основному содержимому
+search:
+  close_button_title: Закрыть (Esc)
+  input_placeholder: Поиск
+  open_button_title: Поиск (/)
+shortcode:
+  recent_articles: Недавние

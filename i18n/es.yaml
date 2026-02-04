@@ -1,0 +1,28 @@
+a11y:
+  disable_blur: Desactivar desenfoque
+  disable_images: Desactivar imagen de fondo
+  font_size: Tamaño de fuente
+  show_link_underline: Mostrar subrayado de enlaces
+  title: Ajustes de accesibilidad
+article:
+  date: '{{ .Date }}'
+  date_updated: 'Actualizado: {{ .Date }}'
+  related_articles: Relacionados
+  series: Este artículo es parte de una serie.
+code:
+  copied: Copiado
+  copy: Copiar
+error:
+  404_description: Parece que la página que solicitaste no existe.
+  404_title: 'Página no encontrada :confused:'
+footer:
+  powered_by: Desarrollado por {{ .Theme }}
+nav:
+  scroll_to_top_title: Ir arriba
+  skip_to_main: Ir al contenido
+search:
+  close_button_title: Cerrar (Esc)
+  input_placeholder: Buscar
+  open_button_title: Buscar (/)
+shortcode:
+  recent_articles: Reciente

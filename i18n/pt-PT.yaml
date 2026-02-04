@@ -1,0 +1,28 @@
+a11y:
+  disable_blur: Desativar desfoque
+  disable_images: Desativar imagens
+  font_size: Tamanho da fonte
+  show_link_underline: Mostrar sublinhado de links
+  title: Definições de acessibilidade
+article:
+  date: '{{ .Date }}'
+  date_updated: 'Atualizado a: {{ .Date }}'
+  related_articles: Relacionados
+  series: Este artigo faz parte de uma série.
+code:
+  copied: Copiado
+  copy: Copiar
+error:
+  404_description: Aparentemente a página pretendida não existe.
+  404_title: 'Página não encontrada :confused:'
+footer:
+  powered_by: Desenvolvido por {{ .Theme }}
+nav:
+  scroll_to_top_title: Ir para o topo
+  skip_to_main: Ir para o conteúdo principal
+search:
+  close_button_title: Fechar (Esc)
+  input_placeholder: Pesquisar
+  open_button_title: Pesquisar (/)
+shortcode:
+  recent_articles: Recentes

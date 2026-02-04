@@ -1,0 +1,49 @@
+{{ define "main" }}
+	{{ $imageOptimization := site.Params.imageOptimization | default false }}
+
+	{{/* BG */}}
+	{{ $useDefault := true }}
+	{{ $homepageImage := "" }}
+	{{ with site.Params.homepageImage }}
+		{{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
+			{{ $homepageImage = resources.GetRemote . }}
+			{{ $useDefault = false }}
+		{{ else }}
+			{{ $homepageImage = resources.Get . }}
+			{{ $useDefault = false }}
+		{{ end }}
+	{{ end }}
+
+	{{ $imagePosition := "" }}
+	{{ $defaultPosition := cond $useDefault site.Params.imagePosition false }}
+	{{ with $.Params.imagePosition | default $defaultPosition }}
+		{{ $imagePosition = printf "object-position: %s;" . }}
+	{{ end }}
+
+	{{/* Author */}}
+	{{ $authorImage := "" }}
+	{{ with site.Params.author.image }}
+		{{ $imbObj := "" }}
+		{{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
+			{{ $imbObj = resources.GetRemote . }}
+		{{ else }}
+			{{ $imbObj = resources.Get . }}
+		{{ end }}
+		{{ if $imbObj }}
+			{{ $authorImage = $imbObj }}
+			{{ $squareImage := $imbObj }}
+			{{ if and $imageOptimization (and (eq $imbObj.MediaType.SubType "svg")) }}
+				{{ $authorImage = $imbObj.Fill "720x720" }}
+			{{ end }}
+		{{ end }}
+	{{ end }}
+
+	{{ .Store.Set "homepageImage" $homepageImage }}
+	{{ .Store.Set "imagePosition" $imagePosition }}
+	{{ .Store.Set "authorImage" $authorImage }}
+	{{ if site.Params.homepageLayout }}
+		{{ partial (printf "home/%s.html" site.Params.homepageLayout) . }}
+	{{ else }}
+		{{ warnf "homepageLayout not set, defaulting to void" }}
+	{{ end }}
+{{ end }}

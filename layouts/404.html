@@ -1,0 +1,24 @@
+{{ define "main" }}
+	<div class="my-20 flex items-center justify-center px-4">
+		<div class="w-full max-w-2xl space-y-8 text-center">
+			<div class="space-y-2">
+				<h1 class="text-foreground text-8xl font-bold tracking-tight">404</h1>
+				<p class="text-foreground text-2xl font-medium">
+					{{ i18n "error.404_title" | emojify }}
+				</p>
+			</div>
+
+			<p class="text-muted-foreground mx-auto max-w-md text-base">
+				{{ i18n "error.404_description" | emojify }}
+			</p>
+
+			<div class="pt-4">
+				<a
+					href="{{ site.BaseURL | relLangURL }}"
+					class="bg-primary text-primary-foreground inline-flex items-center gap-2 rounded-lg px-6 py-3 font-medium transition-opacity hover:opacity-90">
+					Take me home
+				</a>
+			</div>
+		</div>
+	</div>
+{{ end }}

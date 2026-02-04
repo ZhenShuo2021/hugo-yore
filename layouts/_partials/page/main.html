@@ -1,0 +1,142 @@
+{{ partial "page/calculate-toc-margin.html" . -}}
+{{ $mt := .Store.Get "tocMt" }}
+{{ $top := cond (eq site.Params.headerLayout "static") "top-5" "top-25" }}
+{{ $tocStyle := site.Params.pageTOCStyle | default .Params.pageTOCStyle }}
+{{ .Store.Set "tocStyle" $tocStyle }}
+{{ $hasToc := in .TableOfContents "<ul" }}
+
+{{ if and (.Param "pageHeroStyle") (ne (.Param "pageHeroStyle") "disable") }}
+	{{ partial "page/hero/main.html" . }}
+{{ end }}
+<div class="main-grid">
+	<aside class="main-grid__start--empty me-2 lg:me-6"></aside>
+
+	<article class="main-grid__main">
+		{{ partial "inline/page-main" . }}
+	</article>
+
+	{{ if and $hasToc (eq $tocStyle "sidebar") }}
+		{{ partial "page/toc-sidebar.html" . }}
+	{{ else }}
+		<div class="main-grid__end--empty"></div>
+	{{ end }}
+</div>
+
+{{ define "_partials/inline/page-main" }}
+	{{/* Header */}}
+	<header class="mb-12">
+		{{ if .Param "breadcrumb" }}
+			<div class="text-muted-foreground text-sm">{{ partial "components/breadcrumbs.html" . }}</div>
+		{{ end }}
+		<h1 class="text-foreground mb-6 text-4xl font-medium">
+			{{ .Title }}
+		</h1>
+
+		{{ if .Params.pageShowMeta | default site.Params.pageShowMeta }}
+			<div class="text-muted-foreground text-sm">
+				{{ if .Date }}
+					<div class="flex items-center gap-1">
+						<span>{{ i18n "article.date" | default "Published:" }}</span>
+						<time
+							datetime="{{ .Date.Format "2006-01-02" }}"
+							title="{{ .Date.Format "January 2, 2006" }}"
+							aria-label="{{ i18n "article.published_date" | default "Published date" }}">
+							{{ .Date.Format "January 2, 2006" }}
+						</time>
+					</div>
+				{{ end }}
+
+				{{ if and .Lastmod (gt .Lastmod .Date) }}
+					<div class="flex items-center gap-1">
+						<span>{{ i18n "article.date_updated" | default "Updated:" }}</span>
+						<time datetime="{{ .Lastmod.Format "2006-01-02" }}">
+							{{ .Lastmod.Format "January 2, 2006" }}
+						</time>
+					</div>
+				{{ end }}
+			</div>
+		{{ end }}
+	</header>
+
+	{{/* Series */}}
+	{{ if in (slice "top" "both") (.Param "pageShowSeries") }}
+		{{ partial "page/series.html" (dict "ctx" . "seriesState" "close") }}
+	{{ end }}
+
+	{{/* TOC Top */}}
+	{{ $tocStyle := .Store.Get "tocStyle" }}
+	{{ $hasToc := in .TableOfContents "<ul" }}
+	{{ if and $hasToc (ne $tocStyle "disable") }}
+		{{ partial "page/toc-top.html" . }}
+	{{ end }}
+
+	{{/* Markdown */}}
+	<div class="prose dark:prose-invert w-full max-w-none">
+		{{ if templates.Exists "page/content-before.html" }}
+			{{ partial "page/content-before.html" . }}
+		{{ end }}
+		{{ .Content }}
+		{{ if templates.Exists "page/content-after.html" }}
+			{{ partial "page/content-after.html" . }}
+		{{ end }}
+	</div>
+
+	{{/* Footer */}}
+	{{ if or .Page.Params.backlinkEnabled site.Params.backlinkEnabled | default true }}
+		{{ $debug := false }}
+		{{ $backlinks := site.Home.Store.Get "backlinks" | uniq }}
+		{{ with (where $backlinks "target" .RelPermalink) }}
+			<div class="border-border mt-16 border-t pt-8">
+				<h2 class="text-foreground mb-6 flex items-center gap-2 font-semibold">
+					{{ i18n "article.backlinks_title" | default "Posts referencing this article" }}
+					<span> {{ partial "components/icon.html" "chevron-down" }}</span>
+				</h2>
+				<ul class="ms-6 list-inside list-disc space-y-4">
+					{{ range (sort . "source.linkTitle" "asc") }}
+						<li>
+							<a href="{{ .source.relPermalink }}" class="gap-1 no-underline">
+								<span
+									class="text-foreground hover:text-link-hover text-base font-medium underline-offset-4 transition-colors">
+									{{ .source.linkTitle }}
+								</span>
+							</a>
+						</li>
+					{{ end }}
+				</ul>
+			</div>
+		{{ end }}
+		{{ if $debug }}
+			<pre class="bg-muted text-muted-foreground mt-8 overflow-auto rounded p-4 text-xs">
+				{{ jsonify (dict "indent" "  ") $backlinks }}
+			</pre
+			>
+		{{ end }}
+	{{ end }}
+
+	{{ if .Param "pageShowTags" }}
+		{{ with .GetTerms "tags" }}
+			<div
+				class="my-12 flex w-full flex-wrap items-center justify-center gap-x-4"
+				aria-label="{{ i18n "article.tags" | default "Tags" }}">
+				{{ range . }}
+					<a
+						href="{{ .RelPermalink }}"
+						class="text-muted-foreground hover:text-link-hover transition-colors"
+						aria-label="{{ i18n "article.tag" | default "Tag" }}:{{ .LinkTitle }}">
+						#{{ .LinkTitle }}
+					</a>
+				{{ end }}
+			</div>
+		{{ end }}
+	{{ end }}
+	{{ if in (slice "bottom" "both") (.Param "pageShowSeries") }}
+		<div class="mt-16"></div>
+		{{ partial "page/series.html" (dict "ctx" . "seriesState" "open") }}
+	{{ end }}
+	{{ if .Param "pageShowRelated" }}
+		{{ partial "page/related.html" . }}
+	{{ end }}
+	{{ if .Param "pageShowNext" | default true }}
+		{{ partial "page/next.html" . }}
+	{{ end }}
+{{ end }}

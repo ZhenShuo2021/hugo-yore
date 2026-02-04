@@ -1,0 +1,44 @@
+a11y:
+  disable_blur: Disable blur
+  disable_images: Disable background image
+  font_size: Font size
+  show_link_underline: Show link underline
+  title: Accessibility settings
+admonition:
+  abstract: Abstract
+  bug: Bug
+  caution: Caution
+  danger: Danger
+  example: Example
+  failure: Failure
+  important: Important
+  info: Info
+  note: Note
+  question: Question
+  quote: Quote
+  success: Success
+  tip: Tip
+  todo: Todo
+  warning: Warning
+article:
+  date: 'Published:'
+  date_updated: 'Updated:'
+  related_articles: Related
+  series: 'Series: '
+code:
+  copied: Copied
+  copy: Copy
+error:
+  404_description: It seems that the page you've requested does not exist.
+  404_title: 'Page Not Found :confused:'
+footer:
+  powered_by: Powered by {{ .Theme }}
+nav:
+  scroll_to_top_title: Scroll to top
+  skip_to_main: Skip to main content
+search:
+  close_button_title: Close (Esc)
+  input_placeholder: Search
+  open_button_title: Search (/)
+shortcode:
+  recent_articles: Recent

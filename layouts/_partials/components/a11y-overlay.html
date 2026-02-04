@@ -1,0 +1,42 @@
+<div id="a11y-overlay" class="fixed inset-0 z-999 hidden bg-neutral-950/20 backdrop-blur-sm"></div>
+
+<div
+	id="a11y-panel"
+	role="dialog"
+	aria-labelledby="a11y-panel-title"
+	class="a11y-panel-enter bg-popover border-border fixed top-1/2 left-1/2 z-999 hidden w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border shadow-lg">
+	<div class="p-8">
+		<div class="mb-8 flex items-start justify-between">
+			<h3 id="a11y-panel-title" class="text-foreground text-xl font-medium">
+				{{ i18n "a11y.title" }}
+			</h3>
+			<button
+				id="a11y-close"
+				class="text-muted-foreground hover:text-foreground -mt-1 transition-colors"
+				aria-label="Close a11y panel">
+				<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+				</svg>
+			</button>
+		</div>
+
+		<div class="space-y-6">
+			{{ $toggles := slice }}
+			{{ $toggles = $toggles | append
+				(dict "id" "disableBackgroundImages" "label" (i18n "a11y.disable_images" | default "Disable background image"))
+				(dict "id" "underlineLinks" "label" (i18n "a11y.show_link_underline" | default "Show link underline"))
+			}}
+
+			{{- range $toggles }}
+				<div class="flex items-center justify-between gap-4">
+					<label for="{{ .id }}" class="text-foreground text-sm">
+						{{ .label }}
+					</label>
+					<div class="ios-toggle">
+						<input type="checkbox" id="{{ .id }}">
+					</div>
+				</div>
+			{{- end }}
+		</div>
+	</div>
+</div>

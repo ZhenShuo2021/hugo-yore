@@ -1,0 +1,51 @@
+{{- $maps := partialCached "impls/hooks/admonition-maps.html" "foo" -}}
+{{- $typeMap := $maps.typeMap -}}
+{{- $iconMap := $maps.iconMap -}}
+{{- $iconName := .Attributes.icon | default (index $iconMap .AlertType) | default "circle-info" -}}
+{{- $admonitionTitle := .AlertTitle | default ((i18n (printf "admonition.%s" .AlertType) | default .AlertType) | title) -}}
+
+{{- $containerClass := "admonition group relative my-6 overflow-hidden rounded-md shadow dark:shadow-[0_2px_6px_rgba(255,255,255,0.08)]" -}}
+{{- $headerClass := "flex items-center gap-2 px-4 py-2 font-bold admonition-header" -}}
+{{- $contentClass := "admonition-content px-4 py-3 text-base leading-relaxed" -}}
+
+{{- $isCollapsible := in (slice "+" "-") .AlertSign -}}
+{{- if $isCollapsible -}}
+	<details
+		class="{{ $containerClass }} group"
+		data-type="{{ .AlertType }}"
+		{{ if eq .AlertSign "+" }}open{{ end }}>
+		<summary class="{{ $headerClass }} cursor-pointer">
+			<div class="flex h-5 w-5 shrink-0 items-center justify-center text-lg">
+				{{- partial "components/icon.html" $iconName -}}
+			</div>
+			<div class="grow">
+				{{ $admonitionTitle }}
+			</div>
+			<div
+				class="ms-auto flex h-5 w-5 -rotate-90 items-center justify-center transition-transform group-open:rotate-0 print:hidden">
+				{{- partial "components/icon.html" "chevron-down" -}}
+			</div>
+		</summary>
+		{{- if .Text -}}
+			<div class="{{ $contentClass }}">
+				{{- .Text | safeHTML -}}
+			</div>
+		{{- end -}}
+	</details>
+{{- else -}}
+	<div class="{{ $containerClass }}" data-type="{{ .AlertType }}">
+		<div class="{{ $headerClass }}">
+			<div class="flex h-5 w-5 shrink-0 items-center justify-center text-lg">
+				{{- partial "components/icon.html" $iconName -}}
+			</div>
+			<div class="grow">
+				{{ $admonitionTitle }}
+			</div>
+		</div>
+		{{- if .Text -}}
+			<div class="{{ $contentClass }}">
+				{{- .Text | safeHTML -}}
+			</div>
+		{{- end -}}
+	</div>
+{{- end -}}

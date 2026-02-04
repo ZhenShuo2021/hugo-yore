@@ -1,0 +1,8 @@
+{{- $level := .Level -}}
+{{- $anchor := .Anchor | safeURL -}}
+{{- $text := .Text | safeHTML -}}
+<h{{ $level }} id="{{ $anchor }}">
+	{{ $text }}
+	<a class="heading-anchor" href="#{{ $anchor }}" aria-label="Permalink to '{{ $text }}'"></a>
+</h{{ $level }}>
+{{- /**/ -}}

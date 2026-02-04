@@ -1,0 +1,9 @@
+{{- $tocStyle := .Store.Get "tocStyle" }}
+<nav class="{{ cond (eq $tocStyle `sidebar`) `lg:hidden` `` }} toc-top bg-muted/80 mb-8 w-full rounded-lg p-6">
+	<h2 class="toc-top__title text-foreground mb-4 flex items-center gap-2 text-lg font-semibold">
+		{{ i18n "article.on_this_page" | default "On This Page" }}
+	</h2>
+	<div class="toc-top__content text-foreground ps-8 text-sm">
+		{{ .TableOfContents }}
+	</div>
+</nav>

@@ -1,0 +1,8 @@
+<nav aria-label="Breadcrumb navigation">
+	&#x276F;
+	{{ range $n, $page := .Ancestors.Reverse }}
+		{{ if eq $n 0 }}{{ continue }}{{ end }}
+		<a href="{{ $page.Permalink }}" class="hover:text-link-hover">{{ $page.Title }}</a> /
+	{{ end }}
+	<span aria-current="page">{{ .Title }}</span>
+</nav>

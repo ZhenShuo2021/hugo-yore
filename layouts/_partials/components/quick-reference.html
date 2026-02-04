@@ -1,0 +1,81 @@
+<nav class="bg-muted border-border mb-12 rounded-lg border p-6">
+	<h2 class="text-foreground mb-4 text-xl font-medium">
+		{{ i18n "quick_reference" | default "Quick Reference" }}
+	</h2>
+	<div class="space-y-2">
+		{{ range .Pages }}
+			{{ $page := . }}
+			{{ $fragments := .Fragments.Headings }}
+			{{ if $fragments }}
+				<details class="group">
+					<summary
+						class="text-foreground hover:text-link-hover flex cursor-pointer list-none items-center gap-2 font-medium transition-colors [&::-webkit-details-marker]:hidden">
+						<span class="flex-shrink-0 transition-transform select-none group-open:rotate-90">
+							{{ partial "components/icon.html" "chevron-right" }}
+						</span>
+						<span>{{ .Title }}</span>
+					</summary>
+					<div class="ref-headings mt-2 ml-6">
+						{{ partial "inline/render-headings.html" (dict "page" $page "headings" $fragments) }}
+					</div>
+				</details>
+			{{ else }}
+				<div class="text-foreground flex items-center gap-2 font-medium">
+					<span class="w-4 flex-shrink-0 select-none"></span>
+					<a href="{{ .RelPermalink }}" class="hover:text-link-hover transition-colors">
+						{{ .Title }}
+					</a>
+				</div>
+			{{ end }}
+		{{ end }}
+	</div>
+</nav>
+
+{{ define "_partials/inline/render-headings.html" }}
+	{{ $page := .page }}
+	{{ $headings := .headings }}
+	<ol>
+		{{ range $headings }}
+			{{ if gt .Level 0 }}
+				<li>
+					<div
+						class="hover:border-link-hover flex items-baseline gap-2 border-l-2 border-transparent py-1 pl-4 text-sm">
+						<span class="text-muted-foreground inline-block w-6 flex-shrink-0 text-xs opacity-50 select-none">
+							H{{ .Level }}
+						</span>
+						<a
+							href="{{ $page.RelPermalink }}#{{ .ID }}"
+							class="text-muted-foreground hover:text-link-hover transition-colors">
+							{{ .Title }}
+						</a>
+					</div>
+					{{ if .Headings }}
+						{{ partial "inline/render-headings.html" (dict "page" $page "headings" .Headings) }}
+					{{ end }}
+				</li>
+			{{ else }}
+				{{ if .Headings }}
+					{{ range .Headings }}
+						<li>
+							<div
+								class="hover:border-link-hover flex items-baseline gap-2 border-l-2 border-transparent py-1 pl-4 text-sm">
+								<span
+									class="text-muted-foreground inline-block w-6 flex-shrink-0 text-xs opacity-50 select-none">
+									H{{ .Level }}
+								</span>
+								<a
+									href="{{ $page.RelPermalink }}#{{ .ID }}"
+									class="text-muted-foreground hover:text-link-hover transition-colors">
+									{{ .Title }}
+								</a>
+							</div>
+							{{ if .Headings }}
+								{{ partial "inline/render-headings.html" (dict "page" $page "headings" .Headings) }}
+							{{ end }}
+						</li>
+					{{ end }}
+				{{ end }}
+			{{ end }}
+		{{ end }}
+	</ol>
+{{ end }}

@@ -1,0 +1,61 @@
+{{ $sticky := cond (ne site.Params.headerLayout "static") "sticky" "" }}
+{{ $center := site.Params.headerCentered | default false }}
+{{ $padding := cond $center "px-4 sm:px-0" "px-4" }}
+
+
+<header
+	id="site-header"
+	class="{{ $sticky }} {{ $padding }} border-border bg-background/80 top-0 z-50 h-16 min-h-16 border-b backdrop-blur-xl">
+	{{ if $center }}
+		<div class="main-grid">
+			<div class="main-grid__start--empty me-2 lg:me-6"></div>
+			<div class="main-grid__main">
+				{{ partial "inline/header-inner.html" . }}
+			</div>
+			<div class="main-grid__end--empty"></div>
+		</div>
+	{{ else }}
+		{{ partial "inline/header-inner.html" . }}
+	{{ end }}
+</header>
+
+{{ define "_partials/inline/header-inner.html" }}
+	<div class="flex h-full items-center justify-between gap-4">
+		{{/* Left header */}}
+		<div class="header-left flex min-w-0 items-center gap-2">
+			{{ if site.Params.Logo }}
+				{{ $logo := resources.Get site.Params.Logo }}
+				{{ if $logo }}
+					<div class="logo-container flex h-8 w-auto flex-shrink-0 items-center">
+						{{ if eq $logo.MediaType.SubType "svg" }}
+							<a href="{{ site.BaseURL | relLangURL }}" aria-label="{{ site.Title }}" class="flex h-full items-center">
+								{{ $logo.Content | safeHTML }}
+							</a>
+						{{ else }}
+							<a href="{{ site.BaseURL | relLangURL }}" class="flex h-full items-center" aria-label="{{ site.Title }}">
+								<img src="{{ $logo.RelPermalink }}" alt="{{ site.Title }}" class="h-full w-auto object-contain">
+							</a>
+						{{ end }}
+					</div>
+				{{ end }}
+			{{ end }}
+			{{ if site.Params.headerShowTitle | default false }}
+				<a
+					href="{{ "" | relLangURL }}"
+					class="text-foreground hover:text-link-hover min-w-0 shrink truncate text-xl font-medium transition-colors">
+					{{ site.Title | markdownify }}
+				</a>
+			{{ else }}
+				<span class="sr-only">
+					{{ site.Title | markdownify }}
+				</span>
+			{{ end }}
+		</div>
+
+		{{/* Right header */}}
+		<div class="header-right flex items-center justify-between">
+			{{ partial "header/desktop.html" . }}
+			{{ partial "header/mobile.html" . }}
+		</div>
+	</div>
+{{ end }}

@@ -1,0 +1,49 @@
+{{ define "main" }}
+	<div class="main-grid">
+		<!-- Empty Left Spacer -->
+		<div class="main-grid__start--empty"></div>
+
+		<!-- Main Content -->
+		<div class="main-grid__main">
+			<header class="mb-16">
+				{{ if .Param "breadcrumb" }}
+					<div class="text-muted-foreground text-sm">
+						{{ partial "components/breadcrumbs.html" . }}
+					</div>
+				{{ end }}
+				<h1 class="text-foreground mb-4 text-4xl font-medium capitalize">
+					{{ .Title }}
+				</h1>
+
+				{{ if .Content }}
+					<div class="prose dark:prose-invert mt-6">
+						{{ .Content }}
+					</div>
+				{{ end }}
+			</header>
+
+			{{ if .Pages }}
+				<div class="space-y-3">
+					{{ range .Pages }}
+						<article class="flex items-baseline gap-6">
+							<time
+								datetime="{{ .Date.Format "2006-01-02" }}"
+								class="text-muted-foreground flex-shrink-0 font-mono text-sm tabular-nums">
+								{{ .Date.Format "2006-01-02" }}
+							</time>
+
+							<a
+								href="{{ .RelPermalink }}"
+								class="text-foreground hover:text-link-hover truncate transition-colors">
+								{{ .Title }}
+							</a>
+						</article>
+					{{ end }}
+				</div>
+			{{ end }}
+		</div>
+
+		<!-- Empty Right Spacer -->
+		<div class="main-grid__end--empty"></div>
+	</div>
+{{ end }}

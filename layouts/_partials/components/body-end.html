@@ -1,0 +1,23 @@
+{{ if site.Params.scrollToTop | default true }}
+	{{ partial "components/scroll-to-top.html" . }}
+{{ end }}
+{{ partial "components/search.html" . }}
+{{ partial "components/mobile-menu-overlay.html" . }}
+{{ partial "components/a11y-overlay.html" . }}
+
+<script type="speculationrules">
+	{
+		"prefetch": [
+			{
+				"where": { "href_matches": "/*" },
+				"eagerness": "eager"
+			}
+		],
+		"prerender": [
+			{
+				"where": { "href_matches": "/*" },
+				"eagerness": "moderate"
+			}
+		]
+	}
+</script>

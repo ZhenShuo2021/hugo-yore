@@ -1,0 +1,33 @@
+/*  higher specificity */
+:root:root {
+	--pf-background: var(--background);
+	--pf-border: var(--border);
+	--pf-outline-focus: var(--card-foreground);
+}
+
+html[data-theme='dark'] {
+	--pf-text: #e5e5e5;
+	--pf-text-secondary: #a0a0a0;
+	--pf-text-muted: #949494;
+	--pf-border-focus: #555;
+	--pf-skeleton: #2a2a2a;
+	--pf-skeleton-shine: #333;
+	--pf-hover: #252525;
+	--pf-mark: #e5e5e5;
+	--pf-scroll-shadow: rgba(255, 255, 255, 0.1);
+	--pf-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+	--pf-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+	--pf-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+	--pf-error-bg: #2a1a1a;
+	--pf-error-border: #5c2828;
+	--pf-error-text: #f87171;
+	--pf-error-text-secondary: #ef4444;
+}
+
+html[data-theme='light'] pagefind-modal {
+	color-scheme: light;
+}
+
+html[data-theme='dark'] pagefind-modal {
+	color-scheme: dark;
+}

@@ -1,0 +1,39 @@
+{
+	"consentModal": {
+		"title": "Cara kami menggunakan Cookie",
+		"description": "Situs web ini menggunakan cookie dan teknologi pelacakan serupa untuk memastikan fungsi situs berjalan dengan baik, menganalisis perilaku pengguna, dan dengan persetujuan Anda menyajikan konten serta iklan yang dipersonalisasi. Anda dapat menyesuaikan preferensi kapan saja melalui \"Kelola preferensi Cookie\" atau memilih \"Tolak semua\" untuk hanya menyimpan cookie yang diperlukan agar situs dapat beroperasi. Untuk informasi lebih lanjut silakan baca Kebijakan Privasi kami.",
+		"acceptAllBtn": "Terima semua",
+		"acceptNecessaryBtn": "Tolak semua",
+		"showPreferencesBtn": "Kelola preferensi Cookie"
+	},
+	"preferencesModal": {
+		"title": "Preferensi Cookie",
+		"acceptAllBtn": "Terima semua",
+		"acceptNecessaryBtn": "Tolak semua",
+		"savePreferencesBtn": "Simpan pengaturan",
+		"closeIconLabel": "Tutup jendela",
+		"serviceCounterLabel": "Penyedia layanan",
+		"sections": [
+			{
+				"title": "Cookie yang Diperlukan",
+				"description": "Cookie ini sangat penting untuk fungsi inti situs web, termasuk menjaga sesi, menyimpan status login, dan mengingat preferensi persetujuan Cookie Anda. Kategori ini tidak dapat dinonaktifkan dan tidak ada informasi pengenal pribadi yang disimpan.",
+				"linkedCategory": "necessary"
+			},
+			{
+				"title": "Cookie Fungsional",
+				"description": "Cookie ini memungkinkan situs web untuk mengingat preferensi pribadi Anda, seperti pilihan bahasa, pengaturan regional, dan tata letak antarmuka, guna memberikan pengalaman yang lebih konsisten dan dipersonalisasi. Menonaktifkan kategori ini tidak memengaruhi fungsi dasar situs, namun beberapa fitur mungkin tidak berfungsi sebagaimana mestinya.",
+				"linkedCategory": "functional"
+			},
+			{
+				"title": "Cookie Analitik",
+				"description": "Cookie ini membantu kami memahami bagaimana pengunjung berinteraksi dengan situs web, termasuk halaman yang dikunjungi, durasi kunjungan, dan sumber lalu lintas. Semua data yang dikumpulkan diproses dalam bentuk agregat dan anonim, serta hanya digunakan untuk terus meningkatkan kinerja situs dan pengalaman pengguna.",
+				"linkedCategory": "analytics"
+			},
+			{
+				"title": "Cookie Iklan",
+				"description": "Cookie ini ditetapkan oleh situs web ini dan mitra periklanan untuk membuat profil minat berdasarkan perilaku penelusuran Anda, serta menampilkan konten iklan yang dipersonalisasi di situs ini dan platform lainnya. Jika Anda menonaktifkan kategori ini, Anda tetap akan melihat iklan, namun iklan tersebut tidak lagi dipersonalisasi sesuai minat Anda.",
+				"linkedCategory": "advertising"
+			}
+		]
+	}
+}

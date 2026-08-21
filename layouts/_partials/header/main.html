@@ -1,0 +1,44 @@
+{{- $sticky := cond (ne site.Params.headerLayout "static") "sticky" "relative" -}}
+
+
+<header
+	id="site-header"
+	class="{{ $sticky }} border-border bg-background/80 top-0 z-50 h-(--header-height) border-b px-(--yore-site-padding-x) backdrop-blur-xl transition-transform duration-(--dur-300) print:hidden">
+	{{- $homeURL := site.Home.RelPermalink -}}
+	<div class="flex h-full items-center justify-between gap-4" header-inner>
+		{{- /* Left header */ -}}
+		<div class="header-left flex min-w-0 items-center gap-2">
+			{{- if site.Params.Logo -}}
+				{{- $logo := resources.Get site.Params.Logo -}}
+				{{- if $logo -}}
+					<div class="logo-container flex h-8 w-auto flex-shrink-0 items-center">
+						{{- if eq $logo.MediaType.SubType "svg" -}}
+							<a href="{{ $homeURL }}" aria-label="{{ site.Title }}" class="flex h-full items-center">
+								{{- $logo.Content | safeHTML -}}
+							</a>
+						{{- else -}}
+							<a href="{{ $homeURL }}" class="flex h-full items-center" aria-label="{{ site.Title }}">
+								<img src="{{ $logo.RelPermalink }}" alt="{{ site.Title }}" class="h-full w-auto object-contain">
+							</a>
+						{{- end -}}
+					</div>
+				{{- end -}}
+			{{- end -}}
+			{{- if site.Params.headerShowTitle | default true -}}
+				<a href="{{ $homeURL }}" class="text-foreground min-w-0 shrink truncate text-xl font-medium">
+					{{- site.Title | markdownify -}}
+				</a>
+			{{- else -}}
+				<span class="sr-only">
+					{{- site.Title | markdownify -}}
+				</span>
+			{{- end -}}
+		</div>
+
+		{{- /* Right header */ -}}
+		<div class="header-right flex items-center justify-between">
+			{{- partial "header/desktop.html" . -}}
+			{{- partial "header/mobile.html" . -}}
+		</div>
+	</div>
+</header>

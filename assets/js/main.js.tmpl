@@ -1,0 +1,45 @@
+import { utils } from './utils.js';
+import { themeManager } from './appearance.js';
+import { Masonry } from './shortcodes/masonry-core.js';
+
+{{ if site.Params.accessibilityEnabled }}
+import { a11yPanel } from './a11y.js';
+{{ end }}
+
+{{ if site.Params.scrollToTop }}
+import './scroll-to-top.js';
+{{ end }}
+
+{{ if site.Params.codeCopy }}
+import './code.js';
+{{ end }}
+
+{{ if site.Params.tocHighlight }}
+import './toc.js';
+{{ end }}
+
+{{ if site.Params.searchEnabled }}
+import './search.js'
+{{ end }}
+
+{{ if site.Params.footnoteTooltip }}
+import './footnote-tooltip.js';
+{{ end }}
+
+import './email.js';
+import './mobile-menu.js';
+import './print.js';
+import './shortcodes/tabs.js';
+import './shortcodes/masonry.js';
+import './shortcodes/accordion.js';
+
+{{ if eq site.Params.headerLayout "hideOnScroll" }}
+import './hide-header.js';
+{{ end }}
+
+window.utils = utils;
+window.themeManager = themeManager;
+{{ if site.Params.accessibilityEnabled }}
+window.a11yPanel = a11yPanel;
+{{ end }}
+window.Masonry = Masonry;

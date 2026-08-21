@@ -1,0 +1,39 @@
+{
+	"consentModal": {
+		"title": "Como utilizamos cookies",
+		"description": "Este website utiliza cookies e tecnologias de rastreio semelhantes para garantir o seu correto funcionamento, analisar o comportamento dos utilizadores e, com o seu consentimento, fornecer conteúdo e publicidade personalizados. Pode ajustar as suas preferências a qualquer momento em «Gerir preferências de cookies», ou selecionar «Rejeitar tudo» para manter apenas os cookies essenciais ao funcionamento do site. Para mais informações, consulte a nossa política de privacidade.",
+		"acceptAllBtn": "Aceitar tudo",
+		"acceptNecessaryBtn": "Rejeitar tudo",
+		"showPreferencesBtn": "Gerir preferências de cookies"
+	},
+	"preferencesModal": {
+		"title": "Preferências de cookies",
+		"acceptAllBtn": "Aceitar tudo",
+		"acceptNecessaryBtn": "Rejeitar tudo",
+		"savePreferencesBtn": "Guardar definições",
+		"closeIconLabel": "Fechar janela",
+		"serviceCounterLabel": "Fornecedor de serviços",
+		"sections": [
+			{
+				"title": "Cookies estritamente necessários",
+				"description": "Estes cookies são indispensáveis para o funcionamento das funcionalidades essenciais do website, incluindo a manutenção da sessão, o armazenamento do estado de início de sessão e a memorização das suas preferências de consentimento de cookies. Esta categoria não pode ser desativada e não são armazenados quaisquer dados de identificação pessoal.",
+				"linkedCategory": "necessary"
+			},
+			{
+				"title": "Cookies funcionais",
+				"description": "Estes cookies permitem ao website memorizar as suas preferências pessoais, como a seleção de idioma, definições regionais e disposição da interface, de forma a proporcionar uma experiência mais consistente e personalizada. Desativar esta categoria não afeta as funções básicas do website, mas algumas funcionalidades poderão não funcionar corretamente.",
+				"linkedCategory": "functional"
+			},
+			{
+				"title": "Cookies analíticos",
+				"description": "Estes cookies ajudam-nos a compreender como os visitantes interagem com o website, incluindo páginas visitadas, tempo de permanência e fontes de tráfego. Todos os dados recolhidos são tratados de forma agregada e anonimizada, sendo utilizados exclusivamente para melhorar continuamente o desempenho do site e a experiência do utilizador.",
+				"linkedCategory": "analytics"
+			},
+			{
+				"title": "Cookies publicitários",
+				"description": "Estes cookies são definidos por este website e por parceiros de publicidade para criar um perfil de interesses com base no seu comportamento de navegação e apresentar conteúdo publicitário personalizado neste website e noutras plataformas. Se desativar esta categoria, continuará a ver anúncios, mas estes deixarão de ser personalizados de acordo com os seus interesses.",
+				"linkedCategory": "advertising"
+			}
+		]
+	}
+}

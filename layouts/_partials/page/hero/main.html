@@ -1,0 +1,11 @@
+{{- if (.Store.Get "featuredImage").url -}}
+	{{- if eq ($.Param "pageHeroStyle") "disable" -}}
+		{{- /* do nothing */ -}}
+	{{- else if eq ($.Param "pageHeroStyle") "custom" -}}
+		{{- partial "page/hero/custom.html" $ -}}
+	{{- else if eq ($.Param "pageHeroStyle") "background" -}}
+		{{- partial "page/hero/background.html" $ -}}
+	{{- else if eq ($.Param "pageHeroStyle") "big" -}}
+		{{- partial "page/hero/big.html" $ -}}
+	{{- end -}}
+{{- end -}}

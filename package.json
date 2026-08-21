@@ -1,0 +1,72 @@
+{
+	"name": "hugo-yore-theme",
+	"type": "module",
+	"version": "2.10.3",
+	"description": "yore theme for Hugo.",
+	"keywords": [
+		"hugo",
+		"hugo-theme",
+		"tailwind",
+		"dark-mode"
+	],
+	"homepage": "https://github.com/ZhenShuo2021/hugo-yore#readme",
+	"bugs": {
+		"url": "https://github.com/ZhenShuo2021/hugo-yore/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ZhenShuo2021/hugo-yore.git"
+	},
+	"license": "MIT",
+	"scripts": {
+		"build:css": "tailwindcss -i ./assets/css/tailwind/main.css -o ./assets/css/tailwind/compiled.css",
+		"build:hugo": "hugo --minify -s exampleSite --baseURL https://yore.zsl0621.cc/ && pnpm run pagefind --site exampleSite/public",
+		"index": "pnpm pagefind --site exampleSite/public",
+		"dev": "concurrently 'pnpm dev:hugo' 'pnpm dev:css'",
+		"dev:css": "tailwindcss -i ./assets/css/tailwind/main.css -o ./assets/css/tailwind/compiled.css -w",
+		"dev:hugo": "hugo server -s exampleSite --renderSegments fast --noHTTPCache --bind 0.0.0.0",
+		"test:versioning": "node tests/versioning.js",
+		"format": "prettier --write --list-different assets data exampleSite i18n layouts scripts",
+		"format:md": "rumdl fmt --include \"**/*.md\"",
+		"format:staged": "lint-staged",
+		"postinstall": "node scripts/post-install.js",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"*.{js,ts,json,md,html,css,yml,yaml}": "prettier --write"
+	},
+	"dependencies": {
+		"pagefind": "^1.5.2"
+	},
+	"devDependencies": {
+		"@ZhenShuo2021/prettier-plugin-go-template": "github:ZhenShuo2021/prettier-plugin-go-template#v0.0.3",
+		"@awmottaz/prettier-plugin-void-html": "^2.0.0",
+		"@fortawesome/fontawesome-free": "^7.3.1",
+		"@mathjax/mathjax-mhchem-font-extension": "^4.1.1",
+		"@mathjax/mathjax-newcm-font": "^4.1.1",
+		"@mathjax/mathjax-tex-font": "^4.1.1",
+		"@mermaid-js/layout-elk": "^0.2.2",
+		"@tailwindcss/cli": "^4.3.2",
+		"@tailwindcss/forms": "^0.5.11",
+		"@tailwindcss/typography": "^0.5.20",
+		"concurrently": "^9.2.1",
+		"cpy": "^13.2.1",
+		"echarts": "^6.0.0",
+		"glob": "^13.0.6",
+		"husky": "^9.1.7",
+		"iconoir": "^7.11.0",
+		"js-yaml": "^4.1.1",
+		"lint-staged": "^17.0.5",
+		"lodash": "^4.18.1",
+		"mathjax": "~4.1.1",
+		"mermaid": "^11.16.0",
+		"photoswipe": "^5.4.4",
+		"prettier": "~3.7.4",
+		"prettier-plugin-tailwindcss": "^0.7.4",
+		"rumdl": "^0.2.55",
+		"svg-toolbelt": "^0.7.0",
+		"tailwindcss": "^4.3.2",
+		"vanilla-cookieconsent": "^3.1.0"
+	},
+	"packageManager": "pnpm@10.33.4+sha512.1c67b3b359b2d408119ba1ed289f34b8fc3c6873412bec6fd264fbdc82489e510fcbecb9ce9d22dae7f3b76269d8441046014bdca53b9979cd7a561ad631b800"
+}

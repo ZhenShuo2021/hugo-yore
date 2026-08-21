@@ -1,0 +1,149 @@
+{{- /* Critical JS */ -}}
+<script>
+(() => {
+	const theme =
+		localStorage.getItem('yore-appearance') ||
+		document.documentElement.getAttribute('data-default-appearance');
+	document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+
+	{{- /* a11y */ -}}
+	{{- if site.Params.accessibilityEnabled -}}
+	const fontSize = localStorage.getItem('yore-a11yFontSize');
+	if (fontSize) document.documentElement.style.fontSize = fontSize;
+	['high-contrast','reduce-motion','reduce-transparency','link-underline'].forEach(k => {
+		if (localStorage.getItem('yore-' + k) === 'true') document.documentElement.setAttribute('data-a11y-' + k, 'true');
+	});
+	{{- end -}}
+})();
+</script> {{- /**/ -}}
+
+{{- /* CSS */ -}}
+{{- partial "head/css.html" . -}}
+
+{{- /* Search */ -}}
+{{- if site.Params.searchEnabled -}}
+	<link
+		href="{{ "pagefind/pagefind-component-ui.css" | relURL }}"
+		rel="stylesheet"
+		media="print"
+		onload="this.media='all'">
+	<script src="{{ "pagefind/pagefind-component-ui.js" | relURL }}" type="module"></script>
+{{- end -}}
+
+{{- /* Additional file, analytics, CSS, JS, ... */ -}}
+{{- if templates.Exists "_partials/extend-head.html" -}}
+	{{- partial "extend-head.html" . -}}
+{{- end -}}
+
+{{- /* Core JS */ -}}
+{{- partial "head/js.html" . -}}
+
+{{- /* Docs Nav */ -}}
+{{- if eq .Type "docs" -}}
+	{{- $jsParams := dict "autoCollapseCategories" (site.Params.docsAutoCollapseCategories | default false) "cookieConsent" (site.Params.cookieConsent.enable | default true) -}}
+	{{- $opts := dict "format" "esm" "minify" hugo.IsProduction "target" hugo.Data.theme.esBuildTarget "params" $jsParams -}}
+	{{- $docsJS := resources.Get "js/docs-nav.js" | js.Build $opts -}}
+	{{- if hugo.IsProduction -}}{{- $docsJS = $docsJS  | fingerprint -}}{{- end -}}
+	<script type="module" src="{{- $docsJS.RelPermalink -}}" integrity="{{- $docsJS.Data.Integrity -}}"></script>
+{{- end -}}
+
+{{- /* PhotoSwipe */ -}}
+{{- if site.Params.imageLightbox | default true -}}
+	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
+	{{- $pswp := resources.Get "js/photoswipe.js" | js.Build $opts -}}
+	{{- if hugo.IsProduction -}}{{- $pswp = $pswp | fingerprint -}}{{- end -}}
+	{{- hugo.Store.Add "swPrecache" (slice $pswp.RelPermalink) -}}
+	<script type="module" src="{{ $pswp.RelPermalink }}" integrity="{{ $pswp.Data.Integrity }}"></script>
+{{- end -}}
+
+{{- /* TypeIt */ -}}
+{{- if .Page.HasShortcode "typeit" -}}
+	<script
+		defer
+		src="{{ hugo.Data.cdn.typeit.src }}"
+		integrity="{{ hugo.Data.cdn.typeit.integrity }}"
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"></script>
+{{- end -}}
+
+{{- /* YouTube Lite */ -}}
+{{- if .Page.HasShortcode "youtube" -}}
+	<link
+		rel="stylesheet"
+		href="{{ hugo.Data.cdn.youtube.css.src }}"
+		integrity="{{ hugo.Data.cdn.youtube.css.integrity }}"
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer">
+	<script
+		defer
+		src="{{ hugo.Data.cdn.youtube.js.src }}"
+		integrity="{{ hugo.Data.cdn.youtube.js.integrity }}"
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"></script>
+{{- end -}}
+
+{{- /* Chart */ -}}
+{{- if .Page.HasShortcode "chart" -}}
+	{{- $echartsJS := resources.Get "lib/echarts/echarts.min.js" | fingerprint -}}
+	<script
+		defer
+		src="{{ $echartsJS.RelPermalink }}"
+		integrity="{{ $echartsJS.Data.Integrity }}"
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"></script>
+{{- end -}}
+
+{{- /* Math */ -}}
+{{- if site.Params.mathEnabled -}}
+	{{- /* trigger hugo.Store.Add:
+		Hugo renders 404 and homepage first, so if mathEnabled is false, math.html
+		may never run before sw-config is built, leaving mathjax out of precache.
+		If mathEnabled is true, trigger partialCached here unconditionally to ensure
+		hugo.Store.Add runs before sw-config captures precacheAssets. Therefore all
+		users has ideal precache.
+	*/}}
+	{{- $noop := partialCached "head/math.html" . "foo" -}}
+{{- end -}}
+{{- if or site.Params.mathEnabled (.Page.HasShortcode "math") .Params.mathEnabled -}}
+	{{- partialCached "head/math.html" . "foo" -}}
+{{- end -}}
+
+{{- /* knowledge-graph */ -}}
+{{- if site.Home.OutputFormats.Get "knowledge-graph" -}}
+	{{- $kg1 := and
+		(eq .Kind "page")
+		(in (slice "bottom" "sidebar") (.Param "pageKgStyle"))
+	-}}
+	{{- $kg2 := eq .Type "graph" -}}
+	{{- if or $kg1 $kg2 -}}
+		{{- partial "knowledge-graph/assets-js.html" . -}}
+	{{- end -}}
+	{{- if $kg2 -}}
+		{{- with resources.Get "css/knowledge-graph/full.css" | minify | fingerprint -}}
+			<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- /* Service worker */ -}}
+{{- define "_partials/inline/sw.html" -}}
+	{{- /* Not available in development server: js.Build erroneously updates
+		jsconfig.json and triggers a site rebuild. Disabled in server mode
+		instead of using noJSConfigInAssets to keep things straightforward.
+	*/}}
+	{{- if and (not hugo.IsServer) site.Params.sw.enable hugo.IsProduction -}}
+		{{- $config := (resources.Get "js/sw/config.json.tmpl" | resources.ExecuteAsTemplate "config" .).Content -}}
+		{{- $swContent := (resources.Get "js/sw/sw.js").Content -}}
+		{{- $inlined := replace $swContent `import config from './sw-config.json';` (printf "const config = %s;" $config) -}}
+		{{- $swJS := $inlined | resources.FromString "sw.js" | minify -}}
+
+		{{- $script := printf `<script defer>
+			if (navigator.serviceWorker) { navigator.serviceWorker.register( "%s", { scope: "%s" } ); }
+			</script>` $swJS.RelPermalink ("." | relURL)
+		-}}
+
+		{{- $resource := resources.FromString "sw-register.html" $script | minify -}}
+		{{- $resource.Content | safeHTML -}}
+	{{- end -}}
+{{- end -}}
+{{- partialCached "inline/sw.html" . "foo" -}}

@@ -1,0 +1,19 @@
+.page-actions {
+	display: none;
+	@media (width > 30rem) {
+		display: block;
+	}
+}
+
+.page-actions__icon-check {
+	transform: scale(0.5) rotate(-15deg);
+	transition:
+		opacity var(--dur-150) ease,
+		transform var(--dur-150) ease;
+}
+
+.page-actions__icon-ellipsis {
+	transition:
+		opacity var(--dur-150) ease,
+		transform var(--dur-150) ease;
+}

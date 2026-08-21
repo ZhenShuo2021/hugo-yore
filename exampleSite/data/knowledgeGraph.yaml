@@ -1,0 +1,10 @@
+full:
+  labelZoomThreshold: 0.25 # Zoom level at which labels start appearing (lower = earlier)
+  labelFontMin: 44
+  nodeRelSize: 16
+  chargeStrength: -3000 # D3 many-body force strength (negative = repulsion) https://d3js.org/d3-force/many-body#manyBody_strength
+  linkDistance: 250 # Ideal distance between linked nodes https://d3js.org/d3-force/link#link_distance
+  graphZoomInit: 0.1 # Initial zoom level when the canvas loads
+  fixedLayout: layered
+widget:
+  graphZoomInit: 0.8

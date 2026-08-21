@@ -1,0 +1,101 @@
+{{- $srcRaw := .Get "src" -}}
+{{- $srcURL := urls.Parse $srcRaw -}}
+{{- $src := "" -}}
+
+{{- if $srcURL.IsAbs -}}
+	{{- $src = $srcURL.String -}}
+{{- else -}}
+	{{- $srcPath := strings.TrimPrefix "/" $srcURL.Path -}}
+	{{- $srcRes := $.Page.Resources.GetMatch $srcPath -}}
+	{{- if not $srcRes }}{{ $srcRes = resources.Get $srcPath }}{{ end -}}
+	{{- if $srcRes -}}
+		{{- $src = $srcRes.RelPermalink -}}
+	{{- else -}}
+		{{- $src = relURL $srcPath -}}
+	{{- end -}}
+{{- end -}}
+
+{{- $poster := "" -}}
+{{- with .Get "poster" -}}
+	{{- $posterURL := urls.Parse . -}}
+	{{- $posterPath := strings.TrimPrefix "/" $posterURL.Path -}}
+	{{- if $posterURL.IsAbs -}}
+		{{- $poster = $posterURL.String -}}
+	{{- else -}}
+		{{- $posterRes := $.Page.Resources.GetMatch $posterPath -}}
+		{{- if not $posterRes }}{{ $posterRes = resources.Get $posterPath }}{{ end -}}
+		{{- if $posterRes -}}
+			{{- $poster = $posterRes.RelPermalink -}}
+		{{- else -}}
+			{{- $poster = relURL $posterPath -}}
+		{{- end -}}
+	{{- end -}}
+{{- else -}}
+	{{- if not $srcURL.IsAbs -}}
+		{{- $baseName := strings.TrimSuffix (path.Base $srcURL.Path) (path.Ext $srcURL.Path) -}}
+		{{- with $.Page.Resources.GetMatch (printf "%s.*" $baseName) -}}
+			{{- if eq .MediaType.MainType "image" }}{{ $poster = .RelPermalink }}{{ end -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- $ratio := replace (strings.TrimSpace (.Get "ratio" | default "1/1")) " " "" -}}
+{{- $ratioStyle := printf "aspect-ratio: %s;" (replace $ratio "/" " / ") -}}
+
+{{- $preload := lower (string (.Get "preload" | default "metadata")) -}}
+
+{{- $fit := lower (string (.Get "fit" | default "contain")) -}}
+{{- $fitMap := dict "contain" "object-contain" "cover" "object-cover" "fill" "object-fill" -}}
+{{- $fitClass := index $fitMap $fit | default "object-contain" -}}
+
+{{- $start := strings.TrimSpace (string (.Get "start")) -}}
+{{- $end := strings.TrimSpace (string (.Get "end")) -}}
+{{- $startOk := findRE `^\d+(\.\d+)?$` $start -}}
+{{- $endOk := findRE `^\d+(\.\d+)?$` $end -}}
+{{- if and $startOk $endOk (ge (float $start) (float $end)) -}}
+	{{- warnf "audio shortcode: start must be < end: %s" .Position -}}
+	{{- $startOk = false -}}
+	{{- $endOk = false -}}
+{{- end -}}
+
+{{- $timeParam := "" -}}
+{{- if and $startOk $endOk }}
+	{{ $timeParam = printf "t=%s,%s" $start $end -}}
+{{- else if $startOk }}
+	{{ $timeParam = printf "t=%s" $start -}}
+{{- else if $endOk }}
+	{{ $timeParam = printf "t=,%s" $end -}}
+{{- end -}}
+
+{{- $srcWithTime := $src -}}
+{{- if $timeParam -}}
+	{{- $separator := cond (strings.Contains $src "#") "&" "#" -}}
+	{{- $srcWithTime = printf "%s%s%s" $src $separator $timeParam -}}
+{{- end -}}
+
+{{- /* prettier-ignore-start */ -}}
+<figure class="w-full">
+	<div class="relative">
+		{{- if $poster }}
+		<img
+			class="{{ $fitClass }} w-full"
+			style="{{ $ratioStyle | safeCSS }}"
+			src="{{ $poster }}"
+			alt="{{ .Get "alt" }}"
+			loading="lazy">
+		{{- end }}
+		<audio
+			class="w-full"
+			loading="lazy"
+			preload="{{ $preload }}"
+			{{- if .Get `autoplay` }} autoplay{{ end }}
+			{{- if .Get `loop` }} loop{{ end }}
+			{{- if .Get `muted` }} muted{{ end }}
+			{{- if ne (.Get "controls") false }} controls{{ end }}>
+			<source src="{{ $srcWithTime }}">
+			<p>Your browser cannot play this audio. <a href="{{ $src }}">Download audio</a>.</p>
+		</audio>
+	</div>
+	{{- with .Get "caption" }}<figcaption>{{ . | markdownify }}</figcaption>{{ end -}}
+</figure>
+{{- /* prettier-ignore-end */ -}}

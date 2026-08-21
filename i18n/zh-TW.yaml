@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: 外部連結
+a11y_panel:
+  close: 關閉無障礙面板
+  decrease_font_size: 縮小字體
+  font_size: 字體大小
+  high_contrast: 高對比
+  increase_font_size: 放大字體
+  reduce_motion: 減少動態效果
+  reduce_transparency: 降低透明度
+  show_link_underline: 顯示連結底線
+  title: 無障礙設定
+admonition:
+  abstract: 摘要
+  bug: 錯誤
+  caution: 注意
+  danger: 危險
+  example: 範例
+  failure: 失敗
+  important: 重要
+  info: 資訊
+  note: 註記
+  question: 問題
+  quote: 引用
+  success: 成功
+  tip: 提示
+  todo: 待辦
+  warning: 警告
+article:
+  backlinks_title: 反向連結
+  date: 首次發表：
+  date_updated: 最後更新：
+  kg_title: 文章關聯
+  more_articles: 更多文章
+  next: 下一篇
+  on_this_page: 本頁內容
+  previous: 上一篇
+  published_date: 發布日期
+  related_articles: 相關文章
+  series: 系列文章：
+code:
+  copied: 已複製
+  copy: 複製
+docs:
+  nav_label: 文件
+  next: 下一頁
+  prev: 上一頁
+  sidebar_label: 文件
+  source_files: 相關源碼
+  toc_label: 目錄
+  toc_nav_label: 本頁目錄
+error:
+  404_description: 您在尋找的頁面似乎不存在。
+  404_title: '找不到網頁 :confused:'
+footer:
+  powered_by: 由 {{ .Theme }} 製作
+nav:
+  accessibility_panel: 開啟無障礙面板
+  breadcrumb: 麵包屑導覽
+  change_language: 切換語言
+  close_mobile_menu: 關閉手機選單
+  footer_navigation: 頁尾導覽
+  main_navigation: 主導覽選單
+  scroll_to_top_title: 捲動到頁頂
+  search: 搜尋
+  skip_to_main: 快轉到主要內容
+  switch_version: 切換版本
+  toggle_dark_mode: 切換深色模式
+  toggle_mobile_menu: 切換手機選單
+page_actions:
+  actions: 操作選單
+  copy_markdown: 複製 Markdown
+  copy_url: 複製連結
+  edit_this_page: 編輯此頁
+  view_source: 查看原始碼
+quick_reference: 快速參考
+random:
+  choosing: 正在挑選一篇值得一讀的文章
+  js_required: 隨機跳轉功能需要啟用 JavaScript。
+  no_posts: 目前沒有可跳轉的文章。
+  redirecting: 跳轉中…
+  taking_you_there: 正在帶你前往…
+  untitled: 未命名
+recent:
+  show_more: 顯示更多
+search:
+  close_button_title: 關閉 (Esc)
+  input_placeholder: 搜尋
+  no_result: 搜尋結果不存在：
+  open_button_title: 搜尋 (/)
+shortcode:
+  recent_articles: 最近的文章
+stale_warning:
+  'text:': 這篇文章已經有一段時間沒有更新，部分內容可能已經過時。

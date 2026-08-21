@@ -1,0 +1,6 @@
+{{- $id := .Get "id" -}}
+{{- $params := .Get "params" -}}
+
+{{- with $id -}}
+	<lite-youtube videoid="{{ $id }}" playlabel="Youtube video" params="{{ $params }}"></lite-youtube>
+{{- end -}}

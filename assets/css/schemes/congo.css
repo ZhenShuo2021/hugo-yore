@@ -1,0 +1,37 @@
+html[data-color-scheme='congo'] {
+	--clr-neutral-50: oklch(98.2% 0.002 270);
+	--clr-neutral-100: oklch(96.8% 0.003 268);
+	--clr-neutral-200: oklch(92.5% 0.005 266);
+	--clr-neutral-300: oklch(87.8% 0.007 264);
+	--clr-neutral-400: oklch(71.2% 0.008 262);
+	--clr-neutral-500: oklch(56.5% 0.009 260);
+	--clr-neutral-600: oklch(45.8% 0.008 258);
+	--clr-neutral-700: oklch(38.5% 0.007 256);
+	--clr-neutral-800: oklch(28.8% 0.006 254);
+	--clr-neutral-900: oklch(21.5% 0.005 252);
+	--clr-neutral-950: oklch(15.2% 0.003 250);
+
+	--clr-accent-50: oklch(94.8% 0.025 38);
+	--clr-accent-100: oklch(89.5% 0.058 36);
+	--clr-accent-200: oklch(81.2% 0.105 34);
+	--clr-accent-300: oklch(71.5% 0.155 32);
+	--clr-accent-400: oklch(61.2% 0.198 30);
+	--clr-accent-500: oklch(53.8% 0.228 28);
+	--clr-accent-600: oklch(47.5% 0.242 26);
+	--clr-accent-700: oklch(42.5% 0.232 24);
+	--clr-accent-800: oklch(38.2% 0.205 22);
+	--clr-accent-900: oklch(34.8% 0.172 20);
+	--clr-accent-950: oklch(29.2% 0.135 18);
+
+	--clr-brand-50: oklch(97.8% 0.022 320);
+	--clr-brand-100: oklch(95.2% 0.048 318);
+	--clr-brand-200: oklch(90.5% 0.095 316);
+	--clr-brand-300: oklch(84.2% 0.148 314);
+	--clr-brand-400: oklch(76.8% 0.205 312);
+	--clr-brand-500: oklch(68.5% 0.252 310);
+	--clr-brand-600: oklch(60.2% 0.265 308);
+	--clr-brand-700: oklch(52.8% 0.248 306);
+	--clr-brand-800: oklch(46.5% 0.215 304);
+	--clr-brand-900: oklch(41.2% 0.178 302);
+	--clr-brand-950: oklch(32.8% 0.135 300);
+}

@@ -1,0 +1,12 @@
+{{- $mx := cond (eq (.Param "blogLayout") "3-col") "mx-2" "" -}}
+{{- $top := cond (eq site.Params.headerLayout "static") "top-5" "top-25" -}}
+<aside
+	class="sidebar-right toc-sidebar {{ $top }} {{ $mx }} scrollbar-mask sticky self-start overflow-auto"
+	aria-label="{{ i18n "article.on_this_page" | default "On This Page" }}">
+	{{- if eq (.Param "pageKgStyle") "sidebar" -}}
+		<div class="me-2 print:hidden">{{ partial "knowledge-graph/widget.html" . }}</div>
+	{{- end -}}
+	<div class="border-sidebar-border text-sidebar-foreground border-s px-2 text-sm [&_ul]:list-none">
+		{{- .TableOfContents -}}
+	</div>
+</aside>

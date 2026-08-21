@@ -1,0 +1,17 @@
+{{- $src := .Get "src" -}}
+{{- $page := .Get "page" -}}
+{{- $height := .Get "height" | default "800px" -}}
+{{- $u := "" -}}
+{{- with .Page.Resources.GetMatch $src -}}
+	{{- $u = .RelPermalink -}}
+{{- else with resources.GetMatch $src -}}
+	{{- $u = .RelPermalink -}}
+{{- else -}}
+	{{- $u = $src -}}
+{{- end -}}
+{{- if $page -}}
+	{{- $u = printf "%s#page=%v" $u $page -}}
+{{ end -}}
+<div class="pdf-embed">
+	<iframe src="{{ $u }}" title="PDF embed" width="100%" height="{{ $height }}" loading="lazy"></iframe>
+</div>

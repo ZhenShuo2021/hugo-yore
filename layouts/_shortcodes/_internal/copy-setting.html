@@ -1,0 +1,102 @@
+{{- $copy := resources.Get "/icons/iconoir/regular/copy.svg" -}}
+{{- $check := resources.Get "/icons/iconoir/regular/check.svg" -}}
+<style>
+	.main-setting-copy-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		border-radius: 0.375rem;
+		background-color: var(--primary);
+		color: var(--background);
+		padding: 0.5rem 1rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition:
+			background-color var(--dur-200),
+			color var(--dur-200),
+			border-color var(--dur-200);
+	}
+	.main-setting-copy-btn:hover {
+		background-color: oklch(from var(--primary) l c h / 0.9);
+	}
+	.main-setting-copy-btn[data-copied='true'] {
+		background-color: var(--success);
+		color: var(--primary-foreground);
+		border-color: var(--success);
+	}
+	.main-setting-copy-btn svg {
+		width: 1rem;
+		height: 1rem;
+		flex-shrink: 0;
+	}
+	.main-setting-copy-btn .icon-check {
+		display: none;
+	}
+	.main-setting-copy-btn[data-copied='true'] .icon-copy {
+		display: none;
+	}
+	.main-setting-copy-btn[data-copied='true'] .icon-check {
+		display: inline-flex;
+	}
+</style>
+<button type="button" class="main-setting-copy-btn not-prose" id="copy-main-setting-btn">
+	<span class="icon-copy" aria-hidden="true">{{ $copy.Content | safeHTML }}</span>
+	<span class="icon-check" aria-hidden="true">{{ $check.Content | safeHTML }}</span>
+	<span class="copy-btn-label">{{ i18n `code.copy` | default `Copy` }}</span>
+</button>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const btn = document.getElementById('copy-main-setting-btn');
+		if (!btn) return;
+		const label = btn.querySelector('.copy-btn-label');
+		const defaultCopyText = label.textContent;
+		const defaultCopiedText = document.documentElement.getAttribute('data-copied-text') ?? 'Copied';
+		function legacyCopyCode(text) {
+			const textarea = document.createElement('textarea');
+			textarea.value = text;
+			textarea.setAttribute('readonly', '');
+			textarea.style.position = 'absolute';
+			textarea.style.left = '-9999px';
+			document.body.appendChild(textarea);
+			textarea.select();
+			document.execCommand('copy');
+			document.body.removeChild(textarea);
+		}
+		function extractText(highlightDiv) {
+			const codeElement = highlightDiv.querySelector('code');
+			if (!codeElement) return '';
+			const inlineLines = codeElement.querySelectorAll('.cl');
+			if (inlineLines.length) {
+				return Array.from(inlineLines)
+					.map((line) => line.textContent.replace(/\n$/, ''))
+					.join('\n');
+			}
+			const tableCode = highlightDiv.querySelector('.lntable .lntd:last-child code');
+			return tableCode ? tableCode.textContent.trim() : codeElement.textContent.trim();
+		}
+		btn.addEventListener('click', async function () {
+			const target = document.getElementById('main-setting');
+			if (!target) return;
+			const highlightDiv = target.querySelector('.highlight') || target;
+			const text = extractText(highlightDiv);
+			if (!text) return;
+			try {
+				if (navigator.clipboard && window.isSecureContext) {
+					await navigator.clipboard.writeText(text);
+				} else {
+					legacyCopyCode(text);
+				}
+				btn.dataset.copied = 'true';
+				label.textContent = defaultCopiedText;
+				setTimeout(function () {
+					btn.dataset.copied = 'false';
+					label.textContent = defaultCopyText;
+				}, 2000);
+			} catch (err) {
+				legacyCopyCode(text);
+			}
+		});
+	});
+</script>

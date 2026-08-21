@@ -1,0 +1,33 @@
+{{- $label := .Get "label" -}}
+{{- $icon := .Get "icon" -}}
+
+{{- $iconHTML := "" -}}
+{{- with $icon -}}
+	{{- $iconHTML = partial "components/icon.html" . -}}
+{{- end -}}
+
+{{- $tabs := .Parent.Store.Get "tabs" | default slice -}}
+{{- .Parent.Store.Set "tabs" ($tabs | append (dict "label" $label "icon" $iconHTML)) -}}
+
+{{- $index := len $tabs -}}
+
+{{- $default := .Parent.Get "default" -}}
+{{- $isActive := false -}}
+{{- if $default -}}
+	{{- $isActive = eq $default $label -}}
+{{- else -}}
+	{{- $isActive = eq $index 0 -}}
+{{- end -}}
+
+{{- $title := .Get "title" -}}
+{{- if $title -}}
+	{{- warnf "tab shortcode: 'title' is not a valid parameter. Did you mean 'label'? %s" .Position -}}
+{{- end -}}
+
+
+<div
+	class="tab__panel {{ cond $isActive `tab--active` `` }}"
+	data-tab-index="{{ $index }}"
+	data-tab-label="{{ $label }}">
+	{{- .Inner -}}
+</div>

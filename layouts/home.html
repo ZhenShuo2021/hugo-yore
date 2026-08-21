@@ -1,0 +1,22 @@
+{{- define "main" -}}
+	{{- /* BG */ -}}
+	{{- $homepageImage := "" -}}
+	{{- with site.Params.homepageImage -}}
+		{{- if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") -}}
+			{{- $homepageImage = resources.GetRemote . -}}
+		{{- else -}}
+			{{- $homepageImage = resources.Get . -}}
+		{{- end -}}
+	{{- end -}}
+	{{- .Store.Set "homepageImage" $homepageImage -}}
+
+
+	<main id="main-content">
+		{{- if site.Params.homepageLayout -}}
+			{{- partial (printf "home/%s.html" site.Params.homepageLayout) . -}}
+		{{- else -}}
+			{{- warnf "homepageLayout not set, defaulting to classic" -}}
+			{{- partial "home/classic.html" . -}}
+		{{- end -}}
+	</main>
+{{- end -}}

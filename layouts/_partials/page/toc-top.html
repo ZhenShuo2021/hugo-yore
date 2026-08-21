@@ -1,0 +1,11 @@
+{{- $tocStyle := .Store.Get "tocStyle" -}}
+<nav
+	class="{{ cond (eq $tocStyle `sidebar`) `md:hidden` `` }} toc-top w-full"
+	aria-label="{{ i18n "article.on_this_page" | default "On This Page" }}">
+	<h2 class="text-foreground mt-4! mb-4 flex items-center gap-2 text-2xl!">
+		{{- i18n "article.on_this_page" | default "On This Page" -}}
+	</h2>
+	<div class="text-foreground ps-7">
+		{{- .TableOfContents -}}
+	</div>
+</nav>

@@ -1,0 +1,25 @@
+name: Feature Request
+description: Suggest an idea for this project
+labels: ['enhancement']
+body:
+  - type: checkboxes
+    id: issue-check
+    attributes:
+      label: Issue Check
+      options:
+        - label: I have checked existing Issues and I feel this feature request has not been raised
+          required: true
+  - type: textarea
+    id: describe-feature
+    attributes:
+      label: Describe the Feature
+      description: A clear and concise description of what the feature is.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe the solution you'd like
+      description: A clear and concise description of what you want to happen.
+    validations:
+      required: true

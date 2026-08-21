@@ -1,0 +1,29 @@
+{{- /* layouts/shortcodes/admonition.html */ -}}
+{{- $maps := partialCached "impls/hooks/admonition-maps.html" "foo" -}}
+{{- $typeMap := $maps.typeMap -}}
+
+{{- $rawType := .Get "type" | default "note" | lower -}}
+{{- $normalizedType := index $typeMap $rawType -}}
+{{- if not $normalizedType -}}
+	{{- warnf "admonition shortcode: %s is not a valid admonition type: %s" $rawType .Position -}}
+	{{- $normalizedType = $rawType -}}
+{{- end -}}
+
+{{- $sign := .Get "sign" | default "" -}}
+{{- $title := .Get "title" | default "" -}}
+
+{{- $attrs := dict -}}
+{{- with .Get "icon" -}}
+	{{- $attrs = merge $attrs (dict "icon" .) -}}
+{{- end -}}
+
+{{- $text := .Inner -}}
+
+{{- $d := dict
+	"AlertTitle" $title
+	"AlertType" $normalizedType
+	"AlertSign" $sign
+	"Attributes" $attrs
+	"Text" $text
+-}}
+{{- partial "components/admonition.html" $d -}}

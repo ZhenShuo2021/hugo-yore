@@ -1,0 +1,66 @@
+<main id="main-content" class="docs-content mb-16 min-w-0 flex-1 px-4 md:ps-12 md:pe-16">
+	{{- partial "inline/docs-content-header.html" . -}}
+
+	{{- with .Content -}}
+		<article class="prose dark:prose-invert mb-10 w-full max-w-none">
+			{{- . -}}
+		</article>
+	{{- end -}}
+
+	{{- $pages := cond (eq (.Param "listScope" | default "section") "site") site.RegularPages .Pages -}}
+	{{- $grouped := partial "inline/section-group-pages" (dict "pages" $pages "ctx" .Page) -}}
+
+	{{- if $grouped -}}
+		{{- range $grouped -}}
+			{{- $groupPages := partial "inline/section-sort-pages" (dict "pages" .Pages "ctx" $.Page) -}}
+			<div class="mb-12">
+				<h2 class="text-foreground mb-4 text-2xl font-medium">{{ .Key }}</h2>
+				<div class="flex flex-col gap-y-2">
+					{{- range $groupPages -}}
+						{{- partial "inline/docs/section-page-item" . -}}
+					{{- end -}}
+				</div>
+			</div>
+		{{- end -}}
+	{{- else -}}
+		{{- $sorted := partial "inline/section-sort-pages" (dict "pages" $pages "ctx" $.Page) -}}
+		{{- if $sorted -}}
+			<div class="flex flex-col gap-y-2">
+				{{- range $sorted -}}
+					{{- partial "inline/docs/section-page-item" . -}}
+				{{- end -}}
+			</div>
+		{{- end -}}
+	{{- end -}}
+</main>
+
+{{- define "_partials/inline/docs/section-page-item" -}}
+	{{- if or .Params.pageNoList -}}
+	{{- else -}}
+		{{- $externalURL := .Param "link" -}}
+		<section class="flex items-center text-lg">
+			<a
+				{{ with $externalURL -}}
+					href="{{ . }}" target="_blank" rel="noopener"
+				{{- else with .RelPermalink -}}
+					href="{{ . }}"
+				{{- end }}
+				class="text-foreground hover:text-link-hover inline-flex items-center transition-colors">
+				{{- .Title -}}
+				{{- if .IsNode -}}
+					<span class="ms-1 leading-none">
+						{{- partialCached "components/icon.html" "folder" "icon-folder" -}}
+					</span>
+				{{- end -}}
+				{{- if $externalURL -}}
+					<span class="sr-only">
+						{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+					</span>
+					<span class="ms-1 shrink-0 leading-none">
+						{{- partialCached "components/icon.html" "yore/external" "icon-yore/external" -}}
+					</span>
+				{{- end -}}
+			</a>
+		</section>
+	{{- end -}}
+{{- end -}}

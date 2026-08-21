@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: externer Link
+a11y_panel:
+  close: Barrierefreiheits-Panel schließen
+  decrease_font_size: Schriftgröße verkleinern
+  font_size: Schriftgröße
+  high_contrast: Hoher Kontrast
+  increase_font_size: Schriftgröße vergrößern
+  reduce_motion: Bewegung reduzieren
+  reduce_transparency: Transparenz reduzieren
+  show_link_underline: Links unterstreichen
+  title: Einstellungen zur Barrierefreiheit
+admonition:
+  abstract: Zusammenfassung
+  bug: Fehler
+  caution: Vorsicht
+  danger: Gefahr
+  example: Beispiel
+  failure: Fehlschlag
+  important: Wichtig
+  info: Info
+  note: Hinweis
+  question: Frage
+  quote: Zitat
+  success: Erfolg
+  tip: Tipp
+  todo: Zu erledigen
+  warning: Warnung
+article:
+  backlinks_title: Rückverweise
+  date: '{{ .Date }}'
+  date_updated: 'Aktualisiert: {{ .Date }}'
+  kg_title: Artikelverbindungen
+  more_articles: Weitere Artikel
+  next: Nächster
+  on_this_page: Auf dieser Seite
+  previous: Vorheriger
+  published_date: Veröffentlichungsdatum
+  related_articles: Verwandte Artikel
+  series: Dieser Artikel ist Teil einer Serie.
+code:
+  copied: Kopiert
+  copy: Kopieren
+docs:
+  nav_label: Dokumentation
+  next: Weiter
+  prev: Zurück
+  sidebar_label: Dokumentation
+  source_files: Quellcode
+  toc_label: Inhaltsverzeichnis
+  toc_nav_label: Seiteninhalt
+error:
+  404_description: Es sieht so aus, als ob es diese Seite nicht gibt.
+  404_title: 'Seite nicht gefunden :confused:'
+footer:
+  powered_by: Powered by {{ .Theme }}
+nav:
+  accessibility_panel: Barrierefreiheits-Panel öffnen
+  breadcrumb: Brotkrümelnavigation
+  change_language: Sprache ändern
+  close_mobile_menu: Mobiles Menü schließen
+  footer_navigation: Fußzeilennavigation
+  main_navigation: Hauptnavigation
+  scroll_to_top_title: Zum Anfang scrollen
+  search: Suche
+  skip_to_main: Zum Hauptinhalt springen
+  switch_version: Version wechseln
+  toggle_dark_mode: Dunkelmodus umschalten
+  toggle_mobile_menu: Mobiles Menü umschalten
+page_actions:
+  actions: Aktionen
+  copy_markdown: Markdown kopieren
+  copy_url: URL kopieren
+  edit_this_page: Diese Seite bearbeiten
+  view_source: Quellcode anzeigen
+quick_reference: Schnellreferenz
+random:
+  choosing: Wähle einen lesenswerten Beitrag aus
+  js_required: Für die zufällige Weiterleitung wird JavaScript benötigt.
+  no_posts: Keine Beiträge zum Weiterleiten verfügbar.
+  redirecting: Weiterleitung…
+  taking_you_there: Du wirst weitergeleitet…
+  untitled: Ohne Titel
+recent:
+  show_more: Mehr anzeigen
+search:
+  close_button_title: Schließen (Esc)
+  input_placeholder: Suchen
+  no_result: Keine Ergebnisse
+  open_button_title: Suche (/)
+shortcode:
+  recent_articles: Neue Beiträge
+stale_warning:
+  'text:': Dieser Artikel wurde länger nicht aktualisiert, einige Angaben könnten daher veraltet sein.

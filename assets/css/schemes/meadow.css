@@ -1,0 +1,37 @@
+html[data-color-scheme='meadow'] {
+	--clr-neutral-50: oklch(98.2% 0.014 110);
+	--clr-neutral-100: oklch(95.8% 0.016 109);
+	--clr-neutral-200: oklch(91.5% 0.018 108);
+	--clr-neutral-300: oklch(85% 0.02 107);
+	--clr-neutral-400: oklch(73.5% 0.022 106);
+	--clr-neutral-500: oklch(61.5% 0.024 105);
+	--clr-neutral-600: oklch(50.5% 0.022 104);
+	--clr-neutral-700: oklch(41.5% 0.02 104);
+	--clr-neutral-800: oklch(33% 0.016 103);
+	--clr-neutral-900: oklch(26% 0.012 103);
+	--clr-neutral-950: oklch(19.5% 0.01 103);
+
+	--clr-accent-50: oklch(96.8% 0.018 152);
+	--clr-accent-100: oklch(93.8% 0.038 151);
+	--clr-accent-200: oklch(88.5% 0.068 150);
+	--clr-accent-300: oklch(81% 0.098 149);
+	--clr-accent-400: oklch(71% 0.128 148);
+	--clr-accent-500: oklch(59% 0.148 147);
+	--clr-accent-600: oklch(49% 0.132 147);
+	--clr-accent-700: oklch(40.5% 0.108 146);
+	--clr-accent-800: oklch(32.5% 0.082 146);
+	--clr-accent-900: oklch(26% 0.055 145);
+	--clr-accent-950: oklch(19.5% 0.034 145);
+
+	--clr-brand-50: oklch(96.5% 0.018 318);
+	--clr-brand-100: oklch(93% 0.038 317);
+	--clr-brand-200: oklch(87.5% 0.068 316);
+	--clr-brand-300: oklch(80% 0.1 315);
+	--clr-brand-400: oklch(70% 0.138 314);
+	--clr-brand-500: oklch(59.5% 0.168 313);
+	--clr-brand-600: oklch(49.5% 0.152 312);
+	--clr-brand-700: oklch(41% 0.124 312);
+	--clr-brand-800: oklch(33% 0.094 311);
+	--clr-brand-900: oklch(26.5% 0.064 310);
+	--clr-brand-950: oklch(19.8% 0.04 310);
+}

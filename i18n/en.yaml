@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: external link
+a11y_panel:
+  close: Close accessibility panel
+  decrease_font_size: Decrease font size
+  font_size: Font size
+  high_contrast: High contrast
+  increase_font_size: Increase font size
+  reduce_motion: Reduce motion
+  reduce_transparency: Reduce transparency
+  show_link_underline: Show link underline
+  title: Accessibility settings
+admonition:
+  abstract: Abstract
+  bug: Bug
+  caution: Caution
+  danger: Danger
+  example: Example
+  failure: Failure
+  important: Important
+  info: Info
+  note: Note
+  question: Question
+  quote: Quote
+  success: Success
+  tip: Tip
+  todo: Todo
+  warning: Warning
+article:
+  backlinks_title: Backlinks
+  date: 'Published:'
+  date_updated: 'Updated:'
+  kg_title: Article Connections
+  more_articles: More Articles
+  next: Next
+  on_this_page: On this page
+  previous: Previous
+  published_date: Published date
+  related_articles: Related
+  series: 'Series: '
+code:
+  copied: Copied
+  copy: Copy
+docs:
+  nav_label: Documentation
+  next: Next
+  prev: Previous
+  sidebar_label: Documentation
+  source_files: Source Code
+  toc_label: Table of contents
+  toc_nav_label: On this page
+error:
+  404_description: It seems that the page you've requested does not exist.
+  404_title: 'Page Not Found :confused:'
+footer:
+  powered_by: Powered by {{ .Theme }}
+nav:
+  accessibility_panel: Open accessibility panel
+  breadcrumb: Breadcrumb navigation
+  change_language: Change language
+  close_mobile_menu: Close mobile menu
+  footer_navigation: Footer navigation
+  main_navigation: Main navigation
+  scroll_to_top_title: Scroll to top
+  search: Search
+  skip_to_main: Skip to main content
+  switch_version: Switch version
+  toggle_dark_mode: Toggle dark mode
+  toggle_mobile_menu: Toggle mobile menu
+page_actions:
+  actions: Actions
+  copy_markdown: Copy Markdown
+  copy_url: Copy URL
+  edit_this_page: Edit this page
+  view_source: View Source
+quick_reference: Quick reference
+random:
+  choosing: Choosing something worth reading
+  js_required: JavaScript is required for the random redirect.
+  no_posts: No posts available to jump to.
+  redirecting: Redirecting…
+  taking_you_there: Taking you there…
+  untitled: Untitled
+recent:
+  show_more: Show more
+search:
+  close_button_title: Close (Esc)
+  input_placeholder: Search
+  no_result: No results
+  open_button_title: Search (/)
+shortcode:
+  recent_articles: Recent
+stale_warning:
+  'text:': This article has not been updated in a while and some information may be outdated.

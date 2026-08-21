@@ -1,0 +1,96 @@
+a11y:
+  opens_external_link: enlace externo
+a11y_panel:
+  close: Cerrar panel de accesibilidad
+  decrease_font_size: Reducir tamaño de fuente
+  font_size: Tamaño de fuente
+  high_contrast: Alto contraste
+  increase_font_size: Aumentar tamaño de fuente
+  reduce_motion: Reducir movimiento
+  reduce_transparency: Reducir transparencia
+  show_link_underline: Mostrar subrayado de enlaces
+  title: Ajustes de accesibilidad
+admonition:
+  abstract: Resumen
+  bug: Error
+  caution: Precaución
+  danger: Peligro
+  example: Ejemplo
+  failure: Fallo
+  important: Importante
+  info: Información
+  note: Nota
+  question: Pregunta
+  quote: Cita
+  success: Éxito
+  tip: Consejo
+  todo: Por hacer
+  warning: Advertencia
+article:
+  backlinks_title: Enlaces entrantes
+  date: '{{ .Date }}'
+  date_updated: 'Actualizado: {{ .Date }}'
+  kg_title: Conexiones de artículos
+  more_articles: Más artículos
+  next: Siguiente
+  on_this_page: En esta página
+  previous: Anterior
+  published_date: Fecha de publicación
+  related_articles: Relacionados
+  series: Este artículo es parte de una serie.
+code:
+  copied: Copiado
+  copy: Copiar
+docs:
+  nav_label: Documentación
+  next: Siguiente
+  prev: Anterior
+  sidebar_label: Documentación
+  source_files: Código fuente
+  toc_label: Tabla de contenidos
+  toc_nav_label: En esta página
+error:
+  404_description: Parece que la página que solicitaste no existe.
+  404_title: 'Página no encontrada :confused:'
+footer:
+  powered_by: Desarrollado por {{ .Theme }}
+nav:
+  accessibility_panel: Abrir panel de accesibilidad
+  breadcrumb: Ruta de navegación
+  change_language: Cambiar idioma
+  close_mobile_menu: Cerrar menú móvil
+  footer_navigation: Navegación del pie de página
+  main_navigation: Navegación principal
+  scroll_to_top_title: Ir arriba
+  search: Buscar
+  skip_to_main: Ir al contenido
+  switch_version: Cambiar versión
+  toggle_dark_mode: Alternar modo oscuro
+  toggle_mobile_menu: Alternar menú móvil
+page_actions:
+  actions: Acciones
+  copy_markdown: Copiar Markdown
+  copy_url: Copiar URL
+  edit_this_page: Editar esta página
+  view_source: Ver fuente
+quick_reference: Referencia rápida
+random:
+  choosing: Eligiendo algo que vale la pena leer
+  js_required: Se requiere JavaScript para la redirección aleatoria.
+  no_posts: No hay artículos disponibles para redirigir.
+  redirecting: Redirigiendo…
+  taking_you_there: Te estamos redirigiendo…
+  untitled: Sin título
+recent:
+  show_more: Mostrar más
+search:
+  close_button_title: Cerrar (Esc)
+  input_placeholder: Buscar
+  no_result: Sin resultados
+  open_button_title: Buscar (/)
+shortcode:
+  recent_articles: Reciente
+stale_warning:
+  'text:':
+    Este artículo no se ha actualizado en un tiempo, por lo que parte de la información podría estar
+    desactualizada.

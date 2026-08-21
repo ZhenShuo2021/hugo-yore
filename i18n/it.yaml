@@ -1,0 +1,95 @@
+a11y:
+  opens_external_link: link esterno
+a11y_panel:
+  close: Chiudi pannello di accessibilità
+  decrease_font_size: Riduci dimensione carattere
+  font_size: Dimensione del carattere
+  high_contrast: Contrasto elevato
+  increase_font_size: Aumenta dimensione carattere
+  reduce_motion: Riduci movimento
+  reduce_transparency: Riduci trasparenza
+  show_link_underline: Mostra sottolineatura link
+  title: Impostazioni di accessibilità
+admonition:
+  abstract: Sommario
+  bug: Bug
+  caution: Attenzione
+  danger: Pericolo
+  example: Esempio
+  failure: Errore
+  important: Importante
+  info: Informazioni
+  note: Nota
+  question: Domanda
+  quote: Citazione
+  success: Successo
+  tip: Suggerimento
+  todo: Da fare
+  warning: Avviso
+article:
+  backlinks_title: Backlink
+  date: '{{ .Date }}'
+  date_updated: 'Aggiornato: {{ .Date }}'
+  kg_title: Connessioni articoli
+  more_articles: Altri articoli
+  next: Successivo
+  on_this_page: In questa pagina
+  previous: Precedente
+  published_date: Data di pubblicazione
+  related_articles: Articoli correlati
+  series: Questo articolo fa parte di una serie.
+code:
+  copied: Copiato
+  copy: Copia
+docs:
+  nav_label: Documentazione
+  next: Successivo
+  prev: Precedente
+  sidebar_label: Documentazione
+  source_files: Codice sorgente
+  toc_label: Indice
+  toc_nav_label: In questa pagina
+error:
+  404_description: Sembra che la pagina che hai richiesto non esista.
+  404_title: 'Pagina non trovata :confused:'
+footer:
+  powered_by: Realizzato con {{ .Theme }}
+nav:
+  accessibility_panel: Apri pannello di accessibilità
+  breadcrumb: Percorso di navigazione
+  change_language: Cambia lingua
+  close_mobile_menu: Chiudi menu mobile
+  footer_navigation: Navigazione del footer
+  main_navigation: Navigazione principale
+  scroll_to_top_title: Torna in cima
+  search: Cerca
+  skip_to_main: Salta al contenuto principale
+  switch_version: Cambia versione
+  toggle_dark_mode: Attiva/disattiva modalità scura
+  toggle_mobile_menu: Attiva/disattiva menu mobile
+page_actions:
+  actions: Azioni
+  copy_markdown: Copia Markdown
+  copy_url: Copia URL
+  edit_this_page: Modifica questa pagina
+  view_source: Visualizza sorgente
+quick_reference: Riferimento rapido
+random:
+  choosing: Sto scegliendo qualcosa che vale la pena leggere
+  js_required: È necessario JavaScript per il reindirizzamento casuale.
+  no_posts: Nessun articolo disponibile per il reindirizzamento.
+  redirecting: Reindirizzamento…
+  taking_you_there: Ti sto reindirizzando…
+  untitled: Senza titolo
+recent:
+  show_more: Mostra altro
+search:
+  close_button_title: Chiudi (Esc)
+  input_placeholder: Cerca
+  no_result: Nessun risultato
+  open_button_title: Cerca (/)
+shortcode:
+  recent_articles: Recenti
+stale_warning:
+  'text:':
+    'Questo articolo non viene aggiornato da tempo: alcune informazioni potrebbero non essere più valide.'

@@ -1,0 +1,37 @@
+html[data-color-scheme='wood'] {
+	--clr-neutral-50: oklch(96.5% 0.018 65);
+	--clr-neutral-100: oklch(93.8% 0.022 64);
+	--clr-neutral-200: oklch(88.5% 0.028 63);
+	--clr-neutral-300: oklch(81.2% 0.032 62);
+	--clr-neutral-400: oklch(69.8% 0.035 61);
+	--clr-neutral-500: oklch(58.5% 0.038 60);
+	--clr-neutral-600: oklch(48.2% 0.035 59);
+	--clr-neutral-700: oklch(40.5% 0.032 58);
+	--clr-neutral-800: oklch(32.8% 0.028 57);
+	--clr-neutral-900: oklch(26.5% 0.024 56);
+	--clr-neutral-950: oklch(19.8% 0.02 55);
+
+	--clr-brand-50: oklch(97.2% 0.01 145);
+	--clr-brand-100: oklch(94.5% 0.018 144);
+	--clr-brand-200: oklch(89% 0.038 143);
+	--clr-brand-300: oklch(82% 0.062 142);
+	--clr-brand-400: oklch(71.5% 0.086 141);
+	--clr-brand-500: oklch(59.5% 0.108 140);
+	--clr-brand-600: oklch(49.5% 0.094 140);
+	--clr-brand-700: oklch(41.5% 0.076 140);
+	--clr-brand-800: oklch(33.5% 0.058 140);
+	--clr-brand-900: oklch(27% 0.04 140);
+	--clr-brand-950: oklch(20.5% 0.026 140);
+
+	--clr-accent-50: oklch(97.5% 0.012 82);
+	--clr-accent-100: oklch(95% 0.024 81);
+	--clr-accent-200: oklch(90% 0.048 80);
+	--clr-accent-300: oklch(84% 0.082 79);
+	--clr-accent-400: oklch(77.5% 0.116 78);
+	--clr-accent-500: oklch(71% 0.148 77);
+	--clr-accent-600: oklch(61% 0.128 76);
+	--clr-accent-700: oklch(51% 0.102 75);
+	--clr-accent-800: oklch(41% 0.076 74);
+	--clr-accent-900: oklch(33% 0.052 73);
+	--clr-accent-950: oklch(25% 0.032 72);
+}

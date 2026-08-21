@@ -1,0 +1,34 @@
+baseURL: 'http://localhost:1313/'
+title: 'Test: filename + version'
+theme: ['hugo-knowledge-graph', 'hugo-yore']
+menus:
+  main:
+    - name: Docs
+      url: /docs/
+      weight: 1
+defaultContentLanguage: en
+defaultContentLanguageInSubdir: false
+defaultContentVersion: v2.0.0
+defaultContentVersionInSubdir: false
+versions:
+  v1.0.0: {}
+  v2.0.0: {}
+languages:
+  en:
+    languageName: English
+    weight: 1
+  fr:
+    languageName: Français
+    weight: 2
+module:
+  mounts:
+    - source: content/v2.0.0
+      target: content
+      sites:
+        matrix:
+          versions: [v2.0.0]
+    - source: content/v1.0.0
+      target: content
+      sites:
+        matrix:
+          versions: [v1.0.0]

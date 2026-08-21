@@ -1,0 +1,10 @@
+{{- with .GetTerms "authors" -}}
+	<div class="flex items-center gap-1">
+		{{- range $i, $author := . -}}
+			{{- if $i }}<span aria-hidden="true">|</span>{{ end -}}
+			<a href="{{ .RelPermalink }}" class="hover:text-link-hover transition-colors">
+				{{- .LinkTitle -}}
+			</a>
+		{{- end -}}
+	</div>
+{{- end -}}

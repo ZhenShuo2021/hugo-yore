@@ -1,0 +1,28 @@
+{{- with .ctx.GetTerms "series" -}}
+	{{- range . -}}
+		{{- if gt (len .Pages) 1 -}}
+			<div class="series group">
+				<h2 class="text-foreground mb-4 text-2xl!">
+					{{- i18n "article.series" | default "Series:" -}}{{- .LinkTitle -}}
+				</h2>
+
+				<ol class="space-y-2.5 ps-7">
+					{{- range $post := .Pages -}}
+						{{- $isCurrent := eq $post.RelPermalink $.ctx.RelPermalink -}}
+						<li class="text-foreground">
+							{{- if $isCurrent -}}
+								<span class="text-link inline-block" aria-current="page">
+									{{- $post.LinkTitle -}}
+								</span>
+							{{- else -}}
+								<a href="{{ $post.RelPermalink }}" class="hover:text-link-hover inline-block transition-colors">
+									{{- $post.LinkTitle -}}
+								</a>
+							{{- end -}}
+						</li>
+					{{- end -}}
+				</ol>
+			</div>
+		{{- end -}}
+	{{- end -}}
+{{- end -}}

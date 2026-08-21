@@ -1,0 +1,38 @@
+{{- /* default feature image */ -}}
+{{- $imageFeatured := "" -}}
+{{- $imageFeaturedURL := "" -}}
+{{- with site.Params.imageFeatured -}}
+	{{- if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") -}}
+		{{- if site.Params.imageHotlink -}}
+			{{- $imageFeaturedURL = . -}}
+		{{- else -}}
+			{{- $imageFeatured = resources.GetRemote . -}}
+		{{- end -}}
+	{{- else -}}
+		{{- $imageFeatured = resources.Get . -}}
+	{{- end -}}
+{{- end -}}
+{{- site.Store.Set "defaultFeaturedImage" (dict "url" $imageFeaturedURL "obj" $imageFeatured) -}}
+
+{{- /* render functional header section */ -}}
+{{- $renderFunctionalHeader := or
+	hugo.IsMultilingual
+	site.Params.versionSwitcher
+	site.Params.accessibilityEnabled
+	site.Params.searchEnabled
+	site.Params.themeLightDarkSwitcher
+-}}
+{{- site.Store.Set "renderFunctionalHeader" $renderFunctionalHeader -}}
+
+{{- /* site author */ -}}
+{{- $siteAuthor := partial "lib/get-site-author.html" . -}}
+{{- $siteAuthorImage := "" -}}
+{{- with $siteAuthor -}}
+	{{- with .Params.portrait -}}
+		{{- with (or (page.Resources.Get .) (resources.Get .)) -}}
+			{{- $siteAuthorImage = . -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+{{- site.Store.Set "siteAuthor" $siteAuthor -}}
+{{- site.Store.Set "siteAuthorImage" $siteAuthorImage -}}

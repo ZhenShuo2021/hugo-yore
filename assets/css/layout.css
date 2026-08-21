@@ -1,0 +1,129 @@
+:root {
+	--yore-site-padding-x: 1rem;
+}
+
+.base-spacing {
+	padding-block: 4rem;
+	padding-inline: var(--yore-site-padding-x);
+}
+
+.layout-3col {
+	:root & {
+		--sidebar-right-width: 25%;
+		--sidebar-left-width: 25%;
+		--sidebar-gap: clamp(1rem, 3vw, 2rem);
+		--sidebar-transition: grid-template-columns var(--dur-300) ease, column-gap var(--dur-300) ease;
+
+		html[data-a11y-reduce-motion] & {
+			--sidebar-transition: none;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			--sidebar-transition: none;
+		}
+	}
+
+	.layout-wrapper {
+		display: grid;
+		grid-template-columns: var(--sidebar-left-width) 1fr var(--sidebar-right-width);
+		column-gap: var(--sidebar-gap);
+		align-items: start;
+		width: 100%;
+		transition: var(--sidebar-transition);
+
+		@media (width < 64rem) {
+			grid-template-columns: 0 1fr var(--sidebar-right-width);
+		}
+
+		@media (width < 48rem) {
+			grid-template-columns: 0 1fr 0;
+			column-gap: 0;
+		}
+	}
+
+	.sidebar-left {
+		overflow: hidden;
+		min-width: 0;
+		opacity: 1;
+		visibility: visible;
+		transition:
+			opacity var(--dur-300) ease,
+			visibility var(--dur-300) ease;
+
+		@media (width < 64rem) {
+			opacity: 0;
+			visibility: hidden;
+		}
+	}
+
+	.layout-content {
+		min-width: 0;
+		max-width: 65ch;
+	}
+
+	.sidebar-right {
+		overflow: hidden;
+		min-width: 0;
+		opacity: 1;
+		visibility: visible;
+		transition:
+			opacity var(--dur-300) ease,
+			visibility var(--dur-300) ease;
+
+		@media (width < 48rem) {
+			opacity: 0;
+			visibility: hidden;
+		}
+	}
+
+	/* full width variant */
+	:root &.full-width {
+		--sidebar-gap: 0;
+	}
+
+	&.full-width .layout-wrapper {
+		grid-template-columns: 0fr 1fr 0fr;
+	}
+
+	&.full-width .layout-content {
+		max-width: none;
+	}
+}
+
+.layout-2col {
+	:root & {
+		--article-width: 120ch;
+	}
+
+	.layout-wrapper {
+		display: flex;
+		justify-content: center;
+		max-width: var(--article-width);
+		margin-inline: auto;
+
+		.sidebar-left {
+			display: none;
+		}
+
+		.layout-content {
+			flex: 1 1 0;
+			min-width: 0;
+		}
+
+		.sidebar-right {
+			display: none;
+			width: 14rem;
+			@media (width > 48rem) {
+				display: block;
+				margin-inline-start: 2rem;
+			}
+		}
+	}
+
+	&.full-width .sidebar-right {
+		display: none;
+	}
+	&.full-width .layout-wrapper {
+		max-width: none;
+	}
+}

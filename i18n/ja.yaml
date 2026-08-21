@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: 外部リンク
+a11y_panel:
+  close: アクセシビリティパネルを閉じる
+  decrease_font_size: フォントサイズを縮小
+  font_size: フォントサイズ
+  high_contrast: ハイコントラスト
+  increase_font_size: フォントサイズを拡大
+  reduce_motion: モーションを減らす
+  reduce_transparency: 透明度を下げる
+  show_link_underline: リンクの下線を表示する
+  title: アクセシビリティ設定
+admonition:
+  abstract: 概要
+  bug: バグ
+  caution: 注意
+  danger: 危険
+  example: 例
+  failure: 失敗
+  important: 重要
+  info: 情報
+  note: 注記
+  question: 質問
+  quote: 引用
+  success: 成功
+  tip: ヒント
+  todo: TODO
+  warning: 警告
+article:
+  backlinks_title: 被リンク
+  date: '{{ .Date }}'
+  date_updated: '更新日: {{ .Date }}'
+  kg_title: 記事の関連
+  more_articles: もっと見る
+  next: 次の記事
+  on_this_page: このページ
+  previous: 前の記事
+  published_date: 公開日
+  related_articles: 関連記事
+  series: この記事は連載の一部です
+code:
+  copied: コピーしました
+  copy: コピー
+docs:
+  nav_label: ドキュメント
+  next: 次へ
+  prev: 前へ
+  sidebar_label: ドキュメント
+  source_files: 関連ソースコード
+  toc_label: 目次
+  toc_nav_label: このページ
+error:
+  404_description: ご要望のページは存在しないようです。
+  404_title: 'ページが見つかりませんでした。 :confused:'
+footer:
+  powered_by: Powered by {{ .Theme }}
+nav:
+  accessibility_panel: アクセシビリティパネルを開く
+  breadcrumb: パンくずリスト
+  change_language: 言語を変更
+  close_mobile_menu: モバイルメニューを閉じる
+  footer_navigation: フッターナビゲーション
+  main_navigation: メインナビゲーション
+  scroll_to_top_title: TOPへスクロール
+  search: 検索
+  skip_to_main: メインコンテンツへスキップ
+  switch_version: バージョンを切り替え
+  toggle_dark_mode: ダークモードを切り替え
+  toggle_mobile_menu: モバイルメニューを切り替え
+page_actions:
+  actions: アクション
+  copy_markdown: Markdownをコピー
+  copy_url: URLをコピー
+  edit_this_page: このページを編集
+  view_source: ソースを表示
+quick_reference: クイックリファレンス
+random:
+  choosing: 読む価値のある記事を選んでいます
+  js_required: ランダムリダイレクトには JavaScript が必要です。
+  no_posts: 移動できる記事がありません。
+  redirecting: リダイレクト中…
+  taking_you_there: 移動しています…
+  untitled: 無題
+recent:
+  show_more: もっと見る
+search:
+  close_button_title: 閉じる (Esc)
+  input_placeholder: 検索
+  no_result: 結果がありません
+  open_button_title: 検索 (/)
+shortcode:
+  recent_articles: 最近の記事
+stale_warning:
+  'text:': この記事はしばらく更新されていないため、一部の情報が古くなっている可能性があります。

@@ -1,0 +1,42 @@
+/* photo swipe */
+a.pswp-link:focus-visible {
+	outline-offset: -3px;
+	outline: 3px solid #005fcc;
+	&:where([data-theme='dark'], [data-theme='dark'] *) {
+		outline: 3px solid #99c8ff;
+	}
+}
+.pswp__icn-shadow {
+	display: none;
+}
+
+.pswp__top-bar > .pswp__button {
+	display: inline-block !important;
+	opacity: 1 !important;
+	visibility: visible !important;
+}
+
+.pswp__button--download-button {
+	display: inline-flex !important;
+	align-items: center;
+	justify-content: center;
+}
+
+.pswp__custom-caption {
+	background: transparent;
+	color: var(--color-neutral-100);
+	font-size: 0.875rem;
+	width: fit-content;
+	position: absolute;
+	left: 50%;
+	bottom: 0.9em;
+	transform: translateX(-50%);
+	text-align: center;
+	pointer-events: auto;
+	z-index: 1000;
+}
+
+.pswp__custom-caption a {
+	color: var(--primary);
+	text-decoration: underline;
+}

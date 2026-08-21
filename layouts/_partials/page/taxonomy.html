@@ -1,0 +1,31 @@
+<div class="my-12 space-y-2 print:hidden">
+	{{- if .Param "pageShowCategories" -}}
+		{{- with .GetTerms "categories" -}}
+			<div
+				class="flex w-full flex-wrap items-center justify-center gap-x-4"
+				role="group"
+				aria-label="{{ i18n "article.categories" | default "Categories" }}">
+				{{- range . -}}
+					<a
+						href="{{ .RelPermalink }}"
+						class="text-muted-foreground hover:text-link-hover transition-colors"
+						aria-label="{{ i18n "article.category" | default "Category" }}:{{ .LinkTitle }}">
+						§{{- .LinkTitle -}}
+					</a>
+				{{- end -}}
+			</div>
+		{{- end -}}
+	{{- end -}}
+
+	{{- if .Param "pageShowTags" -}}
+		{{- with .GetTerms "tags" -}}
+			<div class="flex w-full flex-wrap items-center justify-center gap-x-4">
+				{{- range . -}}
+					<a href="{{ .RelPermalink }}" class="text-muted-foreground hover:text-link-hover transition-colors">
+						#{{- .LinkTitle -}}
+					</a>
+				{{- end -}}
+			</div>
+		{{- end -}}
+	{{- end -}}
+</div>

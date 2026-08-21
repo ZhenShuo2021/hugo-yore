@@ -1,0 +1,6 @@
+{{- $icon := resources.GetMatch (printf "icons/**/%s.svg" (strings.TrimSuffix ".svg" .)) -}}
+{{- with $icon -}}
+	<span class="icon">{{- .Content | safeHTML -}}</span>
+{{- else -}}
+	{{- warnf "icon %q not found" . -}}
+{{- end -}}

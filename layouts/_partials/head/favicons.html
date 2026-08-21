@@ -1,0 +1,29 @@
+{{- /* https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs */ -}}
+{{- with resources.Get "favicons/favicon.ico" -}}
+	{{- $r := resources.Copy "favicon.ico" . -}}
+	<link rel="icon" href="{{ $r.RelPermalink }}" sizes="48x48">
+{{- end -}}
+
+{{- with resources.Get "favicons/favicon.svg" -}}
+	{{- $r := resources.Copy "favicon.svg" . -}}
+	<link rel="icon" href="{{ $r.RelPermalink }}" type="image/svg+xml" sizes="any">
+{{- end -}}
+
+{{- with resources.Get "favicons/apple-touch-icon.png" -}}
+	{{- $r := resources.Copy "apple-touch-icon.png" . -}}
+	<link rel="apple-touch-icon" sizes="180x180" href="{{ $r.RelPermalink }}">
+{{- end -}}
+
+{{- /* PWA */ -}}
+{{- with resources.Get "favicons/site.webmanifest" -}}
+	{{- $r := resources.Copy "site.webmanifest" . -}}
+	<link rel="manifest" href="{{ $r.RelPermalink }}">
+{{- end -}}
+
+{{- with resources.Get "favicons/android-chrome-192x192.png" -}}
+	{{- $r := (resources.Copy "android-chrome-192x192.png" . ).RelPermalink -}}
+{{- end -}}
+
+{{- with resources.Get "favicons/android-chrome-512x512.png" -}}
+	{{- $r := (resources.Copy "android-chrome-512x512.png" . ).RelPermalink -}}
+{{- end -}}

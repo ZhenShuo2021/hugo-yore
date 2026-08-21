@@ -1,0 +1,44 @@
+{{- define "main" -}}
+	<div class="layout-wrapper base-spacing">
+		<!-- Empty Left Spacer -->
+		<aside class="sidebar-left"></aside>
+
+		<!-- Main Content -->
+		<main id="main-content" class="layout-content">
+			<header class="mb-16">
+				{{- if .Param "breadcrumb" | default true -}}
+					<div class="text-muted-foreground text-sm">
+						{{- partial "components/breadcrumbs.html" . -}}
+					</div>
+				{{- end -}}
+				<h1 class="text-foreground mb-2 text-4xl font-medium capitalize">
+					{{- .Title -}}
+				</h1>
+
+				{{- if .Content -}}
+					<div class="prose dark:prose-invert mt-6">
+						{{- .Content -}}
+					</div>
+				{{- end -}}
+			</header>
+
+			<div class="flex flex-wrap gap-x-6 gap-y-3">
+				{{- range .Data.Terms.ByCount -}}
+					<article class="flex items-baseline gap-1">
+						<a
+							href="{{ .Page.RelPermalink }}"
+							class="text-foreground hover:text-link-hover truncate p-1 capitalize transition-colors">
+							{{- .Page.LinkTitle -}}
+						</a>
+						<span class="text-muted-foreground flex-shrink-0 font-mono text-sm tabular-nums">
+							({{ .Count }})
+						</span>
+					</article>
+				{{- end -}}
+			</div>
+		</main>
+
+		<!-- Empty Right Spacer -->
+		<aside class="sidebar-right"></aside>
+	</div>
+{{- end -}}

@@ -1,0 +1,39 @@
+{
+	"consentModal": {
+		"title": "Cookie の利用について",
+		"description": "当ウェブサイトでは、正常な動作の確保・ユーザー行動の分析、および同意をいただいた場合にパーソナライズされたコンテンツや広告の提供を目的として、Cookie および類似のトラッキング技術を使用しています。「Cookie の設定を管理する」からいつでも同意内容を変更できます。「すべて拒否する」を選択すると、ウェブサイトの動作に必要不可欠な Cookie のみが使用されます。詳細はプライバシーポリシーをご覧ください。",
+		"acceptAllBtn": "すべて同意する",
+		"acceptNecessaryBtn": "すべて拒否する",
+		"showPreferencesBtn": "Cookie の設定を管理する"
+	},
+	"preferencesModal": {
+		"title": "Cookie の設定",
+		"acceptAllBtn": "すべて同意する",
+		"acceptNecessaryBtn": "すべて拒否する",
+		"savePreferencesBtn": "設定を保存する",
+		"closeIconLabel": "ウィンドウを閉じる",
+		"serviceCounterLabel": "サービスプロバイダー",
+		"sections": [
+			{
+				"title": "必須 Cookie",
+				"description": "これらの Cookie はウェブサイトの中核機能の動作に不可欠であり、セッションの維持・ログイン状態の保存・Cookie の同意設定の記憶などに使用されます。このカテゴリは無効化できず、個人を特定できる情報は一切保存されません。",
+				"linkedCategory": "necessary"
+			},
+			{
+				"title": "機能性 Cookie",
+				"description": "これらの Cookie は、言語設定・地域設定・インターフェースのレイアウトなど、お客様の個人設定を記憶し、より一貫したパーソナライズされた体験を提供するために使用されます。このカテゴリを無効にしてもウェブサイトの基本機能には影響しませんが、一部の機能が正常に動作しなくなる場合があります。",
+				"linkedCategory": "functional"
+			},
+			{
+				"title": "分析 Cookie",
+				"description": "これらの Cookie は、訪問したページ・滞在時間・流入元などを通じて、訪問者がウェブサイトとどのようにインタラクションしているかを把握するために使用されます。収集されたデータはすべて集計・匿名化された形式で処理され、ウェブサイトのパフォーマンスおよびユーザー体験の継続的な改善のみに使用されます。",
+				"linkedCategory": "analytics"
+			},
+			{
+				"title": "広告 Cookie",
+				"description": "これらの Cookie は当ウェブサイトおよび広告パートナーによって設定され、閲覧行動に基づいた興味関心のプロファイルを構築し、当ウェブサイトおよび他のプラットフォームでパーソナライズされた広告を配信するために使用されます。このカテゴリを無効にしても広告は表示されますが、お客様の興味に基づいたパーソナライズは行われません。",
+				"linkedCategory": "advertising"
+			}
+		]
+	}
+}

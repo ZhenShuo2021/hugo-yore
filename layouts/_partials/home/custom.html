@@ -1,0 +1,69 @@
+<style>
+	.home-layout-selector {
+		position: fixed;
+		bottom: 1rem;
+		left: 1rem;
+		z-index: 50;
+		padding-left: 1rem;
+		padding-right: 2.5rem;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+		background-color: var(--card);
+		border: 1px solid var(--card-foreground);
+		border-radius: 0.5rem;
+		appearance: none;
+		background-repeat: no-repeat;
+		background-position: right 12px center;
+		background-size: 1.25rem;
+		cursor: pointer;
+		transition: box-shadow var(--dur-300);
+	}
+
+	.home-layout-selector:hover {
+		box-shadow:
+			0 20px 25px -5px rgba(0, 0, 0, 0.1),
+			0 10px 10px -5px rgba(0, 0, 0, 0.04);
+	}
+</style>
+
+{{- $layouts := slice "card" "classic" "void" -}}
+
+{{- range $layouts -}}
+	<div class="home-layout" data-layout="{{ . }}" {{ if ne . "classic" }}style="display:none"{{ end }}>
+		{{- partial (printf "home/%s.html" .) $ -}}
+	</div>
+{{- end -}}
+
+
+<script>
+	(function () {
+		const layouts = Array.from(document.querySelectorAll('.home-layout')).map((el) => el.dataset.layout);
+
+		const nav = document.createElement('nav');
+		nav.setAttribute('aria-label', 'Layout selector');
+
+		const select = document.createElement('select');
+		select.id = 'layoutSelector';
+		select.setAttribute('aria-label', 'Select Home Layout');
+		const svgRed = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='gray' viewBox='0 0 20 20'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd' /%3E%3C/svg%3E`;
+
+		select.className = 'home-layout-selector';
+		select.style.backgroundImage = `url("${svgRed}")`;
+		select.innerHTML = layouts.map((name) => `<option value="${name}">${name}</option>`).join('');
+
+		nav.appendChild(select);
+		document.body.appendChild(nav);
+
+		select.value = localStorage.getItem('layout') || 'classic';
+		document.querySelectorAll('.home-layout').forEach((el) => {
+			el.style.display = el.dataset.layout === select.value ? 'block' : 'none';
+		});
+
+		select.addEventListener('change', () => {
+			document.querySelectorAll('.home-layout').forEach((el) => {
+				el.style.display = el.dataset.layout === select.value ? 'block' : 'none';
+			});
+			localStorage.setItem('layout', select.value);
+		});
+	})();
+</script>

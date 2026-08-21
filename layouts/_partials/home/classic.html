@@ -1,0 +1,204 @@
+<style>
+	.home-wrapper {
+		--col-width: 56ch;
+		--fg-faint: color-mix(in oklch, var(--muted-foreground) 85%, transparent);
+		max-width: var(--col-width);
+		margin-inline: auto;
+		padding-inline: 1rem;
+		padding-block: clamp(3rem, 8vw, 7rem);
+		color: var(--foreground);
+	}
+
+	.home-identity {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding-block-end: clamp(2.5rem, 6vw, 5rem);
+	}
+
+	.home-identity__image-wrap {
+		width: clamp(5rem, 14vw, 8rem);
+		aspect-ratio: 1;
+		border-radius: 50%;
+		overflow: hidden;
+		margin-block-end: 1.75rem;
+		outline: 1px solid var(--border);
+		outline-offset: 3px;
+	}
+
+	.home-identity__image-wrap img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	.home-identity__name {
+		font-size: clamp(1.6rem, 4vw, 2.4rem);
+		font-weight: 500;
+		letter-spacing: -0.02em;
+		line-height: 1.15;
+		margin: 0 0 0.75rem;
+		color: var(--foreground);
+	}
+
+	.home-identity__tagline {
+		font-size: 0.8rem;
+		color: var(--muted-foreground);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		margin: 0 0 1.25rem;
+	}
+
+	.home-section {
+		padding-block: clamp(2rem, 5vw, 3.5rem);
+	}
+
+	.home-section:last-child {
+		border-bottom: none;
+	}
+
+	.home-section__heading {
+		font-family: 'DM Mono', monospace;
+		font-size: 0.72rem;
+		font-weight: 400;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--fg-faint);
+		margin: 0 0 1.75rem;
+	}
+
+	.home-posts {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.home-posts__item {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		padding-block: 0.9rem;
+		border-top: 1px solid var(--border);
+		gap: 1rem;
+	}
+
+	.home-posts__item:first-child {
+		border-top: none;
+	}
+
+	.home-posts__link {
+		font-size: 1rem;
+		color: var(--foreground);
+		text-decoration: none;
+		line-height: 1.45;
+		display: flex;
+		align-items: center;
+	}
+
+	.home-posts__link:hover {
+		color: var(--link-hover);
+	}
+
+	.home-posts__date {
+		font-family: 'DM Mono', monospace;
+		font-size: 0.72rem;
+		color: var(--fg-faint);
+		white-space: nowrap;
+		font-weight: 300;
+	}
+
+	.home-content {
+		padding-block-end: clamp(2rem, 5vw, 3.5rem);
+	}
+
+	.home-content :first-child {
+		margin-top: 0;
+	}
+
+	.home-content :last-child {
+		margin-bottom: 0;
+	}
+
+	.btn-more-wrapper {
+		text-align: center;
+		margin-top: 2rem;
+	}
+
+	.btn-more {
+		display: inline-flex;
+		justify-content: center;
+		text-align: center;
+		padding: 0.75rem 2rem;
+		border: 1px solid var(--muted);
+		color: var(--foreground);
+		font-size: 0.875rem;
+		text-decoration: none;
+		transition: all var(--dur-300);
+	}
+
+	.btn-more:hover {
+		background-color: color-mix(in srgb, var(--clr-neutral-400), transparent 50%);
+	}
+</style>
+
+<div class="home-wrapper">
+	<section class="home-identity">
+		{{- $authorName := site.Params.homepageTitle | default site.Title -}}
+		{{- with site.Store.Get "siteAuthorImage" -}}
+			<div class="home-identity__image-wrap">
+				<img src="{{ .RelPermalink }}" alt="{{ $authorName }}">
+			</div>
+		{{- end -}}
+		<h1 class="home-identity__name">
+			{{- site.Params.homepageTitle -}}
+		</h1>
+		{{- with site.Params.homepageTagline -}}
+			<p class="home-identity__tagline">{{ . | markdownify }}</p>
+		{{- end -}}
+	</section>
+
+	{{- with .Content -}}
+		<div class="home-content prose dark:prose-invert">{{ . }}</div>
+	{{- end -}}
+
+	{{- $src := site.MainSections | default "posts" -}}
+	{{- $posts := where site.RegularPages "Type" $src -}}
+	{{- if not $posts -}}
+		{{- $posts = site.RegularPages -}}
+	{{- end -}}
+	{{- $recent := first 6 ($posts.ByDate.Reverse) -}}
+	{{- with $recent -}}
+		<section class="home-section">
+			<p class="home-section__heading">{{ i18n "home.recent" | default "Recent Writing" }}</p>
+			<ul class="home-posts">
+				{{- range . -}}
+					<li class="home-posts__item">
+						<a href="{{ or .Params.link .RelPermalink }}" class="home-posts__link">
+							{{- .Title -}}
+							{{- if .Params.link -}}
+								<span class="ms-1 shrink-0 leading-none">
+									{{- partialCached "components/icon.html" "yore/external" "icon-yore/external" -}}
+								</span>
+							{{- end -}}
+						</a>
+						<time class="home-posts__date" datetime="{{ .Date.Format "2006-01-02" }}">
+							{{- .Date.Format "Jan 2006" -}}
+						</time>
+					</li>
+				{{- end -}}
+			</ul>
+		</section>
+	{{- end -}}
+
+	{{- if site.Params.homepageShowMoreLink -}}
+		<div class="btn-more-wrapper">
+			<a href="{{- site.Params.homepageShowMoreLink | relLangURL -}}" class="btn-more">
+				{{- i18n "recent.show_more" | default "Browse Articles" -}}
+			</a>
+		</div>
+	{{- end -}}
+</div>

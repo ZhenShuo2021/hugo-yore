@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: ลิงก์ภายนอก
+a11y_panel:
+  close: ปิดแผงการช่วยการเข้าถึง
+  decrease_font_size: ลดขนาดตัวอักษร
+  font_size: ขนาดตัวอักษร
+  high_contrast: คอนทราสต์สูง
+  increase_font_size: เพิ่มขนาดตัวอักษร
+  reduce_motion: ลดการเคลื่อนไหว
+  reduce_transparency: ลดความโปร่งใส
+  show_link_underline: แสดงเส้นใต้ลิงก์
+  title: การตั้งค่าการเข้าถึง
+admonition:
+  abstract: สรุป
+  bug: บั๊ก
+  caution: ระวัง
+  danger: อันตราย
+  example: ตัวอย่าง
+  failure: ล้มเหลว
+  important: สำคัญ
+  info: ข้อมูล
+  note: หมายเหตุ
+  question: คำถาม
+  quote: คำคม
+  success: สำเร็จ
+  tip: เคล็ดลับ
+  todo: สิ่งที่ต้องทำ
+  warning: คำเตือน
+article:
+  backlinks_title: ลิงก์ย้อนกลับ
+  date: '{{ .Date }}'
+  date_updated: 'อัปเดต: {{ .Date }}'
+  kg_title: การเชื่อมโยงบทความ
+  more_articles: บทความเพิ่มเติม
+  next: ถัดไป
+  on_this_page: ในหน้านี้
+  previous: ก่อนหน้า
+  published_date: วันที่เผยแพร่
+  related_articles: บทความที่เกี่ยวข้อง
+  series: บทความในชุดเดียวกัน
+code:
+  copied: คัดลอกแล้ว
+  copy: คัดลอก
+docs:
+  nav_label: เอกสาร
+  next: ถัดไป
+  prev: ก่อนหน้า
+  sidebar_label: เอกสาร
+  source_files: ซอร์สโค้ด
+  toc_label: สารบัญ
+  toc_nav_label: ในหน้านี้
+error:
+  404_description: ดูเหมือนว่าหน้าที่คุณต้องการจะไม่มีอยู่
+  404_title: 'ไม่พบหน้าที่ต้องการ :confused:'
+footer:
+  powered_by: ขับเคลื่อนโดย {{ .Theme }}
+nav:
+  accessibility_panel: เปิดแผงการช่วยการเข้าถึง
+  breadcrumb: เส้นทางการนำทาง
+  change_language: เปลี่ยนภาษา
+  close_mobile_menu: ปิดเมนูมือถือ
+  footer_navigation: การนำทางส่วนท้าย
+  main_navigation: การนำทางหลัก
+  scroll_to_top_title: เลื่อนขึ้นด้านบน
+  search: ค้นหา
+  skip_to_main: ข้ามไปยังเนื้อหาหลัก
+  switch_version: สลับเวอร์ชัน
+  toggle_dark_mode: สลับโหมดมืด
+  toggle_mobile_menu: สลับเมนูมือถือ
+page_actions:
+  actions: การดำเนินการ
+  copy_markdown: คัดลอก Markdown
+  copy_url: คัดลอก URL
+  edit_this_page: แก้ไขหน้านี้
+  view_source: ดูซอร์ส
+quick_reference: คู่มือด่วน
+random:
+  choosing: กำลังเลือกบทความที่น่าอ่าน
+  js_required: ต้องใช้ JavaScript สำหรับการเปลี่ยนเส้นทางแบบสุ่ม
+  no_posts: ไม่มีบทความให้เปลี่ยนเส้นทาง
+  redirecting: กำลังเปลี่ยนเส้นทาง…
+  taking_you_there: กำลังพาคุณไป…
+  untitled: ไม่มีชื่อเรื่อง
+recent:
+  show_more: แสดงเพิ่มเติม
+search:
+  close_button_title: ปิด (Esc)
+  input_placeholder: ค้นหา
+  no_result: ไม่พบผลลัพธ์
+  open_button_title: ค้นหา (/)
+shortcode:
+  recent_articles: บทความล่าสุด
+stale_warning:
+  'text:': บทความนี้ไม่ได้รับการอัปเดตมาระยะหนึ่งแล้ว ข้อมูลบางส่วนอาจล้าสมัย

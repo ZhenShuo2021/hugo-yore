@@ -1,0 +1,56 @@
+{{ $schemeName := site.Params.themeColorScheme | default "latex" }}
+@import "./schemes/{{ lower $schemeName }}.css";
+
+{{ with resources.Get "css/imports.css" | resources.ExecuteAsTemplate "foo" . }}
+  {{ .Content }}
+{{ end }}
+
+{{ if not site.Params.hugoTailwind }}
+  @import "./tailwind/compiled.css";
+{{ end }}
+
+{{ if site.Params.searchEnabled }}
+  @import "./components/search.css";
+{{ end }}
+
+{{ if site.Params.accessibilityEnabled }}
+	@import "./components/a11y.css" layer(a11y);
+{{ end }}
+
+@import "./layout.css" layer(yore);
+@import "./layout-gallery.css" layer(yore);
+@import "./tokens.css" layer(yore);
+@import "./components/chroma.css" layer(yore);
+@import "./components/docs.css" layer(yore);
+@import "./components/knowledge-graph.css";
+@import "./components/page-actions.css" layer(yore);
+@import "./components/misc.css";
+@import "./components/toc.css" layer(yore);
+
+@import "./shortcodes/accordion.css" layer(yore);
+@import "./shortcodes/carousel.css" layer(yore);
+@import "./shortcodes/masonry.css" layer(yore);
+@import "./shortcodes/tabs.css" layer(yore);
+@import "./shortcodes/steps.css" layer(yore);
+@import "./shortcodes/float.css" layer(yore);
+
+@import "./custom-advanced.css" layer(yore);
+
+{{ if site.Params.imageLightbox | default true }}
+	@import "./components/photoswipe.css" layer(yore);
+  @import "../lib/photoswipe/photoswipe.css" layer(yore);
+{{ end }}
+
+{{ if and site.Params.footnoteTooltip }}
+	@import "./components/footnote-tooltip.css" layer(yore);
+{{ end }}
+
+{{ if and (not site.Params.hkg.autoInjectCSS) (site.Home.OutputFormats.Get "knowledge-graph") }}
+	@import "./knowledge-graph/vars.css";
+	@import "./knowledge-graph/widget.css";
+	@import "./knowledge-graph/override.css";
+{{ end }}
+
+{{ if not site.Params.hugoTailwind }}
+  @import "./custom.css";
+{{ end }}

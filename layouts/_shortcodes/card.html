@@ -1,0 +1,46 @@
+{{- $title := .Get "title" -}}
+{{- $desc := .Get "desc" -}}
+{{- $image := .Get "image" -}}
+{{- $icon := .Get "icon" -}}
+{{- $href := .Get "href" -}}
+{{- $meta := .Get "metaText" -}}
+
+{{- with $.Page.Resources.Get $image -}}
+	{{- $image = .RelPermalink -}}
+{{- else with resources.Get $image -}}
+	{{- $image = .RelPermalink -}}
+{{- end -}}
+
+{{- if not $title -}}
+	{{- warnf "card shortcode: \"title\" is required: %s" .Position -}}
+{{- else -}}
+	{{- partial "components/card-shell-head.html" (dict
+		"href" $href
+		"image" $image
+		"alt" $title
+		)
+	-}}
+
+
+	<h3
+		class="text-foreground group-hover:text-link-hover flex items-center gap-2 text-lg font-semibold transition-colors">
+		{{- with $icon -}}
+			{{- partial "components/icon.html" . -}}
+		{{- end -}}
+		{{- $title -}}
+	</h3>
+
+	{{- with $desc -}}
+		<p class="text-muted-foreground line-clamp-2 text-sm">
+			{{- . | safeHTML -}}
+		</p>
+	{{- end -}}
+
+	{{- with $meta -}}
+		<div class="text-muted-foreground flex items-center text-xs">
+			{{- . | safeHTML -}}
+		</div>
+	{{- end -}}
+
+	{{- partial "components/card-shell-tail.html" . -}}
+{{- end -}}

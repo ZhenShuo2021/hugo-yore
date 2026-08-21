@@ -1,0 +1,49 @@
+{{- $minHugoVersion := "0.164.0" -}}
+{{- if lt hugo.Version $minHugoVersion -}}
+	{{- errorf "Please upgrade Hugo to v%s or later." $minHugoVersion -}}
+{{- end -}}
+<!doctype html>
+<html
+	lang="{{ site.Language.Lang }}"
+	dir="{{ site.Language.Direction | default "ltr" }}"
+	data-color-scheme="{{ site.Params.themeColorScheme | default `latex` }}"
+	{{- if eq site.Params.themeLightDarkMode "dark" }}
+		data-theme="dark"
+	{{- else }}
+		data-theme="light"
+	{{- end }}
+	data-default-appearance="{{ site.Params.themeLightDarkMode }}"
+	data-copy-text="{{ i18n `code.copy` | default `Copy` }}"
+	data-copied-text="{{ i18n `code.copied` | default `Copied` }}"
+	data-search-no-result="{{ i18n `search.no_result` | default `No results for` }}"
+	data-header-layout="{{ site.Params.headerLayout }}"
+	data-page-kind="{{ .Kind }}"
+	data-page-type="{{ .Type }}"
+	{{ if eq .Type `docs` }}data-page-type="docs"{{ end }}>
+	{{- $noop := partialCached "init.html" . -}}
+	{{- $noop = partial "init-page.html" . -}}
+	{{- partial "head/main.html" . -}}
+	{{- $layout := cond (or (eq .Params.blogLayout "2-col") (eq site.Params.blogLayout "2-col")) "layout-2col" "layout-3col" -}}
+	{{- $fullWidth := cond (.Param "fullWidth") "full-width" "" -}}
+	<body
+		class="{{ $fullWidth }} {{ $layout }} bg-background text-foreground transition-[background-color,border-color] duration-(--dur-300)">
+		<a
+			{{ if and (eq .Type `graph`) (site.Home.OutputFormats.Get "knowledge-graph") -}}
+				href="#kg-root"
+			{{- else -}}
+				href="#main-content"
+			{{- end }}
+			class="focus:bg-foreground focus:text-primary-foreground sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-1000 focus:px-4 focus:py-2">
+			{{- i18n "nav.skip_to_main" -}}
+		</a>
+
+		{{- partial "header/main.html" . -}}
+		{{- block "main" . }}{{ end -}}
+		{{- partial "footer.html" . -}}
+
+		{{- partial "components/body-end.html" . -}}
+		{{- if templates.Exists "_partials/extend-body-end.html" -}}
+			{{- partial "extend-body-end.html" . -}}
+		{{- end -}}
+	</body>
+</html>

@@ -1,0 +1,46 @@
+/* Shared styles */
+#TableOfContents ul {
+	padding-inline-start: 0;
+	margin: 0;
+}
+
+#TableOfContents ul ul {
+	padding-inline-start: 1rem;
+	margin-top: 0.4rem;
+}
+
+#TableOfContents li {
+	margin: 0.25rem 0;
+}
+
+#TableOfContents a:hover {
+	color: var(--link-hover);
+	border-inline-start-color: var(--link-hover);
+}
+
+/* Sidebar TOC */
+.toc-sidebar a.toc--active {
+	color: var(--link-hover);
+	border-inline-start-color: var(--link-hover);
+}
+
+.toc-sidebar a {
+	display: block;
+	padding: 0.1rem;
+	padding-inline-start: 0.5rem;
+	text-decoration: none;
+	border-inline-start: 2px solid transparent;
+	transition: all var(--dur-200);
+	line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.sidebar-right {
+	max-height: calc(100vh - (var(--spacing) * 36));
+	min-height: 0;
+}
+
+html[data-header-layout='static'] .sidebar-right {
+	max-height: calc(100vh - (var(--spacing) * 12));
+}

@@ -1,0 +1,59 @@
+<dialog id="a11y-panel" aria-labelledby="a11y-panel-title" class="dialog-overlay">
+	<div class="max-h-[calc(100dvh-2rem)] overflow-y-auto p-8">
+		<div class="mb-8 flex items-center justify-between">
+			<h3 id="a11y-panel-title" class="text-foreground text-xl font-medium">
+				{{- i18n "a11y_panel.title" -}}
+			</h3>
+			<button
+				id="a11y-close"
+				class="text-muted-foreground hover:text-foreground flex items-center transition-colors"
+				aria-label="{{ i18n `a11y_panel.close` | default `Close accessibility panel` }}">
+				{{- partialCached "components/icon.html" "xmark" "icon-xmark" -}}
+			</button>
+		</div>
+
+		<div class="space-y-6">
+			<div class="flex items-center justify-between gap-4">
+				<span class="text-foreground text-sm">{{ i18n "a11y_panel.font_size" | default "Font size" }}</span>
+				<div class="font-size-stepper">
+					<button
+						id="font-size-decrease"
+						class="yore-outline font-size-btn font-size-btn--small"
+						aria-label="{{ i18n `a11y_panel.decrease_font_size` | default `Decrease font size` }}">
+						A
+					</button>
+					<div class="font-size-levels" aria-hidden="true">
+						<span class="font-size-dot" data-level="-2"></span>
+						<span class="font-size-dot" data-level="-1"></span>
+						<span class="font-size-dot" data-level="0"></span>
+						<span class="font-size-dot" data-level="1"></span>
+						<span class="font-size-dot" data-level="2"></span>
+					</div>
+					<button
+						id="font-size-increase"
+						class="yore-outline font-size-btn font-size-btn--large"
+						aria-label="{{ i18n `a11y_panel.increase_font_size` | default `Increase font size` }}">
+						A
+					</button>
+				</div>
+			</div>
+
+			{{- $toggles := slice
+				(dict "id" "highContrast" "label" (i18n "a11y_panel.high_contrast" | default "High contrast"))
+				(dict "id" "reduceMotion" "label" (i18n "a11y_panel.reduce_motion" | default "Reduce motion"))
+				(dict "id" "reduceTransparency" "label" (i18n "a11y_panel.reduce_transparency" | default "Reduce transparency"))
+				(dict "id" "underlineLinks" "label" (i18n "a11y_panel.show_link_underline" | default "Show link underline"))
+			-}}
+			{{- range $toggles -}}
+				<div class="flex items-center justify-between gap-4">
+					<label for="{{ .id }}" class="text-foreground cursor-text text-sm select-text">
+						{{- .label -}}
+					</label>
+					<div class="ios-toggle">
+						<input role="switch" type="checkbox" id="{{ .id }}">
+					</div>
+				</div>
+			{{- end -}}
+		</div>
+	</div>
+</dialog>

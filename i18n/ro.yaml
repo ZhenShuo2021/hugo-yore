@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: link extern
+a11y_panel:
+  close: Închide panoul de accesibilitate
+  decrease_font_size: Micșorează dimensiunea fontului
+  font_size: Dimensiunea fontului
+  high_contrast: Contrast ridicat
+  increase_font_size: Mărește dimensiunea fontului
+  reduce_motion: Reduce mișcarea
+  reduce_transparency: Reduce transparența
+  show_link_underline: Afișează sublinierea linkurilor
+  title: Setări de accesibilitate
+admonition:
+  abstract: Rezumat
+  bug: Bug
+  caution: Atenție
+  danger: Pericol
+  example: Exemplu
+  failure: Eșec
+  important: Important
+  info: Informații
+  note: Notă
+  question: Întrebare
+  quote: Citat
+  success: Succes
+  tip: Sfat
+  todo: De făcut
+  warning: Avertisment
+article:
+  backlinks_title: Linkuri de întoarcere
+  date: '{{ .Date }}'
+  date_updated: 'Modificat la: {{ .Date }}'
+  kg_title: Conexiuni articole
+  more_articles: Mai multe articole
+  next: Următorul
+  on_this_page: Pe această pagină
+  previous: Anterior
+  published_date: Data publicării
+  related_articles: Related
+  series: This article is part of a series.
+code:
+  copied: Copiat
+  copy: Copiază
+docs:
+  nav_label: Documentație
+  next: Următorul
+  prev: Anterior
+  sidebar_label: Documentație
+  source_files: Cod sursă
+  toc_label: Cuprins
+  toc_nav_label: Pe această pagină
+error:
+  404_description: Se pare că pagina pe care o cauți nu există.
+  404_title: 'Pagină Lipsă :confused:'
+footer:
+  powered_by: Susținut de {{ .Theme }}
+nav:
+  accessibility_panel: Deschide panoul de accesibilitate
+  breadcrumb: Fir de navigare
+  change_language: Schimbă limba
+  close_mobile_menu: Închide meniul mobil
+  footer_navigation: Navigare subsol
+  main_navigation: Navigare principală
+  scroll_to_top_title: Înapoi sus
+  search: Căutare
+  skip_to_main: Sari la conținut
+  switch_version: Schimbă versiunea
+  toggle_dark_mode: Comută modul întunecat
+  toggle_mobile_menu: Comută meniul mobil
+page_actions:
+  actions: Acțiuni
+  copy_markdown: Copiază Markdown
+  copy_url: Copiază URL
+  edit_this_page: Editează această pagină
+  view_source: Vezi sursa
+quick_reference: Referință rapidă
+random:
+  choosing: Se alege ceva ce merită citit
+  js_required: Este necesar JavaScript pentru redirecționarea aleatorie.
+  no_posts: Nu există articole disponibile pentru redirecționare.
+  redirecting: Redirecționare…
+  taking_you_there: Ești redirecționat…
+  untitled: Fără titlu
+recent:
+  show_more: Arată mai mult
+search:
+  close_button_title: Închide (Esc)
+  input_placeholder: Caută
+  no_result: Niciun rezultat
+  open_button_title: Caută (/)
+shortcode:
+  recent_articles: Cele mai noi
+stale_warning:
+  'text:': Acest articol nu a mai fost actualizat de ceva vreme, așa că unele informații ar putea fi depășite.

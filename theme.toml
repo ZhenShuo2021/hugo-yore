@@ -1,0 +1,19 @@
+name = "Yore"
+license = "MIT"
+licenselink = "https://github.com/ZhenShuo2021/hugo-yore/blob/main/LICENSE"
+description = "A powerful, lightweight theme for Hugo built with Tailwind CSS."
+
+homepage = "https://github.com/ZhenShuo2021/hugo-yore/"
+demosite = "https://yore.zsl0621.cc/"
+
+tags = ["blog", "minimal", "light", "dark", "personal", "multilingual", "tailwind"]
+features = ["3-layered CSS", "WCAG-AA"]
+
+[author]
+  name = "ZhenShuo2021"
+  homepage = "https://zsl0621.cc/"
+
+[original]
+  name = "Nuno Coracao"
+  homepage = "https://n9o.xyz/"
+  repo = "https://github.com/nunocoracao/blowfish"

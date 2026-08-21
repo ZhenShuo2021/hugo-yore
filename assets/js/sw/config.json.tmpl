@@ -1,0 +1,43 @@
+{{- $cdnDomains := slice -}}
+{{- range hugo.Data.cdn -}}
+	{{- with .src -}}
+		{{- $cdnDomains = $cdnDomains | append ((urls.Parse .).Host) -}}
+	{{- end -}}
+	{{- with .js -}}
+		{{- with .src -}}
+			{{- $cdnDomains = $cdnDomains | append ((urls.Parse .).Host) -}}
+		{{- end -}}
+	{{- end -}}
+	{{- with .css -}}
+		{{- with .src -}}
+			{{- $cdnDomains = $cdnDomains | append ((urls.Parse .).Host) -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- $pages := slice -}}
+{{- range hugo.Sites -}}
+	{{- if not (.Dimension "version").IsDefault }}{{ continue }}{{ end -}}
+	{{- range .Pages -}}
+		{{- $pages = $pages | append .RelPermalink -}}
+	{{- end -}}
+{{- end -}}
+
+{{- $precacheAssets := slice -}}
+
+{{- if .Site.Params.sw.precache.assets -}}
+	{{- $jsParams := dict "autoCollapseCategories" (site.Params.docsAutoCollapseCategories | default false) "cookieConsent" (site.Params.cookieConsent.enable | default true) -}}
+	{{- $docsOpts := dict "format" "esm" "minify" hugo.IsProduction "target" hugo.Data.theme.esBuildTarget "params" $jsParams -}}
+	{{- $docsJS := resources.Get "js/docs-nav.js" | js.Build $docsOpts | fingerprint -}}
+	{{- $precacheAssets = $precacheAssets | append $docsJS.RelPermalink -}}
+
+	{{- $precacheAssets = $precacheAssets | append (hugo.Store.Get "swPrecache") -}}
+{{- end -}}
+
+{
+	"version": "{{ now.UnixNano | xxhash | last 6 }}",
+	"cdnDomains": {{ $cdnDomains | uniq | jsonify }},
+	"precacheHtml": {{ if .Site.Params.sw.precache.html }}true{{ else }}false{{ end }},
+	"precacheAssets": {{ $precacheAssets | jsonify }},
+	"pages": {{ $pages | jsonify }}
+}

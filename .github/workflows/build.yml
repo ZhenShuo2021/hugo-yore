@@ -1,0 +1,37 @@
+name: Build Theme
+
+on: [pull_request_target]
+
+jobs:
+  rebuild-css:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10.33.2
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build CSS
+        run: pnpm build:css
+
+      - name: Commit CSS changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: ${{ github.head_ref }}
+          file_pattern: assets/css/tailwind/compiled.css
+          commit_message: 'chore: rebuild CSS'

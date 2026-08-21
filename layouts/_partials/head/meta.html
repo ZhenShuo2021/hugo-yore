@@ -1,0 +1,49 @@
+<meta charset="utf-8">
+{{- with site.Language.Locale -}}
+	<meta http-equiv="content-language" content="{{- . -}}">
+{{- end -}}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="theme-color" content="var(--background)">
+
+{{- /* Title */ -}}
+{{- if .IsHome -}}
+	<title>{{- site.Title | emojify -}}</title>
+{{- else -}}
+	<title>{{- .Title | emojify }} | {{ site.Title | emojify -}}</title>
+{{- end -}}
+
+{{- /* Metadata */ -}}
+{{- with (.Params.Description | default .Params.Summary) | default site.Params.description -}}
+	<meta name="description" content="{{ . }}">
+{{- end -}}
+{{- with or .Params.metaRobots site.Params.metaRobots -}}
+	<meta name="robots" content="{{ . }}">
+{{- end -}}
+<link rel="canonical" href="{{ .Permalink }}">
+{{- if .IsTranslated -}}
+	{{- range .AllTranslations -}}
+		<link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .Permalink }}">
+	{{- end -}}
+	<link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">
+{{- end -}}
+{{- range .AlternativeOutputFormats -}}
+	{{- printf `
+		<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .RelPermalink (site.Title | emojify) |
+		safeHTML
+	-}}
+{{- end -}}
+
+{{- /* Me */ -}}
+{{- with site.Store.Get "siteAuthor" -}}
+	<meta name="author" content="{{ .LinkTitle }}">
+	{{- with .Params.links -}}
+		{{- range $links := . -}}
+			{{- range $name, $url := $links -}}
+				{{- if not (strings.HasPrefix $url "mailto:") -}}
+					<link rel="me" href="{{ $url }}">
+				{{- end -}}
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}

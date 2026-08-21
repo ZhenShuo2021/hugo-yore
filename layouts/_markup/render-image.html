@@ -1,0 +1,80 @@
+{{- define "RenderImageSimple" -}}
+	{{- $imgObj := .imgObj -}}
+	{{- $src := .src -}}
+	{{- $alt := .alt -}}
+	{{- $processable := .processable -}}
+	<img
+		alt="{{ $alt }}"
+		src="{{ $src }}"
+		loading="lazy"
+		{{ if $processable -}}
+			{{ with $imgObj.Width }}width="{{ . }}"{{ end }}
+			{{ with $imgObj.Height }}height="{{ . }}"{{ end }}
+		{{- end }}>
+{{- end -}}
+
+{{- define "RenderImageResponsive" -}}
+	{{- /* Responsive Image
+		1. src: original image (high resolution, EXIF info, available in photoswipe)
+		2. srcset: the webp version with same resolution for tablet and desktop
+		           the 800x (1280w) version for smart phones
+		
+		input: .imgObj, .alt
+	*/ -}}
+	{{- $i := partial "_internal/image/render-hook.html" (dict "imgObj" .imgObj) -}}
+	<img
+		src="{{ .imgObj.RelPermalink }}"
+		alt="{{ .alt }}"
+		loading="lazy"
+		{{ with $i.imgDesktop.Width }}width="{{ . }}"{{ end }}
+		{{ with $i.imgDesktop.Height }}height="{{ . }}"{{ end }}
+		srcset="{{ printf "%s 1280w, %s 2400w" $i.imgMobile.RelPermalink $i.imgDesktop.RelPermalink }}"
+		sizes="(max-width: 767px) 50vw, 100vw">
+{{- end -}}
+
+{{- $resource := "" -}}
+{{- $src := .Destination | safeURL -}}
+{{- $u := urls.Parse .Destination -}}
+
+{{- if not $u.IsAbs -}}
+	{{- $path := strings.TrimPrefix "./" $u.Path -}}
+
+	{{- $resource = or (.PageInner.Resources.Get $path) (resources.Get $path) -}}
+
+	{{- with $resource -}}
+		{{- $src = .RelPermalink -}}
+		{{- with $u.RawQuery -}}
+			{{- $src = printf "%s?%s" $src . -}}
+		{{- end -}}
+		{{- with $u.Fragment -}}
+			{{- $src = printf "%s#%s" $src . -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+<figure
+	{{- range $k, $v := .Attributes -}}
+		{{- if $v -}}
+			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
+		{{- end -}}
+	{{- end -}}>
+	{{- $processable := reflect.IsImageResourceProcessable $resource }}
+	{{- if and
+		(.Page.Param "imageOptimizationMD")
+		$resource
+		$processable
+	-}}
+		{{- template "RenderImageResponsive" (dict "imgObj" $resource "alt" .Text) -}}
+	{{- else -}}
+		{{- /* simple render
+			1. falsy imageOptimizationMD
+			2. Not processable (SVG)
+			3. Resource not found ($resource="") 
+		*/ -}}
+		{{- template "RenderImageSimple" (dict "imgObj" $resource "src" $src "alt" .Text "processable" $processable) -}}
+	{{- end -}}
+
+	{{- with .Title -}}
+		<figcaption>{{ . | $.PageInner.RenderString }}</figcaption>
+	{{- end -}}
+</figure>

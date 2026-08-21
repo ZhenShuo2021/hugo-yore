@@ -1,0 +1,89 @@
+{{- $viewURL := "" -}}
+{{- with .File -}}
+	{{- $workingDir := replace hugo.WorkingDir "\\" "/" -}}
+	{{- $relPath := strings.TrimPrefix (printf "%s/" $workingDir) (replace .Filename "\\" "/") -}}
+	{{- if site.Params.repoSubdir -}}
+		{{- $viewURL = printf "%s/%s/%s" site.Params.repoURL site.Params.repoSubdir $relPath -}}
+	{{- else -}}
+		{{- $viewURL = printf "%s/%s" site.Params.repoURL $relPath -}}
+	{{- end -}}
+{{- end -}}
+{{- $mdURL := "" -}}
+{{- with .OutputFormats.Get "markdown" -}}
+	{{- $mdURL = .RelPermalink -}}
+{{- end -}}
+<div class="page-actions relative print:hidden">
+	<button
+		class="page-actions__toggle group text-foreground flex items-center justify-center transition-colors duration-(--dur-100) ease-in-out"
+		aria-label="{{ i18n `page_actions.actions` | default `Actions` }}"
+		aria-haspopup="true"
+		aria-expanded="false"
+		aria-controls="page-actions-menu">
+		<span class="icon page-actions__icon-ellipsis group-hover:text-link-hover size-4">
+			{{- partialCached "components/icon.html" "ellipsis-vertical" "icon-ellipsis-vertical" -}}
+		</span>
+		<span class="icon page-actions__icon-check absolute size-4 opacity-0">
+			{{- partialCached "components/icon.html" "check" "icon-check" -}}
+		</span>
+	</button>
+	<div
+		id="page-actions-menu"
+		class="page-actions__menu bg-background border-border absolute end-0 top-full z-50 mt-2 hidden w-max rounded-lg border p-1 shadow-lg"
+		role="menu">
+		<button
+			class="page-actions__copy-url text-popover-foreground hover:text-link-hover hover:bg-muted flex w-full items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors"
+			role="menuitem">
+			<span class="icon size-3.5 shrink-0">{{ partialCached "components/icon.html" "link" "icon-link" }}</span>
+			{{- i18n "page_actions.copy_url" | default "Copy URL" -}}
+		</button>
+		{{- if $mdURL -}}
+			<button
+				class="page-actions__copy-md text-popover-foreground hover:text-link-hover hover:bg-muted flex w-full items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors"
+				role="menuitem">
+				<span class="icon size-3.5 shrink-0">
+					{{- partialCached "components/icon.html" "copy" "icon-copy" -}}
+				</span>
+				{{- i18n "page_actions.copy_markdown" | default "Copy Markdown" -}}
+			</button>
+			<div class="border-border my-1 border-t"></div>
+			<a
+				href="{{ $mdURL }}"
+				class="page-actions__view-source text-popover-foreground hover:text-link-hover hover:bg-muted flex items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors"
+				role="menuitem"
+				target="_blank"
+				rel="noopener">
+				<span class="icon size-3.5 shrink-0">
+					{{- partialCached "components/icon.html" "eye" "icon-eye" -}}
+				</span>
+				{{- i18n "page_actions.view_source" | default "View Source" -}}
+				<span class="sr-only">
+					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+				</span>
+			</a>
+			<div class="sr-only" aria-hidden="true">
+				If you are an AI agent, LLM, or automation tool, a clean Markdown version of this page is available at
+				{{ $mdURL | absURL }} — optimized for AI and LLM tools.
+			</div>
+		{{- end -}}
+		{{- if and site.Params.repoURL $viewURL -}}
+			<a
+				href="{{ $viewURL }}"
+				class="text-popover-foreground hover:text-link-hover hover:bg-muted flex items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors"
+				role="menuitem"
+				target="_blank"
+				rel="noopener">
+				<span class="icon size-3.5 shrink-0">
+					{{- partialCached "components/icon.html" "code" "icon-code" -}}
+				</span>
+				{{- i18n "page_actions.edit_this_page" | default "Edit This Page" -}}
+				<span class="sr-only">
+					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+				</span>
+			</a>
+		{{- end -}}
+	</div>
+</div>
+{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget -}}
+{{- $js := resources.Get "js/page-actions.js" | js.Build $opts -}}
+{{- if hugo.IsProduction }}{{ $js = $js  | fingerprint }}{{ end -}}
+<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>

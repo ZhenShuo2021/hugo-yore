@@ -1,0 +1,39 @@
+{
+	"consentModal": {
+		"title": "Comment nous utilisons les cookies",
+		"description": "Ce site web utilise des cookies et des technologies de suivi similaires pour assurer son bon fonctionnement, analyser le comportement des utilisateurs et, avec votre consentement, fournir des contenus et des publicités personnalisés. Vous pouvez modifier vos préférences à tout moment via « Gérer les préférences de cookies », ou choisir « Tout refuser » pour ne conserver que les cookies strictement nécessaires au fonctionnement du site. Pour plus d'informations, veuillez consulter notre politique de confidentialité.",
+		"acceptAllBtn": "Tout accepter",
+		"acceptNecessaryBtn": "Tout refuser",
+		"showPreferencesBtn": "Gérer les préférences de cookies"
+	},
+	"preferencesModal": {
+		"title": "Préférences de cookies",
+		"acceptAllBtn": "Tout accepter",
+		"acceptNecessaryBtn": "Tout refuser",
+		"savePreferencesBtn": "Enregistrer les paramètres",
+		"closeIconLabel": "Fermer la fenêtre",
+		"serviceCounterLabel": "Fournisseur de services",
+		"sections": [
+			{
+				"title": "Cookies strictement nécessaires",
+				"description": "Ces cookies sont indispensables au fonctionnement des fonctionnalités essentielles du site, notamment le maintien de la session, la conservation de l'état de connexion et la mémorisation de vos préférences de consentement aux cookies. Cette catégorie ne peut pas être désactivée et aucune donnée personnelle identifiable n'est stockée.",
+				"linkedCategory": "necessary"
+			},
+			{
+				"title": "Cookies fonctionnels",
+				"description": "Ces cookies permettent au site de mémoriser vos préférences personnelles, telles que la langue, les paramètres régionaux et la mise en page de l'interface, afin d'offrir une expérience plus cohérente et personnalisée. La désactivation de cette catégorie n'affecte pas les fonctionnalités de base du site, mais certaines fonctions peuvent ne pas fonctionner correctement.",
+				"linkedCategory": "functional"
+			},
+			{
+				"title": "Cookies analytiques",
+				"description": "Ces cookies nous aident à comprendre comment les visiteurs interagissent avec le site, notamment les pages consultées, le temps passé et les sources de trafic. Toutes les données collectées sont traitées sous forme agrégée et anonymisée, et utilisées uniquement pour améliorer continuellement les performances du site et l'expérience utilisateur.",
+				"linkedCategory": "analytics"
+			},
+			{
+				"title": "Cookies publicitaires",
+				"description": "Ces cookies sont définis par ce site et ses partenaires publicitaires pour établir un profil d'intérêts basé sur votre comportement de navigation, et diffuser des contenus publicitaires personnalisés sur ce site et d'autres plateformes. Si vous désactivez cette catégorie, vous verrez toujours des publicités, mais elles ne seront plus personnalisées selon vos intérêts.",
+				"linkedCategory": "advertising"
+			}
+		]
+	}
+}

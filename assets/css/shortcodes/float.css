@@ -1,0 +1,67 @@
+.float-media {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+
+	&.float-start,
+	&.float-end {
+		float: none;
+		margin-inline: 0;
+		max-width: 100%;
+	}
+
+	@media (width >= 48rem) {
+		&.float-start {
+			float: inline-start;
+			margin-inline-start: 0.15em;
+			margin-inline-end: 1em;
+		}
+
+		&.float-end {
+			float: inline-end;
+			margin-inline-start: 1em;
+			margin-inline-end: 0.15em;
+		}
+	}
+
+	&.size-s {
+		max-width: 20%;
+	}
+
+	&.size-m {
+		max-width: 35%;
+	}
+
+	&.size-l {
+		max-width: 45%;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.float-caption {
+		margin-top: 0.5em;
+		font-size: 0.85em;
+		color: #666;
+		text-align: center;
+	}
+}
+
+.float-content {
+	width: 100%;
+	overflow-wrap: break-word;
+}
+
+.float-content > *:first-child,
+.float-content > *:first-child > *:first-child,
+.float-content > *:first-child > *:first-child > *:first-child {
+	margin-top: 0;
+}
+
+.float-content > *:last-child,
+.float-content > *:last-child > *:last-child,
+.float-content > *:last-child > *:last-child > *:last-child {
+	margin-bottom: 0;
+}

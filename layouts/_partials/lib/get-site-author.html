@@ -1,0 +1,7 @@
+{{- /* returns {page} The site author's term page, or nil if none found. */}}
+{{- $authorsPage := site.GetPage "/authors" -}}
+{{- $author := "" -}}
+{{- with $authorsPage -}}
+	{{- $author = index (where .Pages "Params.siteAuthor" true) 0 -}}
+{{- end -}}
+{{- return $author -}}

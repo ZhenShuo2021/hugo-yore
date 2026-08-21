@@ -1,0 +1,28 @@
+<div class="translation group relative">
+	<button
+		class="text-foreground hover:text-link-hover flex items-center gap-2"
+		aria-label="{{ i18n `nav.change_language` | default `Change language` }}"
+		aria-haspopup="true">
+		{{- partialCached "components/icon.html" "translate" "icon-translate" -}}
+	</button>
+
+	<div class="dropdown-menu-child absolute z-50 w-max">
+		<div class="bg-background border-border min-w-32 rounded-lg border p-1 shadow-lg">
+			<div class="flex flex-col gap-0.75">
+				{{- range .AllTranslations -}}
+					{{- $isCurrent := eq .Language.Lang $.Language.Lang -}}
+					<a
+						href="{{ .RelPermalink }}"
+						class="text-popover-foreground {{ if $isCurrent -}}
+							header--active
+						{{- end }} hover:text-link-hover hover:bg-muted flex items-center rounded p-1.5 text-sm whitespace-nowrap transition-colors"
+						aria-label="{{ .Title }}"
+						{{ if $isCurrent }}aria-current="true"{{ end }}
+						title="{{ .Title }}">
+						<span>{{ .Language.Label | emojify }}</span>
+					</a>
+				{{- end -}}
+			</div>
+		</div>
+	</div>
+</div>

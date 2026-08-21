@@ -1,0 +1,85 @@
+{{- /* Build a flattened, DFS-ordered index of all pages under a docs root.
+
+	Resolves the full page list for a docs section through a one-time
+	build process, then exposes both the ordered slice and a fast
+	permalink→index lookup so callers can find prev/next neighbors
+	without re-scanning the tree on every page render.
+
+	1. DFS collection: walk .Pages recursively (via dfs-collect.html).
+	   - Section pages recurse into their own .Pages.
+	   - Leaf pages are appended to the accumulator in visitation order,
+	     unless Params.build.render is "never", in which case they're
+	     skipped (excluded from the flattened list entirely).
+	2. Index construction: once the flattened slice is complete, build
+	   a Scratch-backed map from each page's RelPermalink to its
+	   position in the slice, for O(1) lookup instead of a linear scan.
+	3. Caching: the result is stored in hugo.Store under a key derived
+	   from the docs root's RelPermalink, and this partial is intended
+	   to be invoked via partialCached (keyed the same way) so the DFS
+	   walk and index build only run once per docs root per build,
+	   regardless of how many pages under it query prev/next.
+
+	The stored dict carries the outcome of this process:
+
+	- pages: the flattened slice of leaf Page objects, in DFS order.
+	- index: a Scratch whose .Get(RelPermalink) returns that page's
+	  integer position within "pages", enabling O(1) prev/next lookups
+	  via `index $pages (add/sub $i 1)`.
+*/ -}}
+{{- $docsRoot := . -}}
+{{- $storeKey := printf "docs-dfs:%s" $docsRoot.RelPermalink -}}
+
+{{- $pages := slice -}}
+{{- range $docsRoot.Pages -}}
+	{{- if .IsSection -}}
+		{{- $pages = partial "inline/dfs-collect.html" (dict "section" . "acc" $pages) -}}
+	{{- else -}}
+		{{- $skip := false -}}
+		{{- with .Params.build -}}
+			{{- if eq .render "never" -}}
+				{{- $skip = true -}}
+			{{- end -}}
+		{{- end -}}
+		{{- if not $skip -}}
+			{{- $pages = $pages | append . -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- $scratch := newScratch -}}
+{{- range $i, $p := $pages -}}
+	{{- $scratch.Set $p.RelPermalink $i -}}
+{{- end -}}
+
+{{- hugo.Store.Set $storeKey (dict "pages" $pages "index" $scratch) -}}
+
+{{- define "_partials/inline/dfs-collect.html" -}}
+	{{/* Recursive DFS helper. Returns the accumulated page slice.
+
+		Params:
+		.section  — current Section page
+		.acc      — accumulated slice so far
+
+		Returns: updated slice with all leaf pages under .section appended in DFS order.
+	*/}}
+
+	{{- $acc := .acc -}}
+
+	{{- range .section.Pages -}}
+		{{- if .IsSection -}}
+			{{- $acc = partial "inline/dfs-collect.html" (dict "section" . "acc" $acc) -}}
+		{{- else -}}
+			{{- $skip := false -}}
+			{{- with .Params.build -}}
+				{{- if eq .render "never" -}}
+					{{- $skip = true -}}
+				{{- end -}}
+			{{- end -}}
+			{{- if not $skip -}}
+				{{- $acc = $acc | append . -}}
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+
+	{{- return $acc -}}
+{{ end }}

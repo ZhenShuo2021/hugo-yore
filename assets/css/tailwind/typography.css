@@ -1,0 +1,106 @@
+@plugin '@tailwindcss/typography';
+@utility prose {
+	/* Body text */
+	--tw-prose-body: var(--color-foreground);
+
+	/* Headings */
+	--tw-prose-headings: color-mix(in oklab, var(--color-foreground) 88%, var(--color-accent-500) 12%);
+
+	/* Lead paragraph */
+	--tw-prose-lead: var(--color-muted-foreground);
+
+	/* Links */
+	--tw-prose-links: var(--color-link-hover);
+
+	/* Bold text */
+	--tw-prose-bold: inherit;
+
+	/* List counters / bullets */
+	--tw-prose-counters: color-mix(in oklab, var(--color-foreground), white 10%);
+	--tw-prose-bullets: color-mix(in oklab, var(--color-foreground), white 10%);
+
+	/* Blockquotes text and border */
+	--tw-prose-quotes: var(--color-muted-foreground);
+	--tw-prose-quote-borders: var(--color-accent-400);
+
+	/* Image captions */
+	--tw-prose-captions: var(--color-muted-foreground);
+
+	/* Inline code */
+	--tw-prose-code: var(--color-foreground);
+
+	/* Code blocks */
+	--tw-prose-pre-code: inherit;
+	--tw-prose-pre-bg: var(--color-muted);
+
+	/* Table borders: th stronger, td derived from semantic border */
+	--tw-prose-th-borders: var(--color-border);
+	--tw-prose-td-borders: color-mix(in oklab, var(--color-border), transparent 40%);
+
+	--tw-prose-hr: var(--hr-border);
+	--tw-prose-kbd: var(--color-foreground);
+	--tw-prose-kbd-shadows: oklch(from var(--color-neutral-950) l c h / 0.25);
+
+	/* Dark mode */
+	--tw-prose-invert-body: var(--color-foreground);
+	--tw-prose-invert-headings: color-mix(in oklab, var(--color-foreground) 88%, var(--color-accent-400) 12%);
+	--tw-prose-invert-lead: var(--color-muted-foreground);
+	--tw-prose-invert-links: var(--color-link-hover);
+	--tw-prose-invert-bold: inherit;
+	--tw-prose-invert-counters: var(--muted-foreground);
+	--tw-prose-invert-bullets: var(--muted-foreground);
+	--tw-prose-invert-quotes: var(--color-muted-foreground);
+	--tw-prose-invert-quote-borders: var(--color-accent-600);
+	--tw-prose-invert-captions: var(--color-muted-foreground);
+	--tw-prose-invert-code: var(--color-foreground);
+	--tw-prose-invert-pre-code: var(--color-neutral-200);
+	--tw-prose-invert-pre-bg: rgb(13, 17, 23);
+	--tw-prose-invert-hr: var(--hr-border);
+	--tw-prose-invert-kbd: var(--color-foreground);
+	--tw-prose-invert-kbd-shadows: oklch(from var(--color-neutral-50) l c h / 0.15);
+	--tw-prose-invert-th-borders: var(--color-border);
+	--tw-prose-invert-td-borders: color-mix(in oklab, var(--color-border), transparent 40%);
+
+	& kbd {
+		padding: 0.1rem 0.4rem;
+		border-radius: 0.25rem;
+		font-size: 0.9rem;
+		font-weight: 600;
+	}
+
+	& mark {
+		/* not customize */
+	}
+
+	& code::before,
+	& code::after,
+	& p::before,
+	& p::after {
+		display: none;
+	}
+
+	ul {
+		list-style-type: disc;
+	}
+
+	ul ul {
+		list-style-type: circle;
+	}
+
+	ul ul ul {
+		list-style-type: square;
+	}
+
+	ul,
+	li {
+		margin-top: unset;
+		margin-bottom: unset;
+	}
+}
+
+@utility prose-invert {
+	& kbd {
+		color: var(--color-neutral-100);
+		background-color: var(--color-neutral-800);
+	}
+}

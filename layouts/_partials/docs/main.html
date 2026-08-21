@@ -1,0 +1,425 @@
+{{- $headerSticky := ne site.Params.headerLayout "static" -}}
+{{- if and (.Param "pageHeroStyle") (ne (.Param "pageHeroStyle") "disable") -}}
+	{{- partial "page/hero/main.html" . -}}
+{{- end }}
+<div
+	class="{{ cond $headerSticky `docs-layout--sticky-header` `` }} border-border flex min-h-screen w-full items-stretch border-b">
+	{{- partial "inline/docs-nav.html" . -}}
+	<div class="flex min-w-0 flex-1 items-stretch pt-16">
+		{{- if .IsSection -}}
+			{{- partial "docs/section.html" . -}}
+		{{- else -}}
+			{{- partial "inline/docs-content.html" . -}}
+		{{- end -}}
+		{{- partial "inline/docs-toc.html" . -}}
+	</div>
+</div>
+
+{{- define "_partials/inline/docs-nav.html" -}}
+	<aside
+		class="docs-sidebar-container border-border sticky top-0 hidden h-screen max-h-screen w-[280px] shrink-0 flex-col border-e md:flex"
+		aria-label="{{ i18n "docs.sidebar_label" | default "Sidebar" }}"
+		data-docs-root="{{ .FirstSection.RelPermalink }}">
+		<div class="docs-sidebar-logo flex shrink-0 items-center gap-2 overflow-hidden px-4">
+			{{- if eq site.Params.headerLayout "hideOnScroll" -}}
+				{{- if site.Params.Logo -}}
+					{{- $logo := resources.Get site.Params.Logo -}}
+					{{- if $logo -}}
+						<div class="logo-container flex h-8 w-auto flex-shrink-0 items-center">
+							{{- if eq $logo.MediaType.SubType "svg" -}}
+								<a
+									href="{{ site.BaseURL | relLangURL }}"
+									aria-label="{{ site.Title }}"
+									tabindex="-1"
+									class="flex h-full items-center">
+									{{- $logo.Content | safeHTML -}}
+								</a>
+							{{- else -}}
+								<a
+									href="{{ site.BaseURL | relLangURL }}"
+									aria-label="{{ site.Title }}"
+									tabindex="-1"
+									class="flex h-full items-center">
+									<img
+										src="{{ $logo.RelPermalink }}"
+										alt="{{ site.Title }}"
+										class="h-full w-auto object-contain">
+								</a>
+							{{- end -}}
+						</div>
+					{{- end -}}
+				{{- end -}}
+				{{- if site.Params.headerShowTitle | default true -}}
+					<a href="{{ "" | relLangURL }}" class="text-foreground min-w-0 shrink truncate text-xl font-medium">
+						{{- site.Title | markdownify -}}
+					</a>
+				{{- else -}}
+					<span class="sr-only">{{ site.Title | markdownify }}</span>
+				{{- end -}}
+			{{- end -}}
+		</div>
+
+		<script>
+			(() => {
+				try {
+					if (!matchMedia('(min-width: 48em)').matches) return;
+					const asideEl = document.querySelector('.docs-sidebar-container');
+					const docsRoot = asideEl?.dataset.docsRoot || '';
+					const storageKey = 'yore-docs-nav-state:' + docsRoot;
+					window._docsNavStorageKey = storageKey;
+					const state = JSON.parse(sessionStorage.getItem(storageKey) || '{}');
+					// Stash scroll so the post-tree script can apply it.
+					if (state.scroll) window._docsNavScrollRestore = state.scroll;
+					if (!state.collapsed) state.collapsed = {};
+					const currentPath = window.location.pathname;
+					// Stash so the post-tree script (which runs after the whole nav
+					// tree, including every <sl-nav-restore>, has been parsed) can
+					// flush any forced-expand writes back to sessionStorage.
+					// NOTE: a microtask queued here would run before the parser gets
+					// to the rest of the tree, so flushing must happen later.
+					window._docsNavState = state;
+					window._docsNavDirty = false;
+					// Define sl-nav-restore so connectedCallback fires for each
+					// section toggle as the browser parses the DOM, before first paint.
+					customElements.define(
+						'sl-nav-restore',
+						class extends HTMLElement {
+							connectedCallback() {
+								try {
+									const sectionId = this.dataset.sectionId;
+									const stored = state.collapsed[sectionId];
+									// Walk up to find the wrapping <a data-section-id> and its sibling expander.
+									// They share the same parent <div>, so traverse from this element.
+									const wrapper = this.parentElement;
+									const btn = wrapper?.querySelector(`[data-section-id="${sectionId}"]`);
+									const expander = wrapper?.querySelector(`[data-section-expander="${sectionId}"]`);
+									if (!btn || !expander) return;
+									// If this section is an ancestor of the current page, it must
+									// stay expanded regardless of the stored collapsed state —
+									// otherwise the user loses track of where they are in the nav.
+									const containsActiveLink = Array.from(
+										wrapper.querySelectorAll('a.docs-nav__link, a.docs-nav__section-toggle'),
+									).some((link) => link.pathname === currentPath);
+									if (!containsActiveLink && typeof stored !== 'boolean') return;
+									const collapsed = containsActiveLink ? false : stored;
+
+									btn.classList.toggle('is-collapsed', collapsed);
+									btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+									expander.classList.toggle('is-collapsed', collapsed);
+
+									// Persist the forced-expand
+									if (containsActiveLink && stored !== false) {
+										state.collapsed[sectionId] = false;
+										window._docsNavDirty = true;
+									}
+								} catch {}
+							}
+						},
+					);
+				} catch {}
+			})();
+		</script>
+
+		<div class="scrollbar-mask flex-1">
+			<div class="px-2 pt-2 pb-4">
+				{{- partialCached "inline/nav-pages.html" . .FirstSection -}}
+			</div>
+		</div>
+
+		{{- /* Scroll restore + flush forced-expand state. */ -}}
+		<script>
+			(() => {
+				if (window._docsNavDirty && window._docsNavState && window._docsNavStorageKey) {
+					try {
+						sessionStorage.setItem(window._docsNavStorageKey, JSON.stringify(window._docsNavState));
+					} catch {}
+				}
+				delete window._docsNavState;
+				delete window._docsNavDirty;
+				delete window._docsNavStorageKey;
+
+				if (!window._docsNavScrollRestore) return;
+				const el = document.querySelector('.docs-sidebar-container .scrollbar-mask');
+				if (el) el.scrollTop = window._docsNavScrollRestore;
+				delete window._docsNavScrollRestore;
+			})();
+			(() => {
+				const nav = document.querySelector('.docs-nav');
+				if (!nav) return;
+				const activeLink =
+					Array.from(nav.querySelectorAll('a.docs-nav__link, a.docs-nav__section-toggle')).find(
+						(link) => link.pathname === window.location.pathname,
+					) ?? null;
+				if (!activeLink) return;
+
+				activeLink.classList.add('docs-nav__link--active');
+				activeLink.setAttribute('aria-current', 'page');
+
+				let node = activeLink.parentElement;
+				while (node && node !== nav) {
+					if (node.classList.contains('nav-section-expander')) {
+						node.previousElementSibling.classList.add('docs-nav__link--active');
+					}
+					node = node.parentElement;
+				}
+			})();
+		</script>
+	</aside>
+{{- end -}}
+
+{{- define "_partials/inline/nav-pages.html" -}}
+	{{- $docsRoot := .FirstSection -}}
+	<div>
+		<nav class="docs-nav" aria-label="{{ i18n "docs.nav_label" | default "Documentation" }}">
+			<ul class="m-0 list-none p-0">
+				{{- range $docsRoot.Pages -}}
+					<li class=" ">
+						{{- partial "inline/nav-item.html" (dict "page" . "parentId" "root") -}}
+					</li>
+				{{- end -}}
+			</ul>
+		</nav>
+	</div>
+{{- end -}}
+
+{{- define "_partials/inline/nav-item.html" -}}
+	{{- $page := .page -}}
+	{{- $parentId := .parentId -}}
+	{{- if $page.IsSection -}}
+		{{- $collapsed := $page.Params.docsNavCollapsed | default false -}}
+		<div>
+			<a
+				href="{{ $page.RelPermalink }}"
+				class="{{ with $page.Param `docsNavClass` -}}
+					{{- . -}}
+				{{- end }} {{ cond $collapsed `is-collapsed` `` }} docs-nav__section-toggle hover:bg-muted text-muted-foreground mt-1 flex w-full items-center justify-between rounded-md p-1.5"
+				data-section-id="{{ $page.RelPermalink }}"
+				data-parent-id="{{ $parentId }}"
+				aria-expanded="{{ cond $collapsed `false` `true` }}">
+				<span class="flex items-center gap-1.5 text-start">
+					{{- if $page.Param "docsIcon" -}}
+						{{- partial "components/icon.html" ($page.Param "docsIcon") -}}
+					{{- end -}}
+					<span class="line-clamp-2 wrap-break-word">{{ $page.LinkTitle }}</span>
+				</span>
+				<span class="chevron">
+					{{- partialCached "components/icon.html" "nav-arrow-down" "icon-nav-arrow-down" -}}
+				</span>
+			</a>
+			{{- with $page.Pages -}}
+				<div
+					class="{{ cond $collapsed `is-collapsed` `` }} nav-section-expander"
+					data-section-expander="{{ $page.RelPermalink }}">
+					<ul
+						class="nav-section-expander__content border-border m-0 ms-5 list-none border-s p-0 ps-2"
+						data-section-nav="{{ $page.RelPermalink }}">
+						{{- range . -}}
+							<li class=" ">
+								{{- partial "inline/nav-item.html" (dict "page" . "parentId" $page.RelPermalink) -}}
+							</li>
+						{{- end -}}
+					</ul>
+				</div>
+			{{- end -}}
+			{{- /* sl-nav-restore is placed at the end of the div: at this point,
+				btn([data-section-id]) and expander([data-section-expander]) have both been parsed,
+				and connectedCallback can correctly find both
+			*/}}<sl-nav-restore data-section-id="{{ $page.RelPermalink }}"></sl-nav-restore>
+		</div>
+	{{- else -}}
+		{{- $externalURL := $page.Param "link" -}}
+		<a
+			{{ with $externalURL -}}
+				href="{{ . }}" target="_blank" rel="noopener"
+			{{- else with $page.RelPermalink -}}
+				href="{{ . }}"
+			{{- end }}
+			class="{{ with $page.Param `docsNavClass` -}}
+				{{- . -}}
+			{{- end }} docs-nav__link text-muted-foreground hover:bg-muted mt-1 flex items-center gap-1.5 rounded-md p-1.5 transition-colors duration-(--dur-200)">
+			{{- if $page.Param "docsIcon" -}}
+				{{- partial "components/icon.html" ($page.Param "docsIcon") -}}
+			{{- end -}}
+			<span class="line-clamp-2 wrap-break-word">{{ $page.LinkTitle -}}</span>
+			{{- if $externalURL -}}
+				<span class="ms-auto shrink-0">
+					{{- partialCached "components/icon.html" "yore/external" "icon-yore/external" -}}
+				</span>
+				<span class="sr-only">
+					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+				</span>
+			{{- end -}}
+		</a>
+	{{- end -}}
+{{- end }}
+
+{{- define "_partials/inline/docs-content-header.html" -}}
+	{{- /* Breadcrumbs */ -}}
+	{{- if .Param "breadcrumb" | default true -}}
+		<div class="text-muted-foreground text-sm">
+			{{- partial "components/breadcrumbs.html" . -}}
+		</div>
+	{{- end -}}
+
+	{{- /* Title */ -}}
+	<header class="mb-10">
+		<div class="flex items-start justify-between gap-4">
+			<h1 class="text-foreground mb-2 text-4xl font-medium">
+				{{- .Title -}}
+			</h1>
+			{{- if .Param "pageShowActions" -}}
+				{{- partial "page/page-actions.html" . -}}
+			{{- end -}}
+		</div>
+
+		{{- if .Params.pageShowMeta | default site.Params.pageShowMeta -}}
+			<div class="text-muted-foreground flex flex-col gap-1 text-sm">
+				{{- if .Date -}}
+					<div class="flex items-center gap-1">
+						<span>{{ i18n "article.date" | default "Published:" }}</span>
+						<time
+							datetime="{{ .Date.Format "2006-01-02" }}"
+							title="{{ .Date.Format "January 2, 2006" }}"
+							aria-label="{{ i18n "article.published_date" | default "Published date" }}">
+							{{- .Date.Format "January 2, 2006" -}}
+						</time>
+					</div>
+				{{- end -}}
+				{{- if and .Lastmod (gt .Lastmod .Date) -}}
+					<div class="flex items-center gap-1">
+						<span>{{ i18n "article.date_updated" | default "Updated:" }}</span>
+						<time datetime="{{ .Lastmod.Format "2006-01-02" }}">
+							{{- .Lastmod.Format "January 2, 2006" -}}
+						</time>
+					</div>
+				{{- end -}}
+				{{- if .Param "pageShowAuthors" -}}
+					{{- partial "page/authors.html" . -}}
+				{{- end -}}
+			</div>
+		{{- end -}}
+	</header>
+
+	{{- $hr := false -}}
+	{{- $tocStyle := .Params.pageTOCStyle | default site.Params.pageTOCStyle | default "sidebar" -}}
+	{{- /* no "top" in docs layout */ -}}
+	{{- $tocStyle = cond (eq $tocStyle "top") "sidebar" $tocStyle -}}
+	{{- .Store.Set "tocStyle" $tocStyle -}}
+	{{- $hasToc := in .TableOfContents "<ul" -}}
+	{{- if and $hasToc (ne $tocStyle "disable") -}}
+		{{- partial "page/toc-top.html" . -}}
+		{{- $hr = true -}}
+	{{- end -}}
+	{{- if .Param "staleContentWarning" -}}
+		{{- partial "components/stale-warning.html" . -}}
+		{{- $hr = true -}}
+	{{- end -}}
+	{{- if $hr -}}
+		<div class="prose dark:prose-invert my-10 max-w-none md:hidden"><hr></div>
+	{{- end -}}
+{{- end -}}
+
+{{- define "_partials/inline/docs-content.html" -}}
+	<main id="main-content" class="docs-content min-w-0 flex-1 px-4 md:px-12 lg:ps-12 lg:pe-16">
+		{{- partial "inline/docs-content-header.html" . -}}
+
+		{{- /* Markdown content */ -}}
+		<article
+			{{ if not (.Param `pageNoList`) }}data-pagefind-body{{ end }}
+			class="prose dark:prose-invert w-full max-w-none">
+			{{- if templates.Exists "_partials/docs/content-before.html" -}}
+				{{- partial "docs/content-before.html" . -}}
+			{{- end -}}
+			{{- .Content -}}
+			{{- if templates.Exists "_partials/docs/content-after.html" -}}
+				{{- partial "docs/content-after.html" . -}}
+			{{- end -}}
+		</article>
+
+		{{- /* Source Links */ -}}
+		{{- with .Params.sourceLinks -}}
+			<div class="prose dark:prose-invert border-border mt-10 w-full max-w-none border-t pt-6">
+				<p class="mb-2">
+					{{- i18n "docs.source_files" | default "Source Files" -}}
+				</p>
+				<ul class="space-y-1">
+					{{- range . -}}
+						{{- $url := .url | default (printf "%s%s" site.Params.sourceBaseURL .path) -}}
+						{{- $label := .label | default (path.Base (.path | default $url)) -}}
+						<li>
+							<a href="{{ $url }}" target="_blank" rel="noopener noreferrer">
+								{{- $label -}}
+								<span class="sr-only">
+									{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+								</span>
+							</a>
+						</li>
+					{{- end -}}
+				</ul>
+			</div>
+		{{- end -}}
+
+		{{- /* Categories and Tags */ -}}
+		{{- if or (.Param "pageShowCategories") (.Param "pageShowTags") -}}
+			{{- partial "page/taxonomy.html" . -}}
+		{{- end -}}
+
+		{{- if .Page.Params.pageShowBacklinks | default site.Params.pageShowBacklinks | default true -}}
+			{{- partial "page/backlink.html" . -}}
+		{{- end -}}
+
+		{{- if eq (.Param "pageKgStyle") "bottom" -}}
+			<div class="kgw-bottom border-border mt-16 border-t pt-8 print:hidden">
+				<h2 class="text-foreground mb-6 flex items-center gap-2 text-2xl!">
+					{{- i18n "article.kg_title" | default "Article Connections" -}}
+				</h2>
+				{{- partial "knowledge-graph/widget.html" . -}}
+			</div>
+		{{- end -}}
+
+		{{- if templates.Exists "_partials/comments.html" -}}
+			{{- partial "comments.html" -}}
+		{{- end -}}
+
+		{{- /* Prev / Next within docs section */ -}}
+		{{- if .Param "pageShowNext" | default true -}}
+			{{- $currentPage := . -}}
+			{{- $docsRoot := .FirstSection -}}
+			{{- $storeKey := printf "docs-dfs:%s" $docsRoot.RelPermalink -}}
+
+			{{- partialCached "docs/dfs-init.html" $docsRoot $docsRoot.RelPermalink -}}
+
+			{{- $data := hugo.Store.Get $storeKey -}}
+			{{- $pages := $data.pages -}}
+			{{- $index := $data.index -}}
+
+			{{- $i := $index.Get $currentPage.RelPermalink -}}
+			{{- $prev := false -}}
+			{{- $next := false -}}
+			{{- if ne $i nil -}}
+				{{- if gt $i 0 -}}
+					{{- $prev = index $pages (sub $i 1) -}}
+				{{- end -}}
+				{{- if lt $i (sub (len $pages) 1) -}}
+					{{- $next = index $pages (add $i 1) -}}
+				{{- end -}}
+			{{- end -}}
+
+			{{- if and ($currentPage.Param "pageShowNext") (or $prev $next) -}}
+				{{- partial "page/next.html" (dict "next" $next "prev" $prev) -}}
+			{{- end -}}
+		{{- end -}}
+	</main>
+{{- end -}}
+
+{{- define "_partials/inline/docs-toc.html" -}}
+	<aside
+		class="docs-toc toc-sidebar scrollbar-mask sticky top-[calc(var(--header-height)+1.5rem)] me-4 hidden max-h-[calc(100vh-var(--header-height)-5rem)] w-1/4 self-start overflow-auto lg:block">
+		{{- if eq (.Param "pageKgStyle") "sidebar" -}}
+			<div class="me-2">{{ partial "knowledge-graph/widget.html" . }}</div>
+		{{- end -}}
+		<div class="border-sidebar-border text-sidebar-foreground border-s px-2 text-sm [&_ul]:list-none">
+			{{- .TableOfContents -}}
+		</div>
+	</aside>
+{{- end -}}

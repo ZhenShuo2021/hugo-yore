@@ -1,0 +1,37 @@
+html[data-color-scheme='avocado'] {
+	--clr-neutral-50: oklch(98.5% 0.003 60);
+	--clr-neutral-100: oklch(97% 0.004 55);
+	--clr-neutral-200: oklch(92% 0.005 50);
+	--clr-neutral-300: oklch(86% 0.006 48);
+	--clr-neutral-400: oklch(70% 0.008 45);
+	--clr-neutral-500: oklch(54% 0.009 43);
+	--clr-neutral-600: oklch(42% 0.008 42);
+	--clr-neutral-700: oklch(35% 0.007 40);
+	--clr-neutral-800: oklch(25% 0.006 38);
+	--clr-neutral-900: oklch(18% 0.005 36);
+	--clr-neutral-950: oklch(12% 0.004 35);
+
+	--clr-accent-50: oklch(97.5% 0.015 165);
+	--clr-accent-100: oklch(95% 0.025 165);
+	--clr-accent-200: oklch(90% 0.04 165);
+	--clr-accent-300: oklch(82% 0.06 165);
+	--clr-accent-400: oklch(72% 0.075 165);
+	--clr-accent-500: oklch(62% 0.085 165);
+	--clr-accent-600: oklch(52% 0.08 165);
+	--clr-accent-700: oklch(43% 0.07 165);
+	--clr-accent-800: oklch(35% 0.055 165);
+	--clr-accent-900: oklch(28% 0.045 165);
+	--clr-accent-950: oklch(20% 0.03 165);
+
+	--clr-brand-50: oklch(98% 0.03 125);
+	--clr-brand-100: oklch(96% 0.055 125);
+	--clr-brand-200: oklch(92% 0.1 125);
+	--clr-brand-300: oklch(87% 0.145 125);
+	--clr-brand-400: oklch(82% 0.175 125);
+	--clr-brand-500: oklch(75% 0.19 125);
+	--clr-brand-600: oklch(62% 0.165 125);
+	--clr-brand-700: oklch(50% 0.135 125);
+	--clr-brand-800: oklch(40% 0.105 125);
+	--clr-brand-900: oklch(33% 0.085 125);
+	--clr-brand-950: oklch(25% 0.06 125);
+}

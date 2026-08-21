@@ -1,0 +1,196 @@
+html[data-theme='light'] {
+	/* GitHub */
+	--adm-note-accent: theme('colors.sky.700');
+	--adm-note-header-bg: theme('colors.sky.200');
+
+	--adm-tip-accent: theme('colors.emerald.700');
+	--adm-tip-header-bg: theme('colors.emerald.200');
+
+	--adm-important-accent: theme('colors.purple.700');
+	--adm-important-header-bg: theme('colors.purple.200');
+
+	--adm-warning-accent: theme('colors.orange.700');
+	--adm-warning-header-bg: theme('colors.orange.200');
+
+	--adm-caution-accent: theme('colors.red.700');
+	--adm-caution-header-bg: theme('colors.red.200');
+
+	/* Extended */
+	--adm-abstract-accent: theme('colors.cyan.700');
+	--adm-abstract-header-bg: theme('colors.cyan.200');
+
+	--adm-bug-accent: theme('colors.rose.700');
+	--adm-bug-header-bg: theme('colors.rose.200');
+
+	--adm-danger-accent: theme('colors.red.700');
+	--adm-danger-header-bg: theme('colors.red.200');
+
+	--adm-example-accent: theme('colors.purple.700');
+	--adm-example-header-bg: theme('colors.purple.200');
+
+	--adm-failure-accent: theme('colors.pink.700');
+	--adm-failure-header-bg: theme('colors.pink.200');
+
+	--adm-info-accent: theme('colors.blue.700');
+	--adm-info-header-bg: theme('colors.blue.200');
+
+	--adm-question-accent: theme('colors.amber.700');
+	--adm-question-header-bg: theme('colors.amber.200');
+
+	--adm-quote-accent: theme('colors.gray.700');
+	--adm-quote-header-bg: theme('colors.gray.200');
+
+	--adm-success-accent: theme('colors.emerald.700');
+	--adm-success-header-bg: theme('colors.emerald.200');
+
+	--adm-todo-accent: theme('colors.sky.700');
+	--adm-todo-header-bg: theme('colors.sky.200');
+}
+
+html[data-theme='dark'] {
+	/* GitHub */
+	--adm-note-accent: theme('colors.sky.400');
+	--adm-note-header-bg: theme('colors.sky.400');
+
+	--adm-tip-accent: theme('colors.emerald.400');
+	--adm-tip-header-bg: theme('colors.emerald.400');
+
+	--adm-important-accent: theme('colors.purple.400');
+	--adm-important-header-bg: theme('colors.purple.400');
+
+	--adm-warning-accent: theme('colors.orange.400');
+	--adm-warning-header-bg: theme('colors.orange.400');
+
+	--adm-caution-accent: theme('colors.red.400');
+	--adm-caution-header-bg: theme('colors.red.400');
+
+	/* Extended */
+	--adm-abstract-accent: theme('colors.cyan.400');
+	--adm-abstract-header-bg: theme('colors.cyan.400');
+
+	--adm-bug-accent: theme('colors.rose.400');
+	--adm-bug-header-bg: theme('colors.rose.400');
+
+	--adm-danger-accent: theme('colors.red.400');
+	--adm-danger-header-bg: theme('colors.red.400');
+
+	--adm-example-accent: theme('colors.purple.400');
+	--adm-example-header-bg: theme('colors.purple.400');
+
+	--adm-failure-accent: theme('colors.pink.400');
+	--adm-failure-header-bg: theme('colors.pink.400');
+
+	--adm-info-accent: theme('colors.blue.400');
+	--adm-info-header-bg: theme('colors.blue.400');
+
+	--adm-question-accent: theme('colors.amber.400');
+	--adm-question-header-bg: theme('colors.amber.400');
+
+	--adm-quote-accent: theme('colors.gray.400');
+	--adm-quote-header-bg: theme('colors.gray.400');
+
+	--adm-success-accent: theme('colors.emerald.400');
+	--adm-success-header-bg: theme('colors.emerald.400');
+
+	--adm-todo-accent: theme('colors.sky.400');
+	--adm-todo-header-bg: theme('colors.sky.400');
+}
+
+/* Base Reset */
+.admonition-content > :first-child {
+	margin-top: 0 !important;
+}
+.admonition-content > :last-child {
+	margin-bottom: 0 !important;
+}
+
+.admonition[data-type][data-type] {
+	/* prevent !important so it can be override */
+	background-color: transparent !important;
+	border-inline-start-color: var(--header-color);
+	--header-bg: transparent;
+}
+
+.admonition[data-type] .admonition-header {
+	color: var(--header-color);
+	background-color: var(--header-bg);
+}
+
+/* Type Palettes */
+.admonition[data-type='note'] {
+	--header-color: var(--adm-note-accent);
+	--header-bg: var(--adm-note-header-bg);
+}
+.admonition[data-type='tip'] {
+	--header-color: var(--adm-tip-accent);
+	--header-bg: var(--adm-tip-header-bg);
+}
+.admonition[data-type='important'] {
+	--header-color: var(--adm-important-accent);
+	--header-bg: var(--adm-important-header-bg);
+}
+.admonition[data-type='warning'] {
+	--header-color: var(--adm-warning-accent);
+	--header-bg: var(--adm-warning-header-bg);
+}
+.admonition[data-type='caution'] {
+	--header-color: var(--adm-caution-accent);
+	--header-bg: var(--adm-caution-header-bg);
+}
+.admonition[data-type='abstract'] {
+	--header-color: var(--adm-abstract-accent);
+	--header-bg: var(--adm-abstract-header-bg);
+}
+.admonition[data-type='bug'] {
+	--header-color: var(--adm-bug-accent);
+	--header-bg: var(--adm-bug-header-bg);
+}
+.admonition[data-type='danger'] {
+	--header-color: var(--adm-danger-accent);
+	--header-bg: var(--adm-danger-header-bg);
+}
+.admonition[data-type='example'] {
+	--header-color: var(--adm-example-accent);
+	--header-bg: var(--adm-example-header-bg);
+}
+.admonition[data-type='failure'] {
+	--header-color: var(--adm-failure-accent);
+	--header-bg: var(--adm-failure-header-bg);
+}
+.admonition[data-type='info'] {
+	--header-color: var(--adm-info-accent);
+	--header-bg: var(--adm-info-header-bg);
+}
+.admonition[data-type='question'] {
+	--header-color: var(--adm-question-accent);
+	--header-bg: var(--adm-question-header-bg);
+}
+.admonition[data-type='quote'] {
+	--header-color: var(--adm-quote-accent);
+	--header-bg: var(--adm-quote-header-bg);
+}
+.admonition[data-type='success'] {
+	--header-color: var(--adm-success-accent);
+	--header-bg: var(--adm-success-header-bg);
+}
+.admonition[data-type='todo'] {
+	--header-color: var(--adm-todo-accent);
+	--header-bg: var(--adm-todo-header-bg);
+}
+
+.admonition-chevron {
+	rotate: 0deg;
+
+	@media not (prefers-reduced-motion: reduce) {
+		html:not([data-a11y-reduce-motion]) & {
+			transition-property: transform, translate, scale, rotate;
+			transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+			transition-duration: var(--tw-duration, var(--default-transition-duration));
+			rotate: calc(90deg * -1);
+
+			&:is(:where(.group):is([open], :popover-open, :open) *) {
+				rotate: 0deg;
+			}
+		}
+	}
+}

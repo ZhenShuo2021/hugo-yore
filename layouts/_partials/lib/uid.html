@@ -1,0 +1,20 @@
+{{- /* generate a unique id
+
+	Usage 1: pass the shortcode context only
+	{{ partial "uid.html" . }\}
+
+	Usage 2: pass a dict to include extra values in the hash source
+	{{ partial "uid.html" (dict "page" . "extra" (slice "foo" "bar")) }\}
+*/ -}}
+{{- $page := .Page -}}
+{{- $extra := slice -}}
+{{- if reflect.IsMap . -}}
+	{{- $page = .page -}}
+	{{- $extra = .extra | default slice -}}
+{{- end -}}
+{{- $count := $page.Store.Get "uid_count" | default 0 -}}
+{{- $page.Store.Set "uid_count" (add $count 1) -}}
+{{- $parts := slice $page.RelPermalink $count -}}
+{{- $parts = $parts | append $extra -}}
+{{- $raw := delimit $parts "-" -}}
+{{- return hash.XxHash $raw -}}

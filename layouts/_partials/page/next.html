@@ -1,0 +1,60 @@
+{{- $next := partial "inline/find-valid-adjacent.html" (dict "page" .next "direction" "next") -}}
+{{- $prev := partial "inline/find-valid-adjacent.html" (dict "page" .prev "direction" "prev") -}}
+{{- $hasNext := or $next $prev -}}
+
+{{- if and (page.Param "pageShowNext") $hasNext -}}
+	<nav
+		class="border-border mt-16 flex justify-between gap-8 border-t py-8"
+		aria-label="{{ i18n `article.more_articles` | default `More Articles` }}">
+		<div class="flex-1">
+			{{- with $prev -}}
+				<div>
+					<div class="text-muted-foreground mb-2 text-xs" aria-hidden="true">Previous</div>
+					<a
+						href="{{ .RelPermalink }}"
+						class="text-foreground hover:text-link-hover transition-colors"
+						aria-label="{{ i18n `article.previous` | default `Previous` }}: {{ .Title }}">
+						{{- .Title -}}
+					</a>
+				</div>
+			{{- end -}}
+		</div>
+		<div class="flex-1 text-end">
+			{{- with $next -}}
+				<div>
+					<div class="text-muted-foreground mb-2 text-xs" aria-hidden="true">Next</div>
+					<a
+						href="{{ .RelPermalink }}"
+						class="text-foreground hover:text-link-hover transition-colors"
+						aria-label="{{ i18n `article.next` | default `Next` }}: {{ .Title }}">
+						{{- .Title -}}
+					</a>
+				</div>
+			{{- end -}}
+		</div>
+	</nav>
+{{- end -}}
+
+{{- define "_partials/inline/find-valid-adjacent.html" -}}
+	{{- $page := .page -}}
+	{{- $direction := .direction -}}
+	{{- $result := "" -}}
+
+	{{- if $page -}}
+		{{- if $page.RelPermalink -}}
+			{{- $result = $page -}}
+		{{- else -}}
+			{{- $nextCandidate := "" -}}
+			{{- if eq $direction "next" -}}
+				{{- $nextCandidate = $page.Next -}}
+			{{- else -}}
+				{{- $nextCandidate = $page.Prev -}}
+			{{- end -}}
+			{{- if $nextCandidate -}}
+				{{- $result = partial "inline/find-valid-adjacent.html" (dict "page" $nextCandidate "direction" $direction) -}}
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+
+	{{- return $result -}}
+{{- end -}}

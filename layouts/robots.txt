@@ -1,0 +1,7 @@
+User-agent: *
+{{- if eq (getenv "HUGO_DEPLOY_ENV") "staging" }}
+Disallow: /
+{{- else }}
+Disallow:
+{{- end }}
+Sitemap: {{ "sitemap.xml" | absURL }}

@@ -1,0 +1,63 @@
+html {
+	--seal: oklch(50% 0.142 30);
+}
+html[data-theme='dark'] {
+	--seal: oklch(75% 0.2 30);
+}
+
+.grid-cols-4 {
+	display: grid;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+	column-gap: calc(var(--spacing) * 8);
+	row-gap: calc(var(--spacing) * 12);
+	@media (width >= 40rem) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	@media (width >= 48rem) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	@media (width >= 64rem) {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+html:not([data-a11y-reduce-motion]) {
+	.gallery-section-img {
+		@media not (prefers-reduced-motion: reduce) {
+			--tw-duration: 700ms;
+			transition-duration: 700ms;
+			&:is(:where(.group):hover *) {
+				@media (hover: hover) {
+					scale: 1.008;
+				}
+			}
+		}
+	}
+}
+
+/* html[data-page-type=gallery] main {
+	margin-inline: auto;
+	max-width: 120rem;
+} */
+
+/* customization example for blog section using gallery layout */
+/* main:has(.gallery-page-item[href*='/blog/']) {
+	max-width: 100ch;
+	margin-inline: auto;
+
+	.grid-cols-4 {
+		@media (width >= 48rem) {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+	.gallery-page-item--img-wrapper {
+		aspect-ratio: 4/3;
+	}
+	.gallery-page-item--img-wrapper img {
+		&:is(:where(.group):hover *) {
+			@media (hover: hover) {
+				scale: 1.5;
+			}
+		}
+	}
+} */

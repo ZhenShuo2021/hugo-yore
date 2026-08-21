@@ -1,0 +1,83 @@
+{
+	"consentModal": {
+		"title": "How We Use Cookies",
+		"description": "This site does not use cookies or tracking technologies. The cookie consent dialog is included solely as a demonstration and extension example. It does not collect, store, or process any user data.",
+		"acceptAllBtn": "Accept All",
+		"acceptNecessaryBtn": "Reject All",
+		"showPreferencesBtn": "Manage Cookie Preferences"
+	},
+	"preferencesModal": {
+		"title": "Cookie Preferences",
+		"acceptAllBtn": "Accept All",
+		"acceptNecessaryBtn": "Reject All",
+		"savePreferencesBtn": "Save Settings",
+		"closeIconLabel": "Close Window",
+		"serviceCounterLabel": "Service Provider",
+		"__comment1__": "Below are examples of creating new consent categories.",
+		"__comment2__": "The linkedCategory served as ID for each category",
+		"sections": [
+			{
+				"title": "Preference Modal Title",
+				"description": "Hello!"
+			},
+			{
+				"title": "Example: Custom Category",
+				"description": "Category defined in <code>hugo.yaml</code>. Provides a minimal entry point for adding custom categories.",
+				"linkedCategory": "example_basic"
+			},
+			{
+				"title": "Example: Social Media Cookies",
+				"description": "Category created using <code>addCategory</code> to enable advanced configuration such as <code>autoClear</code>.",
+				"linkedCategory": "example_social_media"
+			},
+			{
+				"title": "Example: Marketing Cookies",
+				"description": "Category created using <code>addCategory</code> with extended customization options. See <a href=\"https://cookieconsent.orestbida.com/reference/configuration-reference.html#categories\">categories</a> for details.",
+				"linkedCategory": "example_marketing",
+				"cookieTable": {
+					"caption": "Cookie List",
+					"headers": {
+						"name": "Name",
+						"description": "Purpose",
+						"duration": "Duration",
+						"provider": "Provider"
+					},
+					"body": [
+						{
+							"name": "_fbp",
+							"description": "Facebook advertising tracking",
+							"duration": "90 days",
+							"provider": "Meta"
+						},
+						{
+							"name": "_gcl_au",
+							"description": "Google Ads conversion tracking",
+							"duration": "90 days",
+							"provider": "Google"
+						}
+					]
+				}
+			},
+			{
+				"title": "Example: Strictly Necessary Cookies",
+				"description": "These cookies are essential for the core functionality of the website, including maintaining your session, storing login status, and remembering your cookie consent preferences. This category cannot be disabled, and no personally identifiable information is stored.",
+				"linkedCategory": "necessary"
+			},
+			{
+				"title": "Functional Cookies",
+				"description": "These cookies allow the website to remember your personal preferences, such as language selection, regional settings, and interface layout, in order to provide a more consistent and personalized experience. Disabling this category does not affect core website functionality, but some features may not work as intended.",
+				"linkedCategory": "functional"
+			},
+			{
+				"title": "Analytics & Performance Cookies",
+				"description": "These cookies help us understand how visitors interact with the website, including pages visited, time spent, and traffic sources. All data collected is processed in aggregated, anonymized form and is used solely to continuously improve website performance and user experience.",
+				"linkedCategory": "analytics"
+			},
+			{
+				"title": "Marketing & Advertising Cookies",
+				"description": "These cookies are set by this website and advertising partners to build an interest profile based on your browsing behavior, and to deliver personalized advertising content on this website and other platforms. If you disable this category, you will still see advertisements, but they will no longer be personalized to your interests.",
+				"linkedCategory": "advertising"
+			}
+		]
+	}
+}

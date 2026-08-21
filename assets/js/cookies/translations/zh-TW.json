@@ -1,0 +1,39 @@
+{
+	"consentModal": {
+		"title": "我們如何使用 Cookie",
+		"description": "本網站使用 Cookie 及類似追蹤技術，以確保網站正常運作、分析使用者行為，並在取得您同意的情況下提供個人化內容與廣告。您可以隨時透過「管理偏好設定」調整您的同意選項，或選擇「全部拒絕」以僅保留網站運作所必需的 Cookie。詳情請參閱我們的隱私權政策。",
+		"acceptAllBtn": "全部接受",
+		"acceptNecessaryBtn": "全部拒絕",
+		"showPreferencesBtn": "管理 Cookie 偏好設定"
+	},
+	"preferencesModal": {
+		"title": "Cookie 偏好設定",
+		"acceptAllBtn": "全部接受",
+		"acceptNecessaryBtn": "全部拒絕",
+		"savePreferencesBtn": "儲存設定",
+		"closeIconLabel": "關閉視窗",
+		"serviceCounterLabel": "服務提供商",
+		"sections": [
+			{
+				"title": "必要 Cookie",
+				"description": "此類 Cookie 對於網站的核心功能運作不可或缺，包含維持工作階段、儲存登入狀態，以及記住您的 Cookie 同意偏好設定等。此類別無法停用，且不會儲存任何可識別個人身份的資訊。",
+				"linkedCategory": "necessary"
+			},
+			{
+				"title": "功能性 Cookie",
+				"description": "此類 Cookie 讓網站能夠記住您的個人偏好設定，例如語言選擇、地區設定與介面配置，以提供更一致的個人化使用體驗。停用此類別不影響網站基本功能，但部分功能將無法正常運作。",
+				"linkedCategory": "functional"
+			},
+			{
+				"title": "分析 Cookie",
+				"description": "此類 Cookie 協助我們了解訪客如何與網站互動，包含瀏覽頁面、停留時間與來源管道等。所有收集的資料均以彙總匿名形式處理，不會識別個人身份，僅用於持續改善網站效能與使用者體驗。",
+				"linkedCategory": "analytics"
+			},
+			{
+				"title": "廣告 Cookie",
+				"description": "此類 Cookie 由本網站及廣告合作夥伴設定，用於根據您的瀏覽行為建立興趣輪廓，並在本網站及其他平台上提供個人化廣告內容。若您停用此類別，您仍會看到廣告，但廣告內容將不再針對您的興趣進行個人化調整。",
+				"linkedCategory": "advertising"
+			}
+		]
+	}
+}

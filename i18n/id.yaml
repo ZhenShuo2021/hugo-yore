@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: tautan eksternal
+a11y_panel:
+  close: Tutup panel aksesibilitas
+  decrease_font_size: Perkecil ukuran font
+  font_size: Ukuran font
+  high_contrast: Kontras tinggi
+  increase_font_size: Perbesar ukuran font
+  reduce_motion: Kurangi gerakan
+  reduce_transparency: Kurangi transparansi
+  show_link_underline: Tampilkan garis bawah tautan
+  title: Pengaturan aksesibilitas
+admonition:
+  abstract: Ringkasan
+  bug: Bug
+  caution: Perhatian
+  danger: Bahaya
+  example: Contoh
+  failure: Gagal
+  important: Penting
+  info: Info
+  note: Catatan
+  question: Pertanyaan
+  quote: Kutipan
+  success: Berhasil
+  tip: Tips
+  todo: Todo
+  warning: Peringatan
+article:
+  backlinks_title: Tautan balik
+  date: '{{ .Date }}'
+  date_updated: 'Diperbarui: {{ .Date }}'
+  kg_title: Koneksi Artikel
+  more_articles: Artikel lainnya
+  next: Berikutnya
+  on_this_page: Di halaman ini
+  previous: Sebelumnya
+  published_date: Tanggal publikasi
+  related_articles: Terkait
+  series: Artikel ini merupakan bagian dari sebuah seri.
+code:
+  copied: Disalin
+  copy: Salin
+docs:
+  nav_label: Dokumentasi
+  next: Berikutnya
+  prev: Sebelumnya
+  sidebar_label: Dokumentasi
+  source_files: Kode sumber
+  toc_label: Daftar isi
+  toc_nav_label: Di halaman ini
+error:
+  404_description: Tampaknya halaman yang Anda minta tidak ada.
+  404_title: 'Halaman tidak ditemukan :confused:'
+footer:
+  powered_by: Didukung oleh {{ .Theme }}
+nav:
+  accessibility_panel: Buka panel aksesibilitas
+  breadcrumb: Navigasi remah roti
+  change_language: Ganti bahasa
+  close_mobile_menu: Tutup menu seluler
+  footer_navigation: Navigasi footer
+  main_navigation: Navigasi utama
+  scroll_to_top_title: Gulir ke atas
+  search: Cari
+  skip_to_main: Lewati ke konten utama
+  switch_version: Ganti versi
+  toggle_dark_mode: Alihkan mode gelap
+  toggle_mobile_menu: Alihkan menu seluler
+page_actions:
+  actions: Tindakan
+  copy_markdown: Salin Markdown
+  copy_url: Salin URL
+  edit_this_page: Edit halaman ini
+  view_source: Lihat sumber
+quick_reference: Referensi cepat
+random:
+  choosing: Memilih tulisan yang layak dibaca
+  js_required: JavaScript diperlukan untuk pengalihan acak.
+  no_posts: Tidak ada tulisan yang tersedia untuk dialihkan.
+  redirecting: Mengalihkan…
+  taking_you_there: Mengalihkan Anda…
+  untitled: Tanpa judul
+recent:
+  show_more: Tampilkan lebih banyak
+search:
+  close_button_title: Tutup (Esc)
+  input_placeholder: Pencarian
+  no_result: Tidak ada hasil
+  open_button_title: Cari (/)
+shortcode:
+  recent_articles: Terbaru
+stale_warning:
+  'text:': Artikel ini sudah lama tidak diperbarui, sehingga sebagian informasinya mungkin sudah usang.

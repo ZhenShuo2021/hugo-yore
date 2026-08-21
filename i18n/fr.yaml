@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: lien externe
+a11y_panel:
+  close: Fermer le panneau d'accessibilité
+  decrease_font_size: Réduire la taille de police
+  font_size: Taille de la police
+  high_contrast: Contraste élevé
+  increase_font_size: Augmenter la taille de police
+  reduce_motion: Réduire les animations
+  reduce_transparency: Réduire la transparence
+  show_link_underline: Afficher le soulignement des liens
+  title: Paramètres d'accessibilité
+admonition:
+  abstract: Résumé
+  bug: Bug
+  caution: Prudence
+  danger: Danger
+  example: Exemple
+  failure: Échec
+  important: Important
+  info: Info
+  note: Note
+  question: Question
+  quote: Citation
+  success: Succès
+  tip: Astuce
+  todo: À faire
+  warning: Avertissement
+article:
+  backlinks_title: Liens entrants
+  date: '{{ .Date }}'
+  date_updated: 'Mis à jour : {{ .Date }}'
+  kg_title: Connexions d’articles
+  more_articles: Plus d'articles
+  next: Suivant
+  on_this_page: Sur cette page
+  previous: Précédent
+  published_date: Date de publication
+  related_articles: Articles connexes
+  series: Cet article fait partie d'une série.
+code:
+  copied: Copié
+  copy: Copier
+docs:
+  nav_label: Documentation
+  next: Suivant
+  prev: Précédent
+  sidebar_label: Documentation
+  source_files: Code source
+  toc_label: Table des matières
+  toc_nav_label: Sur cette page
+error:
+  404_description: Il semble que la page que vous cherchez n'existe pas.
+  404_title: "Cette page n'existe pas :confused:"
+footer:
+  powered_by: Propulsé par {{ .Theme }}
+nav:
+  accessibility_panel: Ouvrir le panneau d'accessibilité
+  breadcrumb: Fil d'Ariane
+  change_language: Changer de langue
+  close_mobile_menu: Fermer le menu mobile
+  footer_navigation: Navigation du pied de page
+  main_navigation: Navigation principale
+  scroll_to_top_title: Faire défiler jusqu'au bas de la page
+  search: Rechercher
+  skip_to_main: Aller au contenu
+  switch_version: Changer de version
+  toggle_dark_mode: Activer/désactiver le mode sombre
+  toggle_mobile_menu: Afficher/masquer le menu mobile
+page_actions:
+  actions: Actions
+  copy_markdown: Copier le Markdown
+  copy_url: Copier l'URL
+  edit_this_page: Modifier cette page
+  view_source: Voir la source
+quick_reference: Référence rapide
+random:
+  choosing: Sélection d'un article qui vaut la peine d'être lu
+  js_required: JavaScript est requis pour la redirection aléatoire.
+  no_posts: Aucun article disponible pour la redirection.
+  redirecting: Redirection…
+  taking_you_there: Redirection en cours…
+  untitled: Sans titre
+recent:
+  show_more: Voir plus
+search:
+  close_button_title: Fermer (Esc)
+  input_placeholder: Rechercher
+  no_result: Aucun résultat
+  open_button_title: Rechercher (/)
+shortcode:
+  recent_articles: Articles récents
+stale_warning:
+  'text:': Cet article n'a pas été mis à jour récemment, certaines informations sont donc peut-être obsolètes.

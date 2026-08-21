@@ -1,0 +1,18 @@
+<head>
+	{{- /* Meta tags */ -}}
+	{{- partial "head/meta.html" . -}}
+
+	{{- /* Social medias (twitter/facebook...) */ -}}
+	{{- if ne .Kind "404" -}}
+		{{- partial "head/social.html" . -}}
+	{{- end -}}
+
+	{{- /* Resources */ -}}
+	{{- partial "head/resources.html" . -}}
+
+	{{- /* Favicons */ -}}
+	{{- partialCached "head/favicons.html" . site -}}
+
+	{{- /* Schema */ -}}
+	{{- partial "head/schema.html" . -}}
+</head>

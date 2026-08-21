@@ -1,0 +1,65 @@
+{{- partial "components/cookie-consent.html" . -}}
+
+{{- if site.Params.scrollToTop | default true -}}
+	{{- partial "components/scroll-to-top.html" . -}}
+{{- end -}}
+{{- partial "components/mobile-menu-overlay.html" . -}}
+{{- partial "components/a11y-overlay.html" . -}}
+
+{{- /* Mermaid */ -}}
+{{- if .Store.Get "hasMermaid" -}}
+	{{- $elkLib := resources.Get "lib/mermaid/mermaid-layout-elk.esm.min.mjs" -}}
+	{{- $jsParams := dict "elkUrl" $elkLib.RelPermalink -}}
+	{{- range resources.Match "lib/mermaid/chunks/**" -}}{{- .Publish -}}{{- end -}}
+	{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget "params" $jsParams }}
+
+	{{- $mermaidLib := resources.Get "lib/mermaid/mermaid.min.js" | fingerprint -}}
+	<script defer src="{{ $mermaidLib.RelPermalink }}" integrity="{{ $mermaidLib.Data.Integrity }}"></script>
+
+	{{- $mermaidJS := resources.Get "js/shortcodes/mermaid.js" | js.Build $opts -}}
+	{{- if hugo.IsProduction }}{{ $mermaidJS = $mermaidJS  | fingerprint }}{{ end -}}
+	<script
+		defer
+		type="module"
+		src="{{ $mermaidJS.RelPermalink }}"
+		integrity="{{ $mermaidJS.Data.Integrity }}"></script>
+
+	{{- with resources.Get "css/shortcodes/svg-toolbelt-modified.css" | minify | fingerprint -}}
+		<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+	{{- end -}}
+{{- end -}}
+
+{{- if site.Params.searchEnabled -}}
+	<pagefind-modal>
+		<pagefind-modal-header>
+			<pagefind-input></pagefind-input>
+		</pagefind-modal-header>
+		<pagefind-modal-body>
+			<pagefind-summary></pagefind-summary>
+			<pagefind-results show-images hide-sub-results="true"></pagefind-results>
+		</pagefind-modal-body>
+		<pagefind-modal-footer>
+			<pagefind-keyboard-hints></pagefind-keyboard-hints>
+		</pagefind-modal-footer>
+	</pagefind-modal>
+{{- end -}}
+
+{{- /* include prerender in dev server causes page not immediately update */ -}}
+{{- if not hugo.IsServer -}}
+<script type="speculationrules">
+	{
+		"prefetch": [
+			{
+				"where": { "href_matches": "/*" },
+				"eagerness": "eager"
+			}
+		]{{ if ne .Type "docs" }},
+		"prerender": [
+			{
+				"where": { "href_matches": "/*" },
+				"eagerness": "moderate"
+			}
+		]{{ end }}
+	}
+</script>
+{{- end -}}

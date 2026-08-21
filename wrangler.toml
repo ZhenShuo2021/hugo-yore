@@ -1,0 +1,19 @@
+name = "hugo-yore"
+compatibility_date = "2026-08-13"
+
+[build]
+command = "chmod a+x build.sh && HUGO_DEPLOY_ENV=production HUGO_ENVIRONMENT=production ./build.sh"
+
+[assets]
+directory = "./public"
+not_found_handling = "404-page"
+
+[env.dev]
+name = "hugo-yore"
+
+[env.dev.build]
+command = "chmod a+x build.sh && HUGO_DEPLOY_ENV=staging ./build.sh --base-url https://dev-hugo-yore.workerdomain.workers.dev"
+
+[env.dev.assets]
+directory = "./public"
+not_found_handling = "404-page"

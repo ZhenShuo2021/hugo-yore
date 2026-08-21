@@ -1,0 +1,14 @@
+{{- $noop := .Inner -}}
+{{- $exclusive := .Get "exclusive" -}}
+{{- $separated := .Get "separated" -}}
+<div
+	data-accordion
+	data-exclusive="{{ $exclusive }}"
+	data-separated="{{ $separated }}"
+	class="{{ if $separated -}}
+		space-y-3
+	{{- else -}}
+		divide-border border-border divide-y overflow-hidden rounded-xl border shadow-sm
+	{{- end }} my-8 w-full">
+	{{- .Inner -}}
+</div>

@@ -1,0 +1,19 @@
+{{- /* Resizes an image to the given width, optionally copying it to the given path.
+	See render-hook.html for usage example.
+	@param imgObj {resource.Resources}: The image resource object.
+	@param width {int}: The target width to resize to.
+	@param path {string}: Optional. The output path to copy the resized image to.
+	If omitted, resources.Copy is not called.
+	@returns {resource.Resources} The resized image object.
+*/ -}}
+{{- $imgObj := .imgObj -}}
+{{- $width := .width -}}
+{{- $path := .path -}}
+
+{{- $result := $imgObj.Resize (printf "%dx webp lossy" $width) -}}
+
+{{- if $path -}}
+	{{- $result = $result | resources.Copy $path -}}
+{{- end -}}
+
+{{- return $result }}

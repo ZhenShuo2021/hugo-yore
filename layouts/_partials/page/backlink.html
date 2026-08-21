@@ -1,0 +1,23 @@
+{{- $debug := false -}}
+{{- $backlinks := site.Home.Store.Get "backlinks" | uniq -}}
+{{- with (where $backlinks "target" .RelPermalink) -}}
+	<div class="border-border mt-16 border-t pt-8 print:hidden">
+		<h2 class="text-foreground mb-6 flex items-center gap-2 text-2xl!">
+			{{- i18n "article.backlinks_title" | default "Posts referencing this article" -}}
+		</h2>
+		<ul class="space-y-2.5 ps-7">
+			{{- range (sort . "source.title" "asc") -}}
+				<li class="text-foreground">
+					<a href="{{ .source.relPermalink }}" class="hover:text-link-hover inline-block transition-colors">
+						{{- .source.title -}}
+					</a>
+				</li>
+			{{- end -}}
+		</ul>
+	</div>
+{{- end -}}
+{{- if $debug -}}
+	<pre class="bg-muted text-muted-foreground mt-8 overflow-auto rounded p-4 text-xs">
+{{- jsonify (dict "indent" "  ") $backlinks -}}
+</pre>
+{{- end -}}

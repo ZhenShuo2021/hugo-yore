@@ -1,0 +1,269 @@
+{{- define "main" -}}
+	{{- $authorImageURL := "" -}}
+	{{- with .Params.portrait -}}
+		{{- with or (page.Resources.Get .) (resources.Get .) -}}
+			{{ $authorImageURL = .RelPermalink -}}
+		{{- else -}}
+			{{ $authorImageURL = . -}}
+		{{- end -}}
+	{{- end -}}
+
+
+	<style>
+		.author-page {
+			--fg-faint: color-mix(in oklch, var(--muted-foreground) 85%, transparent);
+			--avatar-width: clamp(10rem, 20vw, 12rem);
+		}
+
+		.author-breadcrumb {
+			font-size: 0.875rem;
+			color: var(--muted-foreground);
+			margin-block-end: 1.5rem;
+		}
+
+		/* ── Profile banner ── */
+		.author-banner {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1.25rem;
+			padding-block-end: clamp(2rem, 5vw, 3rem);
+			border-bottom: 1px solid var(--border);
+			margin-block-end: clamp(2rem, 5vw, 3rem);
+		}
+
+		@media (width >= 40rem) {
+			.author-banner {
+				flex-direction: row;
+				align-items: flex-start;
+				gap: 1.75rem;
+			}
+		}
+
+		.author-banner__avatar {
+			flex-shrink: 0;
+			width: var(--avatar-width);
+			aspect-ratio: 1;
+			object-fit: cover;
+		}
+
+		.author-banner__avatar-placeholder {
+			flex-shrink: 0;
+			width: var(--avatar-width);
+			aspect-ratio: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: var(--muted);
+			color: var(--muted-foreground);
+			font-size: clamp(1.25rem, 4vw, 2rem);
+			font-weight: 500;
+			user-select: none;
+		}
+
+		.author-banner__body {
+			flex: 1;
+			min-width: 0;
+		}
+
+		.author-banner__name {
+			font-size: clamp(1.25rem, 3vw, 1.75rem);
+			font-weight: 500;
+			letter-spacing: -0.02em;
+			line-height: 1.2;
+			color: var(--foreground);
+			margin: 0 0 0.35rem;
+		}
+
+		.author-banner__bio {
+			font-size: 0.9rem;
+			line-height: 1.6;
+			color: var(--muted-foreground);
+			margin: 0 0 0.85rem;
+		}
+
+		.author-banner__meta {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 0.25rem 1rem;
+		}
+
+		.author-banner__count {
+			font-family: 'DM Mono', monospace;
+			font-size: 0.75em;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: var(--fg-faint);
+		}
+
+		.author-banner__links {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 0.25rem 0.75rem;
+		}
+
+		.author-banner__link {
+			display: inline-flex;
+			gap: 0.35rem;
+			align-items: center;
+			font-family: 'DM Mono', monospace;
+			font-size: 0.75em;
+			color: var(--muted-foreground);
+			text-decoration: none;
+			transition: color 150ms;
+		}
+
+		.author-banner__link:first-child {
+			padding-left: 0;
+		}
+
+		.author-banner__link:hover {
+			color: var(--foreground);
+		}
+
+		.author-banner__link-icon {
+			flex-shrink: 0;
+			width: 1.2em;
+			height: 1.2em;
+			display: flex;
+			align-items: center;
+		}
+
+		.author-banner__link-icon .icon {
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+
+		.author-banner__link-icon .icon svg {
+			width: 100%;
+			height: 100%;
+			fill: currentColor;
+		}
+
+		/* ── Bio content (markdown) ── */
+		.author-bio-content {
+			margin-block-end: clamp(2rem, 5vw, 3rem);
+		}
+
+		.author-bio-content :first-child {
+			margin-top: 0;
+		}
+		.author-bio-content :last-child {
+			margin-bottom: 0;
+		}
+
+		@media (width <= 40rem) {
+			.author-banner__avatar,
+			.author-banner__avatar-placeholder {
+				width: 10rem;
+			}
+		}
+	</style>
+
+	<div class="layout-wrapper base-spacing">
+		<aside class="sidebar-left" aria-hidden="true"></aside>
+
+		<div class="layout-content">
+			<div class="author-page">
+				{{- if .Param "breadcrumb" -}}
+					<div class="author-breadcrumb">
+						{{ partial "components/breadcrumbs.html" . -}}
+					</div>
+				{{- end -}}
+
+
+				<header class="author-banner">
+					{{- if $authorImageURL -}}
+						<img
+							class="author-banner__avatar"
+							src="{{ $authorImageURL }}"
+							alt="{{ .Title }}"
+							width="200"
+							height="200">
+					{{- else -}}
+						<div class="author-banner__avatar-placeholder" aria-hidden="true">
+							{{- substr (.Title | upper) 0 1 -}}
+						</div>
+					{{- end -}}
+
+
+					<div class="author-banner__body">
+						<h1 class="author-banner__name">{{ .Title }}</h1>
+
+						{{- with .Params.description -}}
+							<p class="author-banner__bio">{{ . | markdownify }}</p>
+						{{- end -}}
+
+
+						<div class="author-banner__meta">
+							{{- $count := len .Pages -}}
+							<span class="author-banner__count">
+								{{- $count -}}&nbsp; {{- if eq $count 1 }}post{{ else }}posts{{ end -}}
+							</span>
+
+							{{- with .Params.links -}}
+								<nav class="author-banner__links" aria-label="Social links">
+									{{- range $linkMap := . -}}
+										{{- range $name, $url := $linkMap -}}
+											{{- $isMail := eq $name "mail" -}}
+											<a
+												class="author-banner__link {{ if $isMail }}cloaked-email{{ end }}"
+												{{ if $isMail -}}
+													data-email-cloak="{{ partial `lib/obfuscate-email.html` $url }}"
+												{{- else -}}
+													href="{{ $url }}"
+												{{- end }}
+												target="_blank"
+												rel="me noopener noreferrer"
+												aria-label="{{ $name | title }}"
+												title="{{ $name | title }}">
+												<span class="author-banner__link-icon">
+													{{- partial "components/icon.html" $name -}}
+												</span>
+												<span>{{ $name | title }}</span>
+												<span class="sr-only">
+													{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+												</span>
+											</a>
+										{{- end -}}
+									{{- end -}}
+								</nav>
+							{{- end -}}
+						</div>
+					</div>
+				</header>
+
+				{{- with .Content -}}
+					<div class="author-bio-content prose dark:prose-invert">{{ . }}</div>
+				{{- end -}}
+
+				{{- with .Pages.ByDate.Reverse -}}
+					<div class="space-y-6 sm:space-y-2">
+						{{- range . -}}
+							<article class="flex flex-col items-start text-lg sm:flex-row sm:gap-4">
+								<time
+									datetime="{{ .Date.Format "2006-01-02" }}"
+									class="text-muted-foreground flex-shrink-0 sm:w-26">
+									{{- .Date.Format "2006-01-02" -}}
+								</time>
+								<span>
+									<a
+										href="{{ .RelPermalink }}"
+										class="text-foreground hover:text-link-hover inline-flex items-center transition-colors">
+										{{- .Title -}}
+									</a>
+								</span>
+							</article>
+						{{- end -}}
+					</div>
+				{{- end -}}
+
+			</div>
+		</div>
+
+		<aside class="sidebar-right" aria-hidden="true"></aside>
+	</div>
+{{- end -}}

@@ -1,0 +1,42 @@
+{{- define "main" -}}
+	<main id="main-content" class="base-spacing">
+		{{- if or .Title (.Param "galleryPageLead") -}}
+			<header class="mb-16 pb-8">
+				{{- if .Param "breadcrumb" -}}
+					<div class="text-muted-foreground text-[0.6em]">
+						{{- partial "components/breadcrumbs.html" . -}}
+					</div>
+				{{- end -}}
+
+				{{- if .Title -}}
+					<h1 class="text-4xl font-medium tracking-tight md:text-5xl">
+						{{- .Title -}}
+					</h1>
+				{{- end -}}
+
+				{{- if .Param "pageShowMeta" -}}
+					<div class="text-muted-foreground mt-2 text-sm">
+						{{- if .Date -}}
+							<time datetime="{{ .Date.Format "2006-01-02" }}">
+								{{- .Date.Format "January 2, 2006" -}}
+							</time>
+						{{- end -}}
+					</div>
+				{{- end -}}
+
+				{{- if .Param "galleryPageLead" -}}
+					<p class="text-muted-foreground mt-3 text-base">
+						{{- .Param "galleryPageLead" -}}
+					</p>
+				{{- end -}}
+			</header>
+		{{- end -}}
+
+
+		<article
+			{{ if not (.Param `pageNoList`) }}data-pagefind-body{{- end }}
+			class="prose dark:prose-invert w-full max-w-none">
+			{{- .Content -}}
+		</article>
+	</main>
+{{- end -}}

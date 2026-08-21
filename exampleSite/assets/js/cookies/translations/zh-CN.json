@@ -1,0 +1,83 @@
+{
+	"consentModal": {
+		"title": "我们如何使用 Cookie",
+		"description": "本网站不使用任何 Cookie 或追踪技术。此 Cookie 同意弹窗仅作为功能演示与扩展示例存在，不会收集、存储或处理任何用户数据。",
+		"acceptAllBtn": "同意全部",
+		"acceptNecessaryBtn": "拒绝全部",
+		"showPreferencesBtn": "管理 Cookie 偏好"
+	},
+	"preferencesModal": {
+		"title": "Cookie 偏好设置",
+		"acceptAllBtn": "同意全部",
+		"acceptNecessaryBtn": "拒绝全部",
+		"savePreferencesBtn": "保存设置",
+		"closeIconLabel": "关闭窗口",
+		"serviceCounterLabel": "服务提供方",
+		"__comment1__": "以下是新增 category 的範例",
+		"__comment2__": "linkedCategory 代表每個 category 的 ID",
+		"sections": [
+			{
+				"title": "偏好设置说明",
+				"description": "你好！"
+			},
+			{
+				"title": "示例：自定义类别",
+				"description": "该类别在 <code>hugo.yaml</code> 中定义，用于提供自定义分类扩展入口。",
+				"linkedCategory": "example_basic"
+			},
+			{
+				"title": "示例：社交媒体 Cookie",
+				"description": "通过 <code>addCategory</code> 创建的类别，可用于启用高级配置，例如 <code>autoClear</code>。",
+				"linkedCategory": "example_social_media"
+			},
+			{
+				"title": "示例：营销 Cookie",
+				"description": "通过 <code>addCategory</code> 创建的扩展类别，支持更多自定义配置选项。详细信息请参阅 <a href=\"https://cookieconsent.orestbida.com/reference/configuration-reference.html#categories\">categories 文档</a>。",
+				"linkedCategory": "example_marketing",
+				"cookieTable": {
+					"caption": "Cookie 列表",
+					"headers": {
+						"name": "名称",
+						"description": "用途",
+						"duration": "存储期限",
+						"provider": "提供方"
+					},
+					"body": [
+						{
+							"name": "_fbp",
+							"description": "Facebook 广告追踪",
+							"duration": "90 天",
+							"provider": "Meta"
+						},
+						{
+							"name": "_gcl_au",
+							"description": "Google Ads 转化追踪",
+							"duration": "90 天",
+							"provider": "Google"
+						}
+					]
+				}
+			},
+			{
+				"title": "示例：必要 Cookie",
+				"description": "此类 Cookie 对网站核心功能至关重要，包括维持会话状态、保存登录信息以及记录 Cookie 同意偏好。该类别无法关闭，且不存储任何可识别个人身份的信息。",
+				"linkedCategory": "necessary"
+			},
+			{
+				"title": "示例：功能性 Cookie",
+				"description": "此类 Cookie 用于记录用户偏好设置，例如语言选择、区域设置与界面布局，以提供一致且个性化的使用体验。关闭该类别不会影响网站核心功能，但部分功能可能无法正常运行。",
+				"linkedCategory": "functional"
+			},
+			{
+				"title": "示例：分析与性能 Cookie",
+				"description": "此类 Cookie 用于分析用户在网站上的交互行为，包括访问页面、停留时间及流量来源。所有数据均以聚合与匿名形式处理，仅用于持续优化网站性能与用户体验。",
+				"linkedCategory": "analytics"
+			},
+			{
+				"title": "示例：营销与广告 Cookie",
+				"description": "此类 Cookie 由本网站及广告合作方设置，用于基于浏览行为构建兴趣画像，并在本网站及其他平台投放个性化广告内容。禁用该类别后，广告仍会显示，但将不再基于用户兴趣进行个性化推荐。",
+				"linkedCategory": "advertising"
+			}
+		]
+	}
+}

@@ -1,0 +1,6 @@
+pnpm build:css
+if ! git diff --quiet -- assets/css/tailwind/compiled.css; then
+  echo "CSS build produced changes in compiled.css. Please stage it with 'git add assets/css/tailwind/compiled.css' and commit again."
+  exit 1
+fi
+pnpm format:staged

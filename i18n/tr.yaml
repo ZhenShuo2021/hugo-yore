@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: harici bağlantı
+a11y_panel:
+  close: Erişilebilirlik panelini kapat
+  decrease_font_size: Yazı tipi boyutunu küçült
+  font_size: Yazı tipi boyutu
+  high_contrast: Yüksek kontrast
+  increase_font_size: Yazı tipi boyutunu büyüt
+  reduce_motion: Hareketi azalt
+  reduce_transparency: Saydamlığı azalt
+  show_link_underline: Bağlantı alt çizgisini göster
+  title: Erişilebilirlik ayarları
+admonition:
+  abstract: Özet
+  bug: Hata
+  caution: Dikkat
+  danger: Tehlike
+  example: Örnek
+  failure: Başarısızlık
+  important: Önemli
+  info: Bilgi
+  note: Not
+  question: Soru
+  quote: Alıntı
+  success: Başarılı
+  tip: İpucu
+  todo: Yapılacaklar
+  warning: Uyarı
+article:
+  backlinks_title: Geri bağlantılar
+  date: '{{ .Date }}'
+  date_updated: 'Güncellendi: {{ .Date }}'
+  kg_title: Makale bağlantıları
+  more_articles: Daha fazla yazı
+  next: Sonraki
+  on_this_page: Bu sayfada
+  previous: Önceki
+  published_date: Yayın tarihi
+  related_articles: Related
+  series: This article is part of a series.
+code:
+  copied: Kopyalandı
+  copy: Kopyala
+docs:
+  nav_label: Dokümantasyon
+  next: Sonraki
+  prev: Önceki
+  sidebar_label: Dokümantasyon
+  source_files: Kaynak kodu
+  toc_label: İçindekiler
+  toc_nav_label: Bu sayfada
+error:
+  404_description: Görünüşe göre istediğiniz sayfa mevcut değil.
+  404_title: 'Sayfa Bulunamadı :confused:'
+footer:
+  powered_by: '{{ .Theme }} ile güçlendirilmiştir'
+nav:
+  accessibility_panel: Erişilebilirlik panelini aç
+  breadcrumb: İçerik yolu
+  change_language: Dili değiştir
+  close_mobile_menu: Mobil menüyü kapat
+  footer_navigation: Alt bilgi gezinmesi
+  main_navigation: Ana gezinme
+  scroll_to_top_title: Yukarı çık
+  search: Ara
+  skip_to_main: Ana içeriğe geç
+  switch_version: Sürümü değiştir
+  toggle_dark_mode: Karanlık modu aç/kapat
+  toggle_mobile_menu: Mobil menüyü aç/kapat
+page_actions:
+  actions: İşlemler
+  copy_markdown: Markdown'ı kopyala
+  copy_url: URL'yi kopyala
+  edit_this_page: Bu sayfayı düzenle
+  view_source: Kaynağı görüntüle
+quick_reference: Hızlı referans
+random:
+  choosing: Okumaya değer bir yazı seçiliyor
+  js_required: Rastgele yönlendirme için JavaScript gereklidir.
+  no_posts: Yönlendirilecek yazı bulunamadı.
+  redirecting: Yönlendiriliyor…
+  taking_you_there: Yönlendiriliyorsunuz…
+  untitled: Başlıksız
+recent:
+  show_more: Daha fazla göster
+search:
+  close_button_title: Kapat (Esc)
+  input_placeholder: Ara
+  no_result: Sonuç yok
+  open_button_title: Ara (/)
+shortcode:
+  recent_articles: Güncel
+stale_warning:
+  'text:': Bu makale bir süredir güncellenmedi, bu nedenle bazı bilgiler güncelliğini yitirmiş olabilir.

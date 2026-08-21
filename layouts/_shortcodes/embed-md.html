@@ -1,0 +1,20 @@
+{{- /* This shortcode must be used with {{% %}} notation */ -}}
+{{- $url := .Get "url" -}}
+{{- $path := .Get "path" -}}
+{{- with $path -}}
+	{{- with or ($.Page.GetPage .) (site.GetPage .) }}
+		{{- .RenderShortcodes -}}
+	{{- else -}}
+		{{- warnidf "path-not-found" "embed-md shortcode: path %q not found" $path $.Position -}}
+	{{- end -}}
+{{- else -}}
+	{{- with try (resources.GetRemote $url) -}}
+		{{- with .Err -}}
+			{{- warnidf "fetch-fail" "embed-md shortcode: failed to fetch remote resource from %q: %s" $url $.Position -}}
+		{{- else with .Value -}}
+			{{- .Content -}}
+		{{ else }}
+			{{- warnidf "fetch-fail" "embed-md shortcode: failed to fetch remote resource from %q: %s" $url $.Position -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}

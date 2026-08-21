@@ -1,0 +1,23 @@
+name: Test Versioning Scenarios
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v6 # ReadableStream is not defined in v6
+        with:
+          node-version: lts/*
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3.0.0
+        with:
+          hugo-version: 'latest'
+
+      - name: Run versioning tests
+        run: node tests/versioning.js

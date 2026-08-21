@@ -1,0 +1,35 @@
+{{- /* Optimizes an image and returns desktop and mobile resized versions alongside the original.
+	@param imgObj {resource.Resources}: The image resource object.
+	@param desktopWidth {int}: Optional. The target width for the desktop version.
+	@param mobileWidth {int}: Optional. The target width for the mobile version.
+	@returns {map} A dict of processed Resources object. `imgObj` (original), `imgDesktop`, and `imgMobile`.
+*/ -}}
+{{- $imgObj := .imgObj -}}
+{{- $desktopWidth := .desktopWidth | default $imgObj.Width -}}
+
+{{- $skipConvert := in (slice "webp" "avif" "gif") $imgObj.MediaType.SubType -}}
+{{- $pathInfo := partial "_internal/image/path.html" $imgObj -}}
+
+{{- $imgDesktop := $imgObj -}}
+{{- if not $skipConvert -}}
+	{{- $desktopLabel := "full" -}}
+	{{- if ne $desktopWidth $imgObj.Width -}}
+		{{- $desktopLabel = printf "%dpx" $desktopWidth -}}
+	{{- end -}}
+	{{- $imgDesktop = partial "_internal/image/resize.html" (dict
+		"imgObj" $imgObj
+		"width" $desktopWidth
+		"path" (printf "%s-%s_%s.webp" $pathInfo.base $desktopLabel $pathInfo.hash))
+	-}}
+{{- end -}}
+
+{{- $imgMobile := $imgDesktop -}}
+{{- if gt $imgObj.Width 800 -}}
+	{{- $imgMobile = partial "_internal/image/resize.html" (dict
+		"imgObj" $imgObj
+		"width" 800
+		"path" (printf "%s-800px_%s.webp" $pathInfo.base $pathInfo.hash))
+	-}}
+{{- end -}}
+
+{{- return (dict "imgObj" $imgObj "imgDesktop" $imgDesktop "imgMobile" $imgMobile) }}

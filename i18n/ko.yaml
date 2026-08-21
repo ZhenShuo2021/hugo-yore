@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: 외부 링크
+a11y_panel:
+  close: 접근성 패널 닫기
+  decrease_font_size: 글자 크기 줄이기
+  font_size: 글꼴 크기
+  high_contrast: 고대비
+  increase_font_size: 글자 크기 늘리기
+  reduce_motion: 모션 줄이기
+  reduce_transparency: 투명도 줄이기
+  show_link_underline: 링크 밑줄 표시
+  title: 접근성 설정
+admonition:
+  abstract: 요약
+  bug: 버그
+  caution: 주의
+  danger: 위험
+  example: 예제
+  failure: 실패
+  important: 중요
+  info: 정보
+  note: 참고
+  question: 질문
+  quote: 인용
+  success: 성공
+  tip: 팁
+  todo: 할 일
+  warning: 경고
+article:
+  backlinks_title: 백링크
+  date: '{{ .Date }}'
+  date_updated: '업데이트 날짜: {{ .Date }}'
+  kg_title: 기사 연결
+  more_articles: 더 많은 글
+  next: 다음 글
+  on_this_page: 이 페이지에서
+  previous: 이전 글
+  published_date: 게시일
+  related_articles: 관련 글
+  series: 이 글은 시리즈의 일부입니다.
+code:
+  copied: 복사되었습니다
+  copy: 복사
+docs:
+  nav_label: 문서
+  next: 다음
+  prev: 이전
+  sidebar_label: 문서
+  source_files: 관련 소스 코드
+  toc_label: 목차
+  toc_nav_label: 이 페이지
+error:
+  404_description: 요청하신 페이지를 찾을 수 없습니다.
+  404_title: '페이지를 찾을 수 없습니다 :confused:'
+footer:
+  powered_by: Powered by {{ .Theme }}
+nav:
+  accessibility_panel: 접근성 패널 열기
+  breadcrumb: 이동 경로
+  change_language: 언어 변경
+  close_mobile_menu: 모바일 메뉴 닫기
+  footer_navigation: 푸터 내비게이션
+  main_navigation: 메인 내비게이션
+  scroll_to_top_title: 맨 위로 스크롤
+  search: 검색
+  skip_to_main: 본문으로 건너뛰기
+  switch_version: 버전 전환
+  toggle_dark_mode: 다크 모드 전환
+  toggle_mobile_menu: 모바일 메뉴 전환
+page_actions:
+  actions: 작업
+  copy_markdown: Markdown 복사
+  copy_url: URL 복사
+  edit_this_page: 이 페이지 편집
+  view_source: 소스 보기
+quick_reference: 빠른 참조
+random:
+  choosing: 읽을 만한 글을 고르는 중입니다
+  js_required: 무작위 이동 기능을 사용하려면 JavaScript가 필요합니다.
+  no_posts: 이동할 수 있는 글이 없습니다.
+  redirecting: 리디렉션 중…
+  taking_you_there: 이동 중입니다…
+  untitled: 제목 없음
+recent:
+  show_more: 더 보기
+search:
+  close_button_title: 닫기 (Esc)
+  input_placeholder: 검색
+  no_result: 결과 없음
+  open_button_title: 검색하기 (/)
+shortcode:
+  recent_articles: 최근 글
+stale_warning:
+  'text:': 이 글은 한동안 업데이트되지 않아 일부 정보가 최신이 아닐 수 있습니다.

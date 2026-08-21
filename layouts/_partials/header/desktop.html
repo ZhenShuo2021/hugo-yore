@@ -1,0 +1,147 @@
+<div class="hidden items-center gap-5 md:flex">
+	{{- $currentPage := . -}}
+	{{- if site.Menus.main -}}
+		<nav
+			class="flex items-center gap-5"
+			aria-label="{{ i18n `nav.main_navigation` | default `Main navigation` }}">
+			{{- range site.Menus.main -}}
+				{{- template "desktop-main-menu" (dict "context" $currentPage "item" .) -}}
+			{{- end -}}
+		</nav>
+	{{- end -}}
+
+	{{- if site.Store.Get "renderFunctionalHeader" -}}
+		<div class="{{ if site.Menus.main }}border-s border-border ps-5{{ end }} flex items-center gap-5">
+			{{- if .IsTranslated -}}
+				{{- partial "components/translations.html" . -}}
+			{{- end -}}
+			{{- if site.Params.versionSwitcher -}}
+				{{- partial "components/version-switcher.html" $ -}}
+			{{- end -}}
+
+			{{- if site.Params.accessibilityEnabled -}}
+				<button
+					id="desktop-a11y-toggle"
+					aria-label="{{ i18n `nav.accessibility_panel` | default `Open accessibility panel` }}"
+					aria-expanded="false"
+					aria-controls="a11y-panel"
+					type="button"
+					class="text-foreground hover:text-link-hover">
+					{{- partialCached "components/icon.html" "a11y" "icon-a11y" -}}
+				</button>
+			{{- end -}}
+
+			{{- if site.Params.themeLightDarkSwitcher | default true -}}
+				<button
+					id="desktop-appearance-switcher"
+					aria-label="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
+					type="button"
+					class="text-foreground hover:text-link-hover">
+					<span class="block dark:hidden">
+						{{- partialCached "components/icon.html" "sun-light" "icon-sun-light" -}}
+					</span>
+					<span class="hidden dark:block">
+						{{- partialCached "components/icon.html" "half-moon" "icon-half-moon" -}}
+					</span>
+				</button>
+			{{- end -}}
+
+			{{- if site.Params.searchEnabled -}}
+				<button
+					id="pf-custom-icon-desktop"
+					type="button"
+					aria-label="{{ i18n `nav.search` | default `Search` }}"
+					class="text-foreground hover:text-link-hover">
+					{{- partialCached "components/icon.html" "search" "icon-search" -}}
+				</button>
+			{{- end -}}
+		</div>
+	{{- end -}}
+</div>
+
+{{- define "desktop-main-menu" -}}
+	{{- $context := .context -}}
+	{{- $item := .item -}}
+
+	{{- $isActive := false -}}
+	{{- $isCurrent := false -}}
+	{{- if site.Params.menuHighlight -}}
+		{{- $isCurrent = $context.IsMenuCurrent "main" $item -}}
+		{{- $isActive = or $isCurrent ($context.HasMenuCurrent "main" $item) -}}
+	{{- end -}}
+
+	{{- $activeClass := cond $isActive " header--active" "" -}}
+	{{- $ariaLabel := printf " aria-label=%q" (or $item.KeyName) | safeHTMLAttr -}}
+	{{- $ariaCurrent := cond $isCurrent " aria-current=page" (cond $isActive " aria-current=true" "") | safeHTMLAttr -}}
+
+	{{- if $item.HasChildren -}}
+		{{- with $item -}}
+			<div class="group relative flex">
+				<div
+					class="{{ $activeClass }} text-foreground hover:text-link-hover me-[-0.4em] flex items-center gap-1 font-medium"
+					{{ $ariaLabel }}>
+					<a
+						href="{{ .URL }}"
+						class="flex items-center gap-1.5"
+						aria-haspopup="true"
+						{{ if $isActive }}{{ $ariaCurrent }}{{ end }}>
+						{{- .Pre -}}
+						{{- with .Params.icon -}}
+							{{- partial "components/icon.html" . -}}
+						{{- end -}}
+						{{- with .Name -}}
+							<span class="break-normal">{{ . | markdownify }}</span>
+						{{- end -}}
+						{{- partialCached "components/icon.html" "nav-arrow-down" "icon-nav-arrow-down" -}}
+						{{- .Post -}}
+					</a>
+				</div>
+
+				<div
+					class="dropdown-menu-child absolute top-full right-0 z-50 pt-2 opacity-0 transition-all duration-(--dur-200)">
+					<div class="bg-background border-border min-w-32 rounded-lg border p-1 shadow">
+						<div class="flex flex-col gap-0.75">
+							{{- range .Children -}}
+								{{- $childActive := false -}}
+								{{- if site.Params.menuHighlight -}}
+									{{- $childActive = $context.IsMenuCurrent "main" . -}}
+								{{- end -}}
+								<a
+									href="{{ .URL }}"
+									class="{{ cond $childActive "header--active" "" }} text-popover-foreground hover:bg-muted flex items-center gap-2 rounded p-1.5 text-sm"
+									aria-label="{{ or .Name .Params.icon }}"
+									{{ if $childActive }}aria-current="page"{{ end }}>
+									{{- .Pre -}}
+									{{- with .Params.icon -}}
+										{{- partial "components/icon.html" . -}}
+									{{- end -}}
+									{{- with .Name -}}
+										<span class="break-normal">{{ . | markdownify }}</span>
+									{{- end -}}
+									{{- .Post -}}
+								</a>
+							{{- end -}}
+						</div>
+					</div>
+				</div>
+			</div>
+		{{- end -}}
+	{{- else -}}
+		{{- with $item -}}
+			<a
+				href="{{ $item.URL }}"
+				class="text-foreground hover:text-link-hover {{ $activeClass }} flex items-center font-medium"
+				{{ $ariaLabel }}
+				{{ if $isActive }}{{ $ariaCurrent }}{{ end }}>
+				{{- .Pre -}}
+				{{- with .Params.icon -}}
+					{{- partial "components/icon.html" . -}}
+				{{- end -}}
+				{{- .Post -}}
+				{{- with .Name -}}
+					<span class="break-normal">{{ . | markdownify }}</span>
+				{{- end -}}
+			</a>
+		{{- end -}}
+	{{- end -}}
+{{- end -}}

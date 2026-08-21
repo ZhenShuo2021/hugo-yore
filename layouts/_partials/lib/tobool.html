@@ -1,0 +1,3 @@
+{{- /* Convert bool in shortcodes */ -}}
+{{- $s := printf "%v" . | lower | strings.TrimSpace -}}
+{{- return in (slice "true" "1" "yes" "y") $s -}}

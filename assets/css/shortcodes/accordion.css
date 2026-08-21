@@ -1,0 +1,23 @@
+.accordion-panel {
+	display: grid;
+	grid-template-rows: 0fr;
+	transition: grid-template-rows 0.25s ease;
+}
+.accordion-panel.is-open {
+	grid-template-rows: 1fr;
+}
+.accordion-trigger .accordion-icon {
+	transition: transform 0.25s ease;
+}
+.accordion-trigger[aria-expanded='true'] .accordion-icon {
+	transform: rotate(90deg);
+}
+.accordion-item:has(.is-open) .accordion-trigger {
+	background-color: var(--color-muted);
+}
+@media (prefers-reduced-motion: reduce) {
+	.accordion-panel,
+	.accordion-trigger .accordion-icon {
+		transition: none;
+	}
+}

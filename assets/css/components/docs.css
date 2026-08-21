@@ -1,0 +1,91 @@
+/* Docs */
+.docs-layout--sticky-header .docs-sidebar-container {
+	margin-top: calc(-1 * var(--header-height));
+	clip-path: inset(0);
+}
+
+.docs-layout--sticky-header .docs-sidebar-logo {
+	height: var(--header-height);
+}
+
+.docs-nav__link--active {
+	background-color: var(--muted);
+}
+
+.chevron {
+	transition: transform var(--dur-300) ease;
+	.is-collapsed & {
+		transform: rotate(-90deg);
+	}
+}
+
+.nav-section-expander {
+	display: grid;
+	grid-template-rows: 1fr;
+	overflow: hidden;
+	transition: grid-template-rows var(--dur-300) ease;
+}
+.nav-section-expander.is-collapsed {
+	grid-template-rows: 0fr;
+}
+.nav-section-expander__content {
+	min-height: 0;
+	transition: visibility var(--dur-300) ease;
+	visibility: visible;
+}
+.nav-section-expander.is-collapsed .nav-section-expander__content {
+	visibility: hidden;
+}
+
+/* https://css-tricks.com/scrollbars-on-hover/ */
+.scrollbar-mask {
+	overflow-y: auto;
+	scrollbar-gutter: stable;
+}
+
+@media not (prefers-reduced-motion: reduce) {
+	html:not([data-a11y-reduce-motion]) {
+		.scrollbar-mask {
+			scrollbar-gutter: stable;
+			mask-image:
+				linear-gradient(to top, transparent, black), linear-gradient(to left, transparent 17px, black 17px);
+			mask-size: 100% 20000px;
+			mask-position: left bottom;
+			-webkit-mask-image:
+				linear-gradient(to top, transparent, black), linear-gradient(to left, transparent 17px, black 17px);
+			-webkit-mask-size: 100% 20000px;
+			-webkit-mask-position: left bottom;
+			transition:
+				mask-position var(--dur-200),
+				-webkit-mask-position var(--dur-200);
+		}
+
+		.scrollbar-mask:hover {
+			mask-position: left top;
+			-webkit-mask-position: left top;
+		}
+
+		.scrollbar-mask:dir(rtl) {
+			mask-image:
+				linear-gradient(to top, transparent, black), linear-gradient(to right, transparent 17px, black 17px);
+			mask-position: right bottom;
+			-webkit-mask-image:
+				linear-gradient(to top, transparent, black), linear-gradient(to right, transparent 17px, black 17px);
+			-webkit-mask-position: right bottom;
+		}
+
+		.scrollbar-mask:dir(rtl):hover {
+			mask-position: right top;
+			-webkit-mask-position: right top;
+		}
+	}
+}
+.docs-nav__link--active {
+	background-color: var(--muted);
+}
+
+.docs-nav__link:focus-visible,
+.docs-nav__section-toggle:focus-visible,
+.docs-toc a:focus-visible {
+	outline-offset: -1px;
+}

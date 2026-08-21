@@ -1,0 +1,93 @@
+{{- define "main" -}}
+	{{- $pages := site.RegularPages -}}
+	{{- $pages = where $pages "Permalink" "!=" .Permalink -}}
+	{{- $pages = where $pages "Params.pageNoList" "!=" true -}}
+
+
+	<script
+		src="{{ hugo.Data.cdn.typeit.src }}"
+		integrity="{{ hugo.Data.cdn.typeit.integrity }}"
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"></script>
+
+	<main id="main-content" class="rp-main">
+		<div class="rp-stage" role="status" aria-live="polite">
+			<h1 class="rp-title" id="rp-title" aria-hidden="true">
+				<span class="rp-title-line"></span>
+			</h1>
+
+			<p class="rp-sub" id="rp-sub">{{ i18n "random.choosing" }}</p>
+
+			<noscript>
+				<p class="rp-noscript">{{ i18n "random.js_required" }}</p>
+			</noscript>
+		</div>
+	</main>
+
+	<script>
+		(function () {
+			var items = [
+				{{- range $index, $page := $pages }}
+				{{- if $index }},{{ end }}
+				{ "url": {{ $page.RelPermalink }}, "title": {{ $page.Title }} }
+				{{- end }}
+			];
+			var reduceMotion =
+				window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+				localStorage.getItem('yore-reduce-motion') === 'true';
+			var pick = items.length ? items[Math.floor(Math.random() * items.length)] : null;
+			window.__rp = { pick, reduceMotion };
+
+			if (!pick) {
+				document.getElementById('rp-sub').textContent = {{ i18n "random.no_posts" | jsonify | safeJS }};
+				return;
+			}
+
+			if (reduceMotion) {
+				var titleLine = document.querySelector('#rp-title .rp-title-line');
+				document.getElementById('rp-title').setAttribute('aria-hidden', 'false');
+				titleLine.textContent = pick.title || {{ i18n "random.untitled" | jsonify | safeJS }};
+				document.getElementById('rp-sub').textContent = {{ i18n "random.redirecting" | jsonify | safeJS }};
+			}
+		})();
+	</script> {{- /**/ -}}
+	<script type="module">
+		(function () {
+			var { pick, reduceMotion } = window.__rp;
+			if (!pick) return;
+			var titleEl = document.getElementById('rp-title');
+			var titleLine = titleEl.querySelector('.rp-title-line');
+			var subEl = document.getElementById('rp-sub');
+			var i18nUntitled = {{ i18n "random.untitled" | jsonify | safeJS }};
+
+			function go() {
+				window.location.replace(pick.url);
+			}
+
+			if (reduceMotion) {
+				setTimeout(go, 1500);
+				return;
+			}
+
+			setTimeout(() => {
+				titleEl.setAttribute('aria-hidden', 'false');
+				titleEl.classList.add('rp-typing');
+
+				new TypeIt(titleLine, {
+					strings: [pick.title || i18nUntitled],
+					speed: 36,
+					cursor: true,
+					afterComplete: () => {
+						setTimeout(() => {
+							subEl.classList.remove('rp-sub');
+							void subEl.offsetWidth;
+							subEl.textContent = {{ i18n "random.taking_you_there" | jsonify | safeJS }};
+							subEl.classList.add('rp-sub');
+							setTimeout(go, 1200);
+						}, 900);
+					}
+				}).go();
+			}, 300);
+		})();
+	</script>
+{{ end }}

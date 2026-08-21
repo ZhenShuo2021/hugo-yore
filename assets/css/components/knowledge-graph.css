@@ -1,0 +1,15 @@
+.kg-widget {
+	margin-bottom: 1rem;
+}
+
+.kgw-bottom {
+	border-top-width: 1px;
+	border-color: var(--color-border);
+}
+
+.kgw-bottom .kg-widget {
+	max-height: 240px;
+	aspect-ratio: 2 / 1;
+	width: 99%;
+	margin-inline: auto;
+}

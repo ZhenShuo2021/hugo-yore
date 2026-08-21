@@ -1,0 +1,585 @@
+{{- $schemes := slice -}}
+{{- $schemesData := newScratch -}}
+{{- $ignore := slice "ocean" -}}
+{{- range resources.Match "css/schemes/*.css" -}}
+	{{- $name := path.BaseName .RelPermalink -}}
+	{{- if in $ignore $name -}}
+		{{- continue -}}
+	{{- end -}}
+	{{- $schemes = $schemes | append $name -}}
+	{{- $schemesData.SetInMap "data" $name .Content -}}
+{{- end -}}
+{{- $schemesDataFinal := $schemesData.Get "data" -}}
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/night.min.css">
+
+<style>
+	.ts {
+		--bg: #0f172a;
+		--sur: #1e293b;
+		--sur2: #263245;
+		--brd: rgba(148, 163, 184, 0.18);
+		--brd-on: rgba(99, 102, 241, 0.7);
+		--txt: #e2e8f0;
+		--txt2: #94a3b8;
+		--acc: #ffffff;
+		--acc-bg: rgba(99, 102, 241, 0.12);
+		--ok: #4ade80;
+		--err: #f87171;
+		--warn: #fbbf24;
+		--mono: 'JetBrains Mono', monospace;
+		font-family: system-ui, sans-serif;
+		background: var(--bg);
+		border-radius: 10px;
+		border: 1px solid var(--brd);
+		color: var(--txt);
+		overflow: hidden;
+	}
+
+	/* tabs */
+	.ts-tabs {
+		display: flex;
+		border-bottom: 1px solid var(--brd);
+		background: var(--sur);
+	}
+	.ts-tab {
+		flex: 1;
+		padding: 9px 0;
+
+		font-weight: 500;
+		text-align: center;
+		cursor: pointer;
+		color: var(--txt2);
+		border-bottom: 2px solid transparent;
+		user-select: none;
+	}
+	.ts-tab:hover {
+		color: var(--txt);
+	}
+	.ts-tab.on {
+		color: var(--acc);
+		border-bottom-color: var(--acc);
+	}
+
+	/* panels */
+	.ts-pnl {
+		display: none;
+	}
+	.ts-pnl.on {
+		display: block;
+	}
+
+	/* scheme picker */
+	.ts-picker {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		padding: 12px 14px;
+		border-bottom: 1px solid var(--brd);
+	}
+	.ts-pill {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		padding: 5px 10px;
+		border-radius: 20px;
+		border: 1px solid var(--brd);
+		background: transparent;
+		cursor: pointer;
+		transition: all 0.15s;
+		user-select: none;
+	}
+	.ts-pill:hover {
+		background: var(--sur2);
+		border-color: rgba(148, 163, 184, 0.35);
+	}
+	.ts-pill.on {
+		background: var(--acc-bg);
+		border-color: var(--brd-on);
+	}
+	.ts-pill-dots {
+		display: flex;
+		gap: 3px;
+	}
+	.ts-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+	.ts-pill-name {
+		font-family: var(--mono);
+		font-weight: 500;
+		color: var(--txt);
+	}
+
+	/* preview */
+	.ts-preview {
+		margin: 12px 14px;
+		border-radius: 8px;
+		overflow: hidden;
+		border: 1px solid var(--brd);
+	}
+	/* preview uses scheme's semantic tokens directly */
+	.ts-pv-nav {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 9px 14px;
+		background: var(--background);
+		border-bottom: 1px solid var(--border, rgba(0, 0, 0, 0.1));
+	}
+	.ts-pv-logo {
+		width: 20px;
+		height: 20px;
+		border-radius: 4px;
+		background: var(--primary);
+	}
+	.ts-pv-site {
+		font-weight: 600;
+		color: var(--foreground);
+		font-family: var(--mono);
+		flex: 1;
+	}
+	.ts-pv-links {
+		display: flex;
+		gap: 12px;
+	}
+	.ts-pv-link {
+		color: var(--foreground);
+		&.ts-pv-link--on {
+			color: var(--color-link);
+		}
+	}
+
+	.ts-pv-body {
+		padding: 14px;
+		background: var(--background);
+	}
+	.ts-pv-h {
+		font-weight: 700;
+		color: var(--foreground);
+		margin-bottom: 5px;
+		line-height: 1.3;
+	}
+	.ts-pv-p {
+		color: var(--muted-foreground);
+		line-height: 1.6;
+	}
+	.ts-pv-btn {
+		display: inline-block;
+		margin-top: 8px;
+		padding: 5px 12px;
+		border-radius: 4px;
+		background: var(--primary);
+		color: var(--primary-foreground);
+		font-weight: 600;
+	}
+	.ts-pv-cards {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 7px;
+		margin-top: 10px;
+	}
+	.ts-pv-card {
+		border-radius: 6px;
+		padding: 9px;
+		background: var(--card);
+		border: 1px solid var(--border, rgba(0, 0, 0, 0.1));
+	}
+	.ts-pv-card-tag {
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		color: var(--card-foreground);
+		margin-bottom: 3px;
+	}
+	.ts-pv-card-title {
+		font-weight: 600;
+		color: var(--foreground);
+	}
+	.ts-pv-card-meta {
+		color: var(--muted-foreground);
+		margin-top: 2px;
+	}
+
+	/* custom editor */
+	.ts-editor-wrap {
+		position: relative;
+		border-bottom: 1px solid var(--brd);
+	}
+	.ts-editor-wrap .CodeMirror {
+		font-family: var(--mono);
+		line-height: 1.6;
+		background: var(--bg);
+		color: #e2e8f0;
+		border: none;
+		height: 220px;
+	}
+	.ts-editor-wrap .CodeMirror-gutter,
+	.ts-editor-wrap .CodeMirror-linenumber {
+		display: none;
+	}
+	.ts-editor-wrap .CodeMirror-lines {
+		padding-left: 14px;
+	}
+	.ts-btn-float {
+		position: absolute;
+		top: 7px;
+		right: 10px;
+		z-index: 10;
+	}
+	.ts-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		padding: 4px 9px;
+		border-radius: 5px;
+		cursor: pointer;
+		border: 1px solid var(--brd);
+		background: var(--bg);
+		color: var(--txt2);
+
+		font-family: system-ui;
+		font-weight: 500;
+		transition: all 0.12s;
+	}
+	.ts-btn:hover {
+		background: var(--sur2);
+		color: var(--txt);
+		border-color: rgba(148, 163, 184, 0.35);
+	}
+	/* load dropdown */
+	.ts-load-drop {
+		display: none;
+		position: absolute;
+		top: 36px;
+		right: 10px;
+		z-index: 20;
+		border: 1px solid var(--brd);
+		border-radius: 6px;
+		background: var(--sur);
+		max-height: 180px;
+		overflow-y: auto;
+		min-width: 160px;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+	}
+	.ts-load-drop.on {
+		display: block;
+	}
+	.ts-load-item {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 7px 12px;
+		cursor: pointer;
+		transition: background 0.1s;
+	}
+	.ts-load-item:hover {
+		background: var(--sur2);
+	}
+	.ts-load-dots {
+		display: flex;
+		gap: 2px;
+	}
+	.ts-load-dot {
+		width: 7px;
+		height: 20px;
+		border-radius: 2px;
+	}
+	.ts-load-name {
+		font-family: var(--mono);
+		font-weight: 500;
+		color: var(--txt);
+	}
+	#themeSwitcher {
+		color-scheme: dark;
+	}
+	.CodeMirror-empty .CodeMirror-placeholder {
+		color: var(--color-neutral-500) !important;
+	}
+</style>
+
+<div class="ts" id="themeSwitcher" data-schemes="{{ jsonify $schemesDataFinal }}" style="font-size: 0.85em;">
+	<div class="ts-tabs">
+		<div class="ts-tab on" data-p="schemes">Schemes</div>
+		<div class="ts-tab" data-p="custom">Custom CSS</div>
+	</div>
+
+	<!-- Schemes panel -->
+	<div class="ts-pnl on" id="pnl-schemes">
+		<div class="ts-picker" id="schemePicker" role="tablist">
+			{{- range sort $schemes -}}
+				{{- $active := eq . (site.Params.themeColorScheme | default `latex`) -}}
+				<div
+					class="ts-pill {{ if $active }}on{{ end }}"
+					role="tab"
+					aria-selected="{{ cond $active `true` `false` }}"
+					data-scheme="{{ . }}">
+					<div class="ts-pill-dots" id="dots-{{ . }}">
+						<div class="ts-dot" style="background:#888"></div>
+						<div class="ts-dot" style="background:#aaa"></div>
+						<div class="ts-dot" style="background:#ccc"></div>
+					</div>
+					<span class="ts-pill-name">{{ . }}</span>
+				</div>
+			{{- end -}}
+		</div>
+	</div>
+
+	<!-- Custom CSS panel -->
+	<div class="ts-pnl" id="pnl-custom">
+		<div class="ts-editor-wrap">
+			<button class="ts-btn ts-btn-float" id="btnLoad">load scheme ↓</button>
+			<div class="ts-load-drop" id="loadDrop"></div>
+			<textarea
+				id="cssEditor"
+				style="display:none"
+				placeholder="html[data-color-scheme='custom'] {
+  --clr-neutral-500: oklch(80% 0 0);
+  --clr-brand-500: oklch(55% 0.2 250);
+  --clr-accent-500: oklch(65% 0.18 140);
+  /* ... */
+  /* or start by loading a scheme */
+}"></textarea>
+		</div>
+	</div>
+
+	<!-- Shared preview — always visible below active panel -->
+	<div class="ts-preview" id="previewBlock">
+		<div class="ts-pv-nav">
+			<div class="ts-pv-logo"></div>
+			<span class="ts-pv-site">my-site</span>
+			<div class="ts-pv-links">
+				<span class="ts-pv-link ts-pv-link--on">Blog</span>
+				<span class="ts-pv-link">Tags</span>
+				<span class="ts-pv-link">About</span>
+			</div>
+		</div>
+		<div class="ts-pv-body">
+			<div class="ts-pv-h">Post Title</div>
+			<div class="ts-pv-p prose dark:prose-invert">
+				Body text. <code>inline code</code> and <a href="#">link text</a> shown here.
+				<blockquote style="margin-top: 0;">Example of blockquote.</blockquote>
+			</div>
+			<div class="ts-pv-btn">Read more →</div>
+			<div class="ts-pv-cards">
+				<div class="ts-pv-card">
+					<div class="ts-pv-card-tag">Tag A</div>
+					<div class="ts-pv-card-title">Card Title One</div>
+					<div class="ts-pv-card-meta">3 min · Jan 2025</div>
+				</div>
+				<div class="ts-pv-card">
+					<div class="ts-pv-card-tag">Tag B</div>
+					<div class="ts-pv-card-title">Card Title Two</div>
+					<div class="ts-pv-card-meta">5 min · Feb 2025</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style id="dynScheme"></style>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"
+	integrity="sha512-OeZ4Yrb/W7d2W4rAMOO0HQ9Ro/aWLtpW9BUSR2UOWnSV2hprXLkkYnnCGc9NeLUxxE4ZG7zN16UuT1Elqq8Opg=="
+	crossorigin="anonymous"
+	referrerpolicy="no-referrer"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"
+	integrity="sha512-rQImvJlBa8MV1Tl1SXR5zD2bWfmgCEIzTieFegGg89AAt7j/NBEe50M5CqYQJnRwtkjKMmuYgHBqtD1Ubbk5ww=="
+	crossorigin="anonymous"
+	referrerpolicy="no-referrer"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/display/placeholder.min.js"
+	integrity="sha512-acBo6sW2h2GZQ9BqU9v5RyYGPUEr1a9jrukJg825Y0ahxAg/7aqTNPtcalloqnf4DfsRVdcdNmcBNWPD8b8W8Q=="
+	crossorigin="anonymous"
+	referrerpolicy="no-referrer"></script>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const root = document.getElementById('themeSwitcher');
+		const dynEl = document.getElementById('dynScheme');
+		const CUSTOM_SCHEME_NAME = 'custom';
+		const DEFAULT_SCHEME_NAME = 'latex';
+		let schemes = {};
+		try {
+			schemes = JSON.parse(root.dataset.schemes || '{}');
+		} catch (e) {}
+
+		/* rewrite html[data-color-scheme="xxx"] selector name to newName,
+		so an imported scheme's CSS matches whatever name it's applied under */
+		function renameSchemeSelector(cssText, newName) {
+			return cssText.replace(/data-color-scheme=(["'])[^"']*\1/g, `data-color-scheme="${newName}"`);
+		}
+
+		/* resolve oklch vars from a CSS string via a throwaway DOM node */
+		function resolveColors(cssText, varNames, name) {
+			const wrap = document.createElement('div');
+			wrap.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;overflow:hidden';
+			const st = document.createElement('style');
+			st.textContent = cssText;
+			wrap.appendChild(st);
+			document.body.appendChild(wrap);
+
+			const htmlEl = document.documentElement;
+			const prev = htmlEl.getAttribute('data-color-scheme');
+			htmlEl.setAttribute('data-color-scheme', name);
+
+			const out = varNames.map((v) => {
+				const p = document.createElement('div');
+				p.style.cssText = `position:absolute;background:var(${v})`;
+				wrap.appendChild(p);
+				const c = getComputedStyle(p).backgroundColor;
+				wrap.removeChild(p);
+				return c === 'rgba(0, 0, 0, 0)' ? null : c;
+			});
+
+			if (prev === null) htmlEl.removeAttribute('data-color-scheme');
+			else htmlEl.setAttribute('data-color-scheme', prev);
+
+			document.body.removeChild(wrap);
+			return out;
+		}
+
+		/* apply a scheme: inject CSS, let preview use its semantic tokens directly */
+		function apply(cssText, name) {
+			dynEl.textContent = cssText;
+			document.documentElement.setAttribute('data-color-scheme', name);
+		}
+
+		/* populate pill dots from scheme CSS */
+		function paintDots(name, cssText) {
+			const el = document.getElementById(`dots-${name}`);
+			if (!el) return;
+			const [c1, c2, c3] = resolveColors(
+				cssText,
+				['--clr-neutral-300', '--clr-brand-500', '--clr-accent-500'],
+				name,
+			);
+			const dots = el.querySelectorAll('.ts-dot');
+			if (dots[0]) dots[0].style.background = c1 || '#888';
+			if (dots[1]) dots[1].style.background = c2 || '#aaa';
+			if (dots[2]) dots[2].style.background = c3 || '#ccc';
+		}
+
+		/* scheme picker */
+		const picker = document.getElementById('schemePicker');
+		if (picker) {
+			const pills = picker.querySelectorAll('.ts-pill');
+			pills.forEach((p) => {
+				const n = p.dataset.scheme;
+				if (schemes[n]) paintDots(n, schemes[n]);
+				p.addEventListener('click', () => {
+					pills.forEach((x) => x.classList.remove('on'));
+					p.classList.add('on');
+					if (schemes[n]) apply(schemes[n], n);
+				});
+			});
+			/* apply default on load */
+			const active = picker.querySelector('.ts-pill.on') || pills[0];
+			if (active) {
+				active.classList.add('on');
+				const n = active.dataset.scheme;
+				if (schemes[n]) apply(schemes[n], n);
+			}
+		}
+
+		/* tabs */
+		let cmReady = false;
+		document.querySelectorAll('.ts-tab').forEach((tab) => {
+			tab.addEventListener('click', () => {
+				document.querySelectorAll('.ts-tab').forEach((t) => t.classList.remove('on'));
+				document.querySelectorAll('.ts-pnl').forEach((p) => p.classList.remove('on'));
+				tab.classList.add('on');
+				document.getElementById(`pnl-${tab.dataset.p}`).classList.add('on');
+				if (tab.dataset.p === 'custom') {
+					if (!cmReady) initCM();
+					else window._cm.focus();
+				}
+			});
+		});
+
+		/* load dropdown — built from schemes, no hardcoded data */
+		function buildDrop() {
+			const drop = document.getElementById('loadDrop');
+			drop.innerHTML = '';
+			Object.entries(schemes)
+				.sort(([a], [b]) => a.localeCompare(b))
+				.forEach(([name, css]) => {
+					const item = document.createElement('div');
+					item.className = 'ts-load-item';
+					const dotWrap = document.createElement('div');
+					dotWrap.className = 'ts-load-dots';
+					const [c1, c2, c3] = resolveColors(
+						css,
+						['--clr-accent-500', '--clr-brand-500', '--clr-neutral-300'],
+						name,
+					);
+					[c1 || '#888', c2 || '#aaa', c3 || '#ccc'].forEach((c) => {
+						const d = document.createElement('div');
+						d.className = 'ts-load-dot';
+						d.style.background = c;
+						dotWrap.appendChild(d);
+					});
+					const nm = document.createElement('span');
+					nm.className = 'ts-load-name';
+					nm.textContent = name;
+					item.appendChild(dotWrap);
+					item.appendChild(nm);
+					item.addEventListener('click', () => {
+						const renamed = renameSchemeSelector(css, CUSTOM_SCHEME_NAME);
+						if (window._cm) window._cm.setValue(renamed);
+						drop.classList.remove('on');
+						apply(renamed, CUSTOM_SCHEME_NAME);
+						picker?.querySelectorAll('.ts-pill').forEach((p) => p.classList.remove('on'));
+					});
+					drop.appendChild(item);
+				});
+		}
+
+		document.getElementById('btnLoad')?.addEventListener('click', () => {
+			const drop = document.getElementById('loadDrop');
+			if (!drop.classList.contains('on')) {
+				buildDrop();
+				drop.classList.add('on');
+			} else drop.classList.remove('on');
+		});
+
+		/* CodeMirror */
+		function initCM() {
+			const ta = document.getElementById('cssEditor');
+			if (!ta || typeof CodeMirror === 'undefined') return;
+			const cm = CodeMirror.fromTextArea(ta, {
+				mode: 'css',
+				theme: 'night',
+				lineNumbers: false,
+				lineWrapping: false,
+				tabSize: 2,
+				indentWithTabs: false,
+			});
+			window._cm = cm;
+			cmReady = true;
+			cm.focus();
+			let t;
+			cm.on('change', () => {
+				const v = cm.getValue();
+				clearTimeout(t);
+				t = setTimeout(() => {
+					if (v.trim() === '') {
+						const fallback = schemes[DEFAULT_SCHEME_NAME];
+						if (fallback) apply(fallback, DEFAULT_SCHEME_NAME);
+					} else {
+						apply(v, CUSTOM_SCHEME_NAME);
+					}
+				}, 400);
+			});
+		}
+	});
+</script>

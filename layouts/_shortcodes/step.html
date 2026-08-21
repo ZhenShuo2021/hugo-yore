@@ -1,0 +1,31 @@
+{{- $label := .Get "label" -}}
+{{- $icon := .Get "icon" -}}
+{{- $number := .Parent.Get "number" | default true -}}
+{{- $circleClass := .Get "circleClass" -}}
+
+{{- $title := .Get "title" -}}
+{{- if $title -}}
+	{{- warnf "step shortcode: 'title' is not a valid parameter. Did you mean 'label'? %s" .Position -}}
+{{- end -}}
+
+
+<li class="step ms-5">
+	<span
+		class="{{ $circleClass }} bg-foreground/90 text-background absolute -start-4 flex h-8 w-8 items-center justify-center rounded-full font-semibold">
+		{{- if $icon -}}
+			{{- $iconRes := resources.GetMatch (printf "icons/**/%s.svg" $icon) -}}
+			{{- with $iconRes -}}
+				<span class="icon">{{- .Content | safeHTML -}}</span>
+			{{- else -}}
+				{{- warnf "step icon %q not found" $icon -}}
+			{{- end -}}
+		{{- else if $label -}}
+			{{- $label | emojify -}}
+		{{- else if $number -}}
+			<span class="step-number" style="counter-increment: step-counter;"></span>
+		{{- end -}}
+	</span>
+	<div class="step-content">
+		{{- .Inner -}}
+	</div>
+</li>

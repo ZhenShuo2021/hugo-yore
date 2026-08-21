@@ -1,0 +1,143 @@
+{{- $top := cond (eq site.Params.headerLayout "static") "top-5" "top-25" -}}
+{{- $tocStyle := .Params.pageTOCStyle | default site.Params.pageTOCStyle -}}
+{{- .Store.Set "tocStyle" $tocStyle -}}
+{{- $hasToc := in .TableOfContents "<ul" -}}
+
+
+<div class="layout-wrapper base-spacing">
+	<aside class="sidebar-left" aria-hidden="true"></aside>
+
+	<main id="main-content" class="layout-content w-full">
+		{{- if and (.Param "pageHeroStyle") (ne (.Param "pageHeroStyle") "disable") -}}
+			{{- partial "page/hero/main.html" . -}}
+		{{- end -}}
+		{{- partial "inline/page-main" . -}}
+	</main>
+
+	{{- if and $hasToc (eq $tocStyle "sidebar") -}}
+		{{- partial "page/toc-sidebar.html" . -}}
+	{{- else -}}
+		<aside class="sidebar-right" aria-hidden="true"></aside>
+	{{- end -}}
+</div>
+
+{{- define "_partials/inline/page-main" -}}
+	{{- /* Header */ -}}
+	<header class="mb-12">
+		{{- if .Param "breadcrumb" | default true -}}
+			<div class="text-muted-foreground text-sm">{{- partial "components/breadcrumbs.html" . -}}</div>
+		{{- end -}}
+		<div class="flex items-start justify-between gap-4">
+			<h1 class="text-foreground mb-2 text-4xl font-medium">
+				{{- .Title -}}
+			</h1>
+			{{- if .Param "pageShowActions" -}}
+				{{- partial "page/page-actions.html" . -}}
+			{{- end -}}
+		</div>
+
+		{{- if .Params.pageShowMeta | default site.Params.pageShowMeta -}}
+			<div class="text-muted-foreground text-sm">
+				{{- if .Date -}}
+					<div class="flex items-center gap-1">
+						<span>{{ i18n "article.date" | default "Published:" }}</span>
+						<time
+							datetime="{{ .Date.Format "2006-01-02" }}"
+							title="{{ .Date.Format "January 2, 2006" }}"
+							aria-label="{{ i18n "article.published_date" | default "Published date" }}">
+							{{- .Date.Format "January 2, 2006" -}}
+						</time>
+					</div>
+				{{- end -}}
+
+				{{- if and .Lastmod (gt .Lastmod .Date) -}}
+					<div class="flex items-center gap-1">
+						<span>{{- i18n "article.date_updated" | default "Updated:" -}}</span>
+						<time datetime="{{- .Lastmod.Format "2006-01-02" -}}">
+							{{- .Lastmod.Format "January 2, 2006" -}}
+						</time>
+					</div>
+				{{- end -}}
+
+				{{- if .Param "pageShowAuthors" -}}
+					{{- partial "page/authors.html" . -}}
+				{{- end -}}
+			</div>
+		{{- end -}}
+	</header>
+
+	{{- /* Series */ -}}
+	{{- $hr := false -}}
+	{{- if in (slice "top" "both") (.Param "pageSeriesStyle") -}}
+		{{- partial "page/series.html" (dict "ctx" .) -}}
+		{{- $hr = true -}}
+	{{- end -}}
+
+	{{- /* TOC Top */ -}}
+	{{- $tocStyle := .Store.Get "tocStyle" -}}
+	{{- $hasToc := in .TableOfContents "<ul" -}}
+	{{- if and $hasToc (ne $tocStyle "disable") -}}
+		{{- partial "page/toc-top.html" . -}}
+		{{- $hr = true -}}
+	{{- end -}}
+
+	{{- if and
+		(in (slice "top" "both") (.Param "pageSeriesStyle"))
+		(and $hasToc (ne $tocStyle "disable"))
+	-}}
+		{{- $hr = true -}}
+	{{- end -}}
+	{{- if .Param "pageShowStaleWarning" -}}
+		{{- partial "components/stale-warning.html" . -}}
+		{{- $hr = true -}}
+	{{- end -}}
+	{{- if $hr -}}
+		<div class="prose dark:prose-invert my-10"><hr></div>
+	{{- end -}}
+
+	{{- /* Markdown */ -}}
+	<article
+		{{ if not (.Param `pageNoList`) }}data-pagefind-body{{ end }}
+		class="prose dark:prose-invert w-full">
+		{{- if templates.Exists "_partials/page/content-before.html" -}}
+			{{- partial "page/content-before.html" . -}}
+		{{- end -}}
+		{{- .Content -}}
+		{{- if templates.Exists "_partials/page/content-after.html" -}}
+			{{- partial "page/content-after.html" . -}}
+		{{- end -}}
+	</article>
+
+	{{- /* Footer */ -}}
+	{{- /* Categories and Tags */ -}}
+	{{- if or (.Param "pageShowCategories") (.Param "pageShowTags") -}}
+		{{- partial "page/taxonomy.html" . -}}
+	{{- end -}}
+
+	{{- if .Page.Params.pageShowBacklinks | default site.Params.pageShowBacklinks | default true -}}
+		{{- partial "page/backlink.html" . -}}
+	{{- end -}}
+
+	{{- if eq (.Param "pageKgStyle") "bottom" -}}
+		<div class="kgw-bottom border-border mt-16 border-t pt-8 print:hidden">
+			<h2 class="text-foreground mb-6 flex items-center gap-2 text-2xl!">
+				{{- i18n "article.kg_title" | default "Article Connections" -}}
+			</h2>
+			{{- partial "knowledge-graph/widget.html" . -}}
+		</div>
+	{{- end -}}
+
+	{{- if and (in (slice "bottom" "both") (.Param "pageSeriesStyle")) (.GetTerms "series") -}}
+		<div class="prose dark:prose-invert mb-10 max-w-none"><hr></div>
+		{{- partial "page/series.html" (dict "ctx" .) -}}
+	{{- end -}}
+	{{- if templates.Exists "_partials/comments.html" -}}
+		{{- partial "comments.html" -}}
+	{{- end -}}
+	{{- if .Param "pageShowRelated" -}}
+		{{- partial "page/related.html" . -}}
+	{{- end -}}
+	{{- if .Param "pageShowNext" | default true -}}
+		{{- partial "page/next.html" (dict "next" .Next "prev" .Prev) -}}
+	{{- end -}}
+{{- end -}}

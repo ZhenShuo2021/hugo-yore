@@ -1,0 +1,66 @@
+name: Bug Report
+description: Create a report to help us improve
+labels: ['bug']
+body:
+  - type: checkboxes
+    id: issue-check
+    attributes:
+      label: Issue Check
+      options:
+        - label: I have checked existing Issues and I feel this bug has not been raised
+          required: true
+  - type: textarea
+    id: describe-bug
+    attributes:
+      label: Describe the Bug
+      description:
+        Include a description of the bug, steps to reproduce, expected behavior, and screenshots if applicable.
+      value: |
+        **Describe the Bug**
+        A clear and concise description of what the bug is.
+
+        **To Reproduce**
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. *See error*
+
+        **Expected Behavior**
+        A clear and concise description of what you expected to happen.
+
+        **Screenshots**
+        If applicable, add screenshots to help explain your problem.
+    validations:
+      required: true
+  - type: textarea
+    id: platform
+    attributes:
+      label: Platform
+      value: |
+        - OS:
+        - Browser:
+        - Version:
+    validations:
+      required: true
+  - type: input
+    id: hugo-version
+    attributes:
+      label: Hugo Version
+      description: Run `hugo version` and paste the output below.
+      placeholder:
+        hugo v0.147.6-0a5fd8ebb8e2ca798515e8c564c14e32db3b4127 linux/amd64 BuildDate=2025-05-27T11:17:16Z
+        VendorInfo=gohugoio
+    validations:
+      required: true
+  - type: input
+    id: yore-version
+    attributes:
+      label: Yore Version
+      description: |
+        Find the version using one of these methods:
+        (1) Hover over the "Yore" link in the site footer.
+        (2) Hugo module: check `go.mod` for the Yore module version.
+        (3) Git submodule: check `yoreVersion` in `themes/yore/data/theme.yaml`.
+      placeholder: v1.0.0
+    validations:
+      required: true

@@ -1,0 +1,39 @@
+{
+	"consentModal": {
+		"title": "Wie wir Cookies verwenden",
+		"description": "Diese Website verwendet Cookies und ähnliche Tracking-Technologien, um den ordnungsgemäßen Betrieb sicherzustellen, das Nutzerverhalten zu analysieren und – mit Ihrer Einwilligung – personalisierte Inhalte und Werbung bereitzustellen. Sie können Ihre Einwilligungsoptionen jederzeit über „Cookie-Einstellungen verwalten\" anpassen oder „Alle ablehnen\" wählen, um nur die für den Betrieb der Website notwendigen Cookies beizubehalten. Weitere Informationen finden Sie in unserer Datenschutzerklärung.",
+		"acceptAllBtn": "Alle akzeptieren",
+		"acceptNecessaryBtn": "Alle ablehnen",
+		"showPreferencesBtn": "Cookie-Einstellungen verwalten"
+	},
+	"preferencesModal": {
+		"title": "Cookie-Einstellungen",
+		"acceptAllBtn": "Alle akzeptieren",
+		"acceptNecessaryBtn": "Alle ablehnen",
+		"savePreferencesBtn": "Einstellungen speichern",
+		"closeIconLabel": "Fenster schließen",
+		"serviceCounterLabel": "Dienstanbieter",
+		"sections": [
+			{
+				"title": "Notwendige Cookies",
+				"description": "Diese Cookies sind für die Kernfunktionen der Website unerlässlich, einschließlich der Aufrechterhaltung von Sitzungen, der Speicherung des Anmeldestatus und der Speicherung Ihrer Cookie-Einwilligungseinstellungen. Diese Kategorie kann nicht deaktiviert werden, und es werden keine personenbezogenen Daten gespeichert.",
+				"linkedCategory": "necessary"
+			},
+			{
+				"title": "Funktionale Cookies",
+				"description": "Diese Cookies ermöglichen es der Website, Ihre persönlichen Einstellungen wie Sprachauswahl, regionale Einstellungen und Interface-Layout zu speichern, um ein konsistenteres und personalisierteres Nutzererlebnis zu bieten. Das Deaktivieren dieser Kategorie beeinträchtigt nicht die Kernfunktionen der Website, einige Funktionen sind jedoch möglicherweise eingeschränkt.",
+				"linkedCategory": "functional"
+			},
+			{
+				"title": "Analyse-Cookies",
+				"description": "Diese Cookies helfen uns zu verstehen, wie Besucher mit der Website interagieren, einschließlich besuchter Seiten, Verweildauer und Traffic-Quellen. Alle gesammelten Daten werden in aggregierter, anonymisierter Form verarbeitet und ausschließlich zur kontinuierlichen Verbesserung der Website-Performance und Nutzererfahrung verwendet.",
+				"linkedCategory": "analytics"
+			},
+			{
+				"title": "Werbe-Cookies",
+				"description": "Diese Cookies werden von dieser Website und Werbepartnern gesetzt, um auf Basis Ihres Surfverhaltens ein Interessenprofil zu erstellen und personalisierte Werbeinhalte auf dieser und anderen Plattformen bereitzustellen. Wenn Sie diese Kategorie deaktivieren, werden Ihnen weiterhin Anzeigen angezeigt, diese sind jedoch nicht mehr auf Ihre Interessen zugeschnitten.",
+				"linkedCategory": "advertising"
+			}
+		]
+	}
+}

@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: link externo
+a11y_panel:
+  close: Fechar painel de acessibilidade
+  decrease_font_size: Diminuir tamanho da fonte
+  font_size: Tamanho da fonte
+  high_contrast: Alto contraste
+  increase_font_size: Aumentar tamanho da fonte
+  reduce_motion: Reduzir movimento
+  reduce_transparency: Reduzir transparência
+  show_link_underline: Mostrar sublinhado de links
+  title: Configurações de acessibilidade
+admonition:
+  abstract: Resumo
+  bug: Bug
+  caution: Cuidado
+  danger: Perigo
+  example: Exemplo
+  failure: Falha
+  important: Importante
+  info: Informação
+  note: Nota
+  question: Pergunta
+  quote: Citação
+  success: Sucesso
+  tip: Dica
+  todo: A fazer
+  warning: Aviso
+article:
+  backlinks_title: Links de retorno
+  date: '{{ .Date }}'
+  date_updated: 'Atualizado em: {{ .Date }}'
+  kg_title: Conexões de artigos
+  more_articles: Mais artigos
+  next: Próximo
+  on_this_page: Nesta página
+  previous: Anterior
+  published_date: Data de publicação
+  related_articles: Relacionados
+  series: Este artigo faz parte de uma série de artigos.
+code:
+  copied: Copiado
+  copy: Copiar
+docs:
+  nav_label: Documentação
+  next: Próximo
+  prev: Anterior
+  sidebar_label: Documentação
+  source_files: Código-fonte
+  toc_label: Índice
+  toc_nav_label: Nesta página
+error:
+  404_description: Aparentemente a página requisitada não existe.
+  404_title: 'Página não encontrada :confused:'
+footer:
+  powered_by: Desenvolvido por {{ .Theme }}
+nav:
+  accessibility_panel: Abrir painel de acessibilidade
+  breadcrumb: Navegação estrutural
+  change_language: Alterar idioma
+  close_mobile_menu: Fechar menu móvel
+  footer_navigation: Navegação do rodapé
+  main_navigation: Navegação principal
+  scroll_to_top_title: Ir para o topo
+  search: Pesquisar
+  skip_to_main: Ir para o conteúdo principal
+  switch_version: Alternar versão
+  toggle_dark_mode: Alternar modo escuro
+  toggle_mobile_menu: Alternar menu móvel
+page_actions:
+  actions: Ações
+  copy_markdown: Copiar Markdown
+  copy_url: Copiar URL
+  edit_this_page: Editar esta página
+  view_source: Ver fonte
+quick_reference: Referência rápida
+random:
+  choosing: Escolhendo algo que vale a pena ler
+  js_required: É necessário JavaScript para o redirecionamento aleatório.
+  no_posts: Nenhum post disponível para redirecionar.
+  redirecting: Redirecionando…
+  taking_you_there: Redirecionando você…
+  untitled: Sem título
+recent:
+  show_more: Mostrar mais
+search:
+  close_button_title: Fechar (Esc)
+  input_placeholder: Pesquisar
+  no_result: Nenhum resultado
+  open_button_title: Pesquisar (/)
+shortcode:
+  recent_articles: Recente
+stale_warning:
+  'text:': Este artigo não é atualizado há algum tempo, então algumas informações podem estar desatualizadas.

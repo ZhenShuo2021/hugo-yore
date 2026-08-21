@@ -1,0 +1,146 @@
+{{- if or
+	site.Menus.main
+	site.Menus.subnavigation
+	site.Params.versionSwitcher
+	site.Params.accessibilityEnabled
+-}}
+	<dialog id="mobile-menu-overlay" class="dialog-overlay">
+		<div class="max-h-[calc(100dvh-2rem)] scrollbar-gutter-stable overflow-y-auto px-6 py-8">
+			<button
+				id="mobile-menu-close"
+				aria-label="{{ i18n `nav.close_mobile_menu` | default `Close mobile menu` }}"
+				class="text-muted-foreground hover:text-foreground absolute end-6 top-6 z-50 flex items-center transition-colors">
+				{{- partialCached "components/icon.html" "xmark" "icon-xmark" -}}
+			</button>
+			<nav class="mx-auto max-w-md space-y-6">
+				{{- template "mobile-main-menu" . -}}
+				{{- template "mobile-footer-components" . -}}
+			</nav>
+		</div>
+	</dialog>
+{{- end -}}
+
+{{- define "mobile-main-menu" -}}
+	{{- $allMenus := site.Menus.main -}}
+
+	{{- if $allMenus -}}
+		{{- /* Find last-n consecutive icons */ -}}
+		{{- $breakPoint := len $allMenus -}}
+		{{- range $i := seq (sub (len $allMenus) 1) -1 0 -}}
+			{{- $item := index $allMenus $i -}}
+			{{- if and $item.Params.icon (not $item.Name) (not $item.HasChildren) -}}
+				{{- $breakPoint = $i -}}
+			{{- else -}}
+				{{- break -}}
+			{{- end -}}
+		{{- end -}}
+
+		{{- range first $breakPoint $allMenus -}}
+			<div class="grid grid-cols-[1fr_auto] items-start px-2">
+				<a
+					href="{{ .URL }}"
+					{{ with or .Name .Params.icon }}aria-label="{{ . }}"{{ end }}
+					class="group text-foreground hover:text-link-hover col-start-1 row-start-1 flex items-center gap-4 py-1 transition-colors">
+					{{- .Pre -}}
+					{{- with .Params.icon -}}
+						<span class="flex h-8 w-8 items-center justify-center text-2xl">
+							{{- partial "components/icon.html" . -}}
+						</span>
+					{{- end -}}
+					{{- with .Name -}}
+						<span class="text-2xl font-bold tracking-tight">{{ . | markdownify }}</span>
+					{{- end -}}
+					{{- .Post -}}
+				</a>
+
+				{{- if .HasChildren -}}
+					{{- $submenuId := printf "mobile-submenu-%s" (.Identifier | default .Name | anchorize) -}}
+					<input
+						{{ if not .Params.collapsed }}checked{{ end }}
+						type="checkbox"
+						id="{{ $submenuId }}"
+						aria-label="{{ i18n `nav.toggle_submenu` | default `Toggle submenu` }}"
+						aria-controls="{{ $submenuId }}-content"
+						autocomplete="off"
+						class="peer border-border hover:border-link-hover col-start-2 row-start-1 h-10 w-10 shrink-0 cursor-pointer appearance-none rounded-lg border bg-transparent">
+					<span
+						aria-hidden="true"
+						class="peer-hover:text-link-hover text-foreground pointer-events-none col-start-2 row-start-1 flex h-10 w-10 shrink-0 items-center justify-center transition-colors">
+						{{- partialCached "components/icon.html" "nav-arrow-down" "icon-nav-arrow-down" -}}
+					</span>
+
+					<div
+						id="{{ $submenuId }}-content"
+						class="invisible col-span-2 col-start-1 row-start-2 grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-(--dur-300) peer-checked:visible peer-checked:grid-rows-[1fr]">
+						<div class="overflow-hidden">
+							<div class="ms-7 mt-4 space-y-1">
+								{{- range .Children -}}
+									<a
+										href="{{ .URL }}"
+										{{ with or .Name .Params.icon }}aria-label="{{ . }}"{{ end }}
+										class="text-foreground hover:text-link-hover flex items-center gap-3 rounded p-2 transition-colors">
+										{{- .Pre -}}
+										{{- with .Params.icon -}}
+											<span class="flex h-5 w-5 items-center justify-center">
+												{{- partial "components/icon.html" . -}}
+											</span>
+										{{- end -}}
+										{{- with .Name -}}
+											<span class="text-lg">{{ . | markdownify }}</span>
+										{{- end -}}
+										{{- .Post -}}
+									</a>
+								{{- end -}}
+							</div>
+						</div>
+					</div>
+				{{- end -}}
+			</div>
+		{{- end -}}
+
+		{{- if lt $breakPoint (len $allMenus) -}}
+			<div class="flex flex-wrap items-center gap-6 px-2 pt-4">
+				{{- range after $breakPoint $allMenus -}}
+					<a
+						href="{{ .URL }}"
+						aria-label="{{ .Params.icon }}"
+						class="text-foreground hover:text-link-hover flex h-8 w-8 items-center justify-center text-2xl transition-colors">
+						{{- partial "components/icon.html" .Params.icon -}}
+					</a>
+				{{- end -}}
+			</div>
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- define "mobile-footer-components" -}}
+	{{- if or
+		hugo.IsMultilingual
+		site.Params.versionSwitcher
+		site.Params.accessibilityEnabled
+	-}}
+		<div class="mobile-menu-footer">
+			{{- if .IsTranslated -}}
+				{{- partial "components/translations.html" . -}}
+			{{- end -}}
+
+			{{- if site.Params.versionSwitcher -}}
+				{{- partial "components/version-switcher.html" $ -}}
+			{{- end -}}
+
+			{{- if site.Params.accessibilityEnabled | default false -}}
+				<div class="flex items-center">
+					<button
+						id="mobile-menu-a11y-toggle"
+						aria-label="{{ i18n `nav.accessibility_panel` | default `Open accessibility panel` }}"
+						aria-expanded="false"
+						aria-controls="a11y-panel"
+						type="button"
+						class="text-foreground hover:text-link-hover transition-colors">
+						{{- partialCached "components/icon.html" "a11y" "icon-a11y" -}}
+					</button>
+				</div>
+			{{- end -}}
+		</div>
+	{{- end -}}
+{{- end -}}

@@ -1,0 +1,74 @@
+{{- if eq site.Params.headerLayout "sticky" -}}
+	<style>
+		h1[id],
+		h2[id],
+		h3[id],
+		h4[id],
+		h5[id],
+		h6[id] {
+			scroll-margin-top: 4.5rem;
+		}
+	</style>
+{{- end -}}
+{{- /* target: 2024/01 */ -}}
+{{- $buildOpts := dict
+	"minify" (hugo.IsProduction)
+	"target" (slice "chrome121" "firefox122" "safari17.3")
+-}}
+
+{{- with resources.Get "css/main.css" | resources.ExecuteAsTemplate "css/main-bundle.css" . -}}
+	{{- with . | css.Build $buildOpts -}}
+		{{- if hugo.IsDevelopment -}}
+			<link rel="stylesheet" href="{{ .RelPermalink }}">
+		{{- else -}}
+			{{- with . | fingerprint -}}
+				<link
+					rel="stylesheet"
+					href="{{ .RelPermalink }}"
+					integrity="{{ .Data.Integrity }}"
+					crossorigin="anonymous">
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- if eq .Type "random" -}}
+	{{- with resources.Get "/css/layout-random.css" -}}
+		{{- if hugo.IsDevelopment -}}
+			<link rel="stylesheet" href="{{ .RelPermalink }}">
+		{{- else -}}
+			{{- with . | fingerprint -}}
+				<link
+					rel="stylesheet"
+					href="{{ .RelPermalink }}"
+					integrity="{{ .Data.Integrity }}"
+					crossorigin="anonymous">
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- if site.Params.hugoTailwind -}}
+	{{- with (templates.Defer (dict "key" "global")) -}}
+		{{- partial "inline/hugoTailwind" . -}}
+	{{- end -}}
+{{- end -}}
+
+{{- define "_partials/inline/hugoTailwind" -}}
+	{{- with resources.Get "css/tailwind/main.css" -}}
+		{{- $twOpts := dict "minify" (hugo.IsProduction) -}}
+		{{- with . | css.TailwindCSS $twOpts -}}
+			{{- if hugo.IsDevelopment -}}
+				<link rel="stylesheet" href="{{- .RelPermalink }}">
+			{{- else -}}
+				{{- with . | fingerprint -}}
+					<link
+						rel="stylesheet"
+						href="{{ .RelPermalink }}"
+						integrity="{{ .Data.Integrity }}"
+						crossorigin="anonymous">
+				{{- end -}}
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}

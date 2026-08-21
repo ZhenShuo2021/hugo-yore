@@ -1,0 +1,43 @@
+{{- $refDate := .Lastmod -}}
+{{- if not $refDate -}}
+	{{- $refDate = .Date -}}
+{{- end -}}
+
+{{- if $refDate -}}
+	{{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+	{{- $thresholdDays := .Param "pageStaleDays" | default 365 -}}
+	{{- $refDateStr := $refDate.Format $iso8601 -}}
+
+	{{- $text := i18n "pageShowStaleWarning.text" | default "This article has not been updated in a while and some information may be outdated." -}}
+
+	{{- $admonition := partial "components/admonition.html" (dict
+		"AlertType" "warning"
+		"AlertSign" ""
+		"Text" ($text)
+		)
+	-}}
+
+	{{- $payload := dict "html" $admonition "lastmod" $refDateStr "thresholdDays" $thresholdDays -}}
+
+	<script id="stale-content-warning-data" type="application/json">{{ $payload | jsonify | safeJS }}</script>
+	<script>
+		(function () {
+			var dataEl = document.getElementById('stale-content-warning-data');
+			if (!dataEl) return;
+
+			var payload = JSON.parse(dataEl.textContent);
+			var lastmod = new Date(payload.lastmod);
+
+			if (isNaN(lastmod.getTime())) return;
+
+			var msPerDay = 1000 * 60 * 60 * 24;
+			var daysSince = Math.floor((Date.now() - lastmod.getTime()) / msPerDay);
+
+			if (daysSince >= payload.thresholdDays) {
+				var wrapper = document.createElement('div');
+				wrapper.innerHTML = payload.html;
+				dataEl.replaceWith(wrapper);
+			}
+		})();
+	</script>
+{{- end -}}

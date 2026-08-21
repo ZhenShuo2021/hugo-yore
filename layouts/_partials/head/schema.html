@@ -1,0 +1,131 @@
+{{- $siteAuthorName := "" -}}
+{{- with site.Store.Get "siteAuthor" -}}
+	{{- $siteAuthorName = .LinkTitle -}}
+{{- end -}}
+{{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+
+{{- /* prettier-ignore */ -}}
+{{- if .IsHome }}
+	{{- print "<script type=\"application/ld+json\">" | safeHTML -}}
+	{
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		"@id": "{{ site.Home.Permalink }}",
+		"name": "{{ site.Title }}",
+		{{ with site.Params.description }}"description": "{{ . }}",{{ end }}
+		{{ with site.Language.Locale }}"inLanguage": "{{ . }}",{{ end }}
+		"url": "{{ site.Home.Permalink }}",
+		"publisher" : {
+			"@type": "Person",
+			"name": "{{ $siteAuthorName }}"
+		}
+	}
+	{{- print "</script>" | safeHTML -}}
+{{- /* author profile */ -}}
+{{- else if and (hasPrefix .Path "/authors") (eq .Kind "term") }}
+	{{- print "<script type=\"application/ld+json\">" | safeHTML -}}
+	{
+		"@context": "https://schema.org",
+		"@type": "ProfilePage",
+		{{- with .Date }}"dateCreated": "{{ .Format $iso8601 | safeHTML }}",{{ end }}
+		{{- with .Lastmod }}"dateModified": "{{ .Format $iso8601 | safeHTML }}",{{ end }}
+		"mainEntity": {
+			"@type": "Person",
+			"name": "{{ .Title }}",
+			{{- with .Params.description }}"description": "{{ . | plainify }}",{{ end }}
+			{{- with .Params.portrait -}}
+				{{- with (or (page.Resources.Get .) (resources.Get .)) -}}
+					"image": "{{ .Permalink }}",
+				{{- else -}}
+					"image": "{{ . }}",
+				{{- end -}}
+			{{- end -}}
+			{{- with .Params.links }}
+			"sameAs": [
+				{{- $links := slice -}}
+				{{- range $linkMap := . -}}
+					{{- range $name, $url := $linkMap -}}
+						{{- if ne $name "mail" -}}
+							{{- $links = $links | append $url -}}
+						{{- end -}}
+					{{- end -}}
+				{{- end -}}
+				{{- range $i, $url := $links }}{{ if $i }},{{ end }}"{{ $url }}"{{ end -}}
+			]
+			{{- end }}
+		}
+	}
+	{{- print "</script>" | safeHTML -}}
+{{- /* article pages */ -}}
+{{- else if (eq .Kind "page") }}
+	{{- print "<script type=\"application/ld+json\">" | safeHTML -}}
+	[{
+	"@context": "https://schema.org",
+	"@type": "Article",
+	"articleSection": "{{ .CurrentSection.Title }}",
+	"url": "{{ .Permalink }}",
+	"name": "{{ .Title }}",
+	"headline": "{{ .Title }}",
+	{{ with .Description }}"description": "{{ . }}",{{ end }}
+	{{ with site.Language.Locale }}"inLanguage": "{{ . }}",{{ end }}
+	{{- with .GetTerms "authors" }}
+	"author" : [
+		{{- range $i, $a := . }}{{ if $i }},{{ end }}
+		{
+			"@type": "Person",
+			"name": "{{ $a.LinkTitle }}",
+			"url": "{{ $a.Permalink }}"
+		}
+		{{- end }}
+	],
+	{{- else }}
+	"author": [{
+		"@type": "Person",
+		"name": "{{ $siteAuthorName }}"
+	}],
+	{{- end }}
+	"publisher": {
+		"@type": "Person",
+		"name": "{{ $siteAuthorName }}"
+	},
+	{{ with (.Store.Get "featuredImage") -}}
+		{{- if not .useDefault -}}
+			{{ with .url }}"image": "{{ . }}",{{ end }}
+		{{- end -}}
+	{{- end }}
+	{{ with .PublishDate }}"copyrightYear": "{{ .Format "2006" }}",{{ end }}
+	{{ with .Date }}"dateCreated": "{{ .Format $iso8601 | safeHTML }}",{{ end }}
+	{{ with .PublishDate }}"datePublished": "{{ .Format $iso8601 | safeHTML }}",{{ end }}
+	{{ with .ExpiryDate }}"expires": "{{ .Format $iso8601 | safeHTML }}",{{ end }}
+	{{ with .Lastmod }}"dateModified": "{{ .Format $iso8601 | safeHTML }}",{{ end }}
+	"mainEntityOfPage": { "@type": "WebPage", "@id": "{{ .Permalink }}" },
+	"wordCount": "{{ .WordCount }}"
+	}{{ if site.Params.breadcrumbSchema | default false }},
+	{
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{{- $position := 0 -}}
+		{{- range .Ancestors -}}
+		{{- if not .IsHome -}}
+			{{- $position = add $position 1 -}}
+			{
+			"@type": "ListItem",
+			"position": {{ $position }},
+			"name": "{{ .Title }}",
+			"item": "{{ .Permalink }}"
+			},
+		{{- end -}}
+		{{- end -}}
+		{{- $position = add $position 1 -}}
+		{
+		"@type": "ListItem",
+		"position": {{ $position }},
+		"name": "{{ .Title }}",
+		"item": "{{ .Permalink }}"
+		}
+	]
+	}{{ end }}]
+	{{- print "</script>" | safeHTML -}}
+{{- end -}}
+{{- /* term, taxonomy, list: no structured data */ -}}

@@ -1,0 +1,5 @@
+{{- with resources.GetMatch (printf "icons/**/%s.svg" (strings.TrimSuffix ".svg" ($.Get 0))) -}}
+	<span class="icon relative inline-block align-text-bottom">{{- .Content | safeHTML -}}</span>
+{{- else -}}
+	{{- warnf `icon shortcode: resource "icons/%s.svg" not found: %s` ($.Get 0) .Position -}}
+{{- end -}}

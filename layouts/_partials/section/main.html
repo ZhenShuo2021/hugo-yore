@@ -1,0 +1,134 @@
+{{- $pages := cond (eq (.Param "listScope" | default "section") "site") site.RegularPages .Pages -}}
+{{- $grouped := partial "inline/section-group-pages" (dict "pages" $pages "ctx" .Page) -}}
+
+
+<div class="layout-wrapper base-spacing">
+	<aside class="sidebar-left"></aside>
+	<main id="main-content" class="layout-content">
+		<header class="mb-16">
+			{{- if .Param "breadcrumb" | default true -}}
+				<div class="text-muted-foreground text-sm">{{ partial "components/breadcrumbs.html" . }}</div>
+			{{- end -}}
+			<h1 class="text-foreground mb-2 text-4xl font-medium">{{ .Title }}</h1>
+			{{- with .Content -}}
+				<article class="prose dark:prose-invert mt-6">{{ . }}</article>
+			{{- end -}}
+		</header>
+
+		{{- if $grouped -}}
+			{{- $paginator := .Paginate $grouped -}}
+			{{- range $paginator.PageGroups -}}
+				{{- $groupPages := partial "inline/section-sort-pages" (dict "pages" .Pages "ctx" $.Page ) -}}
+				<div class="mb-12">
+					<h2 class="text-foreground mb-4 text-2xl font-medium">{{ .Key }}</h2>
+					<div class="flex flex-col gap-y-6 sm:grid sm:grid-cols-[max-content_1fr] sm:gap-x-4 sm:gap-y-2">
+						{{- range $groupPages -}}
+							{{- partial "inline/section-page-item" . -}}
+						{{- end -}}
+					</div>
+				</div>
+			{{- end -}}
+			{{- partial "section/pagination.html" (dict "paginator" $paginator) -}}
+		{{- else -}}
+			{{- $sorted := partial "inline/section-sort-pages" (dict "pages" $pages "ctx" $.Page ) -}}
+			{{- $paginator := .Paginate $sorted -}}
+			{{- if $paginator.Pages -}}
+				<div class="flex flex-col gap-y-6 sm:grid sm:grid-cols-[max-content_1fr] sm:gap-x-4 sm:gap-y-2">
+					{{- range $paginator.Pages -}}
+						{{- partial "inline/section-page-item" . -}}
+					{{- end -}}
+				</div>
+			{{- end -}}
+			{{- partial "section/pagination.html" (dict "paginator" $paginator) -}}
+		{{- end -}}
+	</main>
+	<aside class="sidebar-right"></aside>
+</div>
+
+{{- define "_partials/inline/section-page-item" -}}
+	{{- if or .Params.pageNoList -}}
+	{{- else -}}
+		{{- $externalURL := .Param "link" -}}
+		<section class="flex flex-col items-start text-lg sm:contents">
+			<time datetime="{{ .Date.Format "2006-01-02" }}" class="text-muted-foreground">
+				{{- .Date.Format "2006-01-02" }}
+			</time>
+			<span>
+				<a
+					href="{{ if $externalURL -}}
+						{{- $externalURL -}}
+					{{- else -}}
+						{{- .RelPermalink -}}
+					{{- end }}"
+					class="text-foreground hover:text-link-hover inline-flex items-center transition-colors">
+					{{- .Title -}}
+					{{- if .IsNode -}}
+						<span class="ms-1 leading-none">
+							{{- partialCached "components/icon.html" "folder" "icon-folder" -}}
+						</span>
+					{{- end -}}
+					{{- if $externalURL -}}
+						<span class="ms-1 shrink-0 leading-none">
+							{{- partialCached "components/icon.html" "yore/external" "icon-yore/external" -}}
+						</span>
+					{{- end -}}
+				</a>
+			</span>
+		</section>
+	{{- end -}}
+{{- end -}}
+
+{{- define "_partials/inline/section-group-pages" -}}
+	{{- $grouped := "" -}}
+	{{- $pages := .pages -}}
+	{{- $page := .ctx -}}
+	{{- $sectionGroupBy := $page.Param "sectionGroupBy" -}}
+	{{- $sectionGroupLayout := $page.Param "sectionGroupLayout" | default "January 2006" -}}
+	{{- $sectionGroupOrder := $page.Param "sectionGroupOrder"  | default "desc" -}}
+	{{- if $sectionGroupBy -}}
+		{{- if eq $sectionGroupBy "Date" -}}
+			{{- $grouped = $pages.GroupByDate $sectionGroupLayout $sectionGroupOrder -}}
+		{{- else if eq $sectionGroupBy "ExpiryDate" -}}
+			{{- $grouped = $pages.GroupByExpiryDate $sectionGroupLayout $sectionGroupOrder -}}
+		{{- else if eq $sectionGroupBy "Lastmod" -}}
+			{{- $grouped = $pages.GroupByLastmod $sectionGroupLayout $sectionGroupOrder -}}
+		{{- else if eq $sectionGroupBy "PublishDate" -}}
+			{{- $grouped = $pages.GroupByPublishDate $sectionGroupLayout $sectionGroupOrder -}}
+		{{- else if hasPrefix $sectionGroupBy "Param." -}}
+			{{- $grouped = $pages.GroupByParam (strings.TrimPrefix "Param." $sectionGroupBy) -}}
+		{{- end -}}
+	{{- end -}}
+	{{- return $grouped -}}
+{{- end -}}
+
+{{- define "_partials/inline/section-sort-pages" -}}
+	{{- $pages := .pages -}}
+	{{- $sectionSortBy := .ctx.Param "sectionSortBy" -}}
+	{{- $sectionSortOrder := .ctx.Param "sectionSortOrder" | default "asc" -}}
+
+	{{- if eq $sectionSortBy "Date" -}}
+		{{- $pages = $pages.ByDate -}}
+	{{- else if eq $sectionSortBy "ExpiryDate" -}}
+		{{- $pages = $pages.ByExpiryDate -}}
+	{{- else if eq $sectionSortBy "Lastmod" -}}
+		{{- $pages = $pages.ByLastmod -}}
+	{{- else if eq $sectionSortBy "Length" -}}
+		{{- $pages = $pages.ByLength -}}
+	{{- else if eq $sectionSortBy "LinkTitle" -}}
+		{{- $pages = $pages.ByLinkTitle -}}
+	{{- else if eq $sectionSortBy "PublishDate" -}}
+		{{- $pages = $pages.ByPublishDate -}}
+	{{- else if eq $sectionSortBy "Title" -}}
+		{{- $pages = $pages.ByTitle -}}
+	{{- else if eq $sectionSortBy "Weight" -}}
+		{{- $pages = $pages.ByWeight -}}
+	{{- else if hasPrefix $sectionSortBy "Param." -}}
+		{{- $pages = $pages.ByParam (strings.TrimPrefix "Param." $sectionSortBy) -}}
+	{{- end -}}
+
+	{{- if eq $sectionSortOrder "desc" -}}
+		{{- $pages = $pages.Reverse -}}
+	{{- end -}}
+
+	{{- return $pages -}}
+{{- end -}}

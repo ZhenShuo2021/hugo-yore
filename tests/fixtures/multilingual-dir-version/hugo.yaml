@@ -1,0 +1,66 @@
+baseURL: 'http://localhost:1313/'
+title: 'Test: multilingual-dir + version'
+theme: ['hugo-knowledge-graph', 'hugo-yore']
+menus:
+  main:
+    - name: Docs
+      url: /docs/
+      weight: 1
+defaultContentLanguage: en
+defaultContentLanguageInSubdir: false
+defaultContentVersion: v2.0.0
+defaultContentVersionInSubdir: false
+versions:
+  v1.0.0: {}
+  v2.0.0: {}
+languages:
+  en:
+    languageName: English
+    weight: 1
+  zh-cn:
+    languageName: 中文
+    weight: 2
+module:
+  mounts:
+    - source: content/zh-cn/v2.0.0
+      target: content
+      sites:
+        matrix:
+          languages: [zh-cn]
+          versions: [v2.0.0]
+    - source: content/zh-cn/v1.0.0
+      target: content
+      sites:
+        matrix:
+          languages: [zh-cn]
+          versions: [v1.0.0]
+    - source: content/en/v2.0.0
+      target: content
+      sites:
+        matrix:
+          languages: ['**']
+          versions: [v2.0.0]
+    - source: content/en/v1.0.0
+      target: content
+      sites:
+        matrix:
+          languages: ['**']
+          versions: [v1.0.0]
+    - source: content/zh-cn
+      target: content
+      files:
+        - '! v1.0.0/**'
+        - '! v2.0.0/**'
+      sites:
+        matrix:
+          languages: [zh-cn]
+          versions: ['**']
+    - source: content/en
+      target: content
+      files:
+        - '! v1.0.0/**'
+        - '! v2.0.0/**'
+      sites:
+        matrix:
+          languages: ['**']
+          versions: ['**']

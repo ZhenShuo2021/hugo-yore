@@ -1,0 +1,54 @@
+{{- /* Override this file in your site to customize admonition type aliases and icon mappings */ -}}
+{{- $typeMap := dict
+	"abstract" "abstract"
+	"bug" "bug"
+	"caution" "caution"
+	"danger" "danger"
+	"example" "example"
+	"failure" "failure"
+	"important" "important"
+	"info" "info"
+	"note" "note"
+	"success" "success"
+	"todo" "todo"
+	"tip" "tip"
+	"question" "question"
+	"quote" "quote"
+	"warning" "warning"
+-}}
+
+{{- /* Obsidian alias */ -}}
+{{- $typeMapAlias := dict
+	"attention" "warning"
+	"check" "success"
+	"cite" "quote"
+	"done" "success"
+	"error" "danger"
+	"fail" "failure"
+	"faq" "question"
+	"hint" "tip"
+	"help" "question"
+	"missing" "failure"
+	"summary" "abstract"
+	"tldr" "abstract"
+}}
+
+{{ $iconMap := dict
+	"abstract" "cube"
+	"bug" "bug"
+	"caution" "warning-triangle"
+	"danger" "warning-triangle"
+	"example" "code"
+	"failure" "xmark-circle"
+	"important" "priority-high"
+	"info" "info-circle"
+	"note" "page"
+	"success" "check-circle"
+	"todo" "task-list"
+	"tip" "light-bulb"
+	"question" "help-circle"
+	"quote" "quote"
+	"warning" "warning-triangle"
+-}}
+
+{{- return dict "typeMap" (merge $typeMap $typeMapAlias) "iconMap" $iconMap -}}

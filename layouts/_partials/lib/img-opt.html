@@ -1,0 +1,24 @@
+{{- /* optimize image and returns the optimized result
+	input: the image object
+	output: the processed image object: original image, desktop and mobile version
+*/ -}}
+{{- $imgObj := .imgObj -}}
+
+{{- $skipConvert := in (slice "webp" "avif" "gif") $imgObj.MediaType.SubType -}}
+
+{{- $decodedPath := urls.PathUnescape $imgObj.RelPermalink -}}
+{{- $base := path.Join (path.Dir $decodedPath) (path.BaseName $decodedPath) -}}
+{{- $hash := substr (hash.XxHash $decodedPath) 0 6 -}}
+
+{{- $imgDesktop := $imgObj -}}
+{{- if not $skipConvert -}}
+	{{- $imgDesktop = $imgObj.Resize (printf "%dx webp lossy" $imgObj.Width) -}}
+	{{- $imgDesktop = $imgDesktop | resources.Copy (printf "%s-full_%s.webp" $base $hash) -}}
+{{- end -}}
+
+{{- $imgMobile := $imgDesktop -}}
+{{- if gt $imgObj.Width 800 -}}
+	{{- $imgMobile = $imgObj.Resize "800x webp lossy" -}}
+	{{- $imgMobile = $imgMobile | resources.Copy (printf "%s-800px_%s.webp" $base $hash) -}}
+{{- end -}}
+{{- return (dict "imgObj" $imgObj "imgDesktop" $imgDesktop "imgMobile" $imgMobile) }}

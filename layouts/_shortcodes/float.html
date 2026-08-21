@@ -1,0 +1,8 @@
+{{- $side := .Get "side" | default "start" -}}
+{{- $size := .Get "size" | default "m" -}}
+
+<div class="float-media float-{{ $side }} size-{{ $size }}">
+<div class="float-content">
+{{- printf "\n\n%s\n\n" .Inner | safeHTML -}}
+</div>
+</div>

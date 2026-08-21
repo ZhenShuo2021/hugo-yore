@@ -1,0 +1,49 @@
+{{- $url := .Get "url" -}}
+{{- $type := .Get "type" -}}
+{{- $lines := .Get "lines" -}}
+
+{{- $rangeStr := $lines -}}
+{{- if and $lines (not (in $lines "-")) -}}
+	{{- $rangeStr = printf "%s-%s" $lines $lines -}}
+{{- end -}}
+
+{{- $inputStart := 1 -}}
+{{- $inputEnd := -1 -}}
+{{- if $rangeStr -}}
+	{{- $parts := split $rangeStr "-" -}}
+	{{- if ne (len $parts) 2 -}}
+		{{- errorf "embed-code shortcode: lines must be in \"start-end\" or \"n\" format, got %q. See %s" $lines $.Position -}}
+	{{- end -}}
+	{{- $inputStart = index $parts 0 | int -}}
+	{{- $inputEnd = index $parts 1 | int -}}
+{{- end -}}
+
+{{- with try (resources.GetRemote (urls.Parse $url)) -}}
+	{{- if .Err -}}
+		{{- warnidf "fetch-fail" "embed-code shortcode: failed to fetch remote resource from %q: %s" $url $.Position -}}
+	{{- else if .Value -}}
+		{{- $content := split .Value.Content "\n" -}}
+		{{- $contentLen := $content | len -}}
+
+		{{- /* eq $inputEnd -1: read all */ -}}
+		{{- $end := $inputEnd -}}
+		{{- if eq $inputEnd -1 -}}
+			{{- $end = $contentLen -}}
+		{{- else -}}
+			{{- $end = math.Min $inputEnd $contentLen -}}
+		{{- end -}}
+
+		{{- if gt $inputStart $end -}}
+			{{- errorf "embed-code shortcode: start line (%d) is greater than end line (%d). See %s" $inputStart $end $.Position -}}
+		{{- end -}}
+
+		{{- $final := first $end $content -}}
+		{{- $final = after (sub $inputStart 1) $final -}}
+		{{- $final = delimit $final "\n" -}}
+
+		{{- $codeBlock := printf "```%s\n%s\n```" $type $final -}}
+		{{- $codeBlock | $.Page.RenderString -}}
+	{{- else -}}
+		{{- warnidf "fetch-fail" "embed-code shortcode: unable to fetch %q: %s" $url $.Position -}}
+	{{- end -}}
+{{- end -}}

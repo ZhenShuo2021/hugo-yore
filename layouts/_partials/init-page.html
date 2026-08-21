@@ -1,0 +1,116 @@
+{{- /* Process page images.
+
+	Resolves the featured image for a page through a priority chain:
+
+	1. Front matter (Params.pageFeatureImage), if set:
+	   - External URL (http/https):
+	     - imageHotlink=true  → store the URL directly (hotlink, no fetch).
+	     - imageHotlink=false → fetch via GetRemote; on fetch error or empty
+	       result, warn and fall through to the next step.
+	   - Local path → resolve via page or global resources; if not found,
+	     fall through to the next step.
+	2. Page-bundle fallback: look for an image resource named "feature*"
+	   in the current page bundle.
+	3. Site-wide fallback: use the default featured image configured in
+	   hugo.yaml (pre-resolved into site.Store "defaultFeaturedImage" by
+		 another partial). This may itself be an external URL or a local
+		 resource. Using this step sets useDefault=true so later logic can
+		 react to "this page has no image of its own."
+	4. Local optimization: once a local image object is resolved (from
+	   front matter, page-bundle, or site default), resize it to 1920px
+	   webp if optimization is enabled, the resource is processable, and
+	   it's wider than 2400px. Otherwise use it as-is. External hotlinks
+	   skip this step entirely since they're already a plain URL.
+
+	The two variables below carry the outcome of this chain:
+
+	- useDefault: whether the site-wide default image was used.
+	- imgURL: URL string of the single resolved featured image, for
+	  callers that just need a direct link, regardless of whether it
+	  came from a hotlink, GetRemote, or a locally optimized resource.
+	- imgWidth: the image width (if available)
+	- imgHeight: the image height (if available)
+*/ -}}
+
+{{- $imageOptimization := site.Params.imageOptimization | default false -}}
+{{- $useDefault := false -}}
+{{- $featured := "" -}}
+{{- $imgURL := "" -}}
+{{- $imgWidth := 0 -}}
+{{- $imgHeight := 0 -}}
+
+{{- /* Front matter setting: external URL or local path */ -}}
+{{- $p := .Page -}}
+{{- if ne .Params.pageFeatureImage "disable" -}}
+	{{- with .Params.pageFeatureImage -}}
+		{{- if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") -}}
+			{{- if $.Page.Param "imageHotlink" -}}
+				{{- $imgURL = . -}}
+			{{- else -}}
+				{{- with try (resources.GetRemote .) -}}
+					{{- with .Err -}}
+						{{- warnf "%s" . -}}
+					{{- else with .Value -}}
+						{{- $featured = . -}}
+					{{- else -}}
+						{{- warnf "Unable to get remote resource %q" . -}}
+					{{- end -}}
+				{{- end -}}
+			{{- end -}}
+		{{- else -}}
+			{{- $r := or ($p.Resources.Get .) (resources.Get .) -}}
+			{{- with $r -}}
+				{{- $featured = . -}}
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+
+	{{- /* Fallback: look for a page-bundle image named "feature*" (first match only) */ -}}
+	{{- if and (not $featured) (not $imgURL) -}}
+		{{- with (.Resources.ByType "image").GetMatch "feature*" -}}
+			{{- $featured = . -}}
+		{{- end -}}
+	{{- end -}}
+
+	{{- /* Fallback: site-wide default featured image */ -}}
+	{{- if and (not $featured) (not $imgURL) -}}
+		{{- $default := site.Store.Get "defaultFeaturedImage" -}}
+		{{- if $default.url -}}
+			{{- $imgURL = $default.url -}}
+			{{- $imgWidth = $default.width -}}
+			{{- $imgHeight = $default.height -}}
+			{{- $useDefault = true -}}
+		{{- else if $default.obj -}}
+			{{- $featured = $default.obj -}}
+			{{- $useDefault = true -}}
+		{{- end -}}
+	{{- end -}}
+
+	{{- /* Optimize local image: skip if smaller than 2400, non-processable */ -}}
+	{{- if and (not $imgURL) $featured -}}
+		{{- with $featured -}}
+			{{- if reflect.IsImageResourceProcessable . }}
+				{{- if and $imageOptimization (gt .Width 2400) -}}
+					{{- $pathInfo := partial "_internal/image/path.html" . -}}
+					{{- $featured = partial "_internal/image/resize.html" (dict
+						"imgObj" .
+						"width" 1920
+						"path" (printf "%s-1920px_%s.webp" $pathInfo.base $pathInfo.hash))
+					-}}
+				{{- end -}}
+				{{- $imgURL = $featured.RelPermalink -}}
+				{{- $imgWidth = $featured.Width -}}
+				{{- $imgHeight = $featured.Height -}}
+			{{- else -}}
+				{{- $imgURL = .RelPermalink -}}
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- .Store.Set "featuredImage" (dict
+	"url" $imgURL
+	"width" $imgWidth
+	"height" $imgHeight
+	"useDefault" $useDefault)
+-}}

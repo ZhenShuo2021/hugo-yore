@@ -1,0 +1,5 @@
+{{- $addr := . -}}
+{{- $marker := "HGuO03HaHa0xQ7zK" -}}
+{{- $b64 := $addr | base64Encode -}}
+{{- $mid := div (len $b64) 2 -}}
+{{- printf "%s%s%s" (substr $b64 0 $mid) $marker (substr $b64 $mid) -}}

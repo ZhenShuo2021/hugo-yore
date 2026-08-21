@@ -1,0 +1,122 @@
+html[data-theme='light'] {
+	/* Main Background */
+	--background: var(--color-neutral-50);
+	--foreground: var(--color-neutral-900);
+
+	/* Article lists, sidebar cards */
+	--card: var(--color-neutral-200);
+	--card-foreground: var(--color-accent-700);
+
+	/* Popover */
+	--popover: color-mix(in lch, var(--color-accent-50) 65%, var(--color-neutral-50));
+	--popover-foreground: color-mix(in lch, var(--color-accent-900) 65%, var(--color-neutral-900));
+
+	/* Main CTA buttons */
+	--primary: var(--color-brand-600);
+	--primary-foreground: var(--color-neutral-50);
+
+	/* Secondary buttons (e.g., "Cancel"), low contrast */
+	--secondary: var(--color-accent-100);
+	--secondary-foreground: var(--color-accent-800);
+
+	/* Low-priority background areas (e.g., ToC, code blocks) */
+	--muted: var(--color-neutral-200);
+	/* Secondary text (e.g., dates, tags, captions) */
+	--muted-foreground: var(--color-neutral-600);
+
+	/* Error states, delete buttons */
+	--destructive: oklch(0.577 0.245 27.325);
+
+	/* Success */
+	--success: oklch(72.3% 0.219 149.579);
+
+	/* General borders */
+	--border: var(--color-neutral-300);
+
+	/* Input */
+	--input: var(--color-neutral-50);
+
+	/* Ring */
+	--ring: var(--color-brand-400);
+
+	/* Sidebar backgrounds (e.g., ToC) */
+	--sidebar: var(--muted);
+	--sidebar-foreground: var(--foreground);
+	--sidebar-primary: var(--primary);
+	--sidebar-primary-foreground: var(--primary-foreground);
+	--sidebar-border: var(--border);
+	--sidebar-ring: var(--ring);
+
+	/* Link */
+	--link: var(--color-brand-700);
+	--link-hover: var(--color-brand-700);
+	--brand-foreground: var(--color-brand-800);
+
+	--hr-border: var(--border);
+}
+
+html[data-theme='dark'] {
+	--background: var(--color-neutral-900);
+	--foreground: var(--color-neutral-100);
+
+	--card: oklch(from var(--color-neutral-800) l c h / 0.5);
+	--card-foreground: var(--color-accent-300);
+
+	--popover: color-mix(in lch, var(--color-accent-900) 15%, var(--color-neutral-900));
+	--popover-foreground: color-mix(in lch, var(--color-accent-100) 15%, var(--color-neutral-100));
+
+	--primary: var(--color-brand-500);
+	--primary-foreground: var(--color-neutral-950);
+
+	--secondary: var(--color-accent-900);
+	--secondary-foreground: var(--color-accent-200);
+
+	--muted: var(--color-neutral-800);
+	--muted-foreground: var(--color-neutral-400);
+
+	--destructive: oklch(0.704 0.191 22.216);
+	--success: oklch(72.3% 0.219 149.579);
+
+	--border: var(--color-neutral-700);
+	--input: var(--color-neutral-900);
+	--ring: var(--color-brand-500);
+
+	--sidebar: var(--muted);
+	--sidebar-foreground: var(--foreground);
+	--sidebar-primary: var(--primary);
+	--sidebar-primary-foreground: var(--primary-foreground);
+	--sidebar-border: var(--border);
+	--sidebar-ring: var(--ring);
+
+	--link: var(--color-brand-500);
+	--link-hover: var(--color-brand-500);
+	--brand-foreground: var(--color-brand-200);
+
+	--hr-border: var(--border);
+}
+
+:root {
+	--dur-150: 150ms;
+	--dur-200: 200ms;
+	--dur-250: 250ms;
+	--dur-300: 300ms;
+	--dur-400: 400ms;
+	--dur-500: 500ms;
+	@media (prefers-reduced-motion: reduce) {
+		--dur-150: 0.1ms;
+		--dur-200: 0.1ms;
+		--dur-250: 0.1ms;
+		--dur-300: 0.1ms;
+		--dur-400: 0.1ms;
+		--dur-500: 0.1ms;
+	}
+}
+
+html[data-a11y-reduce-motion] {
+	--dur-150: 0.1ms;
+	--dur-200: 0.1ms;
+	--dur-250: 0.1ms;
+	--dur-300: 0.1ms;
+	--dur-400: 0.1ms;
+	--dur-500: 0.1ms;
+}

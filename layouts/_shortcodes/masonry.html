@@ -1,0 +1,110 @@
+{{- $raw := .Inner  | strings.TrimSpace | strings.TrimPrefix "```yaml" | strings.TrimPrefix "```" | strings.TrimSuffix "```" | transform.Unmarshal (dict "format" "yaml") -}}
+{{- $page := .Page -}}
+{{- $colWidth := 200 -}}
+{{- $maxCols := .Get "maxCols" | default 3 -}}
+{{- $gapX := .Get "gapX" -}}
+{{- $gapY := .Get "gapY" -}}
+
+{{- $items := slice -}}
+{{- range $raw -}}
+	{{- if .match -}}
+		{{- $matched := $page.Resources.Match .match -}}
+		{{- if not $matched -}}
+			{{- $matched = resources.Match .match -}}
+		{{- end -}}
+		{{- range $matched -}}
+			{{- if reflect.IsImageResourceProcessable . -}}
+				{{- $p := partial "lib/img-opt.html" (dict "imgObj" .) -}}
+				{{- $items = $items | append (dict
+					"resolved" .RelPermalink
+					"width" $p.imgDesktop.Width
+					"height" $p.imgDesktop.Height
+					"srcset" (printf "%s 1280w, %s 2400w" $p.imgMobile.RelPermalink $p.imgDesktop.RelPermalink)
+					"alt" ""
+					"caption" ""
+					)
+				-}}
+			{{- else -}}
+				{{- $items = $items | append (dict
+					"resolved" .RelPermalink
+					"width" 0
+					"height" 0
+					"srcset" ""
+					"alt" ""
+					"caption" ""
+					)
+				-}}
+			{{- end -}}
+		{{- end -}}
+	{{- else if .src -}}
+		{{- $resource := $page.Resources.Get .src -}}
+		{{- if not $resource -}}
+			{{- $resource = resources.Get .src -}}
+		{{- end -}}
+		{{- if $resource -}}
+			{{- if reflect.IsImageResourceProcessable $resource -}}
+				{{- $p := partial "lib/img-opt.html" (dict "imgObj" $resource) -}}
+				{{- $items = $items | append (dict
+					"resolved" $resource.RelPermalink
+					"width" $p.imgDesktop.Width
+					"height" $p.imgDesktop.Height
+					"srcset" (printf "%s 1280w, %s 2400w" $p.imgMobile.RelPermalink $p.imgDesktop.RelPermalink)
+					"alt" (.alt | default .caption | default "")
+					"caption" (.caption | default "")
+					)
+				-}}
+			{{- else -}}
+				{{- /* SVG and other unscaled resources: measurement is handled by the JavaScript side. */ -}}
+				{{- $items = $items | append (dict
+					"resolved" $resource.RelPermalink
+					"width" 0
+					"height" 0
+					"srcset" ""
+					"alt" (.alt | default .caption | default "")
+					"caption" (.caption | default "")
+					)
+				-}}
+			{{- end -}}
+		{{- else -}}
+			{{- /* external resources: no width/height info */ -}}
+			{{- $items = $items | append (dict
+				"resolved" .src
+				"width" 0
+				"height" 0
+				"srcset" ""
+				"alt" (.alt | default .caption | default "")
+				"caption" (.caption | default "")
+				)
+			-}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- $attrs := printf `data-min-column-width="%s"` (string $colWidth) -}}
+{{- with .Get "gapX" }}{{ $attrs = printf `%s data-gap-x="%s"` $attrs (string .) }}{{ end -}}
+{{- with .Get "gapY" }}{{ $attrs = printf `%s data-gap-y="%s"` $attrs (string .) }}{{ end -}}
+{{- with .Get "maxCols" }}{{ $attrs = printf `%s data-max-cols="%s"` $attrs (string .) }}{{ end -}}
+{{- if $items -}}
+	<div class="masonry-grid" {{ $attrs | safeHTMLAttr }}>
+		{{- range $items }}
+			<figure class="item {{ if not (and (gt .width 0) (gt .height 0)) }}unknown{{ end }}">
+				<img
+					src="{{ .resolved }}"
+					alt="{{ .alt }}"
+					{{- with .srcset }}
+						srcset="{{ . }}" sizes="(max-width: 767px) 50vw, 100vw"
+					{{- end }}
+					{{- with .width }}
+						width="{{ . }}"
+					{{- end }}
+					{{- with .height }}
+						height="{{ . }}"
+					{{- end }}
+					loading="lazy">
+				{{- with .caption -}}
+					<figcaption>{{ . }}</figcaption>
+				{{- end -}}
+			</figure>
+		{{- end -}}
+	</div>
+{{- end -}}

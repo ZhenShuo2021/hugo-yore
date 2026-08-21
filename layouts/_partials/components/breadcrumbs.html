@@ -1,0 +1,13 @@
+<nav aria-label="{{ i18n `nav.breadcrumb` | default `Breadcrumb navigation` }}">
+	<span aria-hidden="true">&#x276F;&nbsp;</span>
+	{{- range $n, $page := .Ancestors.Reverse -}}
+		{{- if eq $n 0 }}{{ continue }}{{ end -}}
+		{{- if eq .Params.build.render "never" -}}
+			<span>{{ $page.Title }}</span><span aria-hidden="true">/</span>
+		{{- else -}}
+			<a href="{{ $page.RelPermalink }}" class="hover:text-link-hover">{{ $page.Title }}</a>
+			<span aria-hidden="true"> /&nbsp;</span>
+		{{- end -}}
+	{{- end -}}
+	<span aria-current="page">{{ .Title }}</span>
+</nav>

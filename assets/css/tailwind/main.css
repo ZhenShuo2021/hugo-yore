@@ -1,0 +1,67 @@
+@import 'tailwindcss';
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@layer foobar, theme, base, components, utilities, yore;
+
+/* We are not using Tailwind on the homepage because these variants generate over 1K lines of compiled CSS.
+Additionally, this makes it difficult for downstream users to customize, as they would receive plain CSS. */
+@source not '../../../layouts/_partials/home/';
+@source not '../../lib/';
+@source './hugo_stats.json';
+@source './exampleSite/hugo_stats.json';
+
+@import './theme.css';
+@import './typography.css';
+@layer utilities {
+	@import './components/code.css';
+	@import './components/admonition.css';
+}
+@import '../custom.css';
+
+@layer utilities {
+	.dropdown-menu-child {
+		@apply invisible opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100;
+	}
+
+	/* Dropdown for translations */
+	.translation .dropdown-menu-child {
+		@apply top-full right-0 pt-3 transition-all duration-(--dur-200);
+
+		.mobile-menu-footer & {
+			@apply top-auto right-auto bottom-full left-0 pb-3 transition-all duration-(--dur-200);
+			& * {
+				@apply text-lg;
+			}
+		}
+	}
+
+	.mobile-menu-footer {
+		@apply border-border mt-8 flex flex-wrap items-center gap-x-6 border-t ps-2 pt-8;
+		& .icon {
+			@apply text-2xl;
+		}
+	}
+
+	/* use radius in wrapper not pre */
+	.prose {
+		:where(pre):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+			border-radius: unset;
+		}
+	}
+
+	:not(pre) > code {
+		background-color: var(--color-accent-50);
+		font-weight: normal !important;
+		padding: 1.6px;
+		padding-inline: 4px;
+		border-radius: 0.5em;
+		border: 1px solid var(--color-accent-300);
+		font-size: 0.875em;
+		line-height: 1.4;
+	}
+	html[data-theme='dark'] {
+		code:not(pre code) {
+			background-color: var(--color-neutral-800);
+			border-color: var(--color-neutral-700);
+		}
+	}
+}

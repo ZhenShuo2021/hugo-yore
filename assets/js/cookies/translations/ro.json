@@ -1,0 +1,39 @@
+{
+	"consentModal": {
+		"title": "Cum utilizăm cookie-urile",
+		"description": "Acest site web utilizează cookie-uri și tehnologii de urmărire similare pentru a asigura funcționarea corectă a site-ului, a analiza comportamentul utilizatorilor și, cu consimțământul dvs., a furniza conținut și publicitate personalizate. Puteți modifica preferințele în orice moment prin «Gestionați preferințele privind cookie-urile» sau puteți selecta «Respingeți toate» pentru a păstra doar cookie-urile esențiale funcționării site-ului. Pentru mai multe informații, consultați politica noastră de confidențialitate.",
+		"acceptAllBtn": "Acceptați toate",
+		"acceptNecessaryBtn": "Respingeți toate",
+		"showPreferencesBtn": "Gestionați preferințele privind cookie-urile"
+	},
+	"preferencesModal": {
+		"title": "Preferințe privind cookie-urile",
+		"acceptAllBtn": "Acceptați toate",
+		"acceptNecessaryBtn": "Respingeți toate",
+		"savePreferencesBtn": "Salvați setările",
+		"closeIconLabel": "Închide fereastra",
+		"serviceCounterLabel": "Furnizor de servicii",
+		"sections": [
+			{
+				"title": "Cookie-uri strict necesare",
+				"description": "Aceste cookie-uri sunt esențiale pentru funcționalitățile de bază ale site-ului web, inclusiv menținerea sesiunii, stocarea stării de autentificare și reținerea preferințelor dvs. privind consimțământul pentru cookie-uri. Această categorie nu poate fi dezactivată și nu sunt stocate date de identificare personală.",
+				"linkedCategory": "necessary"
+			},
+			{
+				"title": "Cookie-uri funcționale",
+				"description": "Aceste cookie-uri permit site-ului să rețină preferințele dvs. personale, cum ar fi selecția limbii, setările regionale și aspectul interfeței, pentru a oferi o experiență mai coerentă și personalizată. Dezactivarea acestei categorii nu afectează funcțiile de bază ale site-ului, dar unele funcționalități s-ar putea să nu funcționeze corect.",
+				"linkedCategory": "functional"
+			},
+			{
+				"title": "Cookie-uri analitice",
+				"description": "Aceste cookie-uri ne ajută să înțelegem modul în care vizitatorii interacționează cu site-ul web, inclusiv paginile vizitate, durata vizitei și sursele de trafic. Toate datele colectate sunt procesate în formă agregată și anonimizată și sunt utilizate exclusiv pentru îmbunătățirea continuă a performanței site-ului și a experienței utilizatorilor.",
+				"linkedCategory": "analytics"
+			},
+			{
+				"title": "Cookie-uri publicitare",
+				"description": "Aceste cookie-uri sunt setate de acest site și de partenerii de publicitate pentru a crea un profil de interese bazat pe comportamentul dvs. de navigare și pentru a afișa conținut publicitar personalizat pe acest site și pe alte platforme. Dacă dezactivați această categorie, veți vedea în continuare reclame, dar acestea nu vor mai fi personalizate în funcție de interesele dvs.",
+				"linkedCategory": "advertising"
+			}
+		]
+	}
+}

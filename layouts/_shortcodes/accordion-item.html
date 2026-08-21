@@ -1,0 +1,31 @@
+{{- $title := .Get "title" -}}
+{{- $open := .Get "open" -}}
+{{- $id := printf "%s%s" "accordion-item-" (partial "lib/uid.html" .) -}}
+{{- $separated := .Parent.Get "separated" -}}
+<div
+	class="accordion-item {{ if $separated }}border-border rounded-xl overflow-hidden border shadow-sm{{ end }}">
+	<h3 class="m-0!">
+		<button
+			type="button"
+			class="accordion-trigger text-foreground hover:bg-muted flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-medium transition-colors duration-(--dur-150)"
+			aria-expanded="{{ $open }}"
+			aria-controls="{{ $id }}-panel"
+			id="{{ $id }}-header">
+			<span>{{ $title | .Page.RenderString }}</span>
+			<span class="accordion-icon">
+				{{- partialCached "components/icon.html" "nav-arrow-right" "icon-nav-arrow-right" -}}
+			</span>
+		</button>
+	</h3>
+	<div
+		class="accordion-panel {{ if $open }}is-open{{ end }}"
+		id="{{ $id }}-panel"
+		role="region"
+		aria-labelledby="{{ $id }}-header">
+		<div class="overflow-hidden">
+			<div class="my-4 px-5">
+				{{- .Inner -}}
+			</div>
+		</div>
+	</div>
+</div>

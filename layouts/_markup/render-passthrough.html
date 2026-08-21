@@ -1,0 +1,6 @@
+{{- /* escape html for mathjax */ -}}
+{{- if eq .Type "block" -}}
+\[{{ .Inner | htmlUnescape }}\]
+{{- else -}}
+\({{ .Inner | htmlUnescape }}\)
+{{- end -}}

@@ -1,0 +1,58 @@
+{{- /*
+	Shared card shell. Call "card-shell-head.html" before your content,
+	and "card-shell-tail.html" after it.
+
+	Includes group hover, background, rounded and image.
+
+	Params (dict) for "card-shell-head":
+		href      (string, required) - link target
+		id        (string, optional) - id attribute on <a>
+		target    (string, optional) - target attribute on <a>, e.g. "_blank"
+		image     (string, optional) - image URL; if empty, shows placeholder SVG
+		width     (string, optional) - image width
+		height    (string, optional) - image height
+		alt       (string, optional) - alt text for the image
+
+	inline define is not updating even with called with noop, so this is an individual file
+*/ -}}
+
+<div class="not-prose my-1 md:max-w-80">
+	<a
+		href="{{ .href }}"
+		{{- with .id }} id="{{ . }}"{{ end }}
+		{{- with .target }} target="{{ . }}"{{ end }}
+		class="group border-border bg-card hover:border-card-foreground/30 block overflow-hidden rounded-lg border transition-all hover:shadow-md">
+		<div class="flex flex-col">
+			{{- with .imageObj -}}
+				<img src="{{ .RelPermalink }}"
+				{{ if reflect.IsImageResourceWithMeta . -}}
+					{{- with .Height }}height="{{ . }}"{{ end -}}
+					{{- with .Width }}width="{{ . }}"{{ end -}}
+				{{- end }}
+				alt="{{ $.alt }}" class="w-full">
+			{{- else with .image -}}
+				<img src="{{ . }}" alt="{{ $.alt }}" class="w-full">
+			{{- else -}}
+				<div class="flex h-40 w-full items-center justify-center" aria-hidden="true">
+					<svg
+						class="text-muted-foreground/30 h-12 w-12"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24">
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+					</svg>
+				</div>
+			{{- end -}}
+			{{- /**/ -}}
+			{{- if eq .target "_blank" -}}
+				<span class="sr-only">
+					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+				</span>
+			{{- end -}}
+
+
+			<div class="flex-1 space-y-3 p-4">

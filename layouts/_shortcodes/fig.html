@@ -1,0 +1,33 @@
+<figure {{ with .Get "attrs" }}{{ . | safeHTMLAttr }}{{- end -}}>
+	{{- $u := urls.Parse (.Get "src") -}}
+	{{- $src := $u.String -}}
+	{{- $resource := resources.Get "" -}}
+
+	{{- if not $u.IsAbs -}}
+		{{- with or (.Page.Resources.Get $u.Path) (resources.Get $u.Path) -}}
+			{{- $resource = . -}}
+			{{- $src = .RelPermalink -}}
+		{{- end -}}
+	{{- end -}}
+
+	{{- $alt := .Get "alt" -}}
+	{{- $processable := reflect.IsImageResourceProcessable $resource -}}
+
+	{{- if and
+		(.Page.Param "imageOptimizationMD")
+		$resource
+		$processable
+	-}}
+		{{- template "RenderImageResponsive" (dict "imgObj" $resource "alt" $alt) -}}
+	{{- else -}}
+		{{- template "RenderImageSimple" (dict "imgObj" $resource "src" $src "alt" $alt "processable" $processable) -}}
+	{{- end -}}
+
+	{{- if .Get "caption" -}}
+		<figcaption>
+			{{- with (.Get "caption") -}}
+				{{ printf "\n\n%s\n\n" . }}
+			{{- end -}}
+		</figcaption>
+	{{- end -}}
+</figure>

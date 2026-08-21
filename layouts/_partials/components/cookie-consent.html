@@ -1,0 +1,33 @@
+{{- $cc := site.Params.cookieConsent | default dict -}}
+{{- if $cc.enable -}}
+	{{- $lang := .Language.Locale -}}
+	{{- $translationURL := "" -}}
+	{{- $translationFile := printf "js/cookies/translations/%s.json" $lang -}}
+	{{- with resources.Get $translationFile -}}
+		{{- $translationURL = (. | fingerprint).RelPermalink -}}
+	{{- else -}}
+		{{- errorf "cookies consent: translation file %s not found." $translationFile -}}
+	{{- end -}}
+
+	{{- $enabledCategories := $cc.categories | default (slice "necessary" "functional" "analytics") -}}
+
+	{{- $ccCSSURL := "" -}}
+	{{- with resources.Get "/lib/cookieconsent/cookieconsent.css" | fingerprint -}}
+		{{- $ccCSSURL = .RelPermalink -}}
+	{{- end -}}
+
+	<script>
+		window.__ccLang="{{ $lang }}";
+		window.__ccTranslationURL="{{ $translationURL }}";
+		window.__ccCSSURL="{{ $ccCSSURL }}";
+	</script> {{- /**/ -}}
+	{{- $jsParams := dict
+		"enabledCategories" $enabledCategories
+		"isDark" (eq site.Params.themeLightDarkMode "dark")
+		"hasSwitcher" (site.Params.themeLightDarkSwitcher | default true)
+	-}}
+	{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget "params" $jsParams -}}
+	{{- $js := resources.Get "js/cookies/cookie-consent.js" | js.Build $opts -}}
+	{{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
+	<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+{{- end -}}

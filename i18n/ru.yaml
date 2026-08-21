@@ -1,0 +1,94 @@
+a11y:
+  opens_external_link: внешняя ссылка
+a11y_panel:
+  close: Закрыть панель доступности
+  decrease_font_size: Уменьшить размер шрифта
+  font_size: Размер шрифта
+  high_contrast: Высокая контрастность
+  increase_font_size: Увеличить размер шрифта
+  reduce_motion: Уменьшить анимацию
+  reduce_transparency: Уменьшить прозрачность
+  show_link_underline: Показать подчеркивание ссылок
+  title: Настройки доступности
+admonition:
+  abstract: Кратко
+  bug: Ошибка
+  caution: Осторожно
+  danger: Опасность
+  example: Пример
+  failure: Сбой
+  important: Важно
+  info: Информация
+  note: Заметка
+  question: Вопрос
+  quote: Цитата
+  success: Успех
+  tip: Совет
+  todo: Сделать
+  warning: Предупреждение
+article:
+  backlinks_title: Обратные ссылки
+  date: '{{ .Date }}'
+  date_updated: 'Обновлено: {{ .Date }}'
+  kg_title: Связанные статьи
+  more_articles: Другие статьи
+  next: Следующая
+  on_this_page: На этой странице
+  previous: Предыдущая
+  published_date: Дата публикации
+  related_articles: Related
+  series: This article is part of a series.
+code:
+  copied: Скопировано
+  copy: Копировать
+docs:
+  nav_label: Документация
+  next: Далее
+  prev: Назад
+  sidebar_label: Документация
+  source_files: Исходный код
+  toc_label: Содержание
+  toc_nav_label: На этой странице
+error:
+  404_description: Похоже, запрошенная вами страница не существует.
+  404_title: 'Страница не найдена: в замешательстве:'
+footer:
+  powered_by: Работает на {{ .Theme }}
+nav:
+  accessibility_panel: Открыть панель доступности
+  breadcrumb: Навигационная цепочка
+  change_language: Изменить язык
+  close_mobile_menu: Закрыть мобильное меню
+  footer_navigation: Навигация в подвале
+  main_navigation: Основная навигация
+  scroll_to_top_title: Пролистать наверх
+  search: Поиск
+  skip_to_main: Перейти к основному содержимому
+  switch_version: Переключить версию
+  toggle_dark_mode: Переключить тёмную тему
+  toggle_mobile_menu: Переключить мобильное меню
+page_actions:
+  actions: Действия
+  copy_markdown: Копировать Markdown
+  copy_url: Копировать URL
+  edit_this_page: Редактировать эту страницу
+  view_source: Просмотр источника
+quick_reference: Краткое руководство
+random:
+  choosing: Выбираем что-нибудь стоящее почитать
+  js_required: Для случайного перехода требуется JavaScript.
+  no_posts: Нет доступных статей для перехода.
+  redirecting: Перенаправление…
+  taking_you_there: Перенаправляем вас…
+  untitled: Без названия
+recent:
+  show_more: Показать ещё
+search:
+  close_button_title: Закрыть (Esc)
+  input_placeholder: Поиск
+  no_result: Ничего не найдено
+  open_button_title: Поиск (/)
+shortcode:
+  recent_articles: Недавние
+stale_warning:
+  'text:': Эта статья давно не обновлялась, поэтому часть информации может быть устаревшей.

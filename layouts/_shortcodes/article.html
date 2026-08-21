@@ -1,0 +1,83 @@
+{{- $path := .Get "path" -}}
+{{- $lang := .Get "lang" -}}
+{{- $desc := .Get "desc" | default true -}}
+{{- $meta := .Get "meta" | default true -}}
+{{- $targetPage := "" -}}
+
+{{- if $lang -}}
+	{{- $version := .Page.Site.Version.Name -}}
+	{{- $sites := where hugo.Sites "Language.Lang" "eq" $lang -}}
+	{{- $sites = where $sites "Version.Name" "eq" $version -}}
+	{{- with index $sites 0 -}}
+		{{- with .GetPage $path -}}
+			{{- $targetPage = . -}}
+		{{- else -}}
+			{{- warnf "article shortcode: page '%s' not found: %s" $path $.Position -}}
+		{{- end -}}
+	{{- end -}}
+{{- else -}}
+	{{- with .Page.Site.GetPage $path -}}
+		{{- $targetPage = . -}}
+	{{- else -}}
+		{{- warnf "article shortcode: page '%s' not found: %s" $path $.Position -}}
+	{{- end -}}
+{{- end -}}
+
+{{- if $targetPage -}}
+	{{- partial "init-page.html" $targetPage -}}
+	{{- $i := $targetPage.Store.Get "featuredImage" -}}
+
+	{{- if $i.width -}}
+		{{- partial "components/card-shell-head.html" (dict
+			"href" $targetPage.RelPermalink
+			"image" $i.url
+			"width" $i.width
+			"height" $i.height
+			"alt" (printf "%s%s" "Feature image of " $targetPage.LinkTitle)
+			)
+		-}}
+	{{- else -}}
+		{{- partial "components/card-shell-head.html" (dict
+			"href" $targetPage.RelPermalink
+			"image" $i.url
+			"alt" (printf "%s%s" "Feature image of " $targetPage.LinkTitle)
+			)
+		-}}
+	{{- end -}}
+
+
+	<h3
+		class="text-foreground group-hover:text-link-hover flex items-center gap-2 text-lg font-semibold transition-colors">
+		{{- $targetPage.LinkTitle -}}
+	</h3>
+
+	{{- if $desc -}}
+		<p class="text-muted-foreground line-clamp-2 text-sm">
+			{{- $targetPage.Description | plainify -}}
+		</p>
+	{{- end -}}
+
+	{{- if $meta -}}
+		<div class="text-muted-foreground flex flex-col items-start gap-y-1 text-xs">
+			{{- if $targetPage.Date -}}
+				<div class="flex items-center gap-1">
+					<time datetime="{{ $targetPage.Date.Format "2006-01-02" }}">
+						{{- $targetPage.Date.Format "2006-01-02" -}}
+					</time>
+				</div>
+			{{- end -}}
+
+			{{- with $targetPage.GetTerms "tags" -}}
+				<div class="flex flex-wrap items-center gap-x-2">
+					{{- range . -}}
+						<div class="flex items-center">
+							#{{ .LinkTitle -}}
+						</div>
+					{{- end -}}
+				</div>
+			{{- end -}}
+		</div>
+	{{- end -}}
+
+	{{- partial "components/card-shell-tail.html" . -}}
+{{- end -}}

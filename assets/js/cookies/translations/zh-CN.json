@@ -1,0 +1,39 @@
+{
+	"consentModal": {
+		"title": "我们如何使用 Cookie",
+		"description": "本网站使用 Cookie 及类似追踪技术，以确保网站正常运行、分析用户行为，并在取得您同意的情况下提供个性化内容与广告。您可以随时通过「管理偏好设置」调整您的同意选项，或选择「全部拒绝」以仅保留网站运行所必需的 Cookie。详情请参阅我们的隐私政策。",
+		"acceptAllBtn": "全部接受",
+		"acceptNecessaryBtn": "全部拒绝",
+		"showPreferencesBtn": "管理 Cookie 偏好设置"
+	},
+	"preferencesModal": {
+		"title": "Cookie 偏好设置",
+		"acceptAllBtn": "全部接受",
+		"acceptNecessaryBtn": "全部拒绝",
+		"savePreferencesBtn": "保存设置",
+		"closeIconLabel": "关闭窗口",
+		"serviceCounterLabel": "服务提供商",
+		"sections": [
+			{
+				"title": "必要 Cookie",
+				"description": "此类 Cookie 对于网站核心功能的运行不可或缺，包括维持会话、存储登录状态以及记住您的 Cookie 同意偏好设置等。此类别无法禁用，且不会存储任何可识别个人身份的信息。",
+				"linkedCategory": "necessary"
+			},
+			{
+				"title": "功能性 Cookie",
+				"description": "此类 Cookie 使网站能够记住您的个人偏好设置，例如语言选择、地区设置与界面布局，以提供更一致的个性化使用体验。禁用此类别不影响网站基本功能，但部分功能将无法正常运行。",
+				"linkedCategory": "functional"
+			},
+			{
+				"title": "分析 Cookie",
+				"description": "此类 Cookie 帮助我们了解访客如何与网站互动，包括浏览页面、停留时间与流量来源等。所有收集的数据均以汇总匿名形式处理，不会识别个人身份，仅用于持续改善网站性能与用户体验。",
+				"linkedCategory": "analytics"
+			},
+			{
+				"title": "广告 Cookie",
+				"description": "此类 Cookie 由本网站及广告合作伙伴设置，用于根据您的浏览行为建立兴趣档案，并在本网站及其他平台上提供个性化广告内容。若您禁用此类别，您仍会看到广告，但广告内容将不再针对您的兴趣进行个性化调整。",
+				"linkedCategory": "advertising"
+			}
+		]
+	}
+}

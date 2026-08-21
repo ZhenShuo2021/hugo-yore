@@ -1,0 +1,39 @@
+{
+	"consentModal": {
+		"title": "Cookie'leri nasıl kullanıyoruz",
+		"description": "Bu web sitesi, düzgün çalışmayı sağlamak, kullanıcı davranışını analiz etmek ve onayınız doğrultusunda kişiselleştirilmiş içerik ile reklam sunmak amacıyla cookie'ler ve benzer izleme teknolojileri kullanmaktadır. «Cookie tercihlerini yönet» bölümünden tercihlerinizi istediğiniz zaman değiştirebilir ya da yalnızca sitenin çalışması için zorunlu cookie'leri korumak amacıyla «Tümünü reddet» seçeneğini belirleyebilirsiniz. Daha fazla bilgi için gizlilik politikamıza bakınız.",
+		"acceptAllBtn": "Tümünü kabul et",
+		"acceptNecessaryBtn": "Tümünü reddet",
+		"showPreferencesBtn": "Cookie tercihlerini yönet"
+	},
+	"preferencesModal": {
+		"title": "Cookie tercihleri",
+		"acceptAllBtn": "Tümünü kabul et",
+		"acceptNecessaryBtn": "Tümünü reddet",
+		"savePreferencesBtn": "Ayarları kaydet",
+		"closeIconLabel": "Pencereyi kapat",
+		"serviceCounterLabel": "Hizmet sağlayıcı",
+		"sections": [
+			{
+				"title": "Zorunlu Cookie'ler",
+				"description": "Bu cookie'ler; oturum sürdürme, giriş durumu kaydetme ve cookie onay tercihlerinizi hatırlama gibi web sitesinin temel işlevleri için vazgeçilmezdir. Bu kategori devre dışı bırakılamaz ve kişisel tanımlayıcı bilgi saklanmaz.",
+				"linkedCategory": "necessary"
+			},
+			{
+				"title": "İşlevsel Cookie'ler",
+				"description": "Bu cookie'ler; dil seçimi, bölgesel ayarlar ve arayüz düzeni gibi kişisel tercihlerinizi kaydederek daha tutarlı ve kişiselleştirilmiş bir deneyim sunmak için kullanılır. Bu kategoriyi devre dışı bırakmak temel site işlevlerini etkilemez, ancak bazı özellikler düzgün çalışmayabilir.",
+				"linkedCategory": "functional"
+			},
+			{
+				"title": "Analitik Cookie'ler",
+				"description": "Bu cookie'ler, ziyaret edilen sayfalar, sitede geçirilen süre ve trafik kaynakları dahil olmak üzere ziyaretçilerin web sitesiyle nasıl etkileşime girdiğini anlamamıza yardımcı olur. Toplanan tüm veriler toplulaştırılmış ve anonimleştirilmiş biçimde işlenir; yalnızca site performansı ile kullanıcı deneyiminin sürekli iyileştirilmesi amacıyla kullanılır.",
+				"linkedCategory": "analytics"
+			},
+			{
+				"title": "Reklam Cookie'leri",
+				"description": "Bu cookie'ler, gezinme davranışınıza dayalı bir ilgi profili oluşturmak ve bu sitede ile diğer platformlarda kişiselleştirilmiş reklam içeriği sunmak amacıyla bu web sitesi ve reklam ortakları tarafından yerleştirilmektedir. Bu kategoriyi devre dışı bırakırsanız reklamlar görüntülenmeye devam eder, ancak ilgi alanlarınıza göre kişiselleştirme yapılmaz.",
+				"linkedCategory": "advertising"
+			}
+		]
+	}
+}

@@ -1,0 +1,206 @@
+{{- $raw := .Inner  | strings.TrimSpace | strings.TrimPrefix "```yaml" | strings.TrimPrefix "```" | strings.TrimSuffix "```" | transform.Unmarshal (dict "format" "yaml") -}}
+{{- $id := printf "%s%s" "carousel-" (partial "lib/uid.html" .) -}}
+{{- $ratio := .Get "ratio" | default "4/3" | safeCSS -}}
+{{- $fit := .Get "fit" | default "contain" -}}
+{{- $thumbFocus := .Get "thumbFocus" | default "center" -}}
+{{- $showThumbs := .Get "thumbs" | default true -}}
+{{- $showArrows := .Get "arrows" | default true -}}
+{{- $showCounter := .Get "counter" | default true -}}
+
+{{- if and (ne $fit "contain") (ne $fit "cover") -}}
+	{{- errorf "carousel shortcode: `fit` must be \"contain\" or \"cover\", got %q" $fit -}}
+{{- end -}}
+
+{{- $items := slice -}}
+{{- range $raw -}}
+	{{- if .match -}}
+		{{- $matched := $.Page.Resources.Match .match -}}
+		{{- if not $matched -}}
+			{{- $matched = resources.Match .match -}}
+		{{- end -}}
+		{{- range $matched -}}
+			{{- $items = $items | append (dict "resolved" . "alt" "" "caption"  "" ) -}}
+		{{- end -}}
+	{{- else if .src -}}
+		{{- $resolved := .src -}}
+		{{- with $.Page.Resources.Get .src -}}
+			{{- $resolved = . -}}
+		{{- else with resources.Get .src -}}
+			{{- $resolved = . -}}
+		{{- end -}}
+		{{- $items = $items | append (dict
+			"resolved" $resolved
+			"alt" (.alt | default .caption | default "")
+			"caption"  (.caption | default "")
+			)
+		-}}
+	{{- end -}}
+{{- end -}}
+
+{{- if $items -}}
+	<div id="{{ $id }}" class="not-prose my-8">
+		<div class="carousel-viewport relative w-full overflow-hidden" data-pswp-carousel>
+			<div class="carousel-strip flex">
+				{{- range $i, $item := $items -}}
+					{{- $resolved := $item.resolved -}}
+					{{- $itemClass := "carousel-item relative min-w-full" -}}
+					{{- $imgClass := "h-full w-full object-contain" -}}
+					{{- if eq $fit "cover" -}}
+						{{- $itemClass = "carousel-item relative min-w-full overflow-hidden" -}}
+						{{- $imgClass = "h-full w-full object-cover" -}}
+					{{- end -}}
+					<div class="{{ $itemClass }}" style="aspect-ratio: {{ $ratio }};" data-caption="{{ $item.caption }}">
+						{{- if and site.Params.imageOptimizationMD (reflect.IsImageResourceProcessable $resolved) -}}
+							{{- $processed := partial "lib/img-opt.html" (dict "imgObj" $resolved) -}}
+							{{- $srcset := printf "%s 1280w, %s 2400w" $processed.imgMobile.RelPermalink $processed.imgDesktop.RelPermalink -}}
+							<img
+								src="{{ $resolved.RelPermalink }}"
+								srcset="{{ $srcset }}"
+								alt="{{ $item.alt }}"
+								class="{{ $imgClass }}"
+								{{- /* prettier-ignore */ -}}
+								{{- if reflect.IsImageResourceProcessable $resolved }}
+									{{- with $resolved.Width }} width="{{ $resolved.Width }}"{{ end }}
+									{{- with $resolved.Height }} height="{{ $resolved.Height }}"{{ end }}
+								{{- end }}
+								{{- if eq $fit "cover" }}
+									style="object-position: {{ $thumbFocus }};"
+								{{- end }}
+								loading="lazy"
+								decoding="async">
+						{{- else -}}
+							<img
+								src="{{ $resolved.RelPermalink }}"
+								alt="{{ $item.alt }}"
+								class="{{ $imgClass }}"
+								{{- /* prettier-ignore */ -}}
+								{{- if reflect.IsImageResourceProcessable $resolved }}
+									{{- with $resolved.Width }} width="{{ $resolved.Width }}"{{ end }}
+									{{- with $resolved.Height }} height="{{ $resolved.Height }}"{{ end }}
+								{{- end }}
+								{{- if eq $fit "cover" }}
+									style="object-position: {{ $thumbFocus }};"
+								{{- end }}
+								loading="lazy"
+								decoding="async">
+						{{- end -}}
+					</div>
+				{{- end -}}
+			</div>
+			{{- /**/ -}}
+
+
+			<div
+				class="carousel-counter {{ if not $showCounter -}}
+					hidden
+				{{- end }} pointer-events-none absolute right-3 bottom-3 rounded-full bg-black/50 px-2.5 py-1 text-xs text-white/80 backdrop-blur-sm">
+				{{- printf "1 / %d" (len $items) -}}
+			</div>
+
+			{{- if gt (len $items) 1 -}}
+				<button
+					type="button"
+					class="carousel-prev {{ if not $showArrows }}
+						hidden
+					{{ end }} absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
+					aria-label="Previous">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round">
+						<polyline points="15 18 9 12 15 6" />
+					</svg>
+				</button>
+				<button
+					type="button"
+					class="carousel-next {{ if not $showArrows }}
+						hidden
+					{{ end }} absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
+					aria-label="Next">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round">
+						<polyline points="9 6 15 12 9 18" />
+					</svg>
+				</button>
+			{{- end -}}
+		</div>
+
+		{{- /**/ -}}
+		<p class="carousel-caption text-muted-foreground mt-2 min-h-6 text-center text-sm"></p>
+		{{- /**/ -}}
+
+
+		<div
+			class="carousel-thumbs {{ if not $showThumbs }}hidden{{ end }} flex gap-2 overflow-x-auto pt-2 pb-1"
+			style="-webkit-overflow-scrolling: touch;">
+			{{- range $i, $item := $items -}}
+				{{- $resolved := $item.resolved -}}
+				<button
+					type="button"
+					class="carousel-thumb {{ if eq $i 0 -}}
+						border-accent-500
+					{{- else -}}
+						border-transparent
+					{{- end }} h-18 w-18 flex-shrink-0 overflow-hidden rounded-md border-2 transition-all duration-(--dur-200)"
+					data-index="{{ $i }}"
+					data-caption="{{ $item.caption }}"
+					aria-label="{{- with $item.alt -}}
+						{{- . -}}
+					{{- else -}}
+						{{- printf "Image %d" (add $i 1) -}}
+					{{- end }}">
+					{{- if reflect.IsImageResourceProcessable $resolved -}}
+						{{- $pathInfo := partial "_internal/image/path.html" $resolved }}
+						{{- $path := printf "%s-144x_%s.webp" $pathInfo.base $pathInfo.hash }}
+						{{- $thumbImg := $resolved.Fill "144x144 webp" | resources.Copy $path -}}
+						<img
+							src="{{ $thumbImg.RelPermalink }}"
+							alt=""
+							role="presentation"
+							class="h-full w-full object-cover"
+							style="object-position: {{ $thumbFocus }};"
+							width="72"
+							height="72"
+							loading="lazy"
+							decoding="async"
+							draggable="false">
+					{{- else -}}
+						<img
+							src="{{ $resolved.RelPermalink }}"
+							alt=""
+							role="presentation"
+							class="h-full w-full object-cover"
+							style="object-position: {{ $thumbFocus }};"
+							width="72"
+							height="72"
+							loading="lazy"
+							decoding="async"
+							draggable="false">
+					{{- end -}}
+				</button>
+			{{- end -}}
+		</div>
+	</div>
+{{- end -}}
+
+{{- if $items -}}
+	{{- $jsRes := resources.Get "js/shortcodes/carousel.js" | js.Build (dict "minify" true "format" "esm") -}}
+  <script type="module">
+    import { initCarousel } from '{{ $jsRes.RelPermalink }}';
+    initCarousel('{{ $id }}');
+  </script>
+{{- end -}}

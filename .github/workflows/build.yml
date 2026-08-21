@@ -30,7 +30,7 @@ jobs:
         run: pnpm build:css
 
       - name: Commit CSS changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           branch: ${{ github.head_ref }}
           file_pattern: assets/css/tailwind/compiled.css

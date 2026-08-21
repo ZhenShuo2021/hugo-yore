@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@v6 # ReadableStream is not defined in v6
+        uses: actions/setup-node@v7 # ReadableStream is not defined in v6
         with:
           node-version: lts/*
 

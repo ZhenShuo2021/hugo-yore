@@ -6,4 +6,4 @@ description: "A minimalist Hugo theme built for content delivering."
 
 Yore is a minimalist Hugo theme with clean typography, high contrast, and no distractions, ensuring your **content** stays the focus.
 
-[Get Started →](./docs/80-getting-started/index.md)
+[Learn Yore →](./docs/40-introduction/index.md)

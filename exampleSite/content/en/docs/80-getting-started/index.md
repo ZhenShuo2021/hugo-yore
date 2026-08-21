@@ -37,7 +37,7 @@ Otherwise, `cd` into your existing project.
 Initialize your site as a Hugo module:
 
 ```bash
-hugo mod init
+hugo mod init github.com/username/repo  # or hugo mod init my-project
 ```
 
   {{< /step >}}

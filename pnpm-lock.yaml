@@ -61,8 +61,8 @@ importers:
         specifier: ^7.11.0
         version: 7.11.0
       js-yaml:
-        specifier: ^4.1.1
-        version: 4.1.1
+        specifier: ^5.3.0
+        version: 5.3.0
       lint-staged:
         specifier: ^17.0.5
         version: 17.0.5
@@ -947,8 +947,8 @@ packages:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
     hasBin: true
 
-  js-yaml@4.1.1:
-    resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
+  js-yaml@5.3.0:
+    resolution: {integrity: sha512-muutsYr+e2+d3rTgUGslq5rxbBlUy3cJ61IsHag2QNDQV+7zXWjkUpmALIajhrlLlrgRUiymj6U3zUr/TMK84Q==}
     hasBin: true
 
   junk@4.0.1:
@@ -2206,7 +2206,7 @@ snapshots:
 
   jiti@2.7.0: {}
 
-  js-yaml@4.1.1:
+  js-yaml@5.3.0:
     dependencies:
       argparse: 2.0.1
 

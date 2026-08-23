@@ -8,8 +8,6 @@
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-red-50: oklch(97.1% 0.013 17.38);
-    --color-red-500: oklch(63.7% 0.237 25.331);
     --color-zinc-100: oklch(96.7% 0.001 286.375);
     --color-zinc-200: oklch(92% 0.004 286.32);
     --color-zinc-300: oklch(87.1% 0.006 286.286);
@@ -1507,18 +1505,6 @@
   .bg-primary {
     background-color: var(--color-primary);
   }
-  .bg-red-50 {
-    background-color: var(--color-red-50);
-  }
-  .bg-red-500 {
-    background-color: var(--color-red-500);
-  }
-  .bg-red-500\/87 {
-    background-color: color-mix(in srgb, oklch(63.7% 0.237 25.331) 87%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-red-500) 87%, transparent);
-    }
-  }
   .bg-success {
     background-color: var(--color-success);
   }
@@ -1737,9 +1723,6 @@
   .text-link {
     color: var(--color-link);
   }
-  .text-muted {
-    color: var(--color-muted);
-  }
   .text-muted-foreground {
     color: var(--color-muted-foreground);
   }
@@ -1784,9 +1767,6 @@
   }
   .uppercase {
     text-transform: uppercase;
-  }
-  .italic {
-    font-style: italic;
   }
   .tabular-nums {
     --tw-numeric-spacing: tabular-nums;

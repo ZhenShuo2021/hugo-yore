@@ -5,9 +5,17 @@
 /* We are not using Tailwind on the homepage because these variants generate over 1K lines of compiled CSS.
 Additionally, this makes it difficult for downstream users to customize, as they would receive plain CSS. */
 @source not '../../../layouts/_partials/home/';
+@source not '../../../exampleSite/content/';
+
+/* exclude third-party lib */
 @source not '../../lib/';
+
+/* Hugo's TailwindCSS function */
 @source './hugo_stats.json';
 @source './exampleSite/hugo_stats.json';
+
+/* For hugo module users */
+@source '../../../_vendor/github.com/ZhenShuo2021/hugo-yore/layouts/';
 
 @import './theme.css';
 @import './typography.css';
@@ -15,7 +23,6 @@ Additionally, this makes it difficult for downstream users to customize, as they
 	@import './components/code.css';
 	@import './components/admonition.css';
 }
-@import '../custom.css';
 
 @layer utilities {
 	.dropdown-menu-child {

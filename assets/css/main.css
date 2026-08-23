@@ -51,6 +51,4 @@
 	@import "./knowledge-graph/override.css";
 {{ end }}
 
-{{ if not site.Params.hugoTailwind }}
-  @import "./custom.css";
-{{ end }}
+@import "./custom.css";

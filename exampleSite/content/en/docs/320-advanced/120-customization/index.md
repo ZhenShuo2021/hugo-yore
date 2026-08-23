@@ -245,7 +245,7 @@ Yore uses custom Tailwind tokens defined in `assets/css/tailwind/theme.css`.
 
 Semantic tokens are integrated into Yore's custom Tailwind tokens. Instead of default classes like `bg-red-50`, Yore uses `bg-CUSTOM_TOKEN` to maintain thematic consistency across the site.
 
-The class structure uses standard Tailwind prefixes (text-, bg-, border-) paired with the custom suffixes. This results in classes such as text-muted or bg-brand-foreground. Since `theme.css` references variables from `tokens.css`, you can modify specific colors via CSS variables without rebuilding Tailwind.
+The class structure uses standard Tailwind prefixes (text-, bg-, border-) paired with the custom suffixes. This results in classes such as text-muted or bg-brand. Since `theme.css` references variables from `tokens.css`, you can modify specific colors via CSS variables without rebuilding Tailwind.
 
 ### Building Your Own TailwindCSS
 
@@ -268,15 +268,55 @@ Tailwind v4 [scans all project files](https://tailwindcss.com/docs/detecting-cla
 
 #### Method 2: Hugo Pipe (Not Recommended)
 
-Yore also supports Hugo's built-in [css.TailwindCSS](https://gohugo.io/functions/css/tailwindcss/) function. However, this method is not recommended for several reasons:
+Yore also supports Hugo's built-in [css.TailwindCSS](https://gohugo.io/functions/css/tailwindcss/) function. This method isn't recommended for the following reasons:
 
 - **Inconsistency**: The same CSS works perfectly with Tailwind CLI but requires extra configuration with Hugo Pipe.
-- **Lack of Transparency**: Hugo acts as a black box for Tailwind, making the build process less controllable.
-- **Difficult Debugging**: Troubleshooting is unintuitive due to the black box issue.
-- **Maintenance**: Method 1 only requires a simple manual diff sync during theme updates, whereas Method 2 requires debugging within the Hugo environment.
+- **Lack of transparency**: Hugo wraps Tailwind as a black box, so you have less control over the build process.
+- **Harder debugging**: The black box makes troubleshooting unintuitive.
+- **Maintenance**: Method 1 only needs a manual diff sync during theme updates. Method 2 requires debugging inside the Hugo environment.
 
-Steps:
+> [!WARNING]
+> Hugo doesn't support pnpm with TailwindCSS. See [#14852](https://github.com/gohugoio/hugo/issues/14852).
 
-1. Run `pnpm install @tailwindcss/cli @tailwindcss/typography @tailwindcss/forms tailwind-scrollbar tailwindcss`.
-2. Configure `hugo.yaml` according to the [Hugo documentation](https://gohugo.io/functions/css/tailwindcss/).
-3. Set `params.hugoTailwind: true` in your `hugo.yaml`.
+To use Hugo Pipe:
+
+1. Install the required packages.
+
+    ```bash
+    npm install @tailwindcss/cli @tailwindcss/typography @tailwindcss/forms tailwindcss
+    ```
+
+2. Add the following to `hugo.yaml`.
+
+    ```yaml
+    build:
+      buildStats:
+        enable: true
+      cachebusters:
+      - source: 'assets/notwatching/hugo_stats\.json'
+        target: css
+      - source: '(postcss|tailwind)\.config\.js'
+        target: css
+
+    module:
+      imports:
+        - path: github.com/ZhenShuo2021/hugo-yore
+      mounts:
+      - source: assets
+        target: assets
+      - disableWatch: true
+        source: hugo_stats.json
+        target: assets/notwatching/hugo_stats.json
+
+    security:
+      exec:
+        allow:
+        - ^(dart-)?sass$
+        - ^go$
+        - ^git$
+        - ^node$
+        - ^postcss$
+        - ^tailwindcss$
+    ```
+
+3. Set `params.hugoTailwind: true` in `hugo.yaml`.

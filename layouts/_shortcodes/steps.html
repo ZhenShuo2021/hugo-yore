@@ -1,4 +1,4 @@
 {{- $number := .Get "number" | default true -}}
-<ol class="steps relative ms-6 list-none" {{ if $number }}style="counter-reset: step-counter;"{{ end }}>
+<ol class="steps relative ms-2 list-none md:ms-6" {{ if $number }}style="counter-reset: step-counter;"{{ end }}>
 	{{- .Inner -}}
 </ol>

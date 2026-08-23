@@ -317,8 +317,8 @@
   .inset-x-0 {
     inset-inline: 0;
   }
-  .-start-4 {
-    inset-inline-start: calc(var(--spacing) * -4);
+  .-start-2 {
+    inset-inline-start: calc(var(--spacing) * -2);
   }
   .end-0 {
     inset-inline-end: calc(var(--spacing) * 0);
@@ -446,11 +446,11 @@
   .ms-1 {
     margin-inline-start: var(--spacing);
   }
+  .ms-2 {
+    margin-inline-start: calc(var(--spacing) * 2);
+  }
   .ms-5 {
     margin-inline-start: calc(var(--spacing) * 5);
-  }
-  .ms-6 {
-    margin-inline-start: calc(var(--spacing) * 6);
   }
   .ms-7 {
     margin-inline-start: calc(var(--spacing) * 7);
@@ -2105,6 +2105,16 @@
   .sm\:gap-y-2 {
     @media (width >= 40rem) {
       row-gap: calc(var(--spacing) * 2);
+    }
+  }
+  .md\:-start-4 {
+    @media (width >= 48rem) {
+      inset-inline-start: calc(var(--spacing) * -4);
+    }
+  }
+  .md\:ms-6 {
+    @media (width >= 48rem) {
+      margin-inline-start: calc(var(--spacing) * 6);
     }
   }
   .md\:flex {

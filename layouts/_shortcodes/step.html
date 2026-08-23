@@ -9,9 +9,9 @@
 {{- end -}}
 
 
-<li class="step ms-5">
+<li class="step ms:ms-5 ms-1">
 	<span
-		class="{{ $circleClass }} bg-foreground/90 text-background absolute -start-4 flex h-8 w-8 items-center justify-center rounded-full font-semibold">
+		class="{{ $circleClass }} bg-foreground/90 text-background absolute -start-2 flex h-8 w-8 items-center justify-center rounded-full font-semibold md:-start-4">
 		{{- if $icon -}}
 			{{- $iconRes := resources.GetMatch (printf "icons/**/%s.svg" $icon) -}}
 			{{- with $iconRes -}}

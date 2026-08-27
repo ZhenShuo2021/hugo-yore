@@ -55,11 +55,11 @@
 			</time>
 			<span>
 				<a
-					href="{{ if $externalURL -}}
-						{{- $externalURL -}}
-					{{- else -}}
-						{{- .RelPermalink -}}
-					{{- end }}"
+					{{ with $externalURL -}}
+						href="{{ . }}" target="_blank" rel="noopener"
+					{{- else with .RelPermalink -}}
+						href="{{ . }}"
+					{{- end }}
 					class="text-foreground hover:text-link-hover inline-flex items-center transition-colors">
 					{{- .Title -}}
 					{{- if .IsNode -}}

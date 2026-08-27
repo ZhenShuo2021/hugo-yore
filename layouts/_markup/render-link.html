@@ -1,6 +1,7 @@
 {{- /* https://github.com/gohugoio/hugo/blob/ff22c62a32628fcf51f82de2f72a749e1cdf4fc3/tpl/tplimpl/embedded/templates/_markup/render-link.html */ -}}
 {{- $u := urls.Parse .Destination -}}
 {{- $href := $u.String -}}
+{{- $external := $u.IsAbs -}}
 {{- if strings.HasPrefix $u.String "#" -}}
   {{- $href = printf "%s#%s" .PageInner.RelPermalink $u.Fragment -}}
 {{- else if and $href (not $u.IsAbs) -}}
@@ -19,5 +20,12 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-<a href="{{ $href }}" {{- with .Title }} title="{{ . }}" {{- end }}>{{ .Text }}</a>
+<a href="{{ $href }}" {{- with .Title }} title="{{ . }}" {{- end }} {{- if $external }} target="_blank" rel="noopener noreferrer" {{- end }}>
+	{{- .Text -}}
+	{{- if $external -}}
+		<span class="sr-only">
+			{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+		</span>
+	{{- end -}}
+</a>
 {{- /**/ -}}

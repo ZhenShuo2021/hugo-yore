@@ -174,15 +174,13 @@ This is equivalent to the standard markdown image syntax below, but the syntax d
 
 ## Float
 
-The `float` shortcode wraps arbitrary content with text flowing around it, floating left or right with configurable width. Below is example lorem ipsum text that will wrap around the float img.
-
 {{% float side="end" %}}
 
 ![alt](/img/04.webp)
 
 {{% /float %}}
 
-> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The `float` shortcode wraps arbitrary content with text flowing around it, floating left or right with configurable width.
 
 | Parameter | Description |
 | --- | --- |
@@ -199,7 +197,7 @@ The `float` shortcode wraps arbitrary content with text flowing around it, float
 {{% /float */%}}
 ```
 
-<div style="clear:both"></div>
+Use `{{%/* float-clear */%}}` to cancel the float effect.
 
 ## Cols
 

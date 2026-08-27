@@ -89,6 +89,15 @@
 		"description": "Floats arbitrary content left or right with text wrapping."
 	},
 
+	"Yore Float Clear": {
+		"scope": "markdown",
+		"prefix": "yore-float-clear",
+		"body": [
+			"{{% float-clear %}}",
+		],
+		"description": "Clear float in both side."
+	},
+
 	"Yore Cols": {
 		"scope": "markdown",
 		"prefix": "yore-cols",

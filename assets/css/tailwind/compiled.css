@@ -390,6 +390,9 @@
   .row-start-2 {
     grid-row-start: 2;
   }
+  .clear-both {
+    clear: both;
+  }
   .container {
     width: 100%;
     @media (width >= 40rem) {

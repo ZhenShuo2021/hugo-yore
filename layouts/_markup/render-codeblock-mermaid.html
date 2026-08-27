@@ -1,4 +1,21 @@
-<pre class="not-prose mermaid [&_svg]:m-auto">
-	{{ .Inner | htmlEscape | safeHTML }}
+{{- $zoom := .Page.Param "mermaidZoom" | default true -}}
+
+{{- $class := "not-prose mermaid [&_svg]:m-auto" -}}
+{{- with (index .Attributes "class") -}}
+	{{- $class = printf "%s %s" $class . -}}
+{{- end -}}
+
+{{- .Page.Store.Set "hasMermaid" true -}}
+{{- if (partial "lib/tobool.html" $zoom) -}}
+	{{- .Page.Store.Set "mermaidZoom" true -}}
+{{- end -}}
+
+<pre class="{{ $class }}" data-zoom="{{ $zoom }}"
+	{{- range $k, $v := .Attributes -}}
+		{{- if and $v (ne $k "class") -}}
+			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
+		{{- end -}}
+	{{- end -}}>
+{{ .Inner | htmlEscape | safeHTML }}
 </pre>
-{{ .Page.Store.Set "hasMermaid" true }}
+{{- /**/ -}}

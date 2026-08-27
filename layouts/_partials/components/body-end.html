@@ -24,8 +24,15 @@
 		src="{{ $mermaidJS.RelPermalink }}"
 		integrity="{{ $mermaidJS.Data.Integrity }}"></script>
 
-	{{- with resources.Get "css/shortcodes/svg-toolbelt-modified.css" | minify | fingerprint -}}
-		<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+	{{- if .Store.Get "mermaidZoom" -}}
+		{{- with resources.Get "css/shortcodes/svg-toolbelt-modified.css" | minify | fingerprint -}}
+			<link
+				rel="stylesheet"
+				href="{{ .RelPermalink }}"
+				integrity="{{ .Data.Integrity }}"
+				media="print"
+				onload="this.media='all'; this.onload=null;">
+		{{- end -}}
 	{{- end -}}
 {{- end -}}
 

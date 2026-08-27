@@ -16,6 +16,7 @@ async function registerElkIfNeeded(mermaid) {
 
 function initSvgToolbelt() {
 	document.querySelectorAll('.mermaid').forEach((element) => {
+		if (element.getAttribute('data-zoom') === 'false') return;
 		if (element.getBoundingClientRect().height >= 50) {
 			new SvgToolbelt(element, {
 				controlsPosition: 'bottom-right',

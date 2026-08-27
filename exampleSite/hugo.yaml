@@ -223,6 +223,7 @@ params:
   breadcrumbSchema: true # Emit breadcrumb structured data (schema.org) for SEO
   codeCopy: true # Show a "copy" button on code blocks
   mathEnabled: false # Load the math rendering library on every page
+  mermaidZoom: true # Enable pan and zoom controls on mermaid diagrams
   menuHighlight: true # Highlight the current page's entry in the navigation menu
   scrollToTop: true # Show a "scroll to top" button
   tocHighlight: true # Highlight the current section in the table of contents while scrolling

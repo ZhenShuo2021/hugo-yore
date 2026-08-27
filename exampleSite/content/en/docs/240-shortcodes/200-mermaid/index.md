@@ -14,6 +14,10 @@ series: ["Shortcodes"]
 
 Refer to the [official Mermaid docs](https://mermaid-js.github.io/) for details on syntax and supported diagram types.
 
+Options:
+
+- `mermaidZoom`: whether to enable the zoom feature, configurable in hugo.yaml or in front matter.
+
 **Example:**
 
 `````md

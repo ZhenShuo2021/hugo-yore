@@ -33,6 +33,10 @@ html[data-theme='light'] {
 	/* General borders */
 	--border: var(--color-neutral-300);
 
+	/* TODO: better variable name */
+	--gray-border: oklab(0.768 0 0.006);
+	--title-bg: oklch(95.514% 0.00011 271.152);
+
 	/* Input */
 	--input: var(--color-neutral-50);
 
@@ -78,6 +82,8 @@ html[data-theme='dark'] {
 	--success: oklch(72.3% 0.219 149.579);
 
 	--border: var(--color-neutral-700);
+	--gray-border: oklab(0.475 0 0.008);
+	--title-bg: oklch(0.32 0.001 271);
 	--input: var(--color-neutral-900);
 	--ring: var(--color-brand-500);
 

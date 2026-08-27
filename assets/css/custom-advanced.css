@@ -46,7 +46,7 @@ html {
 	width: 100%;
 	margin-top: 1.5em;
 	margin-bottom: 1.5em;
-	border: 1px solid color-mix(var(--table-border-row), var(--table-border-strong) 25%);
+	border: 1px solid var(--gray-border);
 
 	table {
 		border-collapse: collapse;
@@ -71,21 +71,18 @@ html {
 	}
 
 	thead {
-		background-color: oklch(0.96 0.005 96);
-		&:where([data-theme='dark'], [data-theme='dark'] *) {
-			background-color: oklch(0.32 0.001 271);
-		}
+		background-color: var(--title-bg);
 	}
 
 	th {
 		padding: 0.5em 1em;
-		border-bottom: 1px solid color-mix(var(--table-border-row), var(--table-border-strong) 25%);
+		border-bottom: 1px solid var(--gray-border);
 		white-space: nowrap;
 	}
 
 	td {
 		padding: 0.5em 1em;
-		border-bottom: 1px solid var(--table-border-row);
+		border-bottom: 1px solid var(--gray-border);
 		vertical-align: middle;
 	}
 
@@ -95,7 +92,11 @@ html {
 
 	&[data-merge] th,
 	&[data-merge] td {
-		border: 1px solid color-mix(var(--table-border-strong), var(--table-border-row) 75%);
+		border: 1px solid var(--gray-border) !important;
+	}
+
+	&[data-merge] {
+		border: none;
 	}
 
 	&:not([data-merge]) tbody tr:hover {

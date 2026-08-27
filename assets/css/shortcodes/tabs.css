@@ -28,7 +28,7 @@ html[data-a11y-high-contrast='true'] .tab--active.tab__button,
 }
 
 .tab__content {
-	padding: 1rem;
+	padding: 0 1rem;
 }
 
 .tab__panel {

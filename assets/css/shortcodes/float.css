@@ -54,14 +54,10 @@
 	overflow-wrap: break-word;
 }
 
-.float-content > *:first-child,
-.float-content > *:first-child > *:first-child,
-.float-content > *:first-child > *:first-child > *:first-child {
+.float-content > *:first-child {
 	margin-top: 0;
 }
 
-.float-content > *:last-child,
-.float-content > *:last-child > *:last-child,
-.float-content > *:last-child > *:last-child > *:last-child {
+.float-content > *:last-child {
 	margin-bottom: 0;
 }

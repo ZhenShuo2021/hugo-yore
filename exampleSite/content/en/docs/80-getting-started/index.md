@@ -116,9 +116,6 @@ hugo_stats.json
 node_modules
 ```
 
-> [!TIP]- Already tracked?
-> Use `git rm -r --cached public/ resources/_gen/` to remove the files from Git tracking.
-
   {{< /step >}}
 
 {{% /steps %}}

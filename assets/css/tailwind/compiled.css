@@ -25,8 +25,6 @@
     --color-neutral-800: var(--clr-neutral-800);
     --color-neutral-900: var(--clr-neutral-900);
     --color-neutral-950: var(--clr-neutral-950);
-    --color-stone-100: oklch(97% 0.001 106.424);
-    --color-stone-600: oklch(44.4% 0.011 73.639);
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
@@ -2405,62 +2403,51 @@
     position: relative;
     z-index: 0;
   }
+  .copy-button {
+    position: absolute;
+    top: calc(var(--spacing) * 2);
+    right: calc(var(--spacing) * 2);
+    display: flex;
+    height: calc(var(--spacing) * 8);
+    width: calc(var(--spacing) * 8);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    --tw-border-style: none;
+    border-style: none;
+    background-color: transparent;
+    padding: var(--spacing);
+    opacity: 0%;
+    transition-property: opacity,color,background-color;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+    --tw-duration: var(--dur-200);
+    transition-duration: var(--dur-200);
+    --tw-ease: var(--ease-in-out);
+    transition-timing-function: var(--ease-in-out);
+    color: var(--muted);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(var(--foreground), var(--muted));
+    }
+  }
   .copy-button:focus, .highlight:hover > .copy-button {
     opacity: 100%;
   }
-  .copy-button {
-    position: absolute;
-    top: calc(var(--spacing) * 2.5);
-    right: calc(var(--spacing) * 3);
-    z-index: 20;
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    line-height: var(--tw-leading, var(--text-sm--line-height));
-    background-color: color-mix(in srgb, oklch(97% 0.001 106.424) 90%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-stone-100) 90%, transparent);
-    }
-    color: var(--color-neutral-800);
-    @supports (color: color-mix(in lab, red, red)) {
-      color: color-mix(in oklab, var(--color-neutral-800) 80%, transparent);
-    }
-    opacity: 0%;
-    transition-property: opacity,color;
+  .copy-button:hover {
+    color: var(--foreground);
+  }
+  .copy-button.copied {
+    color: var(--success);
+  }
+  .copy-button svg {
+    transition-property: transform,opacity;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
-    --tw-duration: var(--dur-150);
-    transition-duration: var(--dur-150);
-    &:where([data-theme=dark], [data-theme=dark] *) {
-      background-color: color-mix(in srgb, oklch(44.4% 0.011 73.639) 90%, transparent);
-      @supports (color: color-mix(in lab, red, red)) {
-        background-color: color-mix(in oklab, var(--color-stone-600) 90%, transparent);
-      }
-    }
-    &:where([data-theme=dark], [data-theme=dark] *) {
-      color: var(--color-neutral-200);
-      @supports (color: color-mix(in lab, red, red)) {
-        color: color-mix(in oklab, var(--color-neutral-200) 80%, transparent);
-      }
-    }
-    cursor: pointer;
-    border-radius: 0.25rem;
-    padding-inline: calc(var(--spacing) * 2);
-    padding-block: var(--spacing);
-    --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
-    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-    -webkit-user-select: none;
-    user-select: none;
-  }
-  .copy-button:hover {
-    color: var(--color-neutral-800);
-    &:where([data-theme=dark], [data-theme=dark] *) {
-      color: var(--color-neutral-200);
-    }
-  }
-  .copy-textarea {
-    pointer-events: none;
-    position: absolute;
-    opacity: 0%;
+    --tw-duration: var(--dur-200);
+    transition-duration: var(--dur-200);
+    --tw-ease: var(--ease-in-out);
+    transition-timing-function: var(--ease-in-out);
   }
   @media print {
     [data-code-wrapper] pre,	[data-code-wrapper] code {

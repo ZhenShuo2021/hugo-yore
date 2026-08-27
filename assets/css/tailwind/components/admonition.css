@@ -192,7 +192,7 @@ html[data-theme='dark'] {
 			transition-duration: var(--tw-duration, var(--default-transition-duration));
 			rotate: calc(90deg * -1);
 
-			&:is(:where(.group):is([open], :popover-open, :open) *) {
+			details[open] > summary & {
 				rotate: 0deg;
 			}
 		}

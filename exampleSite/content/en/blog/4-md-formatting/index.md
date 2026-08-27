@@ -26,10 +26,31 @@ Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sap
 
 ## Tables
 
-| Name  | Age |
-| ----- | --- |
-| Bob   | 27  |
-| Alice | 23  |
+**Default**
+
+| Metric | Q1 Target | Q1 Actual | Variance |
+| --- | --- | --- | --- |
+| Revenue | $1,200,000 | $1,150,000 | -4.17% |
+| Operating Expenses | $450,000 | $430,000 | +4.44% |
+| Net Profit Margin | 22.5% | 24.1% | +1.60% |
+
+**Center**
+
+| Metric | Q1 Target | Q1 Actual | Variance |
+| --- | --- | --- | --- |
+| Revenue | $1,200,000 | $1,150,000 | -4.17% |
+| Operating Expenses | $450,000 | $430,000 | +4.44% |
+| Net Profit Margin | 22.5% | 24.1% | +1.60% |
+{center="true"}
+
+**Compact**
+
+| Metric | Q1 Target | Q1 Actual | Variance |
+| --- | --- | --- | --- |
+| Revenue | $1,200,000 | $1,150,000 | -4.17% |
+| Operating Expenses | $450,000 | $430,000 | +4.44% |
+| Net Profit Margin | 22.5% | 24.1% | +1.60% |
+{compact="true"}
 
 ## Code Blocks
 

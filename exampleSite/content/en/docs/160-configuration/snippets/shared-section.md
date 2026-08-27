@@ -16,3 +16,5 @@ build:
 | `sectionGroupOrder` | `string` | | Order of groups. Accepts `asc` or `desc`. |
 | `sectionSortBy` | `string` | | Sort key for listed pages within each group. Accepts `Date`, `ExpiryDate`, `Lastmod`, `Length`, `LinkTitle`, `PublishDate`, `Title`, `Weight`, or a page parameter prefixed with `Param.`. |
 | `sectionSortOrder` | `string` | | Sort order. Accepts `asc` or `desc`. |
+
+<!-- Avoid adding empty tr from .RenderShortcode error -->

@@ -1,0 +1,129 @@
+{{- /* https://css-tricks.com/under-engineered-responsive-tables/ */ -}}
+{{- /* trigger Tailwind: text-left text-right text-center */ -}}
+{{- $c := dict 
+	"center" (.Attributes.center | default (.Page.Param "renderHook.table.center") | partial "lib/tobool.html")
+	"merge" (.Attributes.merge | default (.Page.Param "renderHook.table.merge") | partial "lib/tobool.html")
+	"compact" (.Attributes.compact | default (.Page.Param "renderHook.table.compact") | partial "lib/tobool.html")
+-}}
+
+<div data-table-wrapper role="region" tabindex="0"
+	{{- if .Attributes.caption }}
+		{{- (printf "aria-labelledby=\"md-table-%d\"" .Ordinal) | safeHTMLAttr }}
+	{{- end }}
+	{{- range $k, $v := .Attributes }}
+		{{- if $v }}
+			{{- if (in (slice `caption` `merge` `center`) $k )}}
+				{{- continue }}
+			{{- end }}
+			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr }}
+		{{- end }}
+	{{- end }}
+	{{- if $c.merge -}}
+		{{- printf " data-merge" | safeHTMLAttr }}
+	{{- end }}
+	{{- if $c.compact -}}
+		{{- printf " data-compact" | safeHTMLAttr }}
+	{{- end }}>
+	<table>
+		{{- if .Attributes.caption }}
+			<caption id="md-table-{{ .Ordinal }}">
+				{{- .Attributes.caption | $.Page.RenderString | safeHTML -}}
+			</caption>
+		{{- end }}
+		<thead>
+			{{- range .THead }}
+				<tr>
+					{{- range $colIndex, $col := . }}
+						{{- $align := $col.Alignment }}
+						{{- if and $c.center (not $align) }}
+							{{- $align = cond (eq $colIndex 0) "left" "center" }}
+						{{- end }}
+						<th {{- with $align }} class="text-{{ . }}"{{ end }}>
+							{{- $col.Text -}}
+						</th>
+					{{- end }}
+				</tr>
+			{{- end }}
+		</thead>
+		<tbody>
+			{{- if $c.merge }}
+				{{- template "table-tbody-merge" (dict "TBody" .TBody "config" $c) }}
+			{{- else }}
+				{{- template "table-tbody-plain" (dict "TBody" .TBody "config" $c "rows" .) }}
+			{{- end }}
+		</tbody>
+	</table>
+</div>
+{{- /**/ -}}
+
+{{- define "table-tbody-plain" }}
+	{{- $center := .config.center }}
+	{{- range .TBody }}
+		<tr>
+			{{- range $colIndex, $col := . }}
+				{{- $align := $col.Alignment }}
+				{{- if and $center (not $align) }}
+					{{- $align = cond (eq $colIndex 0) "left" "center" }}
+				{{- end }}
+				<td {{- with $align }} class="text-{{ . }}"{{ end }}>
+					{{- $col.Text -}}
+				</td>
+			{{- end }}
+		</tr>
+	{{- end }}
+{{- end }}
+
+{{- /* https://discourse.gohugo.io/t/how-to-merge-cells-in-table-render-hooks/51953/ */ -}}
+{{- define "table-tbody-merge" }}
+	{{- $center := .config.center }}
+	{{- $TBody := .TBody }}
+	{{- range $rowIndex, $row := $TBody }}
+		{{- $nextRowIndex := add $rowIndex 1 }}
+		{{- $nextRow := index $TBody $nextRowIndex }}
+		<tr>
+			{{- range $colIndex, $col := $row }}
+				{{- $nextRowCell := index $nextRow $colIndex }}
+				{{- $nextColIndex := add $colIndex 1 }}
+				{{- $nextColCell := index $row $nextColIndex }}
+				{{- if and (ne (strings.TrimSpace $col.Text) "^") (ne (strings.TrimSpace $col.Text) "&lt;") }}
+					{{- $rowspan := 1 }}
+					{{- $colspan := 1 }}
+					{{- if eq (strings.TrimSpace $nextRowCell.Text) "^" }}
+						{{- $rowspan = add $rowspan 1 }}
+						{{- $newRowIndex := add $nextRowIndex 1 }}
+						{{- range after $newRowIndex $TBody }}
+							{{- $tcol := index . $colIndex }}
+							{{- if eq (strings.TrimSpace $tcol.Text) "^" }}
+								{{- $rowspan = add $rowspan 1 }}
+							{{- else }}
+								{{- break }}
+							{{- end }}
+						{{- end }}
+					{{- end }}
+					{{- if eq (strings.TrimSpace $nextColCell.Text) "&lt;" }}
+						{{- $colspan = add $colspan 1 }}
+						{{- $newColIndex := add $nextColIndex 1 }}
+						{{- range $tcol := after $newColIndex $row }}
+							{{- if eq (strings.TrimSpace $tcol.Text) "&lt;" }}
+								{{- $colspan = add $colspan 1 }}
+							{{- else }}
+								{{- break }}
+							{{- end }}
+						{{- end }}
+					{{- end }}
+					{{- $align := $col.Alignment }}
+					{{- if and $center (not $align) }}
+						{{- $align = cond (eq $colIndex 0) "left" "center" }}
+					{{- end }}
+					<td
+						{{- if gt $rowspan 1 }} rowspan="{{ $rowspan }}"{{ end }}
+						{{- if gt $colspan 1 }} colspan="{{ $colspan }}"{{ end }}
+						{{- with $align }} class="text-{{ . }}"{{ end }}>
+						{{- $col.Text -}}
+					</td>
+				{{- end }}
+			{{- end }}
+		</tr>
+	{{- end }}
+{{- end }}
+{{- /**/ -}}

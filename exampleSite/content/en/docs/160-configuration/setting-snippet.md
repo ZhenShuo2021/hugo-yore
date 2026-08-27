@@ -240,6 +240,12 @@ params:
       # - advertising
   # metaRobots: index, follow # Default value for the meta robots tag
 
+  renderHook: # Custom render hooks for Markdown elements
+    table:
+      center: false # Center-align columns except the first column
+      merge: false # Enable table cell merging via ^ and < syntax
+      compact: false # Render table in compact style
+
   sw: # Service Worker
     enable: false # Enable the service worker (offline support, caching)
     precache:

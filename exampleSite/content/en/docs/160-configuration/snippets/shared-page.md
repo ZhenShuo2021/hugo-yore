@@ -24,3 +24,5 @@ build:
 | `pageShowStaleWarning` | `boolean` | | Show a warning when an article has not been updated in pageStaleDays. |
 | `pageStaleDays` | `int` | | Number of days before an article is considered stale. |
 | `pageNoList` | `boolean` | | Exclude this page from search indexing and from list views. |
+
+<!-- Avoid adding empty tr from .RenderShortcode error -->

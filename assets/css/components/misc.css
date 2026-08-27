@@ -114,12 +114,6 @@
 		word-wrap: break-word;
 	}
 
-	/* table overflow */
-	table {
-		display: block;
-		overflow: auto;
-	}
-
 	/* footnote offset */
 	[id^='fn'],
 	[id^='fnref'] {

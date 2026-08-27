@@ -97,6 +97,20 @@
 		margin-bottom: unset;
 	}
 
+	/* default 0 is ugly */
+	:where(thead th:first-child):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+		padding-inline-start: 0.5714286em;
+	}
+	:where(thead th:last-child):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+		padding-inline-end: 0.5714286em;
+	}
+	:where(tbody td:first-child, tfoot td:first-child):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+		padding-inline-start: 0.5714286em;
+	}
+	:where(tbody td:last-child, tfoot td:last-child):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+		padding-inline-end: 0.5714286em;
+	}
+
 	:where(figure):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
 		margin-top: 1.5em;
 		margin-bottom: 1.5em;

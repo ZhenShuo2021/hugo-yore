@@ -5,7 +5,7 @@
 		<h2 class="text-foreground mb-6 flex items-center gap-2 text-2xl!">
 			{{- i18n "article.backlinks_title" | default "Posts referencing this article" -}}
 		</h2>
-		<ul class="space-y-2.5 ps-7">
+		<ul class="ul-mark space-y-2.5 ps-7">
 			{{- range (sort . "source.title" "asc") -}}
 				<li class="text-foreground">
 					<a href="{{ .source.relPermalink }}" class="hover:text-link-hover inline-block transition-colors">

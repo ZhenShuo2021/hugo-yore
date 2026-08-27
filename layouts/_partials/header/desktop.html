@@ -73,7 +73,7 @@
 		{{- $isActive = or $isCurrent ($context.HasMenuCurrent "main" $item) -}}
 	{{- end -}}
 
-	{{- $activeClass := cond $isActive " header--active" "" -}}
+	{{- $activeClass := cond $isActive " header-active" "" -}}
 	{{- $activeClass = cond (site.Params.headerMenuHighlight | default true) $activeClass "" -}}
 	{{- $ariaLabel := printf " aria-label=%q" (or $item.KeyName) | safeHTMLAttr -}}
 	{{- $ariaCurrent := cond $isCurrent " aria-current=page" (cond $isActive " aria-current=true" "") | safeHTMLAttr -}}
@@ -112,7 +112,7 @@
 								{{- end -}}
 								<a
 									href="{{ or .Params.URL .URL }}"
-									class="{{ cond $childActive "header--active" "" }} text-popover-foreground hover:bg-muted flex items-center gap-2 rounded p-1.5 text-sm"
+									class="{{ cond $childActive "header-active" "" }} text-popover-foreground hover:bg-muted flex items-center gap-2 rounded p-1.5 text-sm"
 									aria-label="{{ or .Name .Params.icon }}"
 									{{ if $childActive }}aria-current="page"{{ end }}>
 									{{- .Pre -}}

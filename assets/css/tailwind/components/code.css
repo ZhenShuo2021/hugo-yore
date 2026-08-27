@@ -1,3 +1,13 @@
+[data-code-wrapper],
+code,
+pre {
+	direction: ltr;
+}
+
+code:not(pre code) {
+	word-wrap: break-word;
+}
+
 /* margins for codeblock title */
 [data-code-wrapper] {
 	@apply relative z-0 block overflow-hidden rounded-md shadow;
@@ -86,4 +96,21 @@
 
 .copy-textarea {
 	@apply pointer-events-none absolute opacity-0;
+}
+
+@media print {
+	[data-code-wrapper] pre,
+	[data-code-wrapper] code {
+		display: block !important;
+		min-width: 0 !important;
+		width: 100% !important;
+		white-space: pre-wrap !important;
+		word-break: break-all !important;
+		overflow-wrap: anywhere !important;
+		overflow-x: visible !important;
+	}
+
+	[data-code-wrapper] {
+		break-inside: avoid;
+	}
 }

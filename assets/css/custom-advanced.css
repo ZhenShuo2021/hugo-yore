@@ -3,21 +3,19 @@
 
 /* Font */
 html {
+	/* Custom font size with % */
 	font-size: 100%;
+
+	/* Custom font family */
+	/* --font-serif: 'CJK-Kai', Georgia, Cambria, 'Times New Roman', ui-serif, serif;
+	font-family: var(--font-serif); */
 }
 
+/* Custom font-face */
 /* @font-face {
 	font-family: 'CJK-Kai';
 	src: local('DFKai-SB'), local('標楷體'), local('BiauKai'), local('KaiTi');
 	unicode-range: U+4E00-9FFF, U+3400-4DBF, U+3000-303F, U+F900-FAFF, U+FF00-FFEF;
-}
-
-:root {
-	--font-serif: 'CJK-Kai', Georgia, Cambria, 'Times New Roman', ui-serif, serif;
-}
-
-html {
-	font-family: var(--font-serif);
 } */
 
 /* Text underline */
@@ -175,7 +173,6 @@ html {
 @media not (prefers-reduced-motion: reduce) {
 	html:not([data-a11y-reduce-motion]) {
 		.scrollbar-mask {
-			scrollbar-gutter: stable;
 			mask-image:
 				linear-gradient(to top, transparent, black), linear-gradient(to left, transparent 17px, black 17px);
 			mask-size: 100% 20000px;

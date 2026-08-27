@@ -6,7 +6,7 @@
 					{{- i18n "article.series" | default "Series:" -}}{{- .LinkTitle -}}
 				</h2>
 
-				<ol class="space-y-2.5 ps-7">
+				<ol class="list-outside list-decimal space-y-2.5 ps-7">
 					{{- range $post := .Pages -}}
 						{{- $isCurrent := eq $post.RelPermalink $.ctx.RelPermalink -}}
 						<li class="text-foreground">

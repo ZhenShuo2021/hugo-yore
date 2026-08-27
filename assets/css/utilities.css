@@ -1,0 +1,66 @@
+.center-img {
+	display: block;
+	margin: 0 auto;
+	width: fit-content;
+}
+
+.center-cap figcaption {
+	text-align: center;
+}
+
+.header-active {
+	color: var(--color-link-hover);
+	.dropdown-menu-child & {
+		background-color: var(--color-muted);
+	}
+}
+
+.header-hidden {
+	transition: transform var(--dur-200) ease;
+	transform: translateY(-100%);
+}
+
+.dialog-overlay {
+	width: calc(100% - 2rem);
+	max-width: var(--container-md);
+	overflow: hidden;
+	border-radius: var(--radius-md);
+	border-style: var(--tw-border-style);
+	border-width: 1px;
+	border-color: var(--color-border);
+	background-color: var(--color-background);
+	padding: 0;
+	margin: auto;
+}
+
+.dialog-overlay::backdrop {
+	background: color-mix(in oklab, var(--color-neutral-950) 82%, transparent);
+}
+
+.yore-outline:focus {
+	outline-offset: -1px;
+	outline: 2px solid #005fcc;
+	&:where([data-theme='dark'], [data-theme='dark'] *) {
+		outline: 2px solid #99c8ff;
+	}
+}
+
+.ul-mark,
+.ul-mark ul {
+	list-style-type: disc;
+	list-style-position: outside;
+}
+
+.ul-mark ul ul,
+ul.ul-mark ul {
+	list-style-type: circle;
+}
+
+.ul-mark ul ul ul,
+ul.ul-mark ul ul {
+	list-style-type: square !important;
+}
+
+.ol-mark {
+	list-style-type: decimal;
+}

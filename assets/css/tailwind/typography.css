@@ -115,6 +115,63 @@
 		margin-top: 1.5em;
 		margin-bottom: 1.5em;
 	}
+
+	/* anchor */
+	:where(h1, h2, h3, h4, h5, h6) {
+		.heading-anchor {
+			text-decoration: none;
+			color: var(--muted-foreground);
+		}
+		.heading-anchor::before {
+			display: inline-block;
+			content: '#';
+			opacity: 0;
+			text-decoration: none;
+			transition: opacity var(--dur-200) ease;
+			color: var(--link-hover);
+		}
+		&:hover .heading-anchor::before,
+		& .heading-anchor:focus::before {
+			opacity: 1;
+		}
+		.heading-anchor:hover::before {
+			color: var(--link-hover);
+		}
+	}
+
+	/* heading */
+	:where(h2):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+		font-size: 1.7rem;
+		line-height: 2rem;
+		margin-top: 3rem;
+		margin-bottom: 0.8rem;
+	}
+
+	:where(h3):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+		font-size: 1.4rem;
+		margin-top: 2.5rem;
+		margin-bottom: 0.8rem;
+	}
+
+	:where(h4):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+		font-size: 1.2rem;
+		margin-top: 2rem;
+		margin-bottom: 0.8rem;
+	}
+
+	:where(h5):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+		font-size: 1rem;
+		margin-top: 1.8rem;
+		margin-bottom: 0.8rem;
+	}
+
+	:where(h6):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+		font-size: 1rem;
+		font-style: italic;
+		font-weight: 400;
+		margin-top: 2.5rem;
+		margin-bottom: 0.8rem;
+	}
 }
 
 @utility prose-invert {

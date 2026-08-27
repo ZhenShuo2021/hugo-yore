@@ -71,6 +71,7 @@
 	{{- end -}}
 
 	{{- $activeClass := cond $isActive " header--active" "" -}}
+	{{- $activeClass = cond (site.Params.headerMenuHighlight | default true) $activeClass "" -}}
 	{{- $ariaLabel := printf " aria-label=%q" (or $item.KeyName) | safeHTMLAttr -}}
 	{{- $ariaCurrent := cond $isCurrent " aria-current=page" (cond $isActive " aria-current=true" "") | safeHTMLAttr -}}
 

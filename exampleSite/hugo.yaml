@@ -181,6 +181,7 @@ params:
   # Header
   headerLayout: hideOnScroll # Header behavior on scroll. [sticky | static | hideOnScroll]
   headerShowTitle: false # Show the site title text in the header
+  headerMenuHighlight: true # Highlight the current section in the header menu
 
   # Page
   # note to my self: if a feature 1. is a component 2. applies only on page, use page prefix

@@ -2,37 +2,25 @@
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 
-	&.float-start,
-	&.float-end {
-		float: none;
-		margin-inline: 0;
-		max-width: 100%;
-	}
-
-	@media (width >= 48rem) {
-		&.float-start {
-			float: inline-start;
-			margin-inline-start: 0.15em;
-			margin-inline-end: 1em;
-		}
-
-		&.float-end {
-			float: inline-end;
-			margin-inline-start: 1em;
-			margin-inline-end: 0.15em;
-		}
-	}
-
 	&.size-s {
-		max-width: 20%;
+		max-width: 100%;
+		@media (width >= 48rem) {
+			max-width: 20%;
+		}
 	}
 
 	&.size-m {
-		max-width: 35%;
+		max-width: 100%;
+		@media (width >= 48rem) {
+			max-width: 35%;
+		}
 	}
 
 	&.size-l {
-		max-width: 45%;
+		max-width: 100%;
+		@media (width >= 48rem) {
+			max-width: 45%;
+		}
 	}
 
 	img {
@@ -40,13 +28,24 @@
 		width: 100%;
 		height: auto;
 	}
+}
 
-	.float-caption {
-		margin-top: 0.5em;
-		font-size: 0.85em;
-		color: #666;
-		text-align: center;
-	}
+.float-start,
+.float-end {
+	margin-inline: 0;
+	max-width: 100%;
+}
+
+.float-start {
+	float: inline-start;
+	margin-inline-start: 0.15em;
+	margin-inline-end: 1em;
+}
+
+.float-end {
+	float: inline-end;
+	margin-inline-start: 1em;
+	margin-inline-end: 0.15em;
 }
 
 .float-content {

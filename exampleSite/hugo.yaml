@@ -278,6 +278,7 @@ languages:
           params:
             # icon: code # Icon to display, named "code"
             collapsed: true # Whether the nested menu is collapsed by default on mobile
+            url: /docs/introduction/ # Extra url setting to override the URL of pageRef
 
         # Nested menu
         - name: Getting Started
@@ -360,6 +361,7 @@ languages:
           params:
             collapsed: true # 行动装置上是否预设折叠嵌套选单
             # icon: code # 要显示的图标，名为「code」
+            url: /docs/introduction/
 
         # 子菜單範例
         - name: 入门

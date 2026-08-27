@@ -81,7 +81,7 @@
 					class="{{ $activeClass }} text-foreground hover:text-link-hover me-[-0.4em] flex items-center gap-1 font-medium"
 					{{ $ariaLabel }}>
 					<a
-						href="{{ .URL }}"
+						href="{{ or .Params.URL .URL }}"
 						class="flex items-center gap-1.5"
 						aria-haspopup="true"
 						{{ if $isActive }}{{ $ariaCurrent }}{{ end }}>
@@ -107,7 +107,7 @@
 									{{- $childActive = $context.IsMenuCurrent "main" . -}}
 								{{- end -}}
 								<a
-									href="{{ .URL }}"
+									href="{{ or .Params.URL .URL }}"
 									class="{{ cond $childActive "header--active" "" }} text-popover-foreground hover:bg-muted flex items-center gap-2 rounded p-1.5 text-sm"
 									aria-label="{{ or .Name .Params.icon }}"
 									{{ if $childActive }}aria-current="page"{{ end }}>
@@ -129,7 +129,7 @@
 	{{- else -}}
 		{{- with $item -}}
 			<a
-				href="{{ $item.URL }}"
+				href="{{ or $item.Params.URL $item.URL }}"
 				class="text-foreground hover:text-link-hover {{ $activeClass }} flex items-center font-medium"
 				{{ $ariaLabel }}
 				{{ if $isActive }}{{ $ariaCurrent }}{{ end }}>

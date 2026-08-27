@@ -2,6 +2,7 @@
 	<button
 		class="text-foreground hover:text-link-hover flex items-center gap-2"
 		aria-label="{{ i18n `nav.change_language` | default `Change language` }}"
+		title="{{ i18n `nav.change_language` | default `Change language` }}"
 		aria-haspopup="true">
 		{{- partialCached "components/icon.html" "translate" "icon-translate" -}}
 	</button>
@@ -17,8 +18,7 @@
 							header--active
 						{{- end }} hover:text-link-hover hover:bg-muted flex items-center rounded p-1.5 text-sm whitespace-nowrap transition-colors"
 						aria-label="{{ .Title }}"
-						{{ if $isCurrent }}aria-current="true"{{ end }}
-						title="{{ .Title }}">
+						{{ if $isCurrent }}aria-current="true"{{ end }}>
 						<span>{{ .Language.Label | emojify }}</span>
 					</a>
 				{{- end -}}

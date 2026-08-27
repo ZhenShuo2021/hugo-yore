@@ -7,7 +7,8 @@
 			<button
 				id="a11y-close"
 				class="text-muted-foreground hover:text-foreground flex items-center transition-colors"
-				aria-label="{{ i18n `a11y_panel.close` | default `Close accessibility panel` }}">
+				aria-label="{{ i18n `a11y_panel.close` | default `Close accessibility panel` }}"
+				title="{{ i18n `a11y_panel.close` | default `Close accessibility panel` }}">
 				{{- partialCached "components/icon.html" "xmark" "icon-xmark" -}}
 			</button>
 		</div>
@@ -19,7 +20,8 @@
 					<button
 						id="font-size-decrease"
 						class="yore-outline font-size-btn font-size-btn--small"
-						aria-label="{{ i18n `a11y_panel.decrease_font_size` | default `Decrease font size` }}">
+						aria-label="{{ i18n `a11y_panel.decrease_font_size` | default `Decrease font size` }}"
+						title="{{ i18n `a11y_panel.decrease_font_size` | default `Decrease font size` }}">
 						A
 					</button>
 					<div class="font-size-levels" aria-hidden="true">
@@ -32,7 +34,8 @@
 					<button
 						id="font-size-increase"
 						class="yore-outline font-size-btn font-size-btn--large"
-						aria-label="{{ i18n `a11y_panel.increase_font_size` | default `Increase font size` }}">
+						aria-label="{{ i18n `a11y_panel.increase_font_size` | default `Increase font size` }}"
+						title="{{ i18n `a11y_panel.increase_font_size` | default `Increase font size` }}">
 						A
 					</button>
 				</div>

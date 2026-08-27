@@ -2,8 +2,8 @@
 	{{- if site.Params.searchEnabled -}}
 		<button
 			id="pf-custom-icon-mobile"
-			type="button"
 			aria-label="{{ i18n `nav.search` | default `Search` }}"
+			title="{{ i18n `nav.search` | default `Search` }}"
 			class="text-foreground hover:text-link-hover">
 			{{- partialCached "components/icon.html" "search" "icon-search" -}}
 		</button>
@@ -13,7 +13,7 @@
 		<button
 			id="mobile-appearance-switcher"
 			aria-label="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
-			type="button"
+			title="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
 			class="text-foreground hover:text-link-hover transition-colors">
 			<span class="block dark:hidden">
 				{{- partialCached "components/icon.html" "sun-light" "icon-sun-light" -}}
@@ -28,6 +28,7 @@
 	<button
 		id="mobile-menu-toggle"
 		aria-label="{{ i18n `nav.toggle_mobile_menu` | default `Toggle mobile menu` }}"
+		title="{{ i18n `nav.toggle_mobile_menu` | default `Toggle mobile menu` }}"
 		class="text-foreground hover:text-link-hover py-4 transition-colors">
 		{{- partialCached "components/icon.html" "menu" "icon-menu" -}}
 	</button>

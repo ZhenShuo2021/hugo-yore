@@ -23,6 +23,7 @@
 				<button
 					id="desktop-a11y-toggle"
 					aria-label="{{ i18n `nav.accessibility_panel` | default `Open accessibility panel` }}"
+					title="{{ i18n `nav.accessibility_panel` | default `Open accessibility panel` }}"
 					aria-expanded="false"
 					aria-controls="a11y-panel"
 					type="button"
@@ -35,6 +36,7 @@
 				<button
 					id="desktop-appearance-switcher"
 					aria-label="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
+					title="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
 					type="button"
 					class="text-foreground hover:text-link-hover">
 					<span class="block dark:hidden">
@@ -51,6 +53,7 @@
 					id="pf-custom-icon-desktop"
 					type="button"
 					aria-label="{{ i18n `nav.search` | default `Search` }}"
+					title="{{ i18n `nav.search` | default `Search` }}"
 					class="text-foreground hover:text-link-hover">
 					{{- partialCached "components/icon.html" "search" "icon-search" -}}
 				</button>
@@ -131,8 +134,9 @@
 		{{- with $item -}}
 			<a
 				href="{{ or $item.Params.URL $item.URL }}"
-				class="text-foreground hover:text-link-hover {{ $activeClass }} flex items-center font-medium"
+				class="{{ $activeClass }} text-foreground hover:text-link-hover flex items-center font-medium"
 				{{ $ariaLabel }}
+				{{ with .Params.icon }}{{ (printf ` title="%s"` .) | safeHTMLAttr }}{{ end }}
 				{{ if $isActive }}{{ $ariaCurrent }}{{ end }}>
 				{{- .Pre -}}
 				{{- with .Params.icon -}}

@@ -9,6 +9,7 @@
 			<button
 				id="mobile-menu-close"
 				aria-label="{{ i18n `nav.close_mobile_menu` | default `Close mobile menu` }}"
+				title="{{ i18n `nav.close_mobile_menu` | default `Close mobile menu` }}"
 				class="text-muted-foreground hover:text-foreground absolute end-6 top-6 z-50 flex items-center transition-colors">
 				{{- partialCached "components/icon.html" "xmark" "icon-xmark" -}}
 			</button>
@@ -132,10 +133,10 @@
 				<div class="flex items-center">
 					<button
 						id="mobile-menu-a11y-toggle"
+						title="{{ i18n `nav.accessibility_panel` | default `Open accessibility panel` }}"
 						aria-label="{{ i18n `nav.accessibility_panel` | default `Open accessibility panel` }}"
 						aria-expanded="false"
 						aria-controls="a11y-panel"
-						type="button"
 						class="text-foreground hover:text-link-hover transition-colors">
 						{{- partialCached "components/icon.html" "a11y" "icon-a11y" -}}
 					</button>

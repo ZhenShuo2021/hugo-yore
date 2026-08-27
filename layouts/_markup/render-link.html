@@ -20,7 +20,7 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-<a href="{{ $href }}" {{- with .Title }} title="{{ . }}" {{- end }} {{- if $external }} target="_blank" rel="noopener noreferrer" {{- end }}>
+<a href="{{ $href }}" {{- if $external }} target="_blank" rel="noopener noreferrer" {{- end }}>
 	{{- .Text -}}
 	{{- if $external -}}
 		<span class="sr-only">

@@ -43,7 +43,6 @@
 						<span>{{ i18n "article.date" | default "Published:" }}</span>
 						<time
 							datetime="{{ .Date.Format "2006-01-02" }}"
-							title="{{ .Date.Format "January 2, 2006" }}"
 							aria-label="{{ i18n "article.published_date" | default "Published date" }}">
 							{{- .Date.Format "January 2, 2006" -}}
 						</time>

@@ -3,6 +3,7 @@
 		<button
 			class="text-foreground hover:text-link-hover flex items-center gap-2"
 			aria-label="{{ i18n `nav.switch_version` | default `Switch version` }}"
+			title="{{ i18n `nav.switch_version` | default `Switch version` }}"
 			aria-haspopup="listbox">
 			{{- replace site.Version.Name "v" "" }}{{ partialCached "components/icon.html" "nav-arrow-down" "icon-nav-arrow-down" -}}
 		</button>
@@ -21,8 +22,7 @@
 								aria-selected="true"
 							{{ else }}
 								aria-selected="false"
-							{{ end }}
-							title="{{ .Site.Version.Name }}">
+							{{ end }}>
 							<span class="min-w-20">{{ .Site.Version.Name }}</span>
 						</a>
 					{{- end -}}

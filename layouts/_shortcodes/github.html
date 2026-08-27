@@ -4,8 +4,9 @@
 {{- $githubThumbnailURL := print "https://opengraph.githubassets.com/1/" $repo -}}
 {{- $githubData := dict -}}
 {{- $id := printf "%s%s" "github-" (partial "lib/uid.html" (dict "page" .Page "extra" (slice $repo))) -}}
+{{- $opts := dict "timeout" "10s" -}}
 
-{{- with try (resources.GetRemote $githubURL) -}}
+{{- with try (resources.GetRemote $githubURL $opts) -}}
 	{{- with .Err -}}
 		{{- warnidf "fetch-fail" "github shortcode: failed to fetch remote resource from %q: %s" $githubURL $.Position -}}
 	{{- else with .Value -}}
@@ -15,67 +16,71 @@
 	{{- end -}}
 {{- end -}}
 
-{{- with $githubData -}}
-	{{- partial "components/card-shell-head.html" (dict
-		"href" .html_url
-		"id" $id
-		"target" "_blank"
-		"image" $githubThumbnailURL
-		"alt" (printf "Github %s Thumbnail" $repo)
-		)
-	-}}
+{{- $fullName := $githubData.full_name | default $repo -}}
+{{- $htmlURL := $githubData.html_url | default $githubPageURL -}}
+{{- $description := $githubData.description | default "" -}}
+{{- $language := $githubData.language | default "" -}}
+{{- $stargazersCount := $githubData.stargazers_count | default 0 -}}
+{{- $forks := $githubData.forks | default 0 -}}
+
+{{- partial "components/card-shell-head.html" (dict
+	"href" $htmlURL
+	"id" $id
+	"target" "_blank"
+	"image" $githubThumbnailURL
+	"alt" (printf "Github %s Thumbnail" $repo)
+	)
+-}}
 
 
-	<h3
-		class="text-foreground group-hover:text-link-hover flex flex-wrap items-center gap-2 text-lg font-semibold transition-colors">
-		{{- partialCached "components/icon.html" "github" "icon-github" -}}
-		{{- .full_name -}}
-	</h3>
-	{{- /**/ -}}
+<h3
+	class="text-foreground group-hover:text-link-hover flex flex-wrap items-center gap-2 text-lg font-semibold transition-colors">
+	{{- partialCached "components/icon.html" "github" "icon-github" -}}
+	{{- $fullName -}}
+</h3>
+{{- /**/ -}}
 
 
-	<p id="{{ $id }}-description" class="text-muted-foreground line-clamp-2 text-sm">
-		{{- .description -}}
-	</p>
-	{{- /**/ -}}
+<p id="{{ $id }}-description" class="text-muted-foreground line-clamp-2 text-sm">
+	{{- $description -}}
+</p>
+{{- /**/ -}}
 
 
-	<div class="text-muted-foreground flex items-center gap-4 text-sm">
-		<div class="flex items-center gap-1">
-			{{- partialCached "components/icon.html" "code" "icon-code" -}}
-			<span>{{ if .language }}{{ .language }}{{ else }}—{{ end }}</span>
-		</div>
-		{{- /**/ -}}
-
-
-		<div class="flex items-center gap-1">
-			{{- partial "components/icon.html" "star" -}}
-			<span id="{{ $id }}-stargazers">
-				{{- .stargazers_count -}}
-			</span>
-		</div>
-		{{- /**/ -}}
-
-
-		<div class="flex items-center gap-1">
-			{{- partial "components/icon.html" "fork" -}}
-			<span id="{{ $id }}-forks">
-				{{- .forks -}}
-			</span>
-		</div>
+<div class="text-muted-foreground flex items-center gap-4 text-sm">
+	<div class="flex items-center gap-1">
+		{{- partialCached "components/icon.html" "code" "icon-code" -}}
+		<span id="{{ $id }}-language">{{ if $language }}{{ $language }}{{ else }}—{{ end }}</span>
 	</div>
+	{{- /**/ -}}
 
-	{{- partial "components/card-shell-tail.html" . -}}
 
-	{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget -}}
-	{{- $js := resources.Get "js/shortcodes/fetch-repo.js" | js.Build $opts -}}
-	{{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
-	<script
-		type="module"
-		src="{{ $js.RelPermalink }}"
-		integrity="{{ $js.Data.Integrity }}"
-		data-repo-url="{{ $githubURL }}"
-		data-repo-id="{{ $id }}"></script>
-{{- else -}}
-	{{- warnidf "fetch-fail" "github shortcode: unable to fetch %q: %s" $githubURL .Position }}
-{{- end -}}
+	<div class="flex items-center gap-1">
+		{{- partial "components/icon.html" "star" -}}
+		<span id="{{ $id }}-stargazers">
+			{{- $stargazersCount -}}
+		</span>
+	</div>
+	{{- /**/ -}}
+
+
+	<div class="flex items-center gap-1">
+		{{- partial "components/icon.html" "fork" -}}
+		<span id="{{ $id }}-forks">
+			{{- $forks -}}
+		</span>
+	</div>
+</div>
+
+{{- partial "components/card-shell-tail.html" $githubData -}}
+
+{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget -}}
+{{- $js := resources.Get "js/shortcodes/fetch-repo.js" | js.Build $opts -}}
+{{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
+<script
+	type="module"
+	src="{{ $js.RelPermalink }}"
+	integrity="{{ $js.Data.Integrity }}"
+	data-repo-url="{{ $githubURL }}"
+	data-repo-id="{{ $id }}"></script>
+{{- /**/ -}}

@@ -12,6 +12,7 @@ const platforms = {
 		description: 'description',
 		stargazers_count: 'stargazers',
 		forks: 'forks',
+		language: 'language',
 	},
 	gitlab: {
 		name_with_namespace: 'name_with_namespace',

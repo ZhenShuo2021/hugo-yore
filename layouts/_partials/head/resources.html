@@ -132,10 +132,10 @@
 		instead of using noJSConfigInAssets to keep things straightforward.
 	*/}}
 	{{- if and (not hugo.IsServer) site.Params.sw.enable hugo.IsProduction -}}
-		{{- $config := (resources.Get "js/sw/config.json.tmpl" | resources.ExecuteAsTemplate "config" .).Content -}}
-		{{- $swContent := (resources.Get "js/sw/sw.js").Content -}}
-		{{- $inlined := replace $swContent `import config from './sw-config.json';` (printf "const config = %s;" $config) -}}
-		{{- $swJS := $inlined | resources.FromString "sw.js" | minify -}}
+		{{- $config := resources.Get "js/sw/config.json.tmpl" | resources.ExecuteAsTemplate "config.json" . -}}
+		{{- $config = $config.Content | transform.Unmarshal -}}
+		{{- $opts := (dict "params" $config "targetPath" "sw.js") -}}
+		{{- $swJS := resources.Get "js/sw/sw.js" | js.Build $opts | minify -}}
 
 		{{- $script := printf `<script defer>
 			if (navigator.serviceWorker) { navigator.serviceWorker.register( "%s", { scope: "%s" } ); }
@@ -146,4 +146,4 @@
 		{{- $resource.Content | safeHTML -}}
 	{{- end -}}
 {{- end -}}
-{{- partialCached "inline/sw.html" . "foo" -}}
+{{- partialCached "inline/sw.html" . -}}

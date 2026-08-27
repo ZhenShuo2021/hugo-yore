@@ -1,4 +1,4 @@
-import config from './sw-config.json';
+import config from '@params';
 
 const _BUILD = Object.freeze({
 	version: config.version,

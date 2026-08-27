@@ -88,9 +88,9 @@
 			class="w-full"
 			loading="lazy"
 			preload="{{ $preload }}"
-			{{- if .Get `autoplay` }} autoplay{{ end }}
-			{{- if .Get `loop` }} loop{{ end }}
-			{{- if .Get `muted` }} muted{{ end }}
+			{{- if .Get `autoplay` | partial "lib/tobool.html" }} autoplay{{ end }}
+			{{- if .Get `loop` | partial "lib/tobool.html" }} loop{{ end }}
+			{{- if .Get `muted` | partial "lib/tobool.html" }} muted{{ end }}
 			{{- if ne (.Get "controls") false }} controls{{ end }}>
 			<source src="{{ $srcWithTime }}">
 			<p>Your browser cannot play this audio. <a href="{{ $src }}">Download audio</a>.</p>

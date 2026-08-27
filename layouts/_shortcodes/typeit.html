@@ -1,11 +1,11 @@
 {{- $content := split .Inner "\n" -}}
 {{- $initialString := .Get "initialString" | default "" -}}
 {{- $speed := .Get "speed" | default 100 -}}
-{{- $lifeLike := .Get "lifeLike" | default false -}}
+{{- $lifeLike := .Get "lifeLike" | default false | partial "lib/tobool.html" -}}
 {{- $startDelay := .Get "startDelay" | default 0 -}}
-{{- $breakLines := .Get "breakLines" | default true -}}
-{{- $waitUntilVisible := .Get "waitUntilVisible" | default true -}}
-{{- $loop := .Get "loop" | default false -}}
+{{- $breakLines := .Get "breakLines" | default true | partial "lib/tobool.html" -}}
+{{- $waitUntilVisible := .Get "waitUntilVisible" | default true | partial "lib/tobool.html" -}}
+{{- $loop := .Get "loop" | default false | partial "lib/tobool.html" -}}
 {{- $classList := slice -}}
 {{- with .Get "class" -}}
 	{{- $classList = $classList | append . -}}

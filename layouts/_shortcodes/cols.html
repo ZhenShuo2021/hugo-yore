@@ -3,7 +3,7 @@
 {{- $cols := split $inner "<!-- cell -->" -}}
 {{- $widths := split (.Get "widths") "," -}}
 {{- $total := len $cols -}}
-{{- $dir := .Get "rwd" | default true -}}
+{{- $dir := .Get "rwd" | default true | partial "lib/tobool.html" -}}
 {{- $dir = cond $dir "flex-col sm:flex-row" "flex-row" -}}
 
 

@@ -1,5 +1,5 @@
 {{- $title := .Get "title" -}}
-{{- $open := .Get "open" -}}
+{{- $open := .Get "open" | partial "lib/tobool.html" -}}
 {{- $id := printf "%s%s" "accordion-item-" (partial "lib/uid.html" .) -}}
 {{- $separated := .Parent.Get "separated" -}}
 <div

@@ -74,9 +74,9 @@
 			preload="{{ $preload }}"
 			loading="lazy"
 			{{- with $poster }} poster="{{ . }}"{{ end }}
-			{{- if .Get `autoplay` }} autoplay{{ end }}
-			{{- if .Get `loop` }} loop{{ end }}
-			{{- if .Get `muted` }} muted{{ end }}
+			{{- if .Get `autoplay` | partial "lib/tobool.html" }} autoplay{{ end }}
+			{{- if .Get `loop` | partial "lib/tobool.html" }} loop{{ end }}
+			{{- if .Get `muted` | partial "lib/tobool.html" }} muted{{ end }}
 			{{- if ne (.Get "controls") "false" }} controls{{ end }}
 			{{- if ne (.Get "playsinline" | default "playsInline") "false" }} playsinline{{ end }}>
 			<source src="{{ $srcWithTime }}">

@@ -3,9 +3,9 @@
 {{- $ratio := .Get "ratio" | default "4/3" | safeCSS -}}
 {{- $fit := .Get "fit" | default "contain" -}}
 {{- $thumbFocus := .Get "thumbFocus" | default "center" -}}
-{{- $showThumbs := .Get "thumbs" | default true -}}
-{{- $showArrows := .Get "arrows" | default true -}}
-{{- $showCounter := .Get "counter" | default true -}}
+{{- $showThumbs := .Get "thumbs" | default true | partial "lib/tobool.html" -}}
+{{- $showArrows := .Get "arrows" | default true | partial "lib/tobool.html" -}}
+{{- $showCounter := .Get "counter" | default true | partial "lib/tobool.html" -}}
 
 {{- if and (ne $fit "contain") (ne $fit "cover") -}}
 	{{- errorf "carousel shortcode: `fit` must be \"contain\" or \"cover\", got %q" $fit -}}

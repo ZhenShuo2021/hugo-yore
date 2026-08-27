@@ -1,6 +1,6 @@
 {{- $noop := .Inner -}}
-{{- $exclusive := .Get "exclusive" -}}
-{{- $separated := .Get "separated" -}}
+{{- $exclusive := .Get "exclusive" | partial "lib/tobool.html" -}}
+{{- $separated := .Get "separated" | partial "lib/tobool.html" -}}
 <div
 	data-accordion
 	data-exclusive="{{ $exclusive }}"

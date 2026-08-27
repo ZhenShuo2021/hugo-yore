@@ -1,8 +1,16 @@
 {{- $level := .Level -}}
 {{- $anchor := .Anchor | safeURL -}}
 {{- $text := .Text | safeHTML -}}
-<h{{ $level }} id="{{ $anchor }}">
+<h{{ $level }} id="{{ $anchor }}"
+	{{- range $k, $v := .Attributes -}}
+		{{- if $k | in (slice `id`) -}}
+			{{- continue -}}
+		{{- end -}}
+		{{- if $v -}}
+			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
+		{{- end -}}
+	{{- end -}}>
 	{{ $text }}
-	<a class="heading-anchor" href="#{{ $anchor }}" aria-label="Permalink to '{{ $text }}'"></a>
+	<a class="heading-anchor" href="#{{ $anchor }}" aria-label="Permalink to '{{ $text | cast.ToString }}'"></a>
 </h{{ $level }}>
 {{- /**/ -}}

@@ -1,8 +1,18 @@
 {{- $title := or .Attributes.title "" -}}
-{{- $result := transform.HighlightCodeBlock . -}}
-<div class="highlight-wrapper">
+{{- $lang := or .Type "text" -}}
+{{- $class := or .Attributes.class "" -}}
+<div data-code-wrapper
+	{{- range $k, $v := .Attributes -}}
+		{{- if $v -}}
+			{{- if $k | in (slice `title`) -}}
+				{{- continue -}}
+			{{- end -}}
+			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
+		{{- end -}}
+	{{- end -}}>
 	{{- with $title -}}
 		<div class="codeblock-title">{{ . }}</div>
 	{{- end -}}
-	{{- $result.Wrapped -}}
+	{{- transform.Highlight .Inner $lang .Options -}}
 </div>
+{{- /**/ -}}

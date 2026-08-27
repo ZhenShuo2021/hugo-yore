@@ -4,16 +4,20 @@
 {{- $iconName := .Attributes.icon | default (index $iconMap .AlertType) | default "info-circle" -}}
 {{- $admonitionTitle := .AlertTitle | default ((i18n (printf "admonition.%s" .AlertType) | default .AlertType) | title) -}}
 
-{{- $containerClass := "admonition group relative my-6 border-s-4" -}}
 {{- $headerClass := "flex items-center gap-2 px-4 py-1 font-bold admonition-header" -}}
 {{- $contentClass := "admonition-content px-4 py-1 text-base leading-relaxed" -}}
 
 {{- $isCollapsible := in (slice "+" "-") .AlertSign -}}
 {{- if $isCollapsible -}}
 	<details
-		class="{{ $containerClass }} group"
+		data-admonition-wrapper
 		data-type="{{ .AlertType }}"
-		{{ if eq .AlertSign "+" }}open{{ end }}>
+		{{- if eq .AlertSign "+" }}{{ printf " open" | safeHTMLAttr }}{{ end }}
+		{{- range $k, $v := .Attributes -}}
+			{{- if $v -}}
+				{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
+			{{- end -}}
+		{{- end -}}>
 		<summary class="{{ $headerClass }} cursor-pointer">
 			<div class="flex h-5 w-5 shrink-0 items-center justify-center text-lg">
 				{{- partial "components/icon.html" $iconName -}}
@@ -32,7 +36,14 @@
 		{{- end -}}
 	</details>
 {{- else -}}
-	<div class="{{ $containerClass }}" data-type="{{ .AlertType }}">
+	<div
+		data-admonition-wrapper
+		data-type="{{ .AlertType }}"
+		{{- range $k, $v := .Attributes -}}
+			{{- if $v -}}
+				{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
+			{{- end -}}
+		{{- end -}}>
 		<div class="{{ $headerClass }}">
 			<div class="flex h-5 w-5 shrink-0 items-center justify-center text-lg">
 				{{- partial "components/icon.html" $iconName -}}

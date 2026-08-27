@@ -104,7 +104,7 @@
 	}
 
 	/* RTL support */
-	.highlight-wrapper,
+	[data-code-wrapper],
 	code,
 	pre {
 		direction: ltr;
@@ -277,8 +277,8 @@
 		display: none;
 	}
 
-	.highlight-wrapper pre,
-	.highlight-wrapper code {
+	[data-code-wrapper] pre,
+	[data-code-wrapper] code {
 		display: block !important;
 		min-width: 0 !important;
 		width: 100% !important;
@@ -288,7 +288,7 @@
 		overflow-x: visible !important;
 	}
 
-	.highlight-wrapper {
+	[data-code-wrapper] {
 		break-inside: avoid;
 	}
 }

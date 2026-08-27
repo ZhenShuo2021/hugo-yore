@@ -426,9 +426,6 @@
   .my-4 {
     margin-block: calc(var(--spacing) * 4);
   }
-  .my-6 {
-    margin-block: calc(var(--spacing) * 6);
-  }
   .my-8 {
     margin-block: calc(var(--spacing) * 8);
   }
@@ -1422,10 +1419,6 @@
     border-inline-start-style: var(--tw-border-style);
     border-inline-start-width: 1px;
   }
-  .border-s-4 {
-    border-inline-start-style: var(--tw-border-style);
-    border-inline-start-width: 4px;
-  }
   .border-e {
     border-inline-end-style: var(--tw-border-style);
     border-inline-end-width: 1px;
@@ -2254,7 +2247,7 @@
 }
 @layer foobar, theme, base, components, utilities, yore;
 @layer utilities {
-  .highlight-wrapper {
+  [data-code-wrapper] {
     position: relative;
     z-index: 0;
     display: block;
@@ -2265,7 +2258,7 @@
     margin-top: 1.7142857em;
     margin-bottom: 1.7142857em;
   }
-  .highlight-wrapper pre:focus-visible {
+  [data-code-wrapper] pre:focus-visible {
     outline-offset: -2px;
     border-radius: var(--radius-md);
     outline: 2px solid #005fcc;
@@ -2273,7 +2266,7 @@
       outline: 2px solid #99c8ff;
     }
   }
-  .highlight-wrapper pre, .highlight-wrapper table, .highlight-wrapper div {
+  [data-code-wrapper] pre, [data-code-wrapper] table, [data-code-wrapper] div {
     margin-top: 0;
     margin-bottom: 0;
   }
@@ -2457,72 +2450,78 @@
   .admonition-content > :last-child {
     margin-bottom: 0 !important;
   }
-  .admonition[data-type][data-type] {
+  [data-admonition-wrapper] {
+    position: relative;
+    margin-block: calc(var(--spacing) * 6);
+    border-inline-start-style: var(--tw-border-style);
+    border-inline-start-width: 4px;
+  }
+  [data-admonition-wrapper][data-type][data-type] {
     background-color: transparent !important;
     border-inline-start-color: var(--header-color);
     --header-bg: transparent;
   }
-  .admonition[data-type] .admonition-header {
+  [data-admonition-wrapper][data-type] .admonition-header {
     color: var(--header-color);
     background-color: var(--header-bg);
   }
-  .admonition[data-type='note'] {
+  [data-admonition-wrapper][data-type='note'] {
     --header-color: var(--adm-note-accent);
     --header-bg: var(--adm-note-header-bg);
   }
-  .admonition[data-type='tip'] {
+  [data-admonition-wrapper][data-type='tip'] {
     --header-color: var(--adm-tip-accent);
     --header-bg: var(--adm-tip-header-bg);
   }
-  .admonition[data-type='important'] {
+  [data-admonition-wrapper][data-type='important'] {
     --header-color: var(--adm-important-accent);
     --header-bg: var(--adm-important-header-bg);
   }
-  .admonition[data-type='warning'] {
+  [data-admonition-wrapper][data-type='warning'] {
     --header-color: var(--adm-warning-accent);
     --header-bg: var(--adm-warning-header-bg);
   }
-  .admonition[data-type='caution'] {
+  [data-admonition-wrapper][data-type='caution'] {
     --header-color: var(--adm-caution-accent);
     --header-bg: var(--adm-caution-header-bg);
   }
-  .admonition[data-type='abstract'] {
+  [data-admonition-wrapper][data-type='abstract'] {
     --header-color: var(--adm-abstract-accent);
     --header-bg: var(--adm-abstract-header-bg);
   }
-  .admonition[data-type='bug'] {
+  [data-admonition-wrapper][data-type='bug'] {
     --header-color: var(--adm-bug-accent);
     --header-bg: var(--adm-bug-header-bg);
   }
-  .admonition[data-type='danger'] {
+  [data-admonition-wrapper][data-type='danger'] {
     --header-color: var(--adm-danger-accent);
     --header-bg: var(--adm-danger-header-bg);
   }
-  .admonition[data-type='example'] {
+  [data-admonition-wrapper][data-type='example'] {
     --header-color: var(--adm-example-accent);
     --header-bg: var(--adm-example-header-bg);
   }
-  .admonition[data-type='failure'] {
+  [data-admonition-wrapper][data-type='failure'] {
     --header-color: var(--adm-failure-accent);
     --header-bg: var(--adm-failure-header-bg);
   }
-  .admonition[data-type='info'] {
+  [data-admonition-wrapper][data-type='info'] {
     --header-color: var(--adm-info-accent);
     --header-bg: var(--adm-info-header-bg);
   }
-  .admonition[data-type='question'] {
+  [data-admonition-wrapper][data-type='question'] {
     --header-color: var(--adm-question-accent);
     --header-bg: var(--adm-question-header-bg);
   }
-  .admonition[data-type='quote'] {
+  [data-admonition-wrapper][data-type='quote'] {
     --header-color: var(--adm-quote-accent);
     --header-bg: var(--adm-quote-header-bg);
   }
-  .admonition[data-type='success'] {
+  [data-admonition-wrapper][data-type='success'] {
     --header-color: var(--adm-success-accent);
     --header-bg: var(--adm-success-header-bg);
   }
-  .admonition[data-type='todo'] {
+  [data-admonition-wrapper][data-type='todo'] {
     --header-color: var(--adm-todo-accent);
     --header-bg: var(--adm-todo-header-bg);
   }

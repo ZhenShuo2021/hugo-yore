@@ -219,7 +219,7 @@ html[data-a11y-high-contrast][data-theme='dark'] {
 
 /* prettier-ignore */
 html[data-a11y-high-contrast][data-theme=light] {
-	.highlight-wrapper {
+	[data-code-wrapper] {
 		border:1px solid #000;
 	}
 /* Background: editor.background */ .bg { background-color:#ffffff; }
@@ -299,7 +299,7 @@ html[data-a11y-high-contrast][data-theme=light] {
 
 /* prettier-ignore */
 html[data-a11y-high-contrast][data-theme=dark] {
-	.highlight-wrapper {
+	[data-code-wrapper] {
 		border:1px solid #fff;
 	}
 /* Background: editor.background */ .bg { color:#f0f3f6;background-color:#0a0c10; }

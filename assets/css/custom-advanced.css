@@ -33,7 +33,7 @@ html {
 
 /* Customize the details expand in .prose excludes the admonition */
 .prose {
-	details:not(.admonition, .admonition *) {
+	details:not([data-admonition-wrapper], [data-admonition-wrapper] *) {
 		border: 1px solid var(--color-border);
 		border-radius: 8px;
 		margin-block: 1.25em;

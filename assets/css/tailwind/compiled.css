@@ -957,6 +957,10 @@
       margin-top: unset;
       margin-bottom: unset;
     }
+    :where(figure):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+      margin-top: 1.5em;
+      margin-bottom: 1.5em;
+    }
   }
   .mt-1 {
     margin-top: var(--spacing);

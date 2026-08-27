@@ -96,6 +96,11 @@
 		margin-top: unset;
 		margin-bottom: unset;
 	}
+
+	:where(figure):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+		margin-top: 1.5em;
+		margin-bottom: 1.5em;
+	}
 }
 
 @utility prose-invert {

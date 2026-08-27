@@ -11,7 +11,7 @@
 	{{- range $i, $col := $cols -}}
 		{{- $width := index $widths $i | default (printf "%.2f%%" (div 100.0 $total)) -}}
 		<div class="min-w-0 flex-1" style="flex-basis: {{ $width }};">
-			{{- $col | safeHTML -}}
+			{{- printf "\n\n%s\n\n" $col | safeHTML -}}
 		</div>
 	{{- end -}}
 </div>

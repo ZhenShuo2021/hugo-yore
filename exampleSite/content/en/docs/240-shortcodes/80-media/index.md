@@ -230,8 +230,6 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
 
 {{% /cols %}}
 
-See more examples in [rich-content](../../../blog/5-rich-content/index.md#cols-shortcode).
-
 ## Carousel
 
 The `carousel` shortcode displays an image carousel with a main viewport, navigation buttons, and a scrollable thumbnail strip. The inner content uses YAML format to define images.

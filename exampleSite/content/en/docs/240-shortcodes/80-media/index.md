@@ -16,7 +16,7 @@ The `card` shortcode renders a general-purpose preview card with a title, descri
 | Parameter | Description |
 | --- | --- |
 | `title` | **Required.** Card heading text. |
-| `href` | **Optional.** Link target for the whole card. |
+| `url` | **Optional.** Link target for the whole card. |
 | `desc` | **Optional.** Description text shown below the title. Supports HTML. |
 | `image` | **Optional.** Thumbnail image URL. Falls back to a placeholder icon when omitted. |
 | `icon` | **Optional.** Icon name shown inline before the title. |
@@ -27,7 +27,7 @@ The `card` shortcode renders a general-purpose preview card with a title, descri
 ```md
 {{</* card
   title="Getting Started"
-  href="https://example.com"
+  url="https://example.com"
   desc="Description."
   image="/img/01.webp"
 */>}}
@@ -35,7 +35,7 @@ The `card` shortcode renders a general-purpose preview card with a title, descri
 
 {{< card
   title="Example.com"
-  href="https://example.com"
+  url="https://example.com"
   desc="Description."
   image="/img/02.webp"
 >}}

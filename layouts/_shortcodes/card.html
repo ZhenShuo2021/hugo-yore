@@ -2,7 +2,7 @@
 {{- $desc := .Get "desc" -}}
 {{- $image := .Get "image" -}}
 {{- $icon := .Get "icon" -}}
-{{- $href := .Get "href" -}}
+{{- $url := .Get "url" -}}
 {{- $meta := .Get "metaText" -}}
 
 {{- with $.Page.Resources.Get $image -}}
@@ -15,7 +15,7 @@
 	{{- warnf "card shortcode: \"title\" is required: %s" .Position -}}
 {{- else -}}
 	{{- partial "components/card-shell-head.html" (dict
-		"href" $href
+		"href" $url
 		"image" $image
 		"alt" $title
 		)

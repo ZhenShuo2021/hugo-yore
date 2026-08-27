@@ -5,7 +5,7 @@
 		"body": [
 			"{{< card",
 			"  title=\"${1:Title}\"",
-			"  href=\"${2:https://example.com}\"",
+			"  url=\"${2:https://example.com}\"",
 			"  desc=\"${3:Description.}\"",
 			"  image=\"${4:/img/01.webp}\"",
 			">}}"

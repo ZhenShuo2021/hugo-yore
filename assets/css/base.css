@@ -13,11 +13,6 @@ html[data-theme='dark'] {
 	color-scheme: dark;
 }
 
-ul,
-ol,
-menu {
-}
-
 button,
 [role='button'] {
 	cursor: pointer;

@@ -27,13 +27,18 @@ html[data-a11y-high-contrast='true'] .tab--active.tab__button,
 	background-color: var(--color-background);
 }
 
-.tab__content {
-	padding: 0 1rem;
-}
-
 .tab__panel {
 	display: none;
+	margin: 1em;
+	> :first-child {
+		margin-top: 1em;
+	}
+
+	> :last-child {
+		margin-bottom: 1em;
+	}
 }
+
 .tab__panel.tab--active {
 	display: block;
 }

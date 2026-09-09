@@ -951,7 +951,7 @@
     ul ul ul {
       list-style-type: square;
     }
-    ul,	li {
+    li {
       margin-top: unset;
       margin-bottom: unset;
     }

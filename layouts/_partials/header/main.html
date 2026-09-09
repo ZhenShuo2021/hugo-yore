@@ -26,11 +26,11 @@
 			{{- end -}}
 			{{- if site.Params.headerShowTitle | default true -}}
 				<a href="{{ $homeURL }}" class="text-foreground min-w-0 shrink truncate text-xl font-medium">
-					{{- site.Title | markdownify -}}
+					{{- or site.Params.headerTitle site.Title | safeHTML -}}
 				</a>
 			{{- else -}}
 				<span class="sr-only">
-					{{- site.Title | markdownify -}}
+					{{- or site.Params.headerTitle site.Title | safeHTML -}}
 				</span>
 			{{- end -}}
 		</div>

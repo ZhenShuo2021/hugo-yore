@@ -176,6 +176,7 @@ params:
 
   # Header
   headerLayout: hideOnScroll # Header behavior on scroll. [sticky | static | hideOnScroll]
+  # headerTitle: The display name in site header
   headerShowTitle: false # Show the site title text in the header
   headerMenuHighlight: true # Highlight the current section in the header menu
 

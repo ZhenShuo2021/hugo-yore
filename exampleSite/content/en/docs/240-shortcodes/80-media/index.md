@@ -360,13 +360,6 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
 
 {{< /masonry >}}
 
-> [!NOTE]
-> **Why do photos look "out of order" compared to how they loaded?**
->
-> Masonry arranges photos by shortest column first, not by upload order or file name. If a photo's size isn't known ahead of time, it waits quietly in the background until it finishes loading, then hops into whichever column is shortest at that moment.
->
-> So a photo near the bottom of your list might actually appear near the top, simply because it finished loading first and grabbed an open spot. It's not a bug, it's just "first ready, first served" instead of "first in line, first served."
-
 ## Icon
 
 The `icon` shortcode renders an inline SVG icon from the theme's icon library.

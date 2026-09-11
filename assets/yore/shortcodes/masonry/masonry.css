@@ -1,4 +1,5 @@
 /* TODO: masonry-error */
+/* https://caniuse.com/?search=grid-lanes */
 .masonry-grid {
 	position: relative;
 	width: 100%;

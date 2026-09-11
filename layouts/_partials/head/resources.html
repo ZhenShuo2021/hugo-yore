@@ -116,6 +116,23 @@
 	{{- partialCached "head/math.html" . "foo" -}}
 {{- end -}}
 
+{{- /* Carousel */ -}}
+{{- if .Page.HasShortcode "carousel" -}}
+	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
+	{{- $jsRes := resources.Get "yore/shortcodes/carousel/carousel.js" | js.Build $opts -}}
+	<script type="module">
+		import { initCarousels } from '{{ $jsRes.RelPermalink }}';
+		initCarousels();
+	</script>
+{{- end -}}
+
+{{- /* Masonry */ -}}
+{{- if .Page.HasShortcode "masonry" -}}
+	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
+	{{- $jsRes := resources.Get "yore/shortcodes/masonry/masonry.js" | js.Build $opts -}}
+	<script src="{{ $jsRes.RelPermalink }}" integrity="{{ $jsRes.Data.integrity }}"></script>
+{{- end -}}
+
 {{- /* TypeIt */ -}}
 {{- if .Page.HasShortcode "typeit" -}}
 	<script

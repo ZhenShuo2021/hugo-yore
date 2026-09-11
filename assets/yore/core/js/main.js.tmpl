@@ -1,6 +1,5 @@
 import { utils } from '../../core/js/utils.js';
 import { themeManager } from '../../components/appearance/appearance.js';
-import { Masonry } from '../../shortcodes/masonry/masonry-core.js';
 
 {{ if site.Params.accessibilityEnabled }}
 import { a11yPanel } from '../../components/a11y/a11y.js';
@@ -33,7 +32,6 @@ import '../../components/print/print.js';
 import '../../components/page-actions/page-actions.js';
 import './patch-tabindex.js';
 import '../../shortcodes/tabs/tabs.js';
-import '../../shortcodes/masonry/masonry.js';
 import '../../shortcodes/accordion/accordion.js';
 
 {{ if eq site.Params.headerLayout "hideOnScroll" }}
@@ -45,4 +43,3 @@ window.themeManager = themeManager;
 {{ if site.Params.accessibilityEnabled }}
 window.a11yPanel = a11yPanel;
 {{ end }}
-window.Masonry = Masonry;

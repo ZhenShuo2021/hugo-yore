@@ -1,9 +1,3 @@
-// Masonry layout, exposed globally as window.Masonry
-//
-// Custom usage — use window.Masonry in a </body> script (type="module"),
-// not extend-head.html (runs before main bundle loads):
-//   new window.Masonry(el, { itemSelector: '.card', minColumnWidth: 180 }).collectExisting();
-
 // Class names below are duplicated in the CSS file; keep both in sync.
 const CLASS_NAMES = {
 	ready: 'masonry-js-ready',
@@ -173,23 +167,23 @@ export class Masonry {
 		});
 	}
 
-	// Scan existing item elements (per itemSelector) in the container. If
-	// the img element carries width/height attributes (the standard HTML
-	// way of declaring intrinsic image size), treat them as known
-	// dimensions and position immediately. If unknown, do NOT
-	// place the item yet — placing it now would mean choosing its column
-	// based on a guessed ratio, and that column choice is never revisited
-	// later (only its height within the column is corrected). Instead,
-	// wait for the img's load/error event to get the real size, and only
-	// then call #placeItem for the first time, so the column choice is
-	// always based on real data.
 	collectExisting() {
-		// Re-entrancy guard: if this instance already collected items,
-		// bail out instead of pushing duplicate entries into #items
-		// (which would double-count column heights).
 		if (this.#items.length > 0) return;
 
 		const elements = this.#container.querySelectorAll(`:scope > ${this.#itemSelector}`);
+		let pending = 0;
+		let collecting = true;
+
+		const tryFinalize = () => {
+			if (collecting || pending > 0 || this.#destroyed) return;
+			for (const it of this.#items) {
+				if (it.failed) continue;
+				it.placed = true;
+				this.#placeItem(it);
+			}
+			this.#updateContainerHeight();
+		};
+
 		for (const el of elements) {
 			const img = el.querySelector(this.#imageSelector);
 			if (!img) continue;
@@ -198,28 +192,32 @@ export class Masonry {
 			const dataH = Number(img.getAttribute('height')) || 0;
 			const known = dataW > 0 && dataH > 0;
 
+			const it = { el, ratio: known ? dataW / dataH : 0, img, placed: false, failed: false };
+			this.#items.push(it);
+
 			if (known) {
-				const it = { el, ratio: dataW / dataH, img, placed: true };
-				this.#items.push(it);
-				this.#placeItem(it);
 				this.#watchLoad(it, img, /* needsMeasure */ false);
 			} else {
-				// Not placed yet: no ratio, no column, not counted in
-				// column heights until the real size is known.
-				const it = { el, ratio: 0, img, placed: false };
-				this.#items.push(it);
-				this.#watchLoad(it, img, /* needsMeasure */ true);
+				pending++;
+				this.#watchLoad(it, img, /* needsMeasure */ true, () => {
+					pending--;
+					tryFinalize();
+				});
 			}
 		}
-		this.#updateContainerHeight();
+
+		collecting = false;
+		tryFinalize();
 	}
 
-	#watchLoad(it, img, needsMeasure) {
+	#watchLoad(it, img, needsMeasure, onSettled) {
 		const onDone = (ok) => {
 			if (this.#destroyed) return;
 			if (!ok || !img.naturalWidth || !img.naturalHeight) {
 				it.el.classList.remove(CLASS_NAMES.unknown);
 				it.el.classList.add(CLASS_NAMES.error);
+				it.failed = true;
+				if (onSettled) onSettled();
 				return;
 			}
 			// Add the "loaded" class on the next frame to trigger the
@@ -234,15 +232,10 @@ export class Masonry {
 			if (needsMeasure) {
 				it.ratio = img.naturalWidth / img.naturalHeight;
 				it.el.classList.remove(CLASS_NAMES.unknown);
-				if (!it.placed) {
-					// First real placement: column choice is now based
-					// on the true aspect ratio, not a guess.
-					it.placed = true;
-					this.#placeItem(it);
-					this.#updateContainerHeight();
-				} else {
+				if (it.placed) {
 					this.#scheduleColumnFlush(it.col);
 				}
+				if (onSettled) onSettled();
 			}
 		};
 

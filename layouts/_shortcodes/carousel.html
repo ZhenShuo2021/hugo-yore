@@ -38,7 +38,11 @@
 {{- end -}}
 
 {{- if $items -}}
-	<div id="{{ $id }}" class="not-prose my-8">
+	<div
+		id="{{ $id }}"
+		class="not-prose my-8"
+		role="group"
+		aria-roledescription="carousel">
 		<div class="carousel-viewport relative w-full overflow-hidden" data-pswp-carousel>
 			<div class="carousel-strip flex">
 				{{- range $i, $item := $items -}}
@@ -49,7 +53,13 @@
 						{{- $itemClass = "carousel-item relative min-w-full overflow-hidden" -}}
 						{{- $imgClass = "h-full w-full object-cover" -}}
 					{{- end -}}
-					<div class="{{ $itemClass }}" style="aspect-ratio: {{ $ratio }};" data-caption="{{ $item.caption }}">
+					<div
+						class="{{ $itemClass }}"
+						role="group"
+						aria-roledescription="slide"
+						aria-label="{{ printf "%d of %d" (add $i 1) (len $items) }}"
+						style="aspect-ratio: {{ $ratio }};"
+						data-caption="{{ $item.caption }}">
 						{{- if and site.Params.imageOptimizationMD (reflect.IsImageResourceProcessable $resolved) -}}
 							{{- $processed := partial "lib/img-opt.html" (dict "imgObj" $resolved) -}}
 							{{- $srcset := printf "%s 1280w, %s 2400w" $processed.imgMobile.RelPermalink $processed.imgDesktop.RelPermalink -}}
@@ -93,7 +103,8 @@
 			<div
 				class="carousel-counter {{ if not $showCounter -}}
 					hidden
-				{{- end }} pointer-events-none absolute right-3 bottom-3 rounded-full bg-black/50 px-2.5 py-1 text-xs text-white/80 backdrop-blur-sm">
+				{{- end }} pointer-events-none absolute right-3 bottom-3 rounded-full bg-black/50 px-2.5 py-1 text-xs text-white/80 backdrop-blur-sm"
+				aria-hidden="true">
 				{{- printf "1 / %d" (len $items) -}}
 			</div>
 
@@ -103,7 +114,7 @@
 					class="carousel-prev {{ if not $showArrows }}
 						hidden
 					{{ end }} absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
-					aria-label="Previous">
+					aria-label="Previous slide">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="20"
@@ -113,7 +124,8 @@
 						stroke="currentColor"
 						stroke-width="2"
 						stroke-linecap="round"
-						stroke-linejoin="round">
+						stroke-linejoin="round"
+						aria-hidden="true">
 						<polyline points="15 18 9 12 15 6" />
 					</svg>
 				</button>
@@ -122,7 +134,7 @@
 					class="carousel-next {{ if not $showArrows }}
 						hidden
 					{{ end }} absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
-					aria-label="Next">
+					aria-label="Next slide">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="20"
@@ -132,7 +144,8 @@
 						stroke="currentColor"
 						stroke-width="2"
 						stroke-linecap="round"
-						stroke-linejoin="round">
+						stroke-linejoin="round"
+						aria-hidden="true">
 						<polyline points="9 6 15 12 9 18" />
 					</svg>
 				</button>
@@ -195,12 +208,4 @@
 			{{- end -}}
 		</div>
 	</div>
-{{- end -}}
-
-{{- if $items -}}
-	{{- $jsRes := resources.Get "yore/shortcodes/carousel/carousel.js" | js.Build (dict "minify" true "format" "esm") -}}
-  <script type="module">
-    import { initCarousel } from '{{ $jsRes.RelPermalink }}';
-    initCarousel('{{ $id }}');
-  </script>
 {{- end -}}

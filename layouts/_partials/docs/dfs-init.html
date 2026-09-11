@@ -10,6 +10,12 @@
 	   - Leaf pages are appended to the accumulator in visitation order,
 	     unless Params.build.render is "never", in which case they're
 	     skipped (excluded from the flattened list entirely).
+	   - Within each section, the visitation order of that section's
+	     .Pages follows the section's own docsNavSort param sorts
+			 children via .ByLinkTitle before walking them, otherwise Hugo's
+			 default page order is used. This mirrors the sidebar's own
+			 per-section sort so prev/next stays consistent with what's
+			 rendered in the nav tree.
 	2. Index construction: once the flattened slice is complete, build
 	   a Scratch-backed map from each page's RelPermalink to its
 	   position in the slice, for O(1) lookup instead of a linear scan.
@@ -29,8 +35,13 @@
 {{- $docsRoot := . -}}
 {{- $storeKey := printf "docs-dfs:%s" $docsRoot.RelPermalink -}}
 
+{{- $rootPages := $docsRoot.Pages -}}
+{{- if eq ($docsRoot.Param "docsNavSort") "alphabetical" -}}
+	{{- $rootPages = $rootPages.ByLinkTitle -}}
+{{- end -}}
+
 {{- $pages := slice -}}
-{{- range $docsRoot.Pages -}}
+{{- range $rootPages -}}
 	{{- if .IsSection -}}
 		{{- $pages = partial "inline/dfs-collect.html" (dict "section" . "acc" $pages) -}}
 	{{- else -}}
@@ -65,7 +76,35 @@
 
 	{{- $acc := .acc -}}
 
-	{{- range .section.Pages -}}
+	{{- $childPages := .section.Pages -}}
+
+	{{- /* Page sort is cached so we can safely call it inside the recursion
+		https://github.com/gohugoio/hugo/blob/a374b865f7e99cccafcbe443dcdb47552b91af3c/resources/page/pages_sort.go
+		https://github.com/gohugoio/hugo/blob/a374b865f7e99cccafcbe443dcdb47552b91af3c/resources/page/pages_cache.go
+	*/ -}}
+	{{- with (.section.Param "docsNavSort") -}}
+		{{- if eq . "ByDate" -}}
+			{{- $childPages = $childPages.ByDate -}}
+		{{- else if eq . "ByExpiryDate" -}}
+			{{- $childPages = $childPages.ByExpiryDate -}}
+		{{- else if eq . "ByLastmod" -}}
+			{{- $childPages = $childPages.ByLastmod -}}
+		{{- else if eq . "ByLength" -}}
+			{{- $childPages = $childPages.ByLength -}}
+		{{- else if eq . "ByLinkTitle" -}}
+			{{- $childPages = $childPages.ByLinkTitle -}}
+		{{- else if eq . "ByPublishDate" -}}
+			{{- $childPages = $childPages.ByPublishDate -}}
+		{{- else if eq . "ByTitle" -}}
+			{{- $childPages = $childPages.ByTitle -}}
+		{{- else if eq . "ByWeight" -}}
+			{{- $childPages = $childPages.ByWeight -}}
+		{{- else if hasPrefix . "ByParam." -}}
+			{{- $childPages = $childPages.ByParam (strings.TrimPrefix "Param." .) -}}
+		{{- end -}}
+	{{- end -}}
+
+	{{- range $childPages -}}
 		{{- if .IsSection -}}
 			{{- $acc = partial "inline/dfs-collect.html" (dict "section" . "acc" $acc) -}}
 		{{- else -}}

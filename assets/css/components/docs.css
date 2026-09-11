@@ -92,7 +92,6 @@ a[data-depth='0'] {
 @media (width < 47.99em) {
 	/* Turn popover into a slide-in drawer */
 	.docs-sidebar-container[popover] {
-		display: flex;
 		position: fixed;
 		inset-block: 0;
 		inset-inline-start: 0;
@@ -110,6 +109,7 @@ a[data-depth='0'] {
 	}
 
 	.docs-sidebar-container[popover]:popover-open {
+		display: flex;
 		transform: translateX(0);
 	}
 

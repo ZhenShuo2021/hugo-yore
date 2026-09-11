@@ -46,7 +46,9 @@ Accepted fields for individual pages of type `docs`. All settings can be overrid
 
 ### Unique fields{#unique-fields-section}
 
-The section fields of `docs` type is exactly the same as `blog` type.
+| Name | Type | Description |
+| --- | --- | --- |
+| `docsNavSort` | `string` | Sort order for child pages in the sidebar navigation. Accepts `Date`, `ExpiryDate`, `Lastmod`, `Length`, `LinkTitle`, `PublishDate`, `Title`, `Weight`, or a page parameter prefixed with `Param.`. Defaults to Hugo's default page order if unset or invalid. |
 
 ### Common fields{#common-fields-section}
 

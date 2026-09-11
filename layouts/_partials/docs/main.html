@@ -174,10 +174,32 @@
 
 {{- define "_partials/inline/nav-pages.html" -}}
 	{{- $docsRoot := .FirstSection -}}
+	{{- $rootPages := $docsRoot.Pages -}}
+	{{- with $docsRoot.Param "docsNavSort" -}}
+		{{- if eq . "Date" -}}
+			{{- $rootPages = $rootPages.ByDate -}}
+		{{- else if eq . "ExpiryDate" -}}
+			{{- $rootPages = $rootPages.ByExpiryDate -}}
+		{{- else if eq . "Lastmod" -}}
+			{{- $rootPages = $rootPages.ByLastmod -}}
+		{{- else if eq . "Length" -}}
+			{{- $rootPages = $rootPages.ByLength -}}
+		{{- else if eq . "LinkTitle" -}}
+			{{- $rootPages = $rootPages.ByLinkTitle -}}
+		{{- else if eq . "PublishDate" -}}
+			{{- $rootPages = $rootPages.ByPublishDate -}}
+		{{- else if eq . "Title" -}}
+			{{- $rootPages = $rootPages.ByTitle -}}
+		{{- else if eq . "Weight" -}}
+			{{- $rootPages = $rootPages.ByWeight -}}
+		{{- else if hasPrefix . "Param." -}}
+			{{- $rootPages = $rootPages.ByParam (strings.TrimPrefix "Param." .) -}}
+		{{- end -}}
+	{{- end -}}
 	<div>
 		<nav class="docs-nav" aria-label="{{ i18n "docs.nav_label" | default "Documentation" }}">
 			<ul class="m-0 list-none p-0">
-				{{- range $docsRoot.Pages -}}
+				{{- range $rootPages -}}
 					<li class=" ">
 						{{- partial "inline/nav-item.html" (dict "page" . "parentPageUid" "root" "depth" 0) -}}
 					</li>
@@ -201,7 +223,7 @@
 				{{- end }}
 				class="{{ with $page.Param `docsNavClass` -}}
 					{{- . -}}
-				{{- end }} {{ cond $collapsed `is-collapsed` `` }} hover:bg-muted text-muted-foreground docs-node-padding mt-1 flex w-full cursor-pointer items-center justify-between transition-colors duration-(--dur-200)"
+				{{- end }} {{ cond $collapsed `is-collapsed` `` }} hover:bg-muted text-muted-foreground docs-node-padding my-1 flex w-full cursor-pointer items-center justify-between transition-colors duration-(--dur-200)"
 				data-section-trigger
 				data-parent-page-uid="{{ $parentPageUid }}"
 				data-page-uid="{{ $pageUid }}"
@@ -218,13 +240,35 @@
 				</span>
 			</a>
 			{{- with $page.Pages -}}
+				{{- $childPages := . -}}
+				{{- with $page.Param "docsNavSort" -}}
+					{{- if eq . "Date" -}}
+						{{- $childPages = $childPages.ByDate -}}
+					{{- else if eq . "ExpiryDate" -}}
+						{{- $childPages = $childPages.ByExpiryDate -}}
+					{{- else if eq . "Lastmod" -}}
+						{{- $childPages = $childPages.ByLastmod -}}
+					{{- else if eq . "Length" -}}
+						{{- $childPages = $childPages.ByLength -}}
+					{{- else if eq . "LinkTitle" -}}
+						{{- $childPages = $childPages.ByLinkTitle -}}
+					{{- else if eq . "PublishDate" -}}
+						{{- $childPages = $childPages.ByPublishDate -}}
+					{{- else if eq . "Title" -}}
+						{{- $childPages = $childPages.ByTitle -}}
+					{{- else if eq . "Weight" -}}
+						{{- $childPages = $childPages.ByWeight -}}
+					{{- else if hasPrefix . "Param." -}}
+						{{- $childPages = $childPages.ByParam (strings.TrimPrefix "Param." .) -}}
+					{{- end -}}
+				{{- end -}}
 				<div
 					class="{{ cond $collapsed `is-collapsed` `` }}"
 					data-section-list
 					data-page-uid="{{ $pageUid }}"
 					data-depth="{{ $depth }}">
 					<ul class="docs-nav__sublist border-border m-0 ms-3.25 list-none p-0">
-						{{- range . -}}
+						{{- range $childPages -}}
 							<li class=" ">
 								{{- partial "inline/nav-item.html" (dict "page" . "parentPageUid" $pageUid "depth" (add $depth 1)) -}}
 							</li>

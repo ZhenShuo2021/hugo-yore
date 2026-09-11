@@ -29,6 +29,7 @@
 		"format": "prettier --write --list-different assets data exampleSite i18n layouts scripts",
 		"format:md": "rumdl fmt --include \"**/*.md\"",
 		"format:staged": "lint-staged",
+		"bump": "node scripts/bump-version.js",
 		"postinstall": "node scripts/post-install.js",
 		"prepare": "husky"
 	},

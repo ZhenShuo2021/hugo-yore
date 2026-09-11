@@ -99,12 +99,44 @@ function updateActiveLink() {
 	});
 }
 
+function handleTocKeydown(e) {
+	const links = getTocLinks();
+	const current = document.activeElement;
+	const index = links.indexOf(current);
+	if (index === -1) return;
+
+	let target;
+
+	switch (e.key) {
+		case 'ArrowDown':
+		case 'ArrowRight':
+			target = links[Math.min(index + 1, links.length - 1)];
+			break;
+		case 'ArrowUp':
+		case 'ArrowLeft':
+			target = links[Math.max(index - 1, 0)];
+			break;
+		case 'Home':
+			target = links[0];
+			break;
+		case 'End':
+			target = links[links.length - 1];
+			break;
+		default:
+			return;
+	}
+
+	e.preventDefault();
+	target?.focus();
+}
+
 function init() {
 	const toc = document.querySelector(CONFIG.tocSelector);
 	if (!toc) return;
 
 	document.addEventListener('scroll', updateActiveLink, { passive: true });
 	window.addEventListener('resize', updateActiveLink, { passive: true });
+	toc.addEventListener('keydown', handleTocKeydown);
 	updateActiveLink();
 }
 

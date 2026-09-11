@@ -1,4 +1,5 @@
 a11y:
+  heading_link: 此標題的連結
   opens_external_link: 外部連結
 a11y_panel:
   close: 關閉無障礙面板
@@ -28,6 +29,7 @@ admonition:
   warning: 警告
 article:
   backlinks_title: 反向連結
+  categories: 分類
   date: 首次發表：
   date_updated: 最後更新：
   kg_title: 文章關聯
@@ -38,6 +40,7 @@ article:
   published_date: 發布日期
   related_articles: 相關文章
   series: 系列文章：
+  tags: 標籤
 code:
   copied: 已複製
   copy: 複製
@@ -59,6 +62,7 @@ nav:
   breadcrumb: 麵包屑導覽
   change_language: 切換語言
   close_mobile_menu: 關閉手機選單
+  expand_submenu: 展開子選單
   footer_navigation: 頁尾導覽
   main_navigation: 主導覽選單
   open_sidebar: 開啟側邊選單
@@ -74,7 +78,6 @@ page_actions:
   copy_url: 複製連結
   edit_this_page: 編輯此頁
   view_source: 查看原始碼
-quick_reference: 快速參考
 random:
   choosing: 正在挑選一篇值得一讀的文章
   js_required: 隨機跳轉功能需要啟用 JavaScript。
@@ -84,12 +87,6 @@ random:
   untitled: 未命名
 recent:
   show_more: 顯示更多
-search:
-  close_button_title: 關閉 (Esc)
-  input_placeholder: 搜尋
-  no_result: 搜尋結果不存在：
-  open_button_title: 搜尋 (/)
-shortcode:
-  recent_articles: 最近的文章
+require_js: 需要啟用 JavaScript 才能顯示。
 stale_warning:
-  'text:': 這篇文章已經有一段時間沒有更新，部分內容可能已經過時。
+  text: 這篇文章已經有一段時間沒有更新，部分內容可能已經過時。

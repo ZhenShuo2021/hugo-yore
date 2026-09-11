@@ -56,22 +56,21 @@
 
 				{{- if .HasChildren -}}
 					{{- $submenuId := printf "mobile-submenu-%s" (.Identifier | default .Name | anchorize) -}}
-					<input
-						{{ if not .Params.collapsed }}checked{{ end }}
-						type="checkbox"
+					<button
+						type="button"
 						id="{{ $submenuId }}"
-						aria-label="{{ i18n `nav.toggle_submenu` | default `Toggle submenu` }}"
+						aria-expanded="{{ cond .Params.collapsed `false` `true` }}"
 						aria-controls="{{ $submenuId }}-content"
-						class="peer border-border hover:border-link-hover col-start-2 row-start-1 h-10 w-10 shrink-0 cursor-pointer appearance-none rounded-lg border bg-transparent">
-					<span
-						aria-hidden="true"
-						class="peer-hover:text-link-hover text-foreground pointer-events-none col-start-2 row-start-1 flex h-10 w-10 shrink-0 items-center justify-center transition-colors">
+						aria-label="{{ i18n `nav.expand_submenu` | default `Toggle submenu` }}"
+						data-mobile-submenu-trigger
+						class="border-border hover:border-link-hover text-foreground hover:text-link-hover col-start-2 row-start-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border bg-transparent transition-colors">
 						{{- partialCached "components/icon.html" "nav-arrow-down" "icon-nav-arrow-down" -}}
-					</span>
+					</button>
 
 					<div
 						id="{{ $submenuId }}-content"
-						class="invisible col-span-2 col-start-1 row-start-2 grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-(--dur-300) peer-checked:visible peer-checked:grid-rows-[1fr]">
+						data-mobile-submenu-content
+						class="invisible col-span-2 col-start-1 row-start-2 grid grid-rows-[0fr] transition-[visibility,grid-template-rows] duration-(--dur-300) [&.is-expanded]:visible [&.is-expanded]:grid-rows-[1fr]">
 						<div class="overflow-hidden">
 							<div class="ms-7 mt-4 space-y-1">
 								{{- range .Children -}}

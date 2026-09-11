@@ -1,3 +1,6 @@
+{{- /* TODO: heading level for a11y
+	https://discourse.gohugo.io/t/57428
+*/ -}}
 {{- $title := .Get "title" -}}
 {{- $open := .Get "open" | partial "lib/tobool.html" -}}
 {{- $id := printf "%s%s" "accordion-item-" (partial "lib/uid.html" .) -}}

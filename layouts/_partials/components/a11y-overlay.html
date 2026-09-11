@@ -14,8 +14,10 @@
 		</div>
 
 		<div class="space-y-6">
-			<div class="flex items-center justify-between gap-4">
-				<span class="text-foreground text-sm">{{ i18n "a11y_panel.font_size" | default "Font size" }}</span>
+			<div class="flex items-center justify-between gap-4" role="group" aria-labelledby="font-size-label">
+				<span id="font-size-label" class="text-foreground text-sm">
+					{{- i18n "a11y_panel.font_size" | default "Font size" -}}
+				</span>
 				<div class="font-size-stepper">
 					<button
 						id="font-size-decrease"
@@ -31,6 +33,7 @@
 						<span class="font-size-dot" data-level="1"></span>
 						<span class="font-size-dot" data-level="2"></span>
 					</div>
+					<span id="font-size-status" class="sr-only" aria-live="polite"></span>
 					<button
 						id="font-size-increase"
 						class="yore-outline font-size-btn font-size-btn--large"

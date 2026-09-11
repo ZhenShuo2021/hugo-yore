@@ -80,29 +80,28 @@
 
 	{{- if $item.HasChildren -}}
 		{{- with $item -}}
-			<div class="group relative flex">
+			<div class="relative flex" data-nav-item>
+				<button
+					type="button"
+					class="{{ $activeClass }} text-foreground hover:text-link-hover me-[-0.4em] flex items-center gap-1.5 font-medium"
+					aria-expanded="false"
+					aria-controls="submenu-{{ .KeyName | anchorize }}"
+					data-dropdown-toggle>
+					{{- .Pre -}}
+					{{- with .Params.icon -}}
+						{{- partial "components/icon.html" . -}}
+					{{- end -}}
+					{{- with .Name -}}
+						<span class="break-normal">{{ . | markdownify }}</span>
+					{{- end -}}
+					{{- .Post -}}
+					{{- partialCached "components/icon.html" "nav-arrow-down" "icon-nav-arrow-down" -}}
+				</button>
 				<div
-					class="{{ $activeClass }} text-foreground hover:text-link-hover me-[-0.4em] flex items-center gap-1 font-medium">
-					<a
-						href="{{ or .Params.URL .URL }}"
-						class="flex items-center gap-1.5"
-						aria-haspopup="true"
-						{{ $ariaLabel }}
-						{{ if $isActive }}{{ $ariaCurrent }}{{ end }}>
-						{{- .Pre -}}
-						{{- with .Params.icon -}}
-							{{- partial "components/icon.html" . -}}
-						{{- end -}}
-						{{- with .Name -}}
-							<span class="break-normal">{{ . | markdownify }}</span>
-						{{- end -}}
-						{{- partialCached "components/icon.html" "nav-arrow-down" "icon-nav-arrow-down" -}}
-						{{- .Post -}}
-					</a>
-				</div>
-
-				<div
-					class="dropdown-menu-child absolute top-full right-0 z-50 pt-2 opacity-0 transition-all duration-(--dur-200)">
+					id="submenu-{{ .KeyName | anchorize }}"
+					class="pt-2 opacity-0 transition-opacity duration-(--dur-200)"
+					data-dropdown-menu
+					hidden>
 					<div class="bg-background border-border min-w-32 rounded-lg border p-1 shadow">
 						<div class="flex flex-col gap-0.75">
 							{{- range .Children -}}

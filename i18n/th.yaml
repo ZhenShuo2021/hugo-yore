@@ -1,4 +1,5 @@
 a11y:
+  heading_link: ลิงก์ไปยังหัวข้อนี้
   opens_external_link: ลิงก์ภายนอก
 a11y_panel:
   close: ปิดแผงการช่วยการเข้าถึง
@@ -28,6 +29,7 @@ admonition:
   warning: คำเตือน
 article:
   backlinks_title: ลิงก์ย้อนกลับ
+  categories: หมวดหมู่
   date: '{{ .Date }}'
   date_updated: 'อัปเดต: {{ .Date }}'
   kg_title: การเชื่อมโยงบทความ
@@ -38,6 +40,7 @@ article:
   published_date: วันที่เผยแพร่
   related_articles: บทความที่เกี่ยวข้อง
   series: บทความในชุดเดียวกัน
+  tags: แท็ก
 code:
   copied: คัดลอกแล้ว
   copy: คัดลอก
@@ -59,6 +62,7 @@ nav:
   breadcrumb: เส้นทางการนำทาง
   change_language: เปลี่ยนภาษา
   close_mobile_menu: ปิดเมนูมือถือ
+  expand_submenu: เปิดเมนูย่อย
   footer_navigation: การนำทางส่วนท้าย
   main_navigation: การนำทางหลัก
   open_sidebar: เปิดแถบด้านข้าง
@@ -74,7 +78,6 @@ page_actions:
   copy_url: คัดลอก URL
   edit_this_page: แก้ไขหน้านี้
   view_source: ดูซอร์ส
-quick_reference: คู่มือด่วน
 random:
   choosing: กำลังเลือกบทความที่น่าอ่าน
   js_required: ต้องใช้ JavaScript สำหรับการเปลี่ยนเส้นทางแบบสุ่ม
@@ -84,12 +87,6 @@ random:
   untitled: ไม่มีชื่อเรื่อง
 recent:
   show_more: แสดงเพิ่มเติม
-search:
-  close_button_title: ปิด (Esc)
-  input_placeholder: ค้นหา
-  no_result: ไม่พบผลลัพธ์
-  open_button_title: ค้นหา (/)
-shortcode:
-  recent_articles: บทความล่าสุด
+require_js: ต้องเปิดใช้งาน JavaScript จึงจะแสดงเนื้อหานี้ได้
 stale_warning:
-  'text:': บทความนี้ไม่ได้รับการอัปเดตมาระยะหนึ่งแล้ว ข้อมูลบางส่วนอาจล้าสมัย
+  text: บทความนี้ไม่ได้รับการอัปเดตมาระยะหนึ่งแล้ว ข้อมูลบางส่วนอาจล้าสมัย

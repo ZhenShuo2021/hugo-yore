@@ -1,4 +1,5 @@
 a11y:
+  heading_link: 이 제목으로의 링크
   opens_external_link: 외부 링크
 a11y_panel:
   close: 접근성 패널 닫기
@@ -28,6 +29,7 @@ admonition:
   warning: 경고
 article:
   backlinks_title: 백링크
+  categories: 카테고리
   date: '{{ .Date }}'
   date_updated: '업데이트 날짜: {{ .Date }}'
   kg_title: 기사 연결
@@ -38,6 +40,7 @@ article:
   published_date: 게시일
   related_articles: 관련 글
   series: 이 글은 시리즈의 일부입니다.
+  tags: 태그
 code:
   copied: 복사되었습니다
   copy: 복사
@@ -59,6 +62,7 @@ nav:
   breadcrumb: 이동 경로
   change_language: 언어 변경
   close_mobile_menu: 모바일 메뉴 닫기
+  expand_submenu: 하위 메뉴 열기
   footer_navigation: 푸터 내비게이션
   main_navigation: 메인 내비게이션
   open_sidebar: 사이드바 열기
@@ -74,7 +78,6 @@ page_actions:
   copy_url: URL 복사
   edit_this_page: 이 페이지 편집
   view_source: 소스 보기
-quick_reference: 빠른 참조
 random:
   choosing: 읽을 만한 글을 고르는 중입니다
   js_required: 무작위 이동 기능을 사용하려면 JavaScript가 필요합니다.
@@ -84,12 +87,6 @@ random:
   untitled: 제목 없음
 recent:
   show_more: 더 보기
-search:
-  close_button_title: 닫기 (Esc)
-  input_placeholder: 검색
-  no_result: 결과 없음
-  open_button_title: 검색하기 (/)
-shortcode:
-  recent_articles: 최근 글
+require_js: 표시하려면 JavaScript를 활성화해야 합니다.
 stale_warning:
-  'text:': 이 글은 한동안 업데이트되지 않아 일부 정보가 최신이 아닐 수 있습니다.
+  text: 이 글은 한동안 업데이트되지 않아 일부 정보가 최신이 아닐 수 있습니다.

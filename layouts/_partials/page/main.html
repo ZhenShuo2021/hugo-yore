@@ -27,7 +27,7 @@
 		{{- if .Param "breadcrumb" | default true -}}
 			<div class="text-muted-foreground text-sm">{{- partial "components/breadcrumbs.html" . -}}</div>
 		{{- end -}}
-		<div class="flex items-start justify-between gap-4">
+		<div class="flex items-start justify-between">
 			<h1 class="text-foreground mb-2 text-4xl font-medium">
 				{{- .Title -}}
 			</h1>

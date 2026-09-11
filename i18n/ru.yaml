@@ -1,4 +1,5 @@
 a11y:
+  heading_link: Ссылка на этот заголовок
   opens_external_link: внешняя ссылка
 a11y_panel:
   close: Закрыть панель доступности
@@ -28,6 +29,7 @@ admonition:
   warning: Предупреждение
 article:
   backlinks_title: Обратные ссылки
+  categories: Категории
   date: '{{ .Date }}'
   date_updated: 'Обновлено: {{ .Date }}'
   kg_title: Связанные статьи
@@ -38,6 +40,7 @@ article:
   published_date: Дата публикации
   related_articles: Related
   series: This article is part of a series.
+  tags: Теги
 code:
   copied: Скопировано
   copy: Копировать
@@ -59,6 +62,7 @@ nav:
   breadcrumb: Навигационная цепочка
   change_language: Изменить язык
   close_mobile_menu: Закрыть мобильное меню
+  expand_submenu: Открыть подменю
   footer_navigation: Навигация в подвале
   main_navigation: Основная навигация
   open_sidebar: Открыть боковую панель
@@ -74,7 +78,6 @@ page_actions:
   copy_url: Копировать URL
   edit_this_page: Редактировать эту страницу
   view_source: Просмотр источника
-quick_reference: Краткое руководство
 random:
   choosing: Выбираем что-нибудь стоящее почитать
   js_required: Для случайного перехода требуется JavaScript.
@@ -84,12 +87,6 @@ random:
   untitled: Без названия
 recent:
   show_more: Показать ещё
-search:
-  close_button_title: Закрыть (Esc)
-  input_placeholder: Поиск
-  no_result: Ничего не найдено
-  open_button_title: Поиск (/)
-shortcode:
-  recent_articles: Недавние
+require_js: Для отображения необходимо включить JavaScript.
 stale_warning:
-  'text:': Эта статья давно не обновлялась, поэтому часть информации может быть устаревшей.
+  text: Эта статья давно не обновлялась, поэтому часть информации может быть устаревшей.

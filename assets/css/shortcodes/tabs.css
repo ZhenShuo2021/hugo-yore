@@ -16,6 +16,12 @@
 	position: relative;
 	border-bottom: 2px solid transparent;
 	border-radius: var(--radius-xs);
+	outline-offset: 1px;
+}
+
+.tab__panel:focus-visible {
+	outline: 2px solid var(--outline);
+	outline-offset: 14px;
 }
 
 html[data-a11y-high-contrast='true'] .tab--active.tab__button,

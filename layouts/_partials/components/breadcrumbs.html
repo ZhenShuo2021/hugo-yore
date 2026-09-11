@@ -1,14 +1,20 @@
-<nav aria-label="{{ i18n `nav.breadcrumb` | default `Breadcrumb navigation` }}">
-	<span aria-hidden="true">&#x276F;&nbsp;</span>
-	{{- range $n, $page := .Ancestors.Reverse -}}
-		{{- if eq $n 0 }}{{ continue }}{{ end -}}
-		{{- if eq .Params.build.render "never" -}}
-			<span>{{ $page.Title }}</span><span aria-hidden="true">&nbsp;/&nbsp;</span>
-		{{- else -}}
-			<a href="{{ $page.RelPermalink }}" class="hover:text-link-hover">{{ $page.Title }}</a>
-			{{- /* trim space for nbsp */ -}}
-			<span aria-hidden="true">&nbsp;/&nbsp;</span>
+<nav aria-label="{{ i18n `nav.breadcrumb` | default `Breadcrumb navigation` }}" class="flex items-baseline">
+	<span aria-hidden="true" class="shrink-0">&#x276F;&nbsp;</span>
+	<ol class="m-0 list-none pl-0">
+		{{- range $n, $page := .Ancestors.Reverse -}}
+			{{- if eq $n 0 }}{{ continue }}{{ end -}}
+			{{- if eq .Params.build.render "never" -}}
+				<li class="inline"><span>{{ $page.Title }}</span><span aria-hidden="true">&nbsp;/&nbsp;</span></li>
+			{{- else -}}
+				<li class="inline">
+					<a class="hover:text-link-hover" href="{{ $page.RelPermalink }}">{{ $page.Title }}</a>
+					{{- /* trim space for nbsp */ -}}
+					<span aria-hidden="true">&nbsp;/&nbsp;</span>
+				</li>
+			{{- end -}}
 		{{- end -}}
-	{{- end -}}
-	<span aria-current="page">{{ .Title }}</span>
+		<li class="inline">
+			<span aria-current="page">{{ .Title }}</span>
+		</li>
+	</ol>
 </nav>

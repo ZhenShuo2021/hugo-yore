@@ -2,5 +2,6 @@
 	class="cloaked-email"
 	data-email-cloak="{{ partial "lib/obfuscate-email.html" (.Get "address") }}"
 	data-email-fill>
-	placeholder
+	Email placeholder
 </a>
+<noscript>{{ i18n "require_js" | default "JavaScript must be enabled to display this." }}</noscript>

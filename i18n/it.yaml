@@ -1,4 +1,5 @@
 a11y:
+  heading_link: Link a questo titolo
   opens_external_link: link esterno
 a11y_panel:
   close: Chiudi pannello di accessibilità
@@ -28,6 +29,7 @@ admonition:
   warning: Avviso
 article:
   backlinks_title: Backlink
+  categories: Categorie
   date: '{{ .Date }}'
   date_updated: 'Aggiornato: {{ .Date }}'
   kg_title: Connessioni articoli
@@ -38,6 +40,7 @@ article:
   published_date: Data di pubblicazione
   related_articles: Articoli correlati
   series: Questo articolo fa parte di una serie.
+  tags: Tag
 code:
   copied: Copiato
   copy: Copia
@@ -59,6 +62,7 @@ nav:
   breadcrumb: Percorso di navigazione
   change_language: Cambia lingua
   close_mobile_menu: Chiudi menu mobile
+  expand_submenu: Apri sottomenu
   footer_navigation: Navigazione del footer
   main_navigation: Navigazione principale
   open_sidebar: Apri barra laterale
@@ -74,7 +78,6 @@ page_actions:
   copy_url: Copia URL
   edit_this_page: Modifica questa pagina
   view_source: Visualizza sorgente
-quick_reference: Riferimento rapido
 random:
   choosing: Sto scegliendo qualcosa che vale la pena leggere
   js_required: È necessario JavaScript per il reindirizzamento casuale.
@@ -84,13 +87,6 @@ random:
   untitled: Senza titolo
 recent:
   show_more: Mostra altro
-search:
-  close_button_title: Chiudi (Esc)
-  input_placeholder: Cerca
-  no_result: Nessun risultato
-  open_button_title: Cerca (/)
-shortcode:
-  recent_articles: Recenti
+require_js: Per visualizzare questo contenuto è necessario abilitare JavaScript.
 stale_warning:
-  'text:':
-    'Questo articolo non viene aggiornato da tempo: alcune informazioni potrebbero non essere più valide.'
+  text: 'Questo articolo non viene aggiornato da tempo: alcune informazioni potrebbero non essere più valide.'

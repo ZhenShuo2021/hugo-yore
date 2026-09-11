@@ -35,6 +35,14 @@
 	box-sizing: border-box;
 	min-width: 0;
 	width: 100%;
+
+	> :first-child {
+		margin-top: 0;
+	}
+
+	> :last-child {
+		margin-bottom: 0;
+	}
 }
 
 .footnotes.is-hidden {

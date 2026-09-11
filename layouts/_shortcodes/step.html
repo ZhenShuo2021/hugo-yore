@@ -15,17 +15,18 @@
 		{{- if $icon -}}
 			{{- $iconRes := resources.GetMatch (printf "icons/**/%s.svg" $icon) -}}
 			{{- with $iconRes -}}
-				<span class="icon">{{- .Content | safeHTML -}}</span>
+				<span class="icon" aria-hidden="true">{{- .Content | safeHTML -}}</span>
 			{{- else -}}
 				{{- warnf "step icon %q not found" $icon -}}
 			{{- end -}}
 		{{- else if $label -}}
-			{{- $label | emojify -}}
+			<span aria-hidden="true">{{- $label | emojify -}}</span>
 		{{- else if $number -}}
-			<span class="step-number" style="counter-increment: step-counter;"></span>
+			<span class="step-number" style="counter-increment: step-counter;" aria-hidden="true"></span>
 		{{- end -}}
 	</span>
 	<div class="step-content">
 		{{- .Inner -}}
 	</div>
 </li>
+{{- /**/ -}}

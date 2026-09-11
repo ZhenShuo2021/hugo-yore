@@ -8,6 +8,31 @@ code:not(pre code) {
 	word-wrap: break-word;
 }
 
+/* use radius in wrapper not pre */
+.prose {
+	:where(pre):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+		border-radius: unset;
+	}
+}
+
+:not(pre) > code {
+	background-color: var(--color-accent-50);
+	font-weight: normal !important;
+	padding: 1.6px;
+	padding-inline: 4px;
+	border-radius: 0.5em;
+	border: 1px solid var(--color-accent-300);
+	font-size: 0.875em;
+	line-height: 1.4;
+}
+
+html[data-theme='dark'] {
+	code:not(pre code) {
+		background-color: var(--color-neutral-800);
+		border-color: var(--color-neutral-700);
+	}
+}
+
 /* margins for codeblock title */
 [data-code-wrapper] {
 	@apply relative block overflow-hidden rounded-md shadow;

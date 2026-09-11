@@ -11,7 +11,13 @@
 		image     (string, optional) - image URL; if empty, shows placeholder SVG
 		width     (string, optional) - image width
 		height    (string, optional) - image height
-		alt       (string, optional) - alt text for the image
+		alt       (string, optional) - alt text for the image. Because the
+		                     entire card is wrapped in a single <a>, this
+		                     text is merged into the link's accessible name.
+		                     Describe the link DESTINATION (what the user
+		                     will get by clicking), not the visual content
+		                     of the image. E.g. use "Read the article" or
+		                     the article title, not "a photo of a laptop".
 
 	inline define is not updating even with called with noop, so this is an individual file
 */ -}}

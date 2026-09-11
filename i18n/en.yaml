@@ -1,4 +1,5 @@
 a11y:
+  heading_link: Link to this heading
   opens_external_link: external link
 a11y_panel:
   close: Close accessibility panel
@@ -28,6 +29,7 @@ admonition:
   warning: Warning
 article:
   backlinks_title: Backlinks
+  categories: Categories
   date: 'Published:'
   date_updated: 'Updated:'
   kg_title: Article Connections
@@ -38,6 +40,7 @@ article:
   published_date: Published date
   related_articles: Related
   series: 'Series: '
+  tags: Tags
 code:
   copied: Copied
   copy: Copy
@@ -59,6 +62,7 @@ nav:
   breadcrumb: Breadcrumb navigation
   change_language: Change language
   close_mobile_menu: Close mobile menu
+  expand_submenu: Expand submenu
   footer_navigation: Footer navigation
   main_navigation: Main navigation
   open_sidebar: Open sidebar
@@ -74,7 +78,6 @@ page_actions:
   copy_url: Copy URL
   edit_this_page: Edit this page
   view_source: View Source
-quick_reference: Quick reference
 random:
   choosing: Choosing something worth reading
   js_required: JavaScript is required for the random redirect.
@@ -84,12 +87,6 @@ random:
   untitled: Untitled
 recent:
   show_more: Show more
-search:
-  close_button_title: Close (Esc)
-  input_placeholder: Search
-  no_result: No results
-  open_button_title: Search (/)
-shortcode:
-  recent_articles: Recent
+require_js: JavaScript must be enabled to display this.
 stale_warning:
-  'text:': This article has not been updated in a while and some information may be outdated.
+  text: This article has not been updated in a while and some information may be outdated.

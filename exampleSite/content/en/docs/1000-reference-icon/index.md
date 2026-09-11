@@ -44,7 +44,7 @@ Icons sourced from [Fort Awesome Brands](https://fontawesome.com/icons/packs/bra
 
 ### Iconoir
 
-Icons sourced from [Iconoir](https://iconoir.com/). Path prefixes: `iconoir/regular/` and `iconoir/solid/`. Iconoir icons are not printed due to the size of the collection.
+Icons sourced from [Iconoir](https://iconoir.com/). Path prefixes: `iconoir/regular/` and `iconoir/solid/`.
 
 Notable icons are:
 
@@ -54,8 +54,8 @@ Notable icons are:
 
 #### Regular
 
-{{< _internal/icon-reference path="yore" path="iconoir/regular/" printIcon=false >}}
+{{< _internal/icon-reference path="yore" path="iconoir/regular/" >}}
 
 #### Solid
 
-{{< _internal/icon-reference path="yore" path="iconoir/solid/" printIcon=false >}}
+{{< _internal/icon-reference path="yore" path="iconoir/solid/" >}}

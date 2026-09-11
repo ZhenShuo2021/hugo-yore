@@ -295,7 +295,7 @@ languages:
           weight: 40
 
         # Icon links, no pageRef, must use an identifier
-        - identifier: foo
+        - identifier: Link to Github repository
           url: https://github.com/ZhenShuo2021/hugo-yore
           weight: 1000
           params:

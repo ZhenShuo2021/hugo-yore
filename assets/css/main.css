@@ -17,7 +17,7 @@
 	@import "./components/a11y.css" layer(a11y);
 {{ end }}
 
-@import "./base.css";
+@import "./base.css" layer(yore);
 @import "./layout.css" layer(yore);
 @import "./layout-gallery.css" layer(yore);
 @import "./tokens.css" layer(yore);

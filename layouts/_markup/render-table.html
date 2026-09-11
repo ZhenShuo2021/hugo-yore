@@ -6,7 +6,7 @@
 	"compact" (.Attributes.compact | default (.Page.Param "renderHook.table.compact") | partial "lib/tobool.html")
 -}}
 
-<div data-table-wrapper role="region" tabindex="0"
+<div data-table-wrapper role="region"
 	{{- if .Attributes.caption }}
 		{{- (printf "aria-labelledby=\"md-table-%d\"" .Ordinal) | safeHTMLAttr }}
 	{{- end }}

@@ -6,11 +6,8 @@
 				role="group"
 				aria-label="{{ i18n "article.categories" | default "Categories" }}">
 				{{- range . -}}
-					<a
-						href="{{ .RelPermalink }}"
-						class="text-muted-foreground hover:text-link-hover transition-colors"
-						aria-label="{{ i18n "article.category" | default "Category" }}:{{ .LinkTitle }}">
-						§{{- .LinkTitle -}}
+					<a href="{{ .RelPermalink }}" class="text-muted-foreground hover:text-link-hover transition-colors">
+						<span aria-hidden="true">§</span>{{- .LinkTitle -}}
 					</a>
 				{{- end -}}
 			</div>
@@ -19,10 +16,13 @@
 
 	{{- if .Param "pageShowTags" -}}
 		{{- with .GetTerms "tags" -}}
-			<div class="flex w-full flex-wrap items-center justify-center gap-x-4">
+			<div
+				class="flex w-full flex-wrap items-center justify-center gap-x-4"
+				role="group"
+				aria-label="{{ i18n "article.tags" | default "Tags" }}">
 				{{- range . -}}
 					<a href="{{ .RelPermalink }}" class="text-muted-foreground hover:text-link-hover transition-colors">
-						#{{- .LinkTitle -}}
+						<span aria-hidden="true">#</span>{{- .LinkTitle -}}
 					</a>
 				{{- end -}}
 			</div>

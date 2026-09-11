@@ -323,7 +323,7 @@ languages:
           weight: 80
 
         # Icon links, no pageRef, must use an identifier
-        - identifier: foo
+        - identifier: Link to Github repository
           url: https://github.com/ZhenShuo2021/hugo-yore
           weight: 1000
           params:
@@ -406,7 +406,7 @@ languages:
           weight: 80
 
         # 图标链接，无 pageRef，必须使用 identifier
-        - identifier: foo
+        - identifier: Github 仓库连结
           url: https://github.com/ZhenShuo2021/hugo-yore
           weight: 1000
           params:

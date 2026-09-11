@@ -47,6 +47,29 @@ class FootnoteTooltip {
 			}
 		});
 
+		document.addEventListener('focusin', (e) => {
+			const footnoteRef = e.target.closest('.footnote-ref');
+			if (footnoteRef) {
+				clearTimeout(this.hideTimeout);
+				this.showTooltip(footnoteRef);
+			}
+		});
+
+		document.addEventListener('focusout', (e) => {
+			const footnoteRef = e.target.closest('.footnote-ref');
+			if (footnoteRef) {
+				this.hideTooltip();
+			}
+		});
+
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && this.tooltip.classList.contains('is-visible')) {
+				const target = this.currentTarget;
+				this.hideTooltip();
+				if (target) target.focus();
+			}
+		});
+
 		document.addEventListener('pointerup', (e) => {
 			const footnoteRef = e.target.closest('.footnote-ref');
 

@@ -1,13 +1,14 @@
 {{- $noop := .Inner -}}
 {{- $group := .Get "group" -}}
 {{- $default := .Get "default" -}}
+{{- $uid := .Ordinal -}}
 
 {{- $attrs := "" -}}
 {{- with .Get "group" }}{{ $attrs = printf `%s data-tab-group="%s"` $attrs . }}{{ end -}}
 {{- with .Get "default" }}{{ $attrs = printf `%s data-default-tab="%s"` $attrs . }}{{ end -}}
 <div class="tab__container my-4 w-full" {{ $attrs | safeHTMLAttr }}>
-	<div class="tab__nav" role="tablist">
-		<div class="flex flex-wrap gap-1">
+	<div class="tab__nav">
+		<div class="flex flex-wrap gap-1" role="tablist">
 			{{- range $nTabs, $_ := .Store.Get "tabs" -}}
 				{{- $isActive := false -}}
 				{{- if $default -}}
@@ -16,9 +17,12 @@
 					{{- $isActive = eq $nTabs 0 -}}
 				{{- end -}}
 				<button
+					id="tab-{{ $uid }}-{{ $nTabs }}"
 					class="tab__button {{ cond $isActive `tab--active` `` }} hover:bg-muted rounded-t-xs border-b-2 border-transparent px-3 py-2 text-sm font-semibold transition-colors duration-(--dur-200)"
 					role="tab"
 					aria-selected="{{ cond $isActive `true` `false` }}"
+					aria-controls="tabpanel-{{ $uid }}-{{ $nTabs }}"
+					tabindex="{{ cond $isActive `0` `-1` }}"
 					data-tab-index="{{ $nTabs }}"
 					data-tab-label="{{ index . "label" }}">
 					<span class="flex items-center">
@@ -33,3 +37,4 @@
 		{{- .Inner -}}
 	</div>
 </div>
+{{- /**/ -}}

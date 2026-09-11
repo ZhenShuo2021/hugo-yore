@@ -18,16 +18,50 @@
 </script> {{- /**/ -}}
 
 {{- /* CSS */ -}}
-{{- partial "head/css.html" . -}}
+{{- $buildOpts := dict
+	"minify" (hugo.IsProduction)
+	"target" (slice "chrome121" "firefox122" "safari17.3")
+-}}
 
-{{- /* Search */ -}}
-{{- if site.Params.searchEnabled -}}
-	<link
-		href="{{ "pagefind/pagefind-component-ui.css" | relURL }}"
-		rel="stylesheet"
-		media="print"
-		onload="this.media='all'">
-	<script src="{{ "pagefind/pagefind-component-ui.js" | relURL }}" type="module"></script>
+{{- with resources.Get "css/main.css" | resources.ExecuteAsTemplate "css/main-bundle.css" . -}}
+	{{- with . | css.Build $buildOpts -}}
+		{{- if hugo.IsDevelopment -}}
+			<link rel="stylesheet" href="{{ .RelPermalink }}">
+		{{- else -}}
+			{{- with . | fingerprint -}}
+				<link
+					rel="stylesheet"
+					href="{{ .RelPermalink }}"
+					integrity="{{ .Data.Integrity }}"
+					crossorigin="anonymous">
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- if site.Params.hugoTailwind -}}
+	{{- with (templates.Defer (dict "key" "global")) -}}
+		{{- partial "inline/hugoTailwind" . -}}
+	{{- end -}}
+{{- end -}}
+
+{{- define "_partials/inline/hugoTailwind" -}}
+	{{- with resources.Get "css/tailwind/main.css" -}}
+		{{- $twOpts := dict "minify" (hugo.IsProduction) -}}
+		{{- with . | css.TailwindCSS $twOpts -}}
+			{{- if hugo.IsDevelopment -}}
+				<link rel="stylesheet" href="{{- .RelPermalink }}">
+			{{- else -}}
+				{{- with . | fingerprint -}}
+					<link
+						rel="stylesheet"
+						href="{{ .RelPermalink }}"
+						integrity="{{ .Data.Integrity }}"
+						crossorigin="anonymous">
+				{{- end -}}
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
 {{- end -}}
 
 {{- /* Additional file, analytics, CSS, JS, ... */ -}}
@@ -36,7 +70,37 @@
 {{- end -}}
 
 {{- /* Core JS */ -}}
-{{- partial "head/js.html" . -}}
+{{- with resources.Get "js/main.js.tmpl" -}}
+	{{- with resources.ExecuteAsTemplate "js/main-bundle.js" $ . -}}
+		{{- $jsParams := dict
+			"headerLayout" site.Params.headerLayout
+			"cookieConsent" (site.Params.cookieConsent.enable | default true)
+		-}}
+		{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget "params" $jsParams -}}
+		{{- $js := . | js.Build $opts -}}
+		{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}
+		<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+	{{- end -}}
+{{- end -}}
+{{- /* ========== End of core resources ========== */ -}}
+
+{{- /* ========== Conditional resources ========== */ -}}
+{{- /* Random page */ -}}
+{{- if eq .Type "random" -}}
+	{{- with resources.Get "/css/layout-random.css" -}}
+		{{- if hugo.IsDevelopment -}}
+			<link rel="stylesheet" href="{{ .RelPermalink }}">
+		{{- else -}}
+			{{- with . | fingerprint -}}
+				<link
+					rel="stylesheet"
+					href="{{ .RelPermalink }}"
+					integrity="{{ .Data.Integrity }}"
+					crossorigin="anonymous">
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
 
 {{- /* Docs Nav */ -}}
 {{- if eq .Type "docs" -}}
@@ -47,13 +111,9 @@
 	<script type="module" src="{{- $docsJS.RelPermalink -}}" integrity="{{- $docsJS.Data.Integrity -}}"></script>
 {{- end -}}
 
-{{- /* PhotoSwipe */ -}}
-{{- if site.Params.imageLightbox | default true -}}
-	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
-	{{- $pswp := resources.Get "js/photoswipe.js" | js.Build $opts -}}
-	{{- if hugo.IsProduction -}}{{- $pswp = $pswp | fingerprint -}}{{- end -}}
-	{{- hugo.Store.Add "swPrecache" (slice $pswp.RelPermalink) -}}
-	<script type="module" src="{{ $pswp.RelPermalink }}" integrity="{{ $pswp.Data.Integrity }}"></script>
+{{- /* Math */ -}}
+{{- if or site.Params.mathEnabled (.Page.HasShortcode "math") .Params.mathEnabled -}}
+	{{- partialCached "head/math.html" . "foo" -}}
 {{- end -}}
 
 {{- /* TypeIt */ -}}
@@ -93,19 +153,23 @@
 		referrerpolicy="no-referrer"></script>
 {{- end -}}
 
-{{- /* Math */ -}}
-{{- if site.Params.mathEnabled -}}
-	{{- /* trigger hugo.Store.Add:
-		Hugo renders 404 and homepage first, so if mathEnabled is false, math.html
-		may never run before sw-config is built, leaving mathjax out of precache.
-		If mathEnabled is true, trigger partialCached here unconditionally to ensure
-		hugo.Store.Add runs before sw-config captures precacheAssets. Therefore all
-		users has ideal precache.
-	*/}}
-	{{- $noop := partialCached "head/math.html" . "foo" -}}
+{{- /* Search */ -}}
+{{- if site.Params.searchEnabled -}}
+	<link
+		href="{{ "pagefind/pagefind-component-ui.css" | relURL }}"
+		rel="stylesheet"
+		media="print"
+		onload="this.media='all'">
+	<script src="{{ "pagefind/pagefind-component-ui.js" | relURL }}" type="module"></script>
 {{- end -}}
-{{- if or site.Params.mathEnabled (.Page.HasShortcode "math") .Params.mathEnabled -}}
-	{{- partialCached "head/math.html" . "foo" -}}
+
+{{- /* PhotoSwipe */ -}}
+{{- if site.Params.imageLightbox | default true -}}
+	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
+	{{- $pswp := resources.Get "js/photoswipe.js" | js.Build $opts -}}
+	{{- if hugo.IsProduction -}}{{- $pswp = $pswp | fingerprint -}}{{- end -}}
+	{{- hugo.Store.Add "swPrecache" (slice $pswp.RelPermalink) -}}
+	<script type="module" src="{{ $pswp.RelPermalink }}" integrity="{{ $pswp.Data.Integrity }}"></script>
 {{- end -}}
 
 {{- /* knowledge-graph */ -}}

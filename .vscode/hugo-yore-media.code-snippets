@@ -212,7 +212,7 @@
 		"scope": "markdown",
 		"prefix": "yore-pdf",
 		"body": [
-			"{{< pdf src=\"${1:/docs/file.pdf}\" page=\"${2:1}\" height=\"${3:800px}\" >}}"
+			"{{< pdf src=\"${1:/docs/file.pdf}\" title=\"${2:PDF title for screen readers}\" page=\"${3:1}\" height=\"${4:800px}\" >}}"
 		],
 		"description": "Embeds a PDF file using an inline iframe viewer. src is required."
 	},

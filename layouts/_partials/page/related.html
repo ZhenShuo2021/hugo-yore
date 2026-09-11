@@ -19,11 +19,16 @@
 							{{- .Date.Format "2006-01-02" -}}
 						</time>
 						{{- with .GetTerms "tags" -}}
-							{{- range $index, $tag := . -}}
-								<a href="{{ .RelPermalink }}" class="hover:text-link-hover transition-colors">
-									#{{- .LinkTitle -}}
-								</a>
-							{{- end -}}
+							<div
+								class="flex flex-wrap items-center gap-2"
+								role="group"
+								aria-label="{{ i18n `article.tags` | default `Tags` }}">
+								{{- range $index, $tag := . -}}
+									<a href="{{ .RelPermalink }}" class="hover:text-link-hover transition-colors">
+										<span aria-hidden="true">#</span>{{- .LinkTitle -}}
+									</a>
+								{{- end -}}
+							</div>
 						{{- end -}}
 					</div>
 				</article>

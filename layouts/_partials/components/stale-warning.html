@@ -8,7 +8,7 @@
 	{{- $thresholdDays := .Param "pageStaleDays" | default 365 -}}
 	{{- $refDateStr := $refDate.Format $iso8601 -}}
 
-	{{- $text := i18n "pageShowStaleWarning.text" | default "This article has not been updated in a while and some information may be outdated." -}}
+	{{- $text := i18n "stale_warning.text" | default "This article has not been updated in a while and some information may be outdated." -}}
 
 	{{- $admonition := partial "components/admonition.html" (dict
 		"AlertType" "warning"

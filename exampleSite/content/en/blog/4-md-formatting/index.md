@@ -20,6 +20,11 @@ Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptio
 
 Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.
 
+## Images
+
+![sample image](/img/01.webp "Image with caption")
+{class="center-cap crop-img" style="--ratio:21/9;--position:50% 0%;"}
+
 ## Blockquotes
 
 > Xerum, quo qui aut unt expliquam qui dolut labo.
@@ -56,32 +61,32 @@ Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sap
 
 General code block
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Example HTML5 Document</title>
-  </head>
-  <body>
-    <p>Test</p>
-  </body>
-</html>
+```c
+#include <stdio.h>
+
+int main(void) {
+    printf("Test\n");
+    int x = 10;
+    int y = 20;
+    int z = x + y;
+    printf("%d\n", z);
+    return 0;
+}
 ```
 
 Code block with title and line highlight
 
-```html {title="example.html" lineNos=inline hl_lines=[4,"7-9"]}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Example HTML5 Document</title>
-</head>
-<body>
-  <p>Test</p>
-</body>
-</html>
+```c {title="example.c" lineNos=inline hl_lines=[1,"5-7"]}
+#include <stdio.h>
+
+int main(void) {
+    printf("Test\n");
+    int x = 10;
+    int y = 20;
+    int z = x + y;
+    printf("%d\n", z);
+    return 0;
+}
 ```
 
 ## List

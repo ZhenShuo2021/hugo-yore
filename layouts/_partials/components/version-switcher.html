@@ -1,28 +1,30 @@
 {{- with .Rotate "version" -}}
-	<div class="translation group relative">
+	<div class="version-switcher relative flex" data-nav-item>
 		<button
+			type="button"
 			class="text-foreground hover:text-link-hover flex items-center gap-2"
-			aria-label="{{ i18n `nav.switch_version` | default `Switch version` }}"
-			title="{{ i18n `nav.switch_version` | default `Switch version` }}"
-			aria-haspopup="listbox">
+			aria-expanded="false"
+			aria-controls="submenu-version"
+			data-dropdown-toggle>
 			{{- replace site.Version.Name "v" "" }}{{ partialCached "components/icon.html" "nav-arrow-down" "icon-nav-arrow-down" -}}
+			<span class="sr-only">{{ i18n `nav.switch_version` | default `Switch version` }}</span>
 		</button>
 
-		<div class="dropdown-menu-child absolute z-50 w-max" role="listbox" aria-label="Version">
-			<div class="bg-background border-border rounded-lg border px-1 py-2 shadow-lg">
-				<div class="flex flex-col">
+		<div
+			id="submenu-version"
+			class="opacity-0 transition-opacity duration-(--dur-200)"
+			data-dropdown-menu
+			hidden>
+			<div class="bg-background border-border min-w-32 rounded-lg border p-1 shadow-lg">
+				<div class="flex flex-col gap-0.75">
 					{{- range . -}}
+						{{- $isCurrent := eq .Site.Version.Name $.Site.Version.Name -}}
 						<a
 							href="{{ .RelPermalink }}"
-							role="option"
-							class="text-popover-foreground {{ if eq .Site.Version.Name $.Site.Version.Name -}}
+							class="text-popover-foreground {{ if $isCurrent -}}
 								header-active
-							{{- end }} hover:text-link-hover hover:bg-muted flex items-center rounded px-4 py-2 text-sm whitespace-nowrap transition-colors"
-							{{ if eq .Site.Version.Name $.Site.Version.Name }}
-								aria-selected="true"
-							{{ else }}
-								aria-selected="false"
-							{{ end }}>
+							{{- end }} hover:text-link-hover hover:bg-muted flex items-center rounded p-1.5 text-sm whitespace-nowrap transition-colors"
+							{{ if $isCurrent }}aria-current="true"{{ end }}>
 							<span class="min-w-20">{{ .Site.Version.Name }}</span>
 						</a>
 					{{- end -}}

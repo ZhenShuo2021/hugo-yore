@@ -102,12 +102,14 @@ html[data-theme='light'] {
 	--gray-border: oklab(0.768 0 0.006);
 	--title-bg: oklch(95.514% 0.00011 271.152);
 	--backdrop: color-mix(in oklab, var(--color-neutral-950) 82%, transparent);
+	--outline: #005fcc;
 }
 
 html[data-theme='dark'] {
 	--gray-border: oklab(0.475 0 0.008);
 	--title-bg: oklch(0.32 0.001 271);
 	--backdrop: color-mix(in oklab, var(--color-neutral-950) 82%, transparent);
+	--outline: #99c8ff;
 }
 
 :root {

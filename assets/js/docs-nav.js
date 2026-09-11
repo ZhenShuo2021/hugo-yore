@@ -1,4 +1,5 @@
 import * as params from '@params';
+import { initRovingTabindex } from './docs-nav-a11y';
 
 const NAV_SELECTOR = '.docs-nav';
 const STORAGE_KEY_PREFIX = 'yore-docs-nav-state';
@@ -140,6 +141,7 @@ function init() {
 
 	initCollapseToggle(nav);
 	initScrollPersist();
+	initRovingTabindex(nav);
 }
 
 init();

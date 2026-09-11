@@ -34,11 +34,11 @@
 							<span class="bg-border h-px flex-1"></span>
 						</div>
 						{{- $groupPages := partial "inline/gallery-sort-pages" (dict "pages" .Pages "ctx" $.Page) -}}
-						<div class="grid-cols-4 gap-x-8 gap-y-12">
+						<ul class="list-none grid-cols-4 gap-x-8 gap-y-12">
 							{{- range $groupPages -}}
 								{{- partial "inline/gallery-page-item" . -}}
 							{{- end -}}
-						</div>
+						</ul>
 					</section>
 				{{- end -}}
 			</div>
@@ -49,11 +49,11 @@
 			{{- $sorted := partial "inline/gallery-sort-pages" (dict "pages" $pages "ctx" $.Page) -}}
 			{{- $paginator := .Paginate $sorted -}}
 			{{- if $paginator.Pages -}}
-				<div class="grid-cols-4 gap-x-8 gap-y-12">
+				<ul class="list-none grid-cols-4 gap-x-8 gap-y-12">
 					{{- range $paginator.Pages -}}
 						{{- partial "inline/gallery-page-item" . -}}
 					{{- end -}}
-				</div>
+				</ul>
 			{{- end -}}
 			<div class="mt-20">
 				{{- partial "section/pagination.html" (dict "paginator" $paginator) -}}
@@ -69,46 +69,49 @@
 		{{- $external := .Param "link" -}}
 		{{- $linkURL := or $external .RelPermalink -}}
 		{{- $coverURL := (.Store.Get "featuredImage").url -}}
-		<a href="{{ $linkURL }}" class="gallery-page-item group block">
-			<div class="gallery-page-item--img-wrapper bg-muted relative mb-2 aspect-3/4 w-full overflow-hidden">
-				{{- if $coverURL -}}
-					<img
-						src="{{ $coverURL }}"
-						alt=""
-						loading="lazy"
-						class="gallery-section-img h-full w-full object-cover transition-transform ease-out">
-				{{- else -}}
-					<div class="text-muted-foreground flex h-full w-full items-center justify-center">
-						{{- partialCached "components/icon.html" "folder" "icon-folder" -}}
-					</div>
-				{{- end -}}
-
-				{{- if $external -}}
-					<div
-						class="absolute inset-e-2 top-2 flex items-center rounded-full bg-black/60 px-2 py-1 text-white backdrop-blur">
-						{{- partialCached "components/icon.html" "yore/external" "icon-yore/external" -}}
-					</div>
-				{{- end -}}
-				<div class="absolute inset-0 opacity-0 shadow-[inset_0_0_0_1px_#A33A2C] group-hover:opacity-100"></div>
-			</div>
-			<div class="gallery-page-item--title-wrapper flex items-start justify-between">
-				<div class="min-w-0">
-					<div class="flex items-center gap-1 text-lg font-medium">
-						<span class="line-clamp-2">{{ .Title }}</span>
-						{{- if $external -}}
-							<span class="sr-only">
-								{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
-							</span>
-						{{- end -}}
-					</div>
-					{{- with .Date -}}
-						<div class="text-muted-foreground mt-1 font-mono text-[0.6em]">
-							{{- .Format "2006 · 01.02" -}}
+		<li>
+			<a href="{{ $linkURL }}" class="gallery-page-item group block">
+				<div class="gallery-page-item--img-wrapper bg-muted relative mb-2 aspect-3/4 w-full overflow-hidden">
+					{{- if $coverURL -}}
+						<img
+							src="{{ $coverURL }}"
+							alt=""
+							loading="lazy"
+							class="gallery-section-img h-full w-full object-cover transition-transform ease-out">
+					{{- else -}}
+						<div class="text-muted-foreground flex h-full w-full items-center justify-center">
+							{{- partialCached "components/icon.html" "folder" "icon-folder" -}}
 						</div>
 					{{- end -}}
+
+					{{- if $external -}}
+						<div
+							class="absolute inset-e-2 top-2 flex items-center rounded-full bg-black/60 px-2 py-1 text-white backdrop-blur">
+							{{- partialCached "components/icon.html" "yore/external" "icon-yore/external" -}}
+						</div>
+					{{- end -}}
+					<div
+						class="absolute inset-0 opacity-0 shadow-[inset_0_0_0_1px_#A33A2C] group-hover:opacity-100"></div>
 				</div>
-			</div>
-		</a>
+				<div class="gallery-page-item--title-wrapper flex items-start justify-between">
+					<div class="min-w-0">
+						<div class="flex items-center gap-1 text-lg font-medium">
+							<span class="line-clamp-2">{{ .Title }}</span>
+							{{- if $external -}}
+								<span class="sr-only">
+									{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+								</span>
+							{{- end -}}
+						</div>
+						{{- with .Date -}}
+							<div class="text-muted-foreground mt-1 font-mono text-[0.6em]">
+								{{- .Format "2006 · 01.02" -}}
+							</div>
+						{{- end -}}
+					</div>
+				</div>
+			</a>
+		</li>
 	{{- end -}}
 {{- end -}}
 

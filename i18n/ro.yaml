@@ -1,4 +1,5 @@
 a11y:
+  heading_link: Legătură către acest titlu
   opens_external_link: link extern
 a11y_panel:
   close: Închide panoul de accesibilitate
@@ -28,6 +29,7 @@ admonition:
   warning: Avertisment
 article:
   backlinks_title: Linkuri de întoarcere
+  categories: Categorii
   date: '{{ .Date }}'
   date_updated: 'Modificat la: {{ .Date }}'
   kg_title: Conexiuni articole
@@ -38,6 +40,7 @@ article:
   published_date: Data publicării
   related_articles: Related
   series: This article is part of a series.
+  tags: Etichete
 code:
   copied: Copiat
   copy: Copiază
@@ -59,6 +62,7 @@ nav:
   breadcrumb: Fir de navigare
   change_language: Schimbă limba
   close_mobile_menu: Închide meniul mobil
+  expand_submenu: Deschidere submeniu
   footer_navigation: Navigare subsol
   main_navigation: Navigare principală
   open_sidebar: Deschide bara laterală
@@ -74,7 +78,6 @@ page_actions:
   copy_url: Copiază URL
   edit_this_page: Editează această pagină
   view_source: Vezi sursa
-quick_reference: Referință rapidă
 random:
   choosing: Se alege ceva ce merită citit
   js_required: Este necesar JavaScript pentru redirecționarea aleatorie.
@@ -84,12 +87,6 @@ random:
   untitled: Fără titlu
 recent:
   show_more: Arată mai mult
-search:
-  close_button_title: Închide (Esc)
-  input_placeholder: Caută
-  no_result: Niciun rezultat
-  open_button_title: Caută (/)
-shortcode:
-  recent_articles: Cele mai noi
+require_js: Trebuie să activați JavaScript pentru a afișa acest conținut.
 stale_warning:
-  'text:': Acest articol nu a mai fost actualizat de ceva vreme, așa că unele informații ar putea fi depășite.
+  text: Acest articol nu a mai fost actualizat de ceva vreme, așa că unele informații ar putea fi depășite.

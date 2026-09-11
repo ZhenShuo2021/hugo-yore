@@ -15,14 +15,13 @@
 	data-default-appearance="{{ site.Params.themeLightDarkMode }}"
 	data-copy-text="{{ i18n `code.copy` | default `Copy` }}"
 	data-copied-text="{{ i18n `code.copied` | default `Copied` }}"
-	data-search-no-result="{{ i18n `search.no_result` | default `No results for` }}"
 	data-header-layout="{{ site.Params.headerLayout }}"
 	data-page-kind="{{ .Kind }}"
 	data-page-type="{{ .Type }}">
 	{{- $noop := partialCached "init.html" . -}}
 	{{- $noop = partial "init-page.html" . -}}
 	{{- partial "head/main.html" . -}}
-	{{- $layout := cond (or (eq .Params.blogLayout "2-col") (eq site.Params.blogLayout "2-col")) "layout-2col" "layout-3col" -}}
+	{{- $layout := cond (eq (.Param "blogLayout") "2-col") "layout-2col" "layout-3col" -}}
 	{{- $fullWidth := cond (.Param "fullWidth") "full-width" "" -}}
 	<body
 		class="{{ $fullWidth }} {{ $layout }} bg-background text-foreground transition-[background-color,border-color] duration-(--dur-300)">
@@ -32,7 +31,7 @@
 			{{- else -}}
 				href="#main-content"
 			{{- end }}
-			class="focus:bg-foreground focus:text-primary-foreground sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-1000 focus:px-4 focus:py-2">
+			class="sr-only bg-black text-white focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-1000 focus:px-4 focus:py-2">
 			{{- i18n "nav.skip_to_main" -}}
 		</a>
 
@@ -46,3 +45,15 @@
 		{{- end -}}
 	</body>
 </html>
+
+{{- /* Prevent changes to compiled.css simply because basic styles are removed.
+	px-1 px-2 px-3 px-4 px-5 px-6 px-7 px-8 px-9 px-10
+	py-1 py-2 py-3 py-4 py-5 py-6 py-7 py-8 py-9 py-10
+	ps-1 ps-2 ps-3 ps-4 ps-5 ps-6 ps-7 ps-8 ps-9 ps-10
+	pe-1 pe-2 pe-3 pe-4 pe-5 pe-6 pe-7 pe-8 pe-9 pe-10
+
+	mx-1 mx-2 mx-3 mx-4 mx-5 mx-6 mx-7 mx-8 mx-9 mx-10
+	my-1 my-2 my-3 my-4 my-5 my-6 my-7 my-8 my-9 my-10
+	ms-1 ms-2 ms-3 ms-4 ms-5 ms-6 ms-7 ms-8 ms-9 ms-10
+	me-1 me-2 me-3 me-4 me-5 me-6 me-7 me-8 me-9 me-10
+*/ -}}

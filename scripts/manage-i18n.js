@@ -20,7 +20,7 @@
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
-import yaml from 'js-yaml';
+import { load, dump } from 'js-yaml';
 import _ from 'lodash';
 import { fileURLToPath } from 'url';
 
@@ -49,7 +49,7 @@ function manageI18n() {
 		let content = {};
 
 		if (fs.existsSync(filePath)) {
-			content = yaml.load(fs.readFileSync(filePath, 'utf8')) || {};
+			content = load(fs.readFileSync(filePath, 'utf8'), { filename: filePath }) || {};
 		}
 
 		const lines = sections[index + 1]
@@ -76,7 +76,7 @@ function manageI18n() {
 
 		fs.writeFileSync(
 			filePath,
-			yaml.dump(content, {
+			dump(content, {
 				indent: 2,
 				sortKeys: true,
 				lineWidth: -1,

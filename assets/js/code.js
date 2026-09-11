@@ -10,7 +10,7 @@ function createCopyButton(highlightDiv) {
 	button.ariaLabel = defaultCopyText;
 	button.title = defaultCopyText;
 	button.innerHTML = copyIcon;
-	highlightDiv.insertBefore(button, highlightDiv.firstChild);
+	highlightDiv.appendChild(button);
 }
 
 async function copyCode(button, highlightDiv) {
@@ -37,16 +37,13 @@ async function copyCode(button, highlightDiv) {
 }
 
 function legacyCopyCode(text) {
-	const textarea = document.createElement('textarea');
-	textarea.value = text;
-	textarea.setAttribute('readonly', '');
-	textarea.style.position = 'absolute';
-	textarea.style.left = '-9999px';
-
-	document.body.appendChild(textarea);
-	textarea.select();
+	const ta = document.createElement('textarea');
+	ta.value = text;
+	ta.style.cssText = 'position:absolute;left:-9999px';
+	document.body.appendChild(ta);
+	ta.select();
 	document.execCommand('copy');
-	document.body.removeChild(textarea);
+	document.body.removeChild(ta);
 }
 
 function extractText(highlightDiv) {

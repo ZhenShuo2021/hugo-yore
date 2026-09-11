@@ -1,6 +1,7 @@
 {{- $src := .Get "src" -}}
 {{- $page := .Get "page" -}}
 {{- $height := .Get "height" | default "800px" -}}
+{{- $title := .Get "title" -}}
 {{- $u := "" -}}
 {{- with .Page.Resources.GetMatch $src -}}
 	{{- $u = .RelPermalink -}}
@@ -9,9 +10,14 @@
 {{- else -}}
 	{{- $u = $src -}}
 {{- end -}}
+{{- $downloadURL := $u -}}
 {{- if $page -}}
 	{{- $u = printf "%s#page=%v" $u $page -}}
 {{ end -}}
+{{- $frameTitle := $title | default (printf "PDF: %s" (path.Base $src)) -}}
 <div class="pdf-embed">
-	<iframe src="{{ $u }}" width="100%" height="{{ $height }}" loading="lazy"></iframe>
+	<iframe src="{{ $u }}" title="{{ $frameTitle }}" width="100%" height="{{ $height }}" loading="lazy"></iframe>
+	<p class="pdf-embed__fallback text-sm">
+		<a href="{{ $downloadURL }}" target="_blank" rel="noopener">Open PDF</a>
+	</p>
 </div>

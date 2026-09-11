@@ -1,4 +1,5 @@
 a11y:
+  heading_link: この見出しへのリンク
   opens_external_link: 外部リンク
 a11y_panel:
   close: アクセシビリティパネルを閉じる
@@ -28,6 +29,7 @@ admonition:
   warning: 警告
 article:
   backlinks_title: 被リンク
+  categories: カテゴリー
   date: '{{ .Date }}'
   date_updated: '更新日: {{ .Date }}'
   kg_title: 記事の関連
@@ -38,6 +40,7 @@ article:
   published_date: 公開日
   related_articles: 関連記事
   series: この記事は連載の一部です
+  tags: タグ
 code:
   copied: コピーしました
   copy: コピー
@@ -59,6 +62,7 @@ nav:
   breadcrumb: パンくずリスト
   change_language: 言語を変更
   close_mobile_menu: モバイルメニューを閉じる
+  expand_submenu: サブメニューを開く
   footer_navigation: フッターナビゲーション
   main_navigation: メインナビゲーション
   open_sidebar: サイドバーを開く
@@ -74,7 +78,6 @@ page_actions:
   copy_url: URLをコピー
   edit_this_page: このページを編集
   view_source: ソースを表示
-quick_reference: クイックリファレンス
 random:
   choosing: 読む価値のある記事を選んでいます
   js_required: ランダムリダイレクトには JavaScript が必要です。
@@ -84,12 +87,6 @@ random:
   untitled: 無題
 recent:
   show_more: もっと見る
-search:
-  close_button_title: 閉じる (Esc)
-  input_placeholder: 検索
-  no_result: 結果がありません
-  open_button_title: 検索 (/)
-shortcode:
-  recent_articles: 最近の記事
+require_js: 表示するには JavaScript を有効にしてください。
 stale_warning:
-  'text:': この記事はしばらく更新されていないため、一部の情報が古くなっている可能性があります。
+  text: この記事はしばらく更新されていないため、一部の情報が古くなっている可能性があります。

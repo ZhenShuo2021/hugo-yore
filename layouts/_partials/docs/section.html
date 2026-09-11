@@ -15,21 +15,21 @@
 			{{- $groupPages := partial "inline/section-sort-pages" (dict "pages" .Pages "ctx" $.Page) -}}
 			<div class="mb-12">
 				<h2 class="text-foreground mb-4 text-2xl font-medium">{{ .Key }}</h2>
-				<div class="flex flex-col gap-y-2">
+				<ul class="flex list-none flex-col gap-y-2">
 					{{- range $groupPages -}}
 						{{- partial "inline/docs/section-page-item" . -}}
 					{{- end -}}
-				</div>
+				</ul>
 			</div>
 		{{- end -}}
 	{{- else -}}
 		{{- $sorted := partial "inline/section-sort-pages" (dict "pages" $pages "ctx" $.Page) -}}
 		{{- if $sorted -}}
-			<div class="flex flex-col gap-y-2">
+			<ul class="flex list-none flex-col gap-y-2">
 				{{- range $sorted -}}
 					{{- partial "inline/docs/section-page-item" . -}}
 				{{- end -}}
-			</div>
+			</ul>
 		{{- end -}}
 	{{- end -}}
 </main>
@@ -38,7 +38,7 @@
 	{{- if or .Params.pageNoList -}}
 	{{- else -}}
 		{{- $externalURL := .Param "link" -}}
-		<section class="flex items-center text-lg">
+		<li class="flex items-center text-lg">
 			<a
 				{{ with $externalURL -}}
 					href="{{ . }}" target="_blank" rel="noopener"
@@ -61,6 +61,6 @@
 					</span>
 				{{- end -}}
 			</a>
-		</section>
+		</li>
 	{{- end -}}
 {{- end -}}

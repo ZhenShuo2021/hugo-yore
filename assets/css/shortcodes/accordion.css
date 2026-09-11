@@ -21,3 +21,7 @@
 		transition: none;
 	}
 }
+.accordion-trigger:focus-visible {
+	outline-offset: -1px;
+	border-radius: 0.7rem;
+}

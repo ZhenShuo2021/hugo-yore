@@ -90,6 +90,9 @@ const FEATURES = {
 				const increaseBtn = document.getElementById('font-size-increase');
 				if (decreaseBtn) decreaseBtn.disabled = level <= -2;
 				if (increaseBtn) increaseBtn.disabled = level >= 2;
+
+				const status = document.getElementById('font-size-status');
+				if (status) status.textContent = `${level - -2 + 1} / 5`;
 			};
 
 			const decreaseBtn = document.getElementById('font-size-decrease');
@@ -153,6 +156,12 @@ function initPanel(panelId) {
 			if (element.type === 'checkbox') {
 				element.checked = current[key];
 				element.onchange = (e) => updateSetting(key, e.target.checked);
+				element.addEventListener('keydown', (e) => {
+					if (e.key === 'Enter') {
+						e.preventDefault();
+						element.click();
+					}
+				});
 			} else if (element.tagName === 'SELECT') {
 				element.value = current[key];
 				element.onchange = (e) => updateSetting(key, e.target.value);
@@ -175,7 +184,6 @@ function initPanel(panelId) {
 		}
 
 		toggles.forEach((t) => {
-			t.setAttribute('aria-pressed', String(isClosed));
 			t.setAttribute('aria-expanded', String(isClosed));
 		});
 	}

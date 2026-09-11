@@ -21,11 +21,12 @@
 				{{- $groupPages := partial "inline/section-sort-pages" (dict "pages" .Pages "ctx" $.Page ) -}}
 				<div class="mb-12">
 					<h2 class="text-foreground mb-4 text-2xl font-medium">{{ .Key }}</h2>
-					<div class="flex flex-col gap-y-6 sm:grid sm:grid-cols-[max-content_1fr] sm:gap-x-4 sm:gap-y-2">
+					<ul
+						class="flex list-none flex-col gap-y-6 sm:grid sm:grid-cols-[max-content_1fr] sm:gap-x-4 sm:gap-y-2">
 						{{- range $groupPages -}}
 							{{- partial "inline/section-page-item" . -}}
 						{{- end -}}
-					</div>
+					</ul>
 				</div>
 			{{- end -}}
 			{{- partial "section/pagination.html" (dict "paginator" $paginator) -}}
@@ -33,11 +34,12 @@
 			{{- $sorted := partial "inline/section-sort-pages" (dict "pages" $pages "ctx" $.Page ) -}}
 			{{- $paginator := .Paginate $sorted -}}
 			{{- if $paginator.Pages -}}
-				<div class="flex flex-col gap-y-6 sm:grid sm:grid-cols-[max-content_1fr] sm:gap-x-4 sm:gap-y-2">
+				<ul
+					class="flex list-none flex-col gap-y-6 sm:grid sm:grid-cols-[max-content_1fr] sm:gap-x-4 sm:gap-y-2">
 					{{- range $paginator.Pages -}}
 						{{- partial "inline/section-page-item" . -}}
 					{{- end -}}
-				</div>
+				</ul>
 			{{- end -}}
 			{{- partial "section/pagination.html" (dict "paginator" $paginator) -}}
 		{{- end -}}
@@ -49,7 +51,7 @@
 	{{- if or .Params.pageNoList -}}
 	{{- else -}}
 		{{- $externalURL := .Param "link" -}}
-		<section class="flex flex-col items-start text-lg sm:contents">
+		<li class="flex flex-col items-start text-lg sm:contents">
 			<time datetime="{{ .Date.Format "2006-01-02" }}" class="text-muted-foreground">
 				{{- .Date.Format "2006-01-02" }}
 			</time>
@@ -74,7 +76,7 @@
 					{{- end -}}
 				</a>
 			</span>
-		</section>
+		</li>
 	{{- end -}}
 {{- end -}}
 

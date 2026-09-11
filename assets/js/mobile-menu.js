@@ -2,6 +2,19 @@ const toggle = document.getElementById('mobile-menu-toggle');
 const overlay = document.getElementById('mobile-menu-overlay');
 const close = document.getElementById('mobile-menu-close');
 
+overlay?.querySelectorAll('[data-mobile-submenu-trigger]').forEach((btn) => {
+	const content = document.getElementById(btn.getAttribute('aria-controls'));
+	if (!content) return;
+
+	content.classList.toggle('is-expanded', btn.getAttribute('aria-expanded') === 'true');
+
+	btn.addEventListener('click', () => {
+		const expanded = btn.getAttribute('aria-expanded') === 'true';
+		btn.setAttribute('aria-expanded', String(!expanded));
+		content.classList.toggle('is-expanded', !expanded);
+	});
+});
+
 if (toggle && overlay && close) {
 	function openMenu() {
 		overlay.showModal();

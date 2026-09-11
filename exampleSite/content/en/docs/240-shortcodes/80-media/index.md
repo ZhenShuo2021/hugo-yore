@@ -468,6 +468,7 @@ The `pdf` shortcode embeds a PDF file using an inline iframe viewer.
 | Parameter | Description |
 | --- | --- |
 | `src` | **Required.** PDF URL or local path. Resolves as page resource first, then global resource, then relative URL. |
+| `title` | **Optional.** PDF title for screen readers. |
 | `page` | **Optional.** Jumps to a specific page number on load. |
 | `height` | **Optional.** Height of the viewer frame. **Default:** `800px` |
 

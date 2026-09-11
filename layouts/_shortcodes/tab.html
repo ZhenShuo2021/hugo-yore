@@ -10,6 +10,9 @@
 {{- .Parent.Store.Set "tabs" ($tabs | append (dict "label" $label "icon" $iconHTML)) -}}
 
 {{- $index := len $tabs -}}
+{{- $uid := .Parent.Ordinal -}}
+{{- $tabID := printf "tab-%d-%d" $uid $index -}}
+{{- $panelID := printf "tabpanel-%d-%d" $uid $index -}}
 
 {{- $default := .Parent.Get "default" -}}
 {{- $isActive := false -}}
@@ -26,8 +29,14 @@
 
 
 <div
+	id="{{ $panelID }}"
 	class="tab__panel {{ cond $isActive `tab--active` `` }}"
+	role="tabpanel"
+	aria-labelledby="{{ $tabID }}"
+	tabindex="0"
+	{{- if not $isActive }}{{ printf " hidden" | safeHTMLAttr }}{{ end }}
 	data-tab-index="{{ $index }}"
 	data-tab-label="{{ $label }}">
 	{{- .Inner -}}
 </div>
+{{- /**/ -}}

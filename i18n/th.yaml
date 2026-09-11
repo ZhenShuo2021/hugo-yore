@@ -61,6 +61,7 @@ nav:
   close_mobile_menu: ปิดเมนูมือถือ
   footer_navigation: การนำทางส่วนท้าย
   main_navigation: การนำทางหลัก
+  open_sidebar: เปิดแถบด้านข้าง
   scroll_to_top_title: เลื่อนขึ้นด้านบน
   search: ค้นหา
   skip_to_main: ข้ามไปยังเนื้อหาหลัก

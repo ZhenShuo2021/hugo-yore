@@ -2,6 +2,7 @@ import * as params from '@params';
 
 const NAV_SELECTOR = '.docs-nav';
 const STORAGE_KEY_PREFIX = 'yore-docs-nav-state';
+const DRAWER_MEDIA = '(min-width: 48em)';
 
 // --- State shape ---
 // { collapsed: { [sectionId]: boolean }, scroll: number }
@@ -83,11 +84,56 @@ function initScrollPersist() {
 	addEventListener('pagehide', persist);
 }
 
+function initDrawer() {
+	const drawer = document.getElementById('docs-drawer');
+	const openBtn = document.getElementById('docs-drawer-open');
+	if (!drawer || !openBtn) return;
+
+	const mainEl = document.getElementById('main-content');
+
+	function openDrawer() {
+		drawer.showPopover();
+		if (mainEl) mainEl.inert = true;
+		openBtn.setAttribute('aria-expanded', 'true');
+		drawer.focus({ preventScroll: true });
+	}
+
+	function closeDrawer() {
+		drawer.hidePopover();
+		if (mainEl) mainEl.inert = false;
+		openBtn.setAttribute('aria-expanded', 'false');
+		openBtn.focus({ preventScroll: true });
+	}
+
+	openBtn.addEventListener('click', () => {
+		if (drawer.matches(':popover-open')) {
+			closeDrawer();
+		} else {
+			openDrawer();
+		}
+	});
+
+	document.addEventListener('click', (e) => {
+		if (!drawer.matches(':popover-open')) return;
+		if (drawer.contains(e.target) || e.target.closest('#docs-drawer-open')) return;
+		closeDrawer();
+	});
+
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && drawer.matches(':popover-open')) closeDrawer();
+	});
+
+	matchMedia(DRAWER_MEDIA).addEventListener('change', (e) => {
+		if (e.matches && drawer.matches(':popover-open')) closeDrawer();
+	});
+}
+
 // --- Init ---
 
 function init() {
 	if (document.documentElement.getAttribute('data-page-type') !== 'docs') return;
-	if (!matchMedia('(min-width: 48em)').matches) return;
+
+	initDrawer();
 
 	const nav = document.querySelector(NAV_SELECTOR);
 	if (!nav) return;

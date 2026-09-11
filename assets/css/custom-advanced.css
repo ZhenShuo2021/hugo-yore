@@ -191,7 +191,7 @@ html {
 
 @media not (prefers-reduced-motion: reduce) {
 	html:not([data-a11y-reduce-motion]) {
-		.scrollbar-mask {
+		.scrollbar-mask:not(.docs-sidebar-container[popover]:popover-open *) {
 			mask-image:
 				linear-gradient(to top, transparent, black), linear-gradient(to left, transparent 17px, black 17px);
 			mask-size: 100% 20000px;
@@ -203,25 +203,25 @@ html {
 			transition:
 				mask-position var(--dur-200),
 				-webkit-mask-position var(--dur-200);
-		}
 
-		.scrollbar-mask:hover {
-			mask-position: left top;
-			-webkit-mask-position: left top;
-		}
+			&:hover {
+				mask-position: left top;
+				-webkit-mask-position: left top;
+			}
 
-		.scrollbar-mask:dir(rtl) {
-			mask-image:
-				linear-gradient(to top, transparent, black), linear-gradient(to right, transparent 17px, black 17px);
-			mask-position: right bottom;
-			-webkit-mask-image:
-				linear-gradient(to top, transparent, black), linear-gradient(to right, transparent 17px, black 17px);
-			-webkit-mask-position: right bottom;
-		}
+			&:dir(rtl) {
+				mask-image:
+					linear-gradient(to top, transparent, black), linear-gradient(to right, transparent 17px, black 17px);
+				mask-position: right bottom;
+				-webkit-mask-image:
+					linear-gradient(to top, transparent, black), linear-gradient(to right, transparent 17px, black 17px);
+				-webkit-mask-position: right bottom;
 
-		.scrollbar-mask:dir(rtl):hover {
-			mask-position: right top;
-			-webkit-mask-position: right top;
+				&:hover {
+					mask-position: right top;
+					-webkit-mask-position: right top;
+				}
+			}
 		}
 	}
 }

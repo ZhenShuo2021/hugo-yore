@@ -2,8 +2,7 @@
 {{- if and (.Param "pageHeroStyle") (ne (.Param "pageHeroStyle") "disable") -}}
 	{{- partial "page/hero/main.html" . -}}
 {{- end }}
-<div
-	class="{{ cond $headerSticky `docs-layout--sticky-header` `` }} border-border flex min-h-screen w-full items-stretch border-b">
+<div class="border-border flex min-h-screen w-full items-stretch border-b">
 	{{- partial "inline/docs-nav.html" . -}}
 	<div class="flex min-w-0 flex-1 items-stretch pt-16">
 		{{- if .IsSection -}}
@@ -17,56 +16,53 @@
 
 {{- define "_partials/inline/docs-nav.html" -}}
 	<aside
-		class="docs-sidebar-container border-border sticky top-0 hidden h-screen max-h-screen w-[280px] shrink-0 flex-col border-e text-sm md:flex"
+		id="docs-drawer"
+		popover="manual"
+		tabindex="-1"
+		class="docs-sidebar-container"
 		aria-label="{{ i18n "docs.sidebar_label" | default "Sidebar" }}"
 		data-docs-root="{{ (printf "%v" .FirstSection.Path) | xxhash | first 6 }}"
 		data-current-page-uid="{{ (printf "%v" .Path) | xxhash | first 6 }}">
-		<div class="docs-sidebar-logo flex shrink-0 items-center gap-2 overflow-hidden px-4">
-			{{- if eq site.Params.headerLayout "hideOnScroll" -}}
-				{{- if site.Params.Logo -}}
-					{{- $logo := resources.Get site.Params.Logo -}}
-					{{- if $logo -}}
-						<div class="logo-container flex h-8 w-auto flex-shrink-0 items-center">
-							{{- if eq $logo.MediaType.SubType "svg" -}}
-								<a
-									href="{{ site.BaseURL | relLangURL }}"
-									aria-label="{{ site.Title }}"
-									tabindex="-1"
-									class="flex h-full items-center">
-									{{- $logo.Content | safeHTML -}}
-								</a>
-							{{- else -}}
-								<a
-									href="{{ site.BaseURL | relLangURL }}"
-									aria-label="{{ site.Title }}"
-									tabindex="-1"
-									class="flex h-full items-center">
-									<img
-										src="{{ $logo.RelPermalink }}"
-										alt="{{ site.Title }}"
-										class="h-full w-auto object-contain">
-								</a>
-							{{- end -}}
-						</div>
-					{{- end -}}
+		<div class="docs-sidebar-logo flex shrink-0 items-center gap-2 overflow-hidden px-4" aria-hidden="true">
+			{{- if site.Params.Logo -}}
+				{{- $logo := resources.Get site.Params.Logo -}}
+				{{- if $logo -}}
+					<div class="logo-container flex h-8 w-auto flex-shrink-0 items-center">
+						{{- if eq $logo.MediaType.SubType "svg" -}}
+							<a
+								href="{{ site.BaseURL | relLangURL }}"
+								aria-label="{{ site.Title }}"
+								tabindex="-1"
+								class="flex h-full items-center">
+								{{- $logo.Content | safeHTML -}}
+							</a>
+						{{- else -}}
+							<a
+								href="{{ site.BaseURL | relLangURL }}"
+								aria-label="{{ site.Title }}"
+								tabindex="-1"
+								class="flex h-full items-center">
+								<img src="{{ $logo.RelPermalink }}" alt="{{ site.Title }}" class="h-full w-auto object-contain">
+							</a>
+						{{- end -}}
+					</div>
 				{{- end -}}
-				{{- if site.Params.headerShowTitle | default true -}}
-					<a
-						href="{{ "" | relLangURL }}"
-						translate="no"
-						class="text-foreground min-w-0 shrink truncate text-xl font-medium">
-						{{- site.Title | markdownify -}}
-					</a>
-				{{- else -}}
-					<span class="sr-only">{{ site.Title | markdownify }}</span>
-				{{- end -}}
+			{{- end -}}
+			{{- if site.Params.headerShowTitle | default true -}}
+				<a
+					href="{{ "" | relLangURL }}"
+					translate="no"
+					class="text-foreground min-w-0 shrink truncate text-xl font-medium">
+					{{- site.Title | markdownify -}}
+				</a>
+			{{- else -}}
+				<span class="sr-only">{{ site.Title | markdownify }}</span>
 			{{- end -}}
 		</div>
 
 		<script>
 			(() => {
 				try {
-					if (!matchMedia('(min-width: 48em)').matches) return;
 					const asideEl = document.querySelector('.docs-sidebar-container');
 					const docsRoot = asideEl?.dataset.docsRoot || '';
 					const storageKey = 'yore-docs-nav-state:' + docsRoot;

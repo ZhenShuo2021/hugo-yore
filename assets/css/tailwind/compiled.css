@@ -1151,17 +1151,11 @@
   .h-px {
     height: 1px;
   }
-  .h-screen {
-    height: 100vh;
-  }
   .max-h-\[calc\(100dvh-2rem\)\] {
     max-height: calc(100dvh - 2rem);
   }
   .max-h-\[calc\(100vh-var\(--header-height\)-5rem\)\] {
     max-height: calc(100vh - var(--header-height) - 5rem);
-  }
-  .max-h-screen {
-    max-height: 100vh;
   }
   .min-h-6 {
     min-height: calc(var(--spacing) * 6);
@@ -1186,9 +1180,6 @@
   }
   .w-18 {
     width: calc(var(--spacing) * 18);
-  }
-  .w-\[280px\] {
-    width: 280px;
   }
   .w-auto {
     width: auto;
@@ -1489,10 +1480,6 @@
   .border-s {
     border-inline-start-style: var(--tw-border-style);
     border-inline-start-width: 1px;
-  }
-  .border-e {
-    border-inline-end-style: var(--tw-border-style);
-    border-inline-end-width: 1px;
   }
   .border-t {
     border-top-style: var(--tw-border-style);
@@ -2322,7 +2309,6 @@
   }
   [data-code-wrapper] {
     position: relative;
-    z-index: 0;
     display: block;
     overflow: hidden;
     border-radius: var(--radius-md);
@@ -2394,7 +2380,6 @@
   }
   .highlight {
     position: relative;
-    z-index: 0;
   }
   .copy-button {
     position: absolute;

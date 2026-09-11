@@ -10,7 +10,7 @@ code:not(pre code) {
 
 /* margins for codeblock title */
 [data-code-wrapper] {
-	@apply relative z-0 block overflow-hidden rounded-md shadow;
+	@apply relative block overflow-hidden rounded-md shadow;
 	margin-top: 1.7142857em;
 	margin-bottom: 1.7142857em;
 }
@@ -75,7 +75,7 @@ code:not(pre code) {
 
 /* Code Copy */
 .highlight {
-	@apply relative z-0;
+	@apply relative;
 }
 
 .copy-button {

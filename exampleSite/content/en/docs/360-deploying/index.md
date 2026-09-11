@@ -1,6 +1,6 @@
 ---
-title: "Hosting"
-slug: "hosting"
+title: "Deploying"
+slug: "deploying"
 description: "Deploy your Hugo site."
 weight: 360
 date: 2026-01-22T16:30:00+08:00

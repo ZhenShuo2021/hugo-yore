@@ -275,6 +275,8 @@ languages:
         - name: Blog
           pageRef: /blog
           weight: 20
+          params:
+            # url: /url/to/override/pageRef # Extra url setting to override the URL of pageRef
 
         - name: Docs
           pageRef: /docs
@@ -282,7 +284,6 @@ languages:
           params:
             # icon: code # Icon to display, named "code"
             collapsed: true # Whether the nested menu is collapsed by default on mobile
-            # url: /url/to/override/pageRef # Extra url setting to override the URL of pageRef
 
         # Nested menu
         - name: Getting Started

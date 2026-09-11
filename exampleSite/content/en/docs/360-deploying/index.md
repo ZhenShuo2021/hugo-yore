@@ -47,7 +47,7 @@ GitHub Pages builds your site using GitHub Actions. The workflow installs Hugo, 
         env:
           GO_VERSION: 1.25.0  # matches the version in go.mod
           HUGO_VERSION: 0.164.0
-          NODE_VERSION: 22
+          NODE_VERSION: 24
           TZ: Asia/Taipei
         steps:
           - name: Checkout
@@ -64,6 +64,7 @@ GitHub Pages builds your site using GitHub Actions. The workflow installs Hugo, 
             uses: actions/setup-node@v6
             with:
               node-version: ${{ env.NODE_VERSION }}
+              cache: 'npm'
 
           - name: Setup Go
             uses: actions/setup-go@v5
@@ -75,9 +76,6 @@ GitHub Pages builds your site using GitHub Actions. The workflow installs Hugo, 
             with:
               hugo-version: ${{ env.HUGO_VERSION }}
               extended: true
-
-          - name: Install pnpm
-            uses: pnpm/action-setup@v5
 
           - name: Install dependencies
             run: npm ci --omit=dev --ignore-scripts

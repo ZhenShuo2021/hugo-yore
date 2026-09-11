@@ -54,9 +54,6 @@ a[data-depth='0'] {
 
 .docs-node-padding {
 	padding: calc(var(--spacing) * 1.5);
-}
-
-[data-section-list] .docs-nav__link {
 	padding-inline-start: calc(var(--spacing) * 3);
 }
 

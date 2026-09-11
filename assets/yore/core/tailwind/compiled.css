@@ -485,11 +485,11 @@
   .ms-3 {
     margin-inline-start: calc(var(--spacing) * 3);
   }
-  .ms-3\.25 {
-    margin-inline-start: calc(var(--spacing) * 3.25);
-  }
   .ms-4 {
     margin-inline-start: calc(var(--spacing) * 4);
+  }
+  .ms-4\.75 {
+    margin-inline-start: calc(var(--spacing) * 4.75);
   }
   .ms-5 {
     margin-inline-start: calc(var(--spacing) * 5);

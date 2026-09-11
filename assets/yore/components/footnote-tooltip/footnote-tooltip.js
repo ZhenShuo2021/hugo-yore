@@ -1,3 +1,8 @@
+// Not using the popover API due to 3 polyfill requirements, positioning issue, and modern JS/CSS API.
+// The current implementation meets WCAG 1.4.13 with minimal additional code.
+//
+// https://github.com/GoogleChrome/modern-web-guidance/blob/22ab18dfb50a5d7e3bdcf471c14076a5534eae4e/skills/modern-web-guidance/guides/ui-behaviors/interest-triggered-tooltips.md
+// https://github.com/GoogleChrome/modern-web-guidance/blob/22ab18dfb50a5d7e3bdcf471c14076a5534eae4e/skills/modern-web-guidance/guides/ui-atoms/position-aware-tooltips.md
 class FootnoteTooltip {
 	constructor() {
 		this.tooltip = null;

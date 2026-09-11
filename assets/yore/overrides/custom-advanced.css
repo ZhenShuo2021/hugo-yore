@@ -30,8 +30,12 @@ html {
 }
 
 /* anchor highlight */
-:where(h1, h2, h3, h4, h5, h6):target {
-	animation: anchor-highlight calc(var(--dur-150) * 6) cubic-bezier(0.61, 0.94, 0.05, 0.66) forwards;
+:where(h1, h2, h3, h4, h5, h6, sup[id^='fnref']):target {
+	@media not (prefers-reduced-motion: reduce) {
+		html:not([data-a11y-reduce-motion]) & {
+			animation: anchor-highlight calc(var(--dur-150) * 6) cubic-bezier(0.61, 0.94, 0.05, 0.66) forwards;
+		}
+	}
 	scroll-margin-top: var(--header-height);
 }
 

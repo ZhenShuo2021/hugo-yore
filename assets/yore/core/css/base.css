@@ -97,18 +97,6 @@ lite-youtube {
 		text-decoration: none;
 	}
 
-	table {
-		border-collapse: collapse;
-		width: 100%;
-		font-size: 9pt;
-	}
-
-	th,
-	td {
-		border: 0.2pt solid #000;
-		padding: 3pt 5pt;
-	}
-
 	.heading-anchor::before,
 	footer,
 	button {

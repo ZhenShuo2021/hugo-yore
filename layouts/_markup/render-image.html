@@ -1,3 +1,28 @@
+{{- /* TODO
+
+Consider using picture tag instead of srcset.
+
+Even Jake Archibald's website does *not* use srcset:
+https://jakearchibald.com/2021/f1-perf-part-7/
+
+There are several issues with using srcset right now:
+
+1. We don't want to deal with the complexity of sizes.
+		We just want a smaller image on mobile and a larger image on desktop.
+2. To achieve this, the current setup is somewhat counterintuitive.
+		It relies on calculations to make the images happen to render this way.
+3. We don't actually know which container the images from
+		the Markdown render hook will be placed in.
+4. This causes the browser to warn about a potential CLS issue:
+		"Lazy-loaded images should have explicit dimensions."
+5. We also want users on all devices to be able to download the full-size image.
+6. We also need to make sure the render hook works correctly inside
+		all kinds of containers (masonry, carousel, PhotoSwipe, ...).
+
+We should probably use the picture tag to solve these issues.
+
+*/ -}}
+
 {{- define "RenderImageSimple" -}}
 	{{- $imgObj := .imgObj -}}
 	{{- $src := .src -}}

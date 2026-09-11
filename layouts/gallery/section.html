@@ -98,7 +98,7 @@
 						<div class="flex items-center gap-1 text-lg font-medium">
 							<span class="line-clamp-2">{{ .Title }}</span>
 							{{- if $external -}}
-								<span class="sr-only">
+								<span class="sr-only select-none">
 									{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
 								</span>
 							{{- end -}}

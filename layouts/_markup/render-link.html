@@ -23,7 +23,7 @@
 <a href="{{ $href }}" {{- if $external }} target="_blank" rel="noopener noreferrer" {{- end }}>
 	{{- .Text -}}
 	{{- if $external -}}
-		<span class="sr-only">
+		<span class="sr-only select-none">
 			{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
 		</span>
 	{{- end -}}

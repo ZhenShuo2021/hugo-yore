@@ -2080,6 +2080,10 @@
     --tw-ease: var(--ease-out);
     transition-timing-function: var(--ease-out);
   }
+  .select-none {
+    -webkit-user-select: none;
+    user-select: none;
+  }
   .select-text {
     -webkit-user-select: text;
     user-select: text;

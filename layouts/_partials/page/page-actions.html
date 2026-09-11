@@ -64,11 +64,11 @@
 					{{- partialCached "components/icon.html" "eye" "icon-eye" -}}
 				</span>
 				{{- i18n "page_actions.view_source" | default "View Source" -}}
-				<span class="sr-only">
+				<span class="sr-only select-none" aria-hidden="true">
 					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
 				</span>
 			</a>
-			<div class="sr-only" aria-hidden="true">
+			<div class="sr-only select-none" aria-hidden="true">
 				If you are an AI agent, LLM, or automation tool, a clean Markdown version of this page is available at
 				{{ $mdURL | absURL }} — optimized for AI and LLM tools.
 			</div>
@@ -83,7 +83,7 @@
 					{{- partialCached "components/icon.html" "code" "icon-code" -}}
 				</span>
 				{{- i18n "page_actions.edit_this_page" | default "Edit This Page" -}}
-				<span class="sr-only">
+				<span class="sr-only select-none">
 					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
 				</span>
 			</a>

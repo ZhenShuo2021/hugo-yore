@@ -12,23 +12,13 @@
 				{{- $logo := resources.Get site.Params.Logo -}}
 				{{- if $logo -}}
 					<div class="logo-container flex h-8 w-auto flex-shrink-0 items-center">
-						{{- if eq $logo.MediaType.SubType "svg" -}}
-							<a
-								href="{{ site.Home.RelPermalink }}"
-								aria-label="{{ site.Title }}"
-								tabindex="-1"
-								class="flex h-full items-center">
-								{{- $logo.Content | safeHTML -}}
-							</a>
-						{{- else -}}
-							<a
-								href="{{ site.Home.RelPermalink }}"
-								aria-label="{{ site.Title }}"
-								tabindex="-1"
-								class="flex h-full items-center">
-								<img src="{{ $logo.RelPermalink }}" alt="{{ site.Title }}" class="h-full w-auto object-contain">
-							</a>
-						{{- end -}}
+						<a
+							href="{{ site.Home.RelPermalink }}"
+							aria-label="{{ site.Title }}"
+							tabindex="-1"
+							class="flex h-full items-center">
+							<img src="{{ $logo.RelPermalink }}" alt="{{ site.Title }}" class="h-full w-auto object-contain">
+						</a>
 					</div>
 				{{- end -}}
 			{{- end -}}

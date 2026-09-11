@@ -15,15 +15,15 @@ The `gallery` content type is designed to be minimal. Pages render without a sid
 
 ## Page configuration
 
-Accepted fields for individual pages of type `gallery`. If the Front Matter column shows ❌, the field cannot be overridden via front matter.
+Accepted fields for individual pages of type `gallery`. All settings can be overridden in the front matter, unless explicitly noted as unsupported.
 
-| Name | Type | Front Matter | Description |
-| --- | --- | :---: | --- |
-| `link` | `boolean` | | URL link to any internal or external page. |
-| `breadcrumb` | `boolean` | | Show breadcrumb navigation above the page title. Not shown unless explicitly enabled. |
-| `galleryPageLead` | `string` | | A short lead paragraph shown below the title. |
-| `pageShowMeta` | `boolean` | | Show the publish date below the title. |
-| `pageNoList` | `boolean` | | Exclude this page from search indexing and from list views. |
+| Name | Type | Description |
+| --- | --- | --- |
+| `link` | `boolean` | URL link to any internal or external page. |
+| `breadcrumb` | `boolean` | Show breadcrumb navigation above the page title. Not shown unless explicitly enabled. |
+| `galleryPageLead` | `string` | A short lead paragraph shown below the title. |
+| `pageShowMeta` | `boolean` | Show the publish date below the title. |
+| `pageNoList` | `boolean` | Exclude this page from search indexing and from list views. |
 
 ## Section configuration
 

@@ -17,15 +17,15 @@ All configurations on `docs` content type. The `blog` and `docs` content types s
 
 ### Unique fields{#unique-fields-page}
 
-Accepted fields for individual pages of type `docs`. If the Front Matter column shows ❌, the field cannot be overridden via front matter.
+Accepted fields for individual pages of type `docs`. All settings can be overridden in the front matter, unless explicitly noted as unsupported.
 
-| Name | Type | Front Matter | Description |
-| --- | --- | :---: | --- |
-| `sourceLinks` | `[]object` | | A list of source files shown at the bottom of the page. Each entry accepts `path` (relative to the site's source repository) and an optional `label` and `url` to override the auto-generated link[^sl]. |
-| `docsNavCollapsed` | `boolean` | | Collapse this section by default in the sidebar navigation. Only applies to section pages. |
-| `docsAutoCollapseCategories` | `boolean` | ❌ | Auto collapse all sibling sections when expanding one. |
-| `docsIcon` | `string` | | Icon shown next to this page or section in the sidebar navigation. |
-| `docsNavClass` | `string` | | Additional CSS class applied to the sidebar nav. |
+| Name | Type | Description |
+| --- | --- | --- |
+| `sourceLinks` | `[]object` | A list of source files shown at the bottom of the page. Each entry accepts `path` (relative to the site's source repository) and an optional `label` and `url` to override the auto-generated link[^sl]. |
+| `docsNavCollapsed` | `boolean` | Collapse this section by default in the sidebar navigation. Only applies to section pages. |
+| `docsAutoCollapseCategories` | `boolean` | Auto collapse other sections when expanding one. Cannot be overridden in the front matter. |
+| `docsIcon` | `string` | Icon shown next to this page or section in the sidebar navigation. |
+| `docsNavClass` | `string` | Additional CSS class applied to the sidebar nav. |
 
 [^sl]: For example:
 

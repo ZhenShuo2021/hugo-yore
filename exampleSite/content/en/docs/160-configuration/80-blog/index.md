@@ -6,6 +6,7 @@ date: 2026-07-07T00:00:00+08:00
 description: "Configuration fields unique to the blog content type."
 tags: ["reference", "blog-type"]
 params:
+  pageRelatedLimit: 10
   sourceLinks:
     - path: "layouts/_partials/page/"
       url: https://github.com/ZhenShuo2021/hugo-yore/tree/main/layouts/_partials/page
@@ -31,13 +32,13 @@ params:
 
 ### Unique fields{#unique-fields-page}
 
-Accepted fields for individual pages of type `blog`. If the Front Matter column shows ❌, the field cannot be overridden via front matter.
+Accepted fields for individual pages of type `blog`. All settings can be overridden in the front matter, unless explicitly noted as unsupported.
 
-| Name | Type | Front Matter | Description |
-| --- | --- | :---: | --- |
-| `pageSeriesStyle` | `string` | | Show series navigation on the page. Accepts `top`, `bottom`, or `both`. See [Series](../../200-features/200-series/index.md) for how series are defined. |
-| `pageShowRelated` | `boolean` | | Show a list of related posts below the content. See [Related Article](../../320-advanced/40-related-article/index.md) for how related posts are determined. |
-| `pageRelatedLimit` | `int` | :x: | Maximum number of related articles to show. |
+| Name | Type | Description |
+| --- | --- | --- |
+| `pageSeriesStyle` | `string` | Show series navigation on the page. Accepts `top`, `bottom`, or `both`. See [Series](../../200-features/200-series/index.md) for how series are defined. |
+| `pageShowRelated` | `boolean` | Show a list of related posts below the content. See [Related Article](../../320-advanced/40-related-article/index.md) for how related posts are determined. |
+| `pageRelatedLimit` | `int` | Maximum number of related articles to show. |
 
 ### Common fields{#common-fields-page}
 

@@ -1,4 +1,4 @@
-{{- $related := site.RegularPages.Related . | first (site.Params.pageRelatedLimit | default 3) -}}
+{{- $related := .Site.RegularPages.Related . | first (.Param "pageRelatedLimit" | default 3) -}}
 
 {{- if $related -}}
 	<aside class="border-border mt-16 border-t pt-12">

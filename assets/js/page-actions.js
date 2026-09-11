@@ -1,21 +1,51 @@
+(async () => {
+	try {
+		if (!('popover' in HTMLElement.prototype)) {
+			await import('https://unpkg.com/@oddbird/popover-polyfill@latest/dist/popover.min.js');
+		}
+		if (!('commandForElement' in HTMLButtonElement.prototype)) {
+			await import('https://esm.run/invokers-polyfill');
+		}
+	} catch (err) {
+		console.error('Failed to load dialog/popover polyfill:', err);
+	}
+})();
+
 const container = document.querySelector('.page-actions');
 const toggle = container.querySelector('.page-actions__toggle');
 const menu = container.querySelector('.page-actions__menu');
 const mdSourceLink = container.querySelector('.page-actions__view-source');
 const mdURL = mdSourceLink ? mdSourceLink.href : null;
 
-function closeMenu() {
-	menu.classList.add('hidden');
-	toggle.setAttribute('aria-expanded', 'false');
+const GAP = 8;
+const VIEWPORT_PADDING = 8;
+
+function positionMenu() {
+	const buttonRect = toggle.getBoundingClientRect();
+	const menuRect = menu.getBoundingClientRect();
+
+	let left = buttonRect.right - menuRect.width;
+	if (left < VIEWPORT_PADDING) left = VIEWPORT_PADDING;
+
+	menu.style.top = `${buttonRect.bottom + GAP}px`;
+	menu.style.left = `${left}px`;
 }
 
-toggle.addEventListener('click', function (e) {
-	e.stopPropagation();
-	const isHidden = menu.classList.toggle('hidden');
-	toggle.setAttribute('aria-expanded', String(!isHidden));
-});
+// The command/commandfor attributes already open and close the menu natively
+// The polyfill does not sync aria-expanded so keep it in sync manually
+menu.addEventListener('toggle', (event) => {
+	const isOpen = 'newState' in event ? event.newState === 'open' : menu.matches(':popover-open');
+	toggle.setAttribute('aria-expanded', String(isOpen));
 
-document.addEventListener('click', closeMenu);
+	if (isOpen) {
+		positionMenu();
+		window.addEventListener('scroll', positionMenu, true);
+		window.addEventListener('resize', positionMenu);
+	} else {
+		window.removeEventListener('scroll', positionMenu, true);
+		window.removeEventListener('resize', positionMenu);
+	}
+});
 
 async function copyText(text) {
 	try {
@@ -55,11 +85,12 @@ function flashSuccess() {
 	}, 1200);
 }
 
+// Closing the menu is now handled declaratively by command="hide-popover" on each
+// button, so these listeners only need to perform the copy side effect.
 const copyUrlBtn = container.querySelector('.page-actions__copy-url');
 if (copyUrlBtn) {
 	copyUrlBtn.addEventListener('click', async function () {
 		await copyText(window.location.origin + window.location.pathname);
-		closeMenu();
 		flashSuccess();
 	});
 }
@@ -75,6 +106,5 @@ if (copyMdBtn) {
 		} catch {
 			console.warn('Failed to copy markdown');
 		}
-		closeMenu();
 	});
 }

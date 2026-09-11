@@ -317,9 +317,6 @@
   .-start-2 {
     inset-inline-start: calc(var(--spacing) * -2);
   }
-  .end-0 {
-    inset-inline-end: calc(var(--spacing) * 0);
-  }
   .end-6 {
     inset-inline-end: calc(var(--spacing) * 6);
   }

@@ -5,6 +5,12 @@
 	}
 }
 
+/* [popover] elements are promoted to the top layer, positioning it using JS */
+.page-actions__menu {
+	position: fixed;
+	margin: 0;
+}
+
 .page-actions__icon-check {
 	transform: scale(0.5) rotate(-15deg);
 	transition:

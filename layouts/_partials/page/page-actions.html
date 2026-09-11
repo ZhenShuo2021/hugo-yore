@@ -12,14 +12,16 @@
 {{- with .OutputFormats.Get "markdown" -}}
 	{{- $mdURL = .RelPermalink -}}
 {{- end -}}
-<div class="page-actions relative print:hidden">
+<div class="page-actions print:hidden">
 	<button
 		class="page-actions__toggle group text-foreground flex items-center justify-center transition-colors duration-(--dur-100) ease-in-out"
 		aria-label="{{ i18n `page_actions.actions` | default `Actions` }}"
 		title="{{ i18n `page_actions.actions` | default `Actions` }}"
 		aria-haspopup="true"
 		aria-expanded="false"
-		aria-controls="page-actions-menu">
+		aria-controls="page-actions-menu"
+		command="toggle-popover"
+		commandfor="page-actions-menu">
 		<span class="icon page-actions__icon-ellipsis group-hover:text-link-hover size-4">
 			{{- partialCached "components/icon.html" "ellipsis-vertical" "icon-ellipsis-vertical" -}}
 		</span>
@@ -27,17 +29,26 @@
 			{{- partialCached "components/icon.html" "check" "icon-check" -}}
 		</span>
 	</button>
+	{{- /* MANDATORY: popover API gives native a11y ops without custom JS.
+		Menu positioning is set by page-actions.js because [popover] is promoted
+	  to the top layer, so `position: relative` no longer works.
+	*/ -}}
 	<div
 		id="page-actions-menu"
-		class="page-actions__menu bg-background border-border absolute end-0 top-full z-50 mt-2 hidden w-max rounded-lg border p-1 shadow-lg">
+		popover
+		class="page-actions__menu bg-background border-border z-50 w-max rounded-lg border p-1 shadow-lg">
 		<button
-			class="page-actions__copy-url text-popover-foreground hover:text-link-hover hover:bg-muted flex w-full items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors">
+			class="page-actions__copy-url text-popover-foreground hover:text-link-hover hover:bg-muted flex w-full items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors"
+			command="hide-popover"
+			commandfor="page-actions-menu">
 			<span class="icon size-3.5 shrink-0">{{ partialCached "components/icon.html" "link" "icon-link" }}</span>
 			{{- i18n "page_actions.copy_url" | default "Copy URL" -}}
 		</button>
 		{{- if $mdURL -}}
 			<button
-				class="page-actions__copy-md text-popover-foreground hover:text-link-hover hover:bg-muted flex w-full items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors">
+				class="page-actions__copy-md text-popover-foreground hover:text-link-hover hover:bg-muted flex w-full items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors"
+				command="hide-popover"
+				commandfor="page-actions-menu">
 				<span class="icon size-3.5 shrink-0">
 					{{- partialCached "components/icon.html" "copy" "icon-copy" -}}
 				</span>

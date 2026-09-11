@@ -19,11 +19,11 @@
 	},
 	"license": "MIT",
 	"scripts": {
-		"build:css": "tailwindcss -i ./assets/css/tailwind/main.css -o ./assets/css/tailwind/compiled.css",
+		"build:css": "tailwindcss -i ./assets/yore/core/tailwind/main.css -o ./assets/yore/core/tailwind/compiled.css",
 		"build:hugo": "hugo --minify -s exampleSite --baseURL https://yore.zsl0621.cc/ && pnpm run pagefind --site exampleSite/public",
 		"index": "pnpm pagefind --site exampleSite/public",
 		"dev": "concurrently 'pnpm dev:hugo' 'pnpm dev:css'",
-		"dev:css": "tailwindcss -i ./assets/css/tailwind/main.css -o ./assets/css/tailwind/compiled.css -w",
+		"dev:css": "tailwindcss -i ./assets/yore/core/tailwind/main.css -o ./assets/yore/core/tailwind/compiled.css -w",
 		"dev:hugo": "hugo server -s exampleSite --renderSegments fast --noHTTPCache --bind 0.0.0.0",
 		"test:versioning": "node tests/versioning.js",
 		"format": "prettier --write --list-different assets data exampleSite i18n layouts scripts",

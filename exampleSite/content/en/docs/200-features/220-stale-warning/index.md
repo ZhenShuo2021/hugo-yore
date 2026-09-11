@@ -15,12 +15,12 @@ The stale content warning shows an admonition on an article when it has not been
 
 ## Configuration
 
-Set `pageShowStaleWarning` to enable this feature, and set `pageStaleDays` to control how many days may pass before an article is considered stale.
+Set `staleContentWarning` to enable this feature, and set `staleDays` to control how many days may pass before an article is considered stale.
 
 ```yaml {title="hugo.yaml"}
 params:
-  pageShowStaleWarning: true
-  pageStaleDays: 365
+  staleContentWarning: true
+  staleDays: 365
 ```
 
-The `pageStaleDays` defaults to `365`.
+The `staleDays` defaults to `365`.

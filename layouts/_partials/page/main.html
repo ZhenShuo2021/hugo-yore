@@ -85,7 +85,7 @@
 	-}}
 		{{- $hr = true -}}
 	{{- end -}}
-	{{- if .Param "pageShowStaleWarning" -}}
+	{{- if .Param "staleContentWarning" -}}
 		{{- partial "components/stale-warning.html" . -}}
 		{{- $hr = true -}}
 	{{- end -}}

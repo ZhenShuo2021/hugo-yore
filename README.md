@@ -5,19 +5,20 @@ Yore is a minimalist Hugo theme focused on reading. See [demo site](https://yore
 ## Features
 
 - 17:1 ultra high text contrast ratios, far exceeding WCAG-AA 4.5:1
-- Prioritizes information delivery
 - 3 distinct header options
 - 2 page hero styles
 - 3-layered CSS structure for flexible styling
-- Semantic CSS layer for consistent visual customization
+- Prioritizes information delivery
+- Blog, documentation, and gallery layout support
 - Multilingual support
 - Multi-version content support
 - Article series support
-- Keyboard navigation support
+- Accessibility support
 - RTL support
 - Automated responsive image
 - Perfect Google Lighthouse scores on desktop and mobile
 - GDPR cookie consent banner
+- Semantic CSS layer for consistent visual customization
 - [TailwindCSS v4](https://tailwindcss.com/) lightweight CSS framework
 - [PhotoSwipe](https://photoswipe.com/) image galleries
 - [ECharts](https://echarts.apache.org/) interactive charts

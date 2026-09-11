@@ -1,7 +1,7 @@
 {{- $schemes := slice -}}
 {{- $schemesData := newScratch -}}
 {{- $ignore := slice "ocean" -}}
-{{- range resources.Match "css/schemes/*.css" -}}
+{{- range resources.Match "yore/core/css/schemes/*.css" -}}
 	{{- $name := path.BaseName .RelPermalink -}}
 	{{- if in $ignore $name -}}
 		{{- continue -}}

@@ -8,15 +8,15 @@
 
 {{- /* Mermaid */ -}}
 {{- if .Store.Get "hasMermaid" -}}
-	{{- $elkLib := resources.Get "lib/mermaid/mermaid-layout-elk.esm.min.mjs" -}}
+	{{- $elkLib := resources.Get "yore/lib/mermaid/mermaid-layout-elk.esm.min.mjs" -}}
 	{{- $jsParams := dict "elkUrl" $elkLib.RelPermalink -}}
-	{{- range resources.Match "lib/mermaid/chunks/**" -}}{{- .Publish -}}{{- end -}}
+	{{- range resources.Match "yore/lib/mermaid/chunks/**" -}}{{- .Publish -}}{{- end -}}
 	{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget "params" $jsParams }}
 
-	{{- $mermaidLib := resources.Get "lib/mermaid/mermaid.min.js" | fingerprint -}}
+	{{- $mermaidLib := resources.Get "yore/lib/mermaid/mermaid.min.js" | fingerprint -}}
 	<script defer src="{{ $mermaidLib.RelPermalink }}" integrity="{{ $mermaidLib.Data.Integrity }}"></script>
 
-	{{- $mermaidJS := resources.Get "js/shortcodes/mermaid.js" | js.Build $opts -}}
+	{{- $mermaidJS := resources.Get "yore/shortcodes/mermaid/mermaid.js" | js.Build $opts -}}
 	{{- if hugo.IsProduction }}{{ $mermaidJS = $mermaidJS  | fingerprint }}{{ end -}}
 	<script
 		defer
@@ -25,7 +25,7 @@
 		integrity="{{ $mermaidJS.Data.Integrity }}"></script>
 
 	{{- if .Store.Get "mermaidZoom" -}}
-		{{- with resources.Get "css/shortcodes/svg-toolbelt-modified.css" | minify | fingerprint -}}
+		{{- with resources.Get "yore/shortcodes/svg-toolbelt/svg-toolbelt-modified.css" | minify | fingerprint -}}
 			<link
 				rel="stylesheet"
 				href="{{ .RelPermalink }}"

@@ -8,7 +8,7 @@ tags: ["guide", "random-page", "content-organization"]
 params:
   sourceLinks:
     - path: "layouts/random/all.html"
-    - path: "assets/css/layout-random.css"
+    - path: "assets/yore/core/css/layouts/random.css"
 ---
 
 The random page lets readers discover a random article, giving older posts a chance to be seen again. Visiting this page picks a random page from the site and redirects the visitor to it, showing the chosen page's title with a typing animation before redirecting.

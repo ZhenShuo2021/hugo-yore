@@ -146,7 +146,7 @@ params:
   blogLayout: 3-col # Overall site column layout. [2-col | 3-col]
 
   # Theme
-  themeColorScheme: latex # Color palette for the theme. [avocado | blowfish | congo | fire | latex | one-light | wood]
+  themeColorScheme: latex # Color palette for the theme. [avocado | congo | fire | latex | one-light | wood]
   themeLightDarkMode: light # Default color mode on first visit. [light | dark]
   themeLightDarkSwitcher: true # Show a button letting visitors toggle light/dark mode
 
@@ -192,8 +192,8 @@ params:
   pageShowAuthors: true # Show the page's author(s)
   pageShowActions: true # Show page action buttons (e.g. source link, copy link)
   pageShowBacklinks: true # Show backlink tracking/display between pages
-  pageShowStaleWarning: false # Show a warning when an article has not been updated in pageStaleDays
-  pageStaleDays: 365 # Number of days before an article is considered stale
+  staleContentWarning: false # Show a warning when an article has not been updated in staleDays
+  staleDays: 365 # Number of days before an article is considered stale
   pageShowRelated: true # Show a "related articles" section
   pageRelatedLimit: 3 # Maximum number of related articles to show
 

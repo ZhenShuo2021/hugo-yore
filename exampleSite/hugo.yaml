@@ -150,7 +150,7 @@ params:
   blogLayout: 3-col # Overall site column layout. [2-col | 3-col]
 
   # Theme
-  themeColorScheme: latex # Color palette for the theme. [avocado | blowfish | congo | fire | latex | one-light | wood]
+  themeColorScheme: latex # Color palette for the theme. [avocado | congo | fire | latex | one-light | wood]
   themeLightDarkMode: light # Default color mode on first visit. [light | dark]
   themeLightDarkSwitcher: true # Show a button letting visitors toggle light/dark mode
 

@@ -1,0 +1,47 @@
+.copy-button {
+	position: absolute;
+	top: calc(var(--spacing) * 2);
+	right: calc(var(--spacing) * 2);
+	display: flex;
+	height: calc(var(--spacing) * 8);
+	width: calc(var(--spacing) * 8);
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	border-radius: var(--radius-md);
+	--tw-border-style: none;
+	border-style: none;
+	background-color: transparent;
+	padding: var(--spacing);
+	opacity: 0%;
+	transition-property: opacity, color, background-color;
+	transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+	transition-duration: var(--tw-duration, var(--default-transition-duration));
+	--tw-duration: var(--dur-200);
+	transition-duration: var(--dur-200);
+	--tw-ease: var(--ease-in-out);
+	transition-timing-function: var(--ease-in-out);
+	color: var(--muted);
+	@supports (color: color-mix(in lab, red, red)) {
+		color: color-mix(var(--foreground), var(--muted));
+	}
+}
+.copy-button:focus,
+.highlight:hover > .copy-button {
+	opacity: 100%;
+}
+.copy-button:hover {
+	color: var(--foreground);
+}
+.copy-button.copied {
+	color: var(--success);
+}
+.copy-button svg {
+	transition-property: transform, opacity;
+	transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+	transition-duration: var(--tw-duration, var(--default-transition-duration));
+	--tw-duration: var(--dur-200);
+	transition-duration: var(--dur-200);
+	--tw-ease: var(--ease-in-out);
+	transition-timing-function: var(--ease-in-out);
+}

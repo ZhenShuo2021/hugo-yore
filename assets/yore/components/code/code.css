@@ -1,0 +1,137 @@
+[data-code-wrapper],
+code,
+pre {
+	direction: ltr;
+}
+code:not(pre code) {
+	word-wrap: break-word;
+}
+
+/* use radius in wrapper not pre */
+.prose :where(pre):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+	border-radius: unset;
+}
+
+:not(pre) > code {
+	background-color: var(--color-accent-50);
+	font-weight: normal !important;
+	padding: 1.6px;
+	padding-inline: 4px;
+	border-radius: 0.5em;
+	border: 1px solid var(--color-accent-300);
+	font-size: 0.875em;
+	line-height: 1.4;
+}
+html[data-theme='dark'] code:not(pre code) {
+	background-color: var(--color-neutral-800);
+	border-color: var(--color-neutral-700);
+}
+
+/* margins for codeblock title */
+[data-code-wrapper] {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	border-radius: var(--radius-md);
+	/* @shadow */
+	--tw-shadow:
+		0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)),
+		0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+	box-shadow:
+		var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+		var(--tw-shadow);
+	margin-top: 1.7142857em;
+	margin-bottom: 1.7142857em;
+}
+
+/* outline patch */
+[data-code-wrapper] pre:focus-visible {
+	outline-offset: -2px;
+	border-radius: var(--radius-md);
+	outline: 2px solid (--outline);
+}
+
+[data-code-wrapper] pre,
+[data-code-wrapper] table,
+[data-code-wrapper] div {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.codeblock-title {
+	border-bottom-style: var(--tw-border-style);
+	border-bottom-width: 1px;
+	border-color: var(--color-neutral-200);
+	padding-inline: calc(var(--spacing) * 4);
+	padding-block: calc(var(--spacing) * 2);
+	&:where([data-theme='dark'], [data-theme='dark'] *) {
+		border-color: var(--color-neutral-800);
+	}
+	background-color: oklch(0.96 0.005 96);
+	&:where([data-theme='dark'], [data-theme='dark'] *) {
+		background-color: oklch(0.32 0.001 271);
+	}
+}
+
+/* LineTableTD */
+.chroma .lntd,
+.chroma .lntd pre {
+	margin: 0px;
+	--tw-border-style: none;
+	border-style: none;
+	padding: 0px;
+	vertical-align: top;
+}
+.chroma .lntable {
+	display: block;
+	width: auto;
+	overflow: hidden;
+	padding-inline: calc(var(--spacing) * 4);
+	padding-block: calc(var(--spacing) * 3);
+	font-size: var(--text-base);
+	line-height: var(--tw-leading, var(--text-base--line-height));
+	border-spacing: 0;
+}
+
+/* LineHighlight */
+.chroma .hl {
+	margin-inline: calc(var(--spacing) * -4);
+	display: block;
+	width: auto;
+	padding-inline: calc(var(--spacing) * 4);
+}
+.chroma .lntd .hl {
+	margin: 0px;
+	padding: 0px;
+}
+
+/* linenos=inline */
+.chroma:not(:is(table *)) > code {
+	display: block;
+	min-width: max-content;
+}
+
+/* Remove the error color because the lexer of chroma sucks */
+.chroma .err {
+	color: inherit;
+	background-color: inherit;
+}
+.highlight {
+	position: relative;
+}
+
+@media print {
+	[data-code-wrapper] pre,
+	[data-code-wrapper] code {
+		display: block !important;
+		min-width: 0 !important;
+		width: 100% !important;
+		white-space: pre-wrap !important;
+		word-break: break-all !important;
+		overflow-wrap: anywhere !important;
+		overflow-x: visible !important;
+	}
+	[data-code-wrapper] {
+		break-inside: avoid;
+	}
+}

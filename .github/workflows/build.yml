@@ -33,5 +33,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           branch: ${{ github.head_ref }}
-          file_pattern: assets/css/tailwind/compiled.css
+          file_pattern: assets/yore/core/tailwind/compiled.css
           commit_message: 'chore: rebuild CSS'

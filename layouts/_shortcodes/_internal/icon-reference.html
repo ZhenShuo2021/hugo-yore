@@ -1,7 +1,7 @@
 {{- $path := .Get "path" -}}
 {{- /* HUGO_DEPLOY_ENV is set in only in wrangler.toml */ -}}
 {{- $printIcon := os.Getenv "HUGO_DEPLOY_ENV" -}}
-{{- $icons := resources.Match (printf "icons/%s/*.svg" $path) -}}
+{{- $icons := resources.Match (printf "yore/icons/%s/*.svg" $path) -}}
 
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); column-gap: 2em;">

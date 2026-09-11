@@ -7,9 +7,9 @@ date: 2026-03-28T18:00:00+08:00
 tags: ["guide", "scripting", "privacy-compliance"]
 params:
   sourceLinks:
-    - path: "assets/js/cookies/cookie-consent.js"
-    - path: "assets/js/cookies/config.js"
-    - path: "assets/js/cookies/translations"
+    - path: "assets/yore/components/cookies/cookie-consent.js"
+    - path: "assets/yore/components/cookies/config.js"
+    - path: "assets/yore/components/cookies/translations"
     - path: "layouts/_partials/components/cookie-consent.html"
 ---
 

@@ -8,27 +8,24 @@ Typography is the primary design element. No shadows, gradients, or decorative b
 functional purpose (e.g. distinguishing interactive elements). Maintain WCAG AA contrast in both light and dark
 themes.
 
----
+## Development
+
+```sh
+pnpm dev:hugo     # Hugo dev server
+pnpm dev:css      # Tailwind watch
+pnpm build:hugo   # Build example site
+pnpm build:css    # Build Tailwind
+```
 
 ## Hard Rules
 
-These override any default assumption. Every rule exists because violations cause build failures or silent bugs
-in this project.
+Follow these rules without exception or explanation.
 
-- **No `{{ block }}`**. This project uses `{{ define "main" }}` in page templates rendered through
-  `baseof.html`.
-- **No nested `define`**, no `define` inside `if/else/with`, one `return` per partial. Hugo silently ignores or
-  errors on these.
+- **No nested `define`**, no `define` inside `if/else/with`, one `return` per partial. Hugo silently ignores or errors on these.
 - **No `IsSet`**. Use `with` (skip if falsy) or `| default value` (provide fallback).
-- **No direct edits to `i18n/*.yaml`**. Always use `scripts/i18n_input.txt` + `node scripts/manage-i18n.js` to
-  add/remove keys. The script handles nested YAML structure and alphabetical sorting.
-- **No `data-*` attributes or inline `<script>` for passing config to JS**. Use `js.Build` params (see JS Build
-  Pattern below).
-- **No `.Site.IsServer`**. Use `hugo.IsDevelopment` or `hugo.IsServer`.
-- **Avoid `dark:` prefix**. Dark mode uses `data-theme` attribute. Semantic tokens (e.g. `bg-background`,
-  `text-foreground`) resolve per-theme automatically.
-
----
+- **No direct edits to `i18n/*.yaml`**. Always use `node scripts/manage-i18n.js`.
+- **Avoid `dark:` prefix**. Dark mode uses `data-theme` attribute. Semantic tokens (e.g. `bg-background`, `text-foreground`) resolve per-theme automatically.
+- Always trim spaces unless it cannot be trimmed (`{{- ... -}}`).
 
 ## Hugo v0.146.0 Template Paths
 
@@ -39,8 +36,6 @@ This project uses Hugo's new template system. The paths below are what this proj
 - Shortcodes: `layouts/_shortcodes/` (not `layouts/shortcodes/`)
 - Internal templates: call with `{{ partial "x.html" . }}` (not `{{ template "_internal/x.html" . }}`)
 - Base template naming: dot-separated (`baseof.list.html`, not `list-baseof.html`)
-
----
 
 ## `define` and Partial Calling
 
@@ -54,28 +49,31 @@ The `define` name determines how to call it:
 {{/* -> {{ template "foo" . }} */}}
 ```
 
-Calling conventions used in this project:
-
-- Default: pass `.` (full page context)
-- Custom context: `partial "x.html" (dict "key" val)`
-- Dynamic name: `partial (printf "home/%s.html" layout) .`
-- `partialCached` for pure/immutable partials (admonition maps, init, math)
-- `templates.Exists` to gate optional extension points (`extend-head.html`, `comments.html`)
-
----
-
 ## Where New Code Goes
 
-| What                                      | Where                                                                       |
-| ----------------------------------------- | --------------------------------------------------------------------------- |
-| Reusable UI component                     | `_partials/components/`                                                     |
-| Data-only helper (returns value, no HTML) | `_partials/lib/`                                                      |
-| Shortcode                                 | `_shortcodes/`, complex logic in `_partials/impls/`                         |
-| JS feature                                | `assets/js/` as kebab-case `.js` file, wire in via `_partials/head/js.html` |
-| CSS component                             | `assets/css/components/`                                                    |
-| Home layout variant                       | `_partials/home/` (plain CSS only, no Tailwind)                             |
+| What                                      | Where                                               |
+| ----------------------------------------- | --------------------------------------------------- |
+| Reusable UI component                     | `_partials/components/`                             |
+| Data-only helper (returns value, no HTML) | `_partials/lib/`                                    |
+| Shortcode                                 | `_shortcodes/`, complex logic in `_partials/impls/` |
+| JS feature                                | `assets/yore/components/<name>/`                    |
+| CSS component                             | `assets/yore/components/<name>/`                    |
+| Home layout variant                       | `_partials/home/` (plain CSS only, no Tailwind)     |
 
----
+## CSS Rules
+
+1. Always use Tailwind CSS.
+2. Variant classes (e.g. `is-active`) go in a standalone CSS file under `assets/yore/components/<name>/`.
+3. Reusable atomic utility classes go in `assets/yore/core/css/utilities.css`.
+
+## JS Rules
+
+1. Generic JS goes in `assets/yore/components/<name>/`, always imported by `assets/yore/core/js/main.js.tmpl`.
+2. Generic JS is referenced by HTML as `type="module"`, so no DOM-load listener is needed. Code must conform to module rules.
+3. Small non-generic JS (tabs, accordion, roughly 20 lines) is also loaded by `main.js.tmpl`.
+4. Large non-generic JS is loaded individually in its own HTML. For shortcodes, gate it with `.HasShortcode`.
+5. Conditional loading: Use `.Page.Store` only for conditional loading.
+6. Duplicated loading check: `.Page.Store` is the worst option, since Store values update incorrectly during Hugo live reload.
 
 ## JS Build Pattern
 
@@ -88,64 +86,31 @@ Pass Hugo values into JS through `js.Build` params, read in JS with `import * as
 <script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
 ```
 
-- JS and CSS are fingerprinted in production only.
-- `esBuildTarget` comes from `hugo.Data.theme.esBuildTarget` (data file, not hardcoded).
-- Tailwind CSS uses `templates.Defer` for deferred processing.
+## A11y Rules
 
----
+Check both the standard media query and the custom a11y feature together. Example for reduced motion:
 
-## i18n Workflow
-
-Never edit `i18n/*.yaml` directly. Write changes to `scripts/i18n_input.txt`, then run
-`node scripts/manage-i18n.js`:
-
-```text
-en:
-+ dot.separated.key Value here
-- old.key.to.remove
-
-zh-TW:
-+ dot.separated.key 對應翻譯
-- old.key.to.remove
+```css
+@media not (prefers-reduced-motion: reduce) {
+  html:not([data-a11y-reduce-motion]) {
+    /* ... */
+  }
+}
 ```
 
-Key format: dot notation with snake_case segments (`a11y.font_size`, `article.related_articles`).
+This project's a11y features:
 
----
+1. high-contrast
+2. reduce-motion
+3. reduce-transparency
+4. link-underline
 
-## Error Handling
-
-**Hugo templates**: required values use `errorf` (stops build), recoverable issues use `warnf` (build
-continues), optional values use `with` or `| default`.
-
-**JavaScript**: wrap localStorage and fetch in `try/catch`. Use `console.warn` for expected/recoverable issues,
-`console.error` for unexpected failures. Silent catch only for non-critical UI like clipboard.
-
-**Shortcodes**: validate enum args with `errorf` on invalid values, use `| default` for optional args.
-
----
-
-## Whitespace Trimming
-
-Always trim spaces unless it cannot be trimmed (`{{- ... -}}`).
-
----
+Details are in the first 20 lines of `layouts/_partials/head/resources.html`, and the a11y panel is controlled by `assets/yore/components/a11y/a11y.js`.
 
 ## Naming
 
-- Files (templates, JS, CSS): kebab-case (`scroll-to-top.js`, `cookie-settings.html`)
-- Hugo template variables: camelCase (`$isDocsPage`, `$imageOptimization`)
-- JS variables and functions: camelCase (`themeManager`, `debounce`)
-- `site.Params` keys: camelCase (`searchEnabled`, `tocHighlight`)
-- i18n keys: `group.snake_case_key` (`a11y.font_size`, `search.input_placeholder`)
-
----
-
-## Development
-
-```sh
-pnpm dev:hugo     # Hugo dev server
-pnpm dev:css      # Tailwind watch
-pnpm build:hugo   # Build example site
-pnpm build:css    # Build Tailwind
-```
+- Files (templates, JS, CSS): kebab-case
+- Hugo template variables: camelCase
+- JS variables and functions: camelCase
+- `site.Params` keys: camelCase
+- i18n keys: `group.snake_case_key`

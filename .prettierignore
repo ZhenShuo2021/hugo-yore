@@ -9,9 +9,6 @@ node_modules
 pnpm-lock.yaml
 
 # Hugo
-assets/lib
-assets/sw/config.json.tmpl
-assets/css/compiled
 content
 themes
 public
@@ -24,10 +21,12 @@ layouts/_partials/components/card-shell-head.html
 layouts/_partials/components/card-shell-tail.html
 layouts/home.backlinks.json
 
-assets/css/main.css
-assets/css/components/chroma.css
-assets/css/tailwind/compiled.css
+assets/yore/core/css/main.css
+assets/yore/components/code/chroma.css
+assets/yore/core/tailwind/compiled.css
 
-assets/js/sw/config.json.tmpl
-assets/js/main.js.tmpl
-assets/icons
+assets/yore/icons
+assets/yore/lib
+assets/yore/sw/config.json.tmpl
+assets/yore/core/scripts/main.js.tmpl
+assets/yore/core/tailwind/compiled.css

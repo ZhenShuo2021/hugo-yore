@@ -5,7 +5,7 @@ date: 2026-01-21T10:30:00+08:00
 tags: ["guide", "styling", "color-scheme"]
 params:
   sourceLinks:
-    - path: "assets/css/schemes/"
+    - path: "assets/yore/core/css/schemes/"
 ---
 
 Yore ships with several built-in color schemes, selectable via `themeColorScheme` in `hugo.yaml`.
@@ -29,9 +29,9 @@ Use the theme switcher below to preview all built-in schemes.
 
   {{< step label="1" >}}
 
-  Create `assets/css/schemes/custom.css`. The file must define all 33 tokens, wrapped in a `html[data-color-scheme="custom"]` selector:
+  Create `assets/yore/core/css/schemes/custom.css`. The file must define all 33 tokens, wrapped in a `html[data-color-scheme="custom"]` selector:
 
-  ```css {title="assets/css/schemes/custom.css"}
+  ```css {title="assets/yore/core/css/schemes/custom.css"}
   html[data-color-scheme="custom"] {
     --clr-neutral-50: oklch(1 0 0);
     --clr-neutral-100: oklch(0.97 0.01 248);

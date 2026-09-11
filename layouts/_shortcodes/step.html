@@ -13,7 +13,7 @@
 	<span
 		class="{{ $circleClass }} bg-foreground/90 text-background absolute -start-2 flex h-8 w-8 items-center justify-center rounded-full font-semibold md:-start-4">
 		{{- if $icon -}}
-			{{- $iconRes := resources.GetMatch (printf "icons/**/%s.svg" $icon) -}}
+			{{- $iconRes := resources.GetMatch (printf "yore/icons/**/%s.svg" $icon) -}}
 			{{- with $iconRes -}}
 				<span class="icon" aria-hidden="true">{{- .Content | safeHTML -}}</span>
 			{{- else -}}

@@ -21,13 +21,13 @@ This approach ensures that your customizations remain intact while allowing the 
 
   ```sh
   # Mac/Linux
-  (echo 'html[data-theme=light] {'; hugo gen chromastyles --style=emacs; echo '}') > assets/css/components/chroma.css
-  (echo 'html[data-theme=dark] {'; hugo gen chromastyles --style=evergarden; echo '}') >> assets/css/components/chroma.css
+  (echo 'html[data-theme=light] {'; hugo gen chromastyles --style=emacs; echo '}') > assets/yore/components/code/chroma.css
+  (echo 'html[data-theme=dark] {'; hugo gen chromastyles --style=evergarden; echo '}') >> assets/yore/components/code/chroma.css
 
   # Windows PowerShell
   # This command cannot run in CMD; it must run in PowerShell
-  @("html[data-theme=light] {"; (hugo gen chromastyles --style=emacs); "}") | Add-Content -Path "assets/css/components/chroma.css"
-  @("html[data-theme=dark] {"; (hugo gen chromastyles --style=evergarden); "}") | Add-Content -Path "assets/css/components/chroma.css"
+  @("html[data-theme=light] {"; (hugo gen chromastyles --style=emacs); "}") | Add-Content -Path "assets/yore/components/code/chroma.css"
+  @("html[data-theme=dark] {"; (hugo gen chromastyles --style=evergarden); "}") | Add-Content -Path "assets/yore/components/code/chroma.css"
   ```
 
   See all available styles in the [Hugo's documentation](https://gohugo.io/quick-reference/syntax-highlighting-styles/#styles).
@@ -109,7 +109,7 @@ Files in `assets`:
 > [!IMPORTANT]
 > CSS customization is intended for advanced users.
 
-Yore provides an `assets/css/custom.css` entry to include your own stylesheets. This file is loaded at the end of all CSS files and bundled into the full CSS.
+Yore provides an `assets/yore/overrides/custom.css` entry to include your own stylesheets. This file is loaded at the end of all CSS files and bundled into the full CSS.
 
 Understanding Yore's 3-layered CSS architecture facilitates more effective customization.
 
@@ -117,29 +117,7 @@ Understanding Yore's 3-layered CSS architecture facilitates more effective custo
 
 [Tailwind](https://tailwindcss.com/) and the [typography plugin](https://github.com/tailwindlabs/tailwindcss-typography) are responsible for the major layout framework, and the color/padding/margin of components are also set by Tailwind utilities. All other CSS settings are loaded by Hugo pipes as plain CSS instead of being compiled into the Tailwind bundle.
 
-This is Yore's CSS file architecture:
-
-```text
-assets/css
-├── schemes
-│   ├── avocado.css
-│   ├── blowfish.css
-│   └── ...
-├── tailwind
-│   ├── components
-│   │   ├── admonition.css
-│   │   └── code.css
-│   ├── compiled.css
-│   ├── main.css
-│   ├── theme.css
-│   └── typography.css
-├── layout-2col.css
-├── layout-3col.css
-├── main.css
-└── ...
-````
-
-And this shows how they are loaded:
+This shows how Yore's CSS files are loaded:
 
 ```mermaid
 ---
@@ -222,9 +200,9 @@ Learn more on the [MDN documentation](https://developer.mozilla.org/en-US/docs/W
 
 #### Semantic Tokens
 
-`assets/css/tokens.css` defines all color nicknames. This avoids repeating color codes and ensures consistent appearance.
+`assets/yore/core/styles/tokens.css` defines all color nicknames. This avoids repeating color codes and ensures consistent appearance.
 
-Example customization in `assets/css/custom.css`:
+Example customization in `assets/yore/core/css/schemes/custom.css`:
 
 ```css
 html[data-theme='light'] {
@@ -241,7 +219,7 @@ html[data-theme='dark'] {
 
 #### Tailwind Tokens
 
-Yore uses custom Tailwind tokens defined in `assets/css/tailwind/theme.css`.
+Yore uses custom Tailwind tokens defined in `assets/yore/core/tailwind/theme.css`.
 
 Semantic tokens are integrated into Yore's custom Tailwind tokens. Instead of default classes like `bg-red-50`, Yore uses `bg-CUSTOM_TOKEN` to maintain thematic consistency across the site.
 
@@ -259,7 +237,7 @@ You can also build your own Tailwind CSS if you need extra Tailwind classes.
 Steps:
 
 1. Install `pnpm`.
-2. Copy `package.json` and `assets/css/tailwind/` from the theme source.
+2. Copy `package.json` and `assets/yore/core/tailwind/` from the theme source.
 3. Run `pnpm i`.
 4. Use Tailwind classes like `bg-red-500/87` and build with `pnpm run build:css`.
 5. Confirm `compiled.css` includes `bg-red-500\/87`.

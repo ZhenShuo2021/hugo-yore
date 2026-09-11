@@ -7,7 +7,7 @@ date: 2026-01-22T16:30:00+08:00
 tags: ["guide", "search"]
 params:
   sourceLinks:
-    - path: "assets/css/components/search.css"
+    - path: "assets/yore/components/search/search.css"
     - path: "build.sh"
 ---
 

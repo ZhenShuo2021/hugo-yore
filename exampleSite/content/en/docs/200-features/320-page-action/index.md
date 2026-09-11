@@ -7,7 +7,7 @@ description: "Per-page action menu with copy URL, copy Markdown, and view repo s
 tags: ["guide", "scripting", "page-actions"]
 params:
   sourceLinks:
-    - path: "assets/js/page-actions.js"
+    - path: "assets/yore/components/page-actions/page-actions.js"
     - path: "layouts/_partials/page/page-actions.html"
 ---
 

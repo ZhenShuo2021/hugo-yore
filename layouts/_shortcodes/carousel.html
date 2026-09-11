@@ -198,7 +198,7 @@
 {{- end -}}
 
 {{- if $items -}}
-	{{- $jsRes := resources.Get "js/shortcodes/carousel.js" | js.Build (dict "minify" true "format" "esm") -}}
+	{{- $jsRes := resources.Get "yore/shortcodes/carousel/carousel.js" | js.Build (dict "minify" true "format" "esm") -}}
   <script type="module">
     import { initCarousel } from '{{ $jsRes.RelPermalink }}';
     initCarousel('{{ $id }}');

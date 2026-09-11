@@ -21,8 +21,8 @@ build:
 | `pageShowTags` | `boolean` | Show the page's tags below the content. |
 | `pageShowNext` | `boolean` | Show previous/next page links at the bottom of the page. |
 | `pageShowBacklinks` | `boolean` | Show a list of pages that link back to this one. |
-| `pageShowStaleWarning` | `boolean` | Show a warning when an article has not been updated in pageStaleDays. |
-| `pageStaleDays` | `int` | Number of days before an article is considered stale. |
+| `staleContentWarning` | `boolean` | Show a warning when an article has not been updated in staleDays. |
+| `staleDays` | `int` | Number of days before an article is considered stale. |
 | `pageNoList` | `boolean` | Exclude this page from search indexing and from list views. |
 
 <!-- Avoid adding empty tr from .RenderShortcode error -->

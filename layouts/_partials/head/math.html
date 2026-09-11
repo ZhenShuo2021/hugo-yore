@@ -13,8 +13,8 @@
 	window.MathJax = {
 		loader: {
 			paths: {
-				fonts: '/lib/mathjax-fonts',
-				'mathjax-mhchem-extension': '/lib/mathjax-fonts/mathjax-mhchem-font-extension',
+				fonts: '/yore/lib/mathjax-fonts',
+				'mathjax-mhchem-extension': '/yore/lib/mathjax-fonts/mathjax-mhchem-font-extension',
 			},
 			load: [
 				'input/tex',
@@ -32,7 +32,7 @@
 		},
 		output: {
 			font: 'mathjax-tex',
-			fontPath: '/lib/mathjax-tex-font',
+			fontPath: '/yore/lib/mathjax-tex-font',
 		},
 		options: {
 			skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
@@ -70,20 +70,20 @@
 		},
 	};
 </script>
-{{- range resources.Match "lib/mathjax/**" -}}
+{{- range resources.Match "yore/lib/mathjax/**" -}}
 	{{- hugo.Store.Add "swPrecache" (slice .RelPermalink) -}}
 	{{- .Publish -}}
 {{- end -}}
-{{- range resources.Match "lib/mathjax-fonts/**" -}}
+{{- range resources.Match "yore/lib/mathjax-fonts/**" -}}
 	{{- hugo.Store.Add "swPrecache" (slice .RelPermalink) -}}
 	{{- .Publish -}}
 {{- end -}}
-{{- range resources.Match "lib/mathjax-tex-font/**" -}}
+{{- range resources.Match "yore/lib/mathjax-tex-font/**" -}}
 	{{- hugo.Store.Add "swPrecache" (slice .RelPermalink) -}}
 	{{- .Publish -}}
 {{- end -}}
 
-{{- with resources.Get "lib/mathjax/tex-svg.js" -}}
+{{- with resources.Get "yore/lib/mathjax/tex-svg.js" -}}
 	{{- hugo.Store.Add "swPrecache" (slice .RelPermalink) -}}
 	<script src="{{- .RelPermalink -}}"></script>
 {{- end -}}

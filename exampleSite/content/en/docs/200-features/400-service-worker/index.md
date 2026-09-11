@@ -7,8 +7,8 @@ date: 2026-06-27T00:00:00+08:00
 tags: ["guide", "scripting", "offline-caching"]
 params:
   sourceLinks:
-    - path: "assets/js/sw/sw.js"
-    - path: "assets/js/sw/config.json.tmpl"
+    - path: "assets/yore/sw/sw.js"
+    - path: "assets/yore/sw/config.json.tmpl"
     - path: "layouts/_partials/head/resources.html"
 ---
 

@@ -5,13 +5,13 @@ description: Tailwind CSS v4 and design token system reference for hugo-theme-yo
 
 ## Tailwind CSS v4 Setup
 
-- Entry: `assets/css/tailwind/main.css` imports `tailwindcss`, then `theme.css`, `typography.css`, components
+- Entry: `assets/yore/core/tailwind/main.css` imports `tailwindcss`, then `theme.css`, `typography.css`, components
 - Dark mode variant: `@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));`
 - Theme tokens defined in `theme.css` using `@theme static { ... }`
 - Source scanning uses `hugo_stats.json`; homepage partials excluded via `@source not`
 - Enabled via `site.Params.hugoTailwind`; when disabled, `compiled.css` is used instead
 
-### CSS file load order (`assets/css/main.css`)
+### CSS file load order (`assets/yore/core/css/main.css`)
 
 1. Color scheme (`schemes/<name>.css`)
 2. Tailwind compiled or import
@@ -26,7 +26,7 @@ description: Tailwind CSS v4 and design token system reference for hugo-theme-yo
 
 Three layers:
 
-1. **Raw palette** (`--clr-*`): defined per-site in color scheme files under `assets/css/schemes/`. Scales:
+1. **Raw palette** (`--clr-*`): defined per-site in color scheme files under `assets/yore/themes/`. Scales:
    `neutral`, `accent`, `brand` (50–950)
 2. **Tailwind theme** (`--color-*`): mapped in `theme.css` `@theme static` block, consumed as Tailwind utilities
 3. **Semantic tokens** (`--background`, `--foreground`, etc.): set per theme in `tokens.css` using

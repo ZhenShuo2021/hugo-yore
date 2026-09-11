@@ -12,7 +12,7 @@
 	{{- end }}
 	{{- range $k, $v := .Attributes }}
 		{{- if $v }}
-			{{- if (in (slice `caption` `merge` `center`) $k )}}
+			{{- if (in (slice `caption` `merge` `center` `compact`) $k )}}
 				{{- continue }}
 			{{- end }}
 			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr }}

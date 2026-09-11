@@ -41,9 +41,7 @@
 				{{- if .Date -}}
 					<div class="flex items-center gap-1">
 						<span>{{ i18n "article.date" | default "Published:" }}</span>
-						<time
-							datetime="{{ .Date.Format "2006-01-02" }}"
-							aria-label="{{ i18n "article.published_date" | default "Published date" }}">
+						<time datetime="{{ .Date.Format "2006-01-02" }}">
 							{{- .Date.Format "January 2, 2006" -}}
 						</time>
 					</div>
@@ -76,7 +74,8 @@
 	{{- $tocStyle := .Store.Get "tocStyle" -}}
 	{{- $hasToc := in .TableOfContents "<ul" -}}
 	{{- if and $hasToc (ne $tocStyle "disable") -}}
-		{{- partial "page/toc-top.html" . -}}
+		{{- $toc := partial "page/toc-top.html" . -}}
+		{{- printf "%s" (strings.Replace $toc `<nav id="TableOfContents">` `<nav id="TableOfContentsTop">`) | safeHTML -}}
 		{{- $hr = true -}}
 	{{- end -}}
 

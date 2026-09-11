@@ -18,8 +18,7 @@
 	data-search-no-result="{{ i18n `search.no_result` | default `No results for` }}"
 	data-header-layout="{{ site.Params.headerLayout }}"
 	data-page-kind="{{ .Kind }}"
-	data-page-type="{{ .Type }}"
-	{{ if eq .Type `docs` }}data-page-type="docs"{{ end }}>
+	data-page-type="{{ .Type }}">
 	{{- $noop := partialCached "init.html" . -}}
 	{{- $noop = partial "init-page.html" . -}}
 	{{- partial "head/main.html" . -}}

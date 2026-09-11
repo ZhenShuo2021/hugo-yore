@@ -29,18 +29,15 @@
 	</button>
 	<div
 		id="page-actions-menu"
-		class="page-actions__menu bg-background border-border absolute end-0 top-full z-50 mt-2 hidden w-max rounded-lg border p-1 shadow-lg"
-		role="menu">
+		class="page-actions__menu bg-background border-border absolute end-0 top-full z-50 mt-2 hidden w-max rounded-lg border p-1 shadow-lg">
 		<button
-			class="page-actions__copy-url text-popover-foreground hover:text-link-hover hover:bg-muted flex w-full items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors"
-			role="menuitem">
+			class="page-actions__copy-url text-popover-foreground hover:text-link-hover hover:bg-muted flex w-full items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors">
 			<span class="icon size-3.5 shrink-0">{{ partialCached "components/icon.html" "link" "icon-link" }}</span>
 			{{- i18n "page_actions.copy_url" | default "Copy URL" -}}
 		</button>
 		{{- if $mdURL -}}
 			<button
-				class="page-actions__copy-md text-popover-foreground hover:text-link-hover hover:bg-muted flex w-full items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors"
-				role="menuitem">
+				class="page-actions__copy-md text-popover-foreground hover:text-link-hover hover:bg-muted flex w-full items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors">
 				<span class="icon size-3.5 shrink-0">
 					{{- partialCached "components/icon.html" "copy" "icon-copy" -}}
 				</span>
@@ -50,7 +47,6 @@
 			<a
 				href="{{ $mdURL }}"
 				class="page-actions__view-source text-popover-foreground hover:text-link-hover hover:bg-muted flex items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors"
-				role="menuitem"
 				target="_blank"
 				rel="noopener">
 				<span class="icon size-3.5 shrink-0">
@@ -70,7 +66,6 @@
 			<a
 				href="{{ $viewURL }}"
 				class="text-popover-foreground hover:text-link-hover hover:bg-muted flex items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors"
-				role="menuitem"
 				target="_blank"
 				rel="noopener">
 				<span class="icon size-3.5 shrink-0">

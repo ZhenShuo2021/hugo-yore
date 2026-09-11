@@ -1,18 +1,22 @@
 /* Shared styles */
+#TableOfContentsTop ul,
 #TableOfContents ul {
 	padding-inline-start: 0;
 	margin: 0;
 }
 
+#TableOfContentsTop ul ul,
 #TableOfContents ul ul {
 	padding-inline-start: 1rem;
 	margin-top: 0.4rem;
 }
 
+#TableOfContentsTop li,
 #TableOfContents li {
 	margin: 0.25rem 0;
 }
 
+#TableOfContentsTop a:hover,
 #TableOfContents a:hover {
 	color: var(--link-hover);
 	border-inline-start-color: var(--link-hover);

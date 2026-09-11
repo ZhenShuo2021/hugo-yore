@@ -82,12 +82,12 @@
 		{{- with $item -}}
 			<div class="group relative flex">
 				<div
-					class="{{ $activeClass }} text-foreground hover:text-link-hover me-[-0.4em] flex items-center gap-1 font-medium"
-					{{ $ariaLabel }}>
+					class="{{ $activeClass }} text-foreground hover:text-link-hover me-[-0.4em] flex items-center gap-1 font-medium">
 					<a
 						href="{{ or .Params.URL .URL }}"
 						class="flex items-center gap-1.5"
 						aria-haspopup="true"
+						{{ $ariaLabel }}
 						{{ if $isActive }}{{ $ariaCurrent }}{{ end }}>
 						{{- .Pre -}}
 						{{- with .Params.icon -}}

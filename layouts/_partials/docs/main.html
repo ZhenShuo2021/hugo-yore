@@ -320,7 +320,8 @@
 	{{- .Store.Set "tocStyle" $tocStyle -}}
 	{{- $hasToc := in .TableOfContents "<ul" -}}
 	{{- if and $hasToc (ne $tocStyle "disable") -}}
-		{{- partial "page/toc-top.html" . -}}
+		{{- $toc := partial "page/toc-top.html" . -}}
+		{{- printf "%s" (strings.Replace $toc `<nav id="TableOfContents">` `<nav id="TableOfContentsTop">`) | safeHTML -}}
 		{{- $hr = true -}}
 	{{- end -}}
 	{{- if .Param "staleContentWarning" -}}

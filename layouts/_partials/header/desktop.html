@@ -108,7 +108,7 @@
 							{{- range .Children -}}
 								{{- $childActive := false -}}
 								{{- if site.Params.menuHighlight -}}
-									{{- $childActive = $context.IsMenuCurrent "main" . -}}
+									{{- $childActive = or ($context.IsMenuCurrent "main" .) ($context.HasMenuCurrent "main" .) -}}
 								{{- end -}}
 								<a
 									href="{{ or .Params.URL .URL }}"

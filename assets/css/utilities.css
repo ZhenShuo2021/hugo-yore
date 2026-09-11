@@ -64,3 +64,10 @@ ul.ul-mark ul ul {
 .ol-mark {
 	list-style-type: decimal;
 }
+
+.chevron {
+	transition: transform var(--dur-300) ease;
+	.is-collapsed & {
+		transform: rotate(-90deg);
+	}
+}

@@ -28,41 +28,41 @@ function saveState(state) {
 
 // --- Helpers ---
 
-function setCollapsed(nav, sectionId, collapsed) {
-	const btn = nav.querySelector(`[data-section-id="${sectionId}"]`);
-	const expander = nav.querySelector(`[data-section-expander="${sectionId}"]`);
-	if (!btn || !expander) return;
+function setCollapsed(nav, pageUid, collapsed) {
+	const btn = nav.querySelector(`a[data-section-trigger][data-page-uid="${pageUid}"]`);
+	const list = nav.querySelector(`[data-section-list][data-page-uid="${pageUid}"]`);
+	if (!btn || !list) return;
 	btn.classList.toggle('is-collapsed', collapsed);
 	btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-	expander.classList.toggle('is-collapsed', collapsed);
+	list.classList.toggle('is-collapsed', collapsed);
 
 	// Write into state
 	const state = getStoredState();
 	if (!state.collapsed) state.collapsed = {};
-	state.collapsed[sectionId] = collapsed;
+	state.collapsed[pageUid] = collapsed;
 	saveState(state);
 }
 
 // --- Features ---
 
 function collapseOtherSiblings(nav, btn) {
-	nav.querySelectorAll(`[data-parent-id="${btn.dataset.parentId}"]`).forEach((sibling) => {
+	nav.querySelectorAll(`[data-parent-page-uid="${btn.dataset.parentPageUid}"]`).forEach((sibling) => {
 		if (sibling === btn) return;
 		if (!sibling.classList.contains('is-collapsed')) {
-			setCollapsed(nav, sibling.dataset.sectionId, true);
+			setCollapsed(nav, sibling.dataset.pageUid, true);
 		}
 	});
 }
 
 function initCollapseToggle(nav) {
 	nav.addEventListener('click', (e) => {
-		const btn = e.target.closest('[data-section-id]');
+		const btn = e.target.closest('a[data-section-trigger]');
 		if (!btn) return;
 		e.preventDefault();
 		e.stopPropagation();
 		const willExpand = btn.classList.contains('is-collapsed');
 		if (willExpand && params.autoCollapseCategories) collapseOtherSiblings(nav, btn);
-		setCollapsed(nav, btn.dataset.sectionId, !willExpand);
+		setCollapsed(nav, btn.dataset.pageUid, !willExpand);
 	});
 }
 

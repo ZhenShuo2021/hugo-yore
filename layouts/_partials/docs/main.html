@@ -19,7 +19,8 @@
 	<aside
 		class="docs-sidebar-container border-border sticky top-0 hidden h-screen max-h-screen w-[280px] shrink-0 flex-col border-e md:flex"
 		aria-label="{{ i18n "docs.sidebar_label" | default "Sidebar" }}"
-		data-docs-root="{{ .FirstSection.RelPermalink }}">
+		data-docs-root="{{ (printf "%v" .FirstSection.Path) | xxhash | first 6 }}"
+		data-current-page-uid="{{ (printf "%v" .Path) | xxhash | first 6 }}">
 		<div class="docs-sidebar-logo flex shrink-0 items-center gap-2 overflow-hidden px-4">
 			{{- if eq site.Params.headerLayout "hideOnScroll" -}}
 				{{- if site.Params.Logo -}}
@@ -71,7 +72,10 @@
 					// Stash scroll so the post-tree script can apply it.
 					if (state.scroll) window._docsNavScrollRestore = state.scroll;
 					if (!state.collapsed) state.collapsed = {};
-					const currentPath = window.location.pathname;
+					// Use the page uid (hash of .Path) rather than pathname/href,
+					// since a section with build.render: never has no RelPermalink
+					// and therefore no usable href/pathname.
+					const currentPageUid = asideEl?.dataset.currentPageUid || '';
 					// Stash so the post-tree script (which runs after the whole nav
 					// tree, including every <sl-nav-restore>, has been parsed) can
 					// flush any forced-expand writes back to sessionStorage.
@@ -86,30 +90,30 @@
 						class extends HTMLElement {
 							connectedCallback() {
 								try {
-									const sectionId = this.dataset.sectionId;
-									const stored = state.collapsed[sectionId];
-									// Walk up to find the wrapping <a data-section-id> and its sibling expander.
+									const pageUid = this.dataset.pageUid;
+									const stored = state.collapsed[pageUid];
+									// Walk up to find the wrapping trigger <a> and its sibling list.
 									// They share the same parent <div>, so traverse from this element.
 									const wrapper = this.parentElement;
-									const btn = wrapper?.querySelector(`[data-section-id="${sectionId}"]`);
-									const expander = wrapper?.querySelector(`[data-section-expander="${sectionId}"]`);
-									if (!btn || !expander) return;
+									const btn = wrapper?.querySelector(`a[data-section-trigger][data-page-uid="${pageUid}"]`);
+									const list = wrapper?.querySelector(`[data-section-list][data-page-uid="${pageUid}"]`);
+									if (!btn || !list) return;
 									// If this section is an ancestor of the current page, it must
 									// stay expanded regardless of the stored collapsed state —
 									// otherwise the user loses track of where they are in the nav.
-									const containsActiveLink = Array.from(
-										wrapper.querySelectorAll('a.docs-nav__link, a.docs-nav__section-toggle'),
-									).some((link) => link.pathname === currentPath);
+									const containsActiveLink = Array.from(wrapper.querySelectorAll('a[data-page-uid]')).some(
+										(link) => !!currentPageUid && link.dataset.pageUid === currentPageUid,
+									);
 									if (!containsActiveLink && typeof stored !== 'boolean') return;
 									const collapsed = containsActiveLink ? false : stored;
 
 									btn.classList.toggle('is-collapsed', collapsed);
 									btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-									expander.classList.toggle('is-collapsed', collapsed);
+									list.classList.toggle('is-collapsed', collapsed);
 
 									// Persist the forced-expand
 									if (containsActiveLink && stored !== false) {
-										state.collapsed[sectionId] = false;
+										state.collapsed[pageUid] = false;
 										window._docsNavDirty = true;
 									}
 								} catch {}
@@ -145,10 +149,12 @@
 			})();
 			(() => {
 				const nav = document.querySelector('.docs-nav');
-				if (!nav) return;
+				const asideEl = document.querySelector('.docs-sidebar-container');
+				const currentPageUid = asideEl?.dataset.currentPageUid || '';
+				if (!nav || !currentPageUid) return;
 				const activeLink =
-					Array.from(nav.querySelectorAll('a.docs-nav__link, a.docs-nav__section-toggle')).find(
-						(link) => link.pathname === window.location.pathname,
+					Array.from(nav.querySelectorAll('a[data-page-uid]')).find(
+						(link) => link.dataset.pageUid === currentPageUid,
 					) ?? null;
 				if (!activeLink) return;
 
@@ -157,7 +163,7 @@
 
 				let node = activeLink.parentElement;
 				while (node && node !== nav) {
-					if (node.classList.contains('nav-section-expander')) {
+					if (node.hasAttribute('data-section-list')) {
 						node.previousElementSibling.classList.add('docs-nav__link--active');
 					}
 					node = node.parentElement;
@@ -174,7 +180,7 @@
 			<ul class="m-0 list-none p-0">
 				{{- range $docsRoot.Pages -}}
 					<li class=" ">
-						{{- partial "inline/nav-item.html" (dict "page" . "parentId" "root") -}}
+						{{- partial "inline/nav-item.html" (dict "page" . "parentPageUid" "root") -}}
 					</li>
 				{{- end -}}
 			</ul>
@@ -184,17 +190,21 @@
 
 {{- define "_partials/inline/nav-item.html" -}}
 	{{- $page := .page -}}
-	{{- $parentId := .parentId -}}
+	{{- $parentPageUid := .parentPageUid -}}
 	{{- if $page.IsSection -}}
 		{{- $collapsed := $page.Params.docsNavCollapsed | default false -}}
+		{{- $pageUid := (printf "%v" $page.Path) | xxhash | first 6 -}}
 		<div>
 			<a
-				href="{{ $page.RelPermalink }}"
+				{{ with $page.RelPermalink -}}
+					href="{{ . }}"
+				{{- end }}
 				class="{{ with $page.Param `docsNavClass` -}}
 					{{- . -}}
-				{{- end }} {{ cond $collapsed `is-collapsed` `` }} docs-nav__section-toggle hover:bg-muted text-muted-foreground mt-1 flex w-full items-center justify-between rounded-md p-1.5"
-				data-section-id="{{ $page.RelPermalink }}"
-				data-parent-id="{{ $parentId }}"
+				{{- end }} {{ cond $collapsed `is-collapsed` `` }} hover:bg-muted text-muted-foreground mt-1 flex w-full items-center justify-between rounded-md p-1.5"
+				data-section-trigger
+				data-parent-page-uid="{{ $parentPageUid }}"
+				data-page-uid="{{ $pageUid }}"
 				aria-expanded="{{ cond $collapsed `false` `true` }}">
 				<span class="flex items-center gap-1.5 text-start">
 					{{- if $page.Param "docsIcon" -}}
@@ -207,33 +217,31 @@
 				</span>
 			</a>
 			{{- with $page.Pages -}}
-				<div
-					class="{{ cond $collapsed `is-collapsed` `` }} nav-section-expander"
-					data-section-expander="{{ $page.RelPermalink }}">
-					<ul
-						class="nav-section-expander__content border-border m-0 ms-5 list-none border-s p-0 ps-2"
-						data-section-nav="{{ $page.RelPermalink }}">
+				<div class="{{ cond $collapsed `is-collapsed` `` }}" data-section-list data-page-uid="{{ $pageUid }}">
+					<ul class="docs-nav__sublist border-border m-0 ms-5 list-none border-s p-0 ps-2">
 						{{- range . -}}
 							<li class=" ">
-								{{- partial "inline/nav-item.html" (dict "page" . "parentId" $page.RelPermalink) -}}
+								{{- partial "inline/nav-item.html" (dict "page" . "parentPageUid" $pageUid) -}}
 							</li>
 						{{- end -}}
 					</ul>
 				</div>
 			{{- end -}}
 			{{- /* sl-nav-restore is placed at the end of the div: at this point,
-				btn([data-section-id]) and expander([data-section-expander]) have both been parsed,
+				btn(a[data-section-trigger][data-page-uid]) and list([data-section-list][data-page-uid]) have both been parsed,
 				and connectedCallback can correctly find both
-			*/}}<sl-nav-restore data-section-id="{{ $page.RelPermalink }}"></sl-nav-restore>
+			*/}}<sl-nav-restore data-page-uid="{{ $pageUid }}"></sl-nav-restore>
 		</div>
 	{{- else -}}
 		{{- $externalURL := $page.Param "link" -}}
+		{{- $pageUid := (printf "%v" $page.Path) | xxhash | first 6 -}}
 		<a
 			{{ with $externalURL -}}
 				href="{{ . }}" target="_blank" rel="noopener"
 			{{- else with $page.RelPermalink -}}
 				href="{{ . }}"
 			{{- end }}
+			{{ if not $externalURL }}data-page-uid="{{ $pageUid }}"{{ end }}
 			class="{{ with $page.Param `docsNavClass` -}}
 				{{- . -}}
 			{{- end }} docs-nav__link text-muted-foreground hover:bg-muted mt-1 flex items-center gap-1.5 rounded-md p-1.5 transition-colors duration-(--dur-200)">

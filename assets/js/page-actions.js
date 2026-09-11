@@ -65,6 +65,23 @@ async function init() {
 		}
 	}
 
+	// Patch Safari copy issue
+	async function copyTextFromPromise(textPromise) {
+		if (window.ClipboardItem) {
+			try {
+				await navigator.clipboard.write([
+					new ClipboardItem({
+						'text/plain': textPromise.then((text) => new Blob([text], { type: 'text/plain' })),
+					}),
+				]);
+				return;
+			} catch {
+				// fall through to the plain await path below
+			}
+		}
+		await copyText(await textPromise);
+	}
+
 	function flashSuccess() {
 		const iconEllipsis = toggle.querySelector('.page-actions__icon-ellipsis');
 		const iconCheck = toggle.querySelector('.page-actions__icon-check');
@@ -104,8 +121,8 @@ async function init() {
 		copyMdBtn.addEventListener('click', async function () {
 			if (!mdURL) return;
 			try {
-				const text = await fetch(mdURL).then((r) => r.text());
-				await copyText(text);
+				const textPromise = fetch(mdURL).then((r) => r.text());
+				await copyTextFromPromise(textPromise);
 				flashSuccess();
 			} catch {
 				console.warn('Failed to copy markdown');

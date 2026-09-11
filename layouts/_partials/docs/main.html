@@ -17,7 +17,7 @@
 
 {{- define "_partials/inline/docs-nav.html" -}}
 	<aside
-		class="docs-sidebar-container border-border sticky top-0 hidden h-screen max-h-screen w-[280px] shrink-0 flex-col border-e md:flex"
+		class="docs-sidebar-container border-border sticky top-0 hidden h-screen max-h-screen w-[280px] shrink-0 flex-col border-e text-sm md:flex"
 		aria-label="{{ i18n "docs.sidebar_label" | default "Sidebar" }}"
 		data-docs-root="{{ (printf "%v" .FirstSection.Path) | xxhash | first 6 }}"
 		data-current-page-uid="{{ (printf "%v" .Path) | xxhash | first 6 }}">
@@ -51,7 +51,10 @@
 					{{- end -}}
 				{{- end -}}
 				{{- if site.Params.headerShowTitle | default true -}}
-					<a href="{{ "" | relLangURL }}" class="text-foreground min-w-0 shrink truncate text-xl font-medium">
+					<a
+						href="{{ "" | relLangURL }}"
+						translate="no"
+						class="text-foreground min-w-0 shrink truncate text-xl font-medium">
 						{{- site.Title | markdownify -}}
 					</a>
 				{{- else -}}
@@ -180,7 +183,7 @@
 			<ul class="m-0 list-none p-0">
 				{{- range $docsRoot.Pages -}}
 					<li class=" ">
-						{{- partial "inline/nav-item.html" (dict "page" . "parentPageUid" "root") -}}
+						{{- partial "inline/nav-item.html" (dict "page" . "parentPageUid" "root" "depth" 0) -}}
 					</li>
 				{{- end -}}
 			</ul>
@@ -191,20 +194,22 @@
 {{- define "_partials/inline/nav-item.html" -}}
 	{{- $page := .page -}}
 	{{- $parentPageUid := .parentPageUid -}}
+	{{- $depth := .depth | default 0 -}}
 	{{- if $page.IsSection -}}
 		{{- $collapsed := $page.Params.docsNavCollapsed | default false -}}
 		{{- $pageUid := (printf "%v" $page.Path) | xxhash | first 6 -}}
-		<div>
+		<div data-depth="{{ $depth }}">
 			<a
 				{{ with $page.RelPermalink -}}
 					href="{{ . }}"
 				{{- end }}
 				class="{{ with $page.Param `docsNavClass` -}}
 					{{- . -}}
-				{{- end }} {{ cond $collapsed `is-collapsed` `` }} hover:bg-muted text-muted-foreground mt-1 flex w-full items-center justify-between rounded-md p-1.5"
+				{{- end }} {{ cond $collapsed `is-collapsed` `` }} hover:bg-muted text-muted-foreground docs-node-padding mt-1 flex w-full cursor-pointer items-center justify-between transition-colors duration-(--dur-200)"
 				data-section-trigger
 				data-parent-page-uid="{{ $parentPageUid }}"
 				data-page-uid="{{ $pageUid }}"
+				data-depth="{{ $depth }}"
 				aria-expanded="{{ cond $collapsed `false` `true` }}">
 				<span class="flex items-center gap-1.5 text-start">
 					{{- if $page.Param "docsIcon" -}}
@@ -212,16 +217,20 @@
 					{{- end -}}
 					<span class="line-clamp-2 wrap-break-word">{{ $page.LinkTitle }}</span>
 				</span>
-				<span class="chevron">
+				<span class="chevron text-xs">
 					{{- partialCached "components/icon.html" "nav-arrow-down" "icon-nav-arrow-down" -}}
 				</span>
 			</a>
 			{{- with $page.Pages -}}
-				<div class="{{ cond $collapsed `is-collapsed` `` }}" data-section-list data-page-uid="{{ $pageUid }}">
-					<ul class="docs-nav__sublist border-border m-0 ms-5 list-none border-s p-0 ps-2">
+				<div
+					class="{{ cond $collapsed `is-collapsed` `` }}"
+					data-section-list
+					data-page-uid="{{ $pageUid }}"
+					data-depth="{{ $depth }}">
+					<ul class="docs-nav__sublist border-border m-0 ms-3.25 list-none p-0">
 						{{- range . -}}
 							<li class=" ">
-								{{- partial "inline/nav-item.html" (dict "page" . "parentPageUid" $pageUid) -}}
+								{{- partial "inline/nav-item.html" (dict "page" . "parentPageUid" $pageUid "depth" (add $depth 1)) -}}
 							</li>
 						{{- end -}}
 					</ul>
@@ -242,9 +251,10 @@
 				href="{{ . }}"
 			{{- end }}
 			{{ if not $externalURL }}data-page-uid="{{ $pageUid }}"{{ end }}
+			data-depth="{{ $depth }}"
 			class="{{ with $page.Param `docsNavClass` -}}
 				{{- . -}}
-			{{- end }} docs-nav__link text-muted-foreground hover:bg-muted mt-1 flex items-center gap-1.5 rounded-md p-1.5 transition-colors duration-(--dur-200)">
+			{{- end }} docs-nav__link text-muted-foreground hover:bg-muted docs-node-padding flex items-center gap-1.5 border-s border-[color-mix(in_oklab,var(--color-border)_50%,var(--color-foreground)_15%)] transition-colors duration-(--dur-200)">
 			{{- if $page.Param "docsIcon" -}}
 				{{- partial "components/icon.html" ($page.Param "docsIcon") -}}
 			{{- end -}}
@@ -259,7 +269,7 @@
 			{{- end -}}
 		</a>
 	{{- end -}}
-{{- end }}
+{{- end -}}
 
 {{- define "_partials/inline/docs-content-header.html" -}}
 	{{- /* Breadcrumbs */ -}}
@@ -327,7 +337,7 @@
 {{- end -}}
 
 {{- define "_partials/inline/docs-content.html" -}}
-	<main id="main-content" class="docs-content min-w-0 flex-1 px-4 md:px-12 lg:ps-12 lg:pe-16">
+	<main id="main-content" class="docs-content min-w-0 flex-1 px-4 md:px-6">
 		{{- partial "inline/docs-content-header.html" . -}}
 
 		{{- /* Markdown content */ -}}

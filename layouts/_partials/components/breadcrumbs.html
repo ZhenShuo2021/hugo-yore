@@ -3,10 +3,11 @@
 	{{- range $n, $page := .Ancestors.Reverse -}}
 		{{- if eq $n 0 }}{{ continue }}{{ end -}}
 		{{- if eq .Params.build.render "never" -}}
-			<span>{{ $page.Title }}</span><span aria-hidden="true">/</span>
+			<span>{{ $page.Title }}</span><span aria-hidden="true">&nbsp;/&nbsp;</span>
 		{{- else -}}
 			<a href="{{ $page.RelPermalink }}" class="hover:text-link-hover">{{ $page.Title }}</a>
-			<span aria-hidden="true"> /&nbsp;</span>
+			{{- /* trim space for nbsp */ -}}
+			<span aria-hidden="true">&nbsp;/&nbsp;</span>
 		{{- end -}}
 	{{- end -}}
 	<span aria-current="page">{{ .Title }}</span>

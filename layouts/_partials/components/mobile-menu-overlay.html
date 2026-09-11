@@ -121,6 +121,21 @@
 		site.Params.accessibilityEnabled
 	-}}
 		<div class="mobile-menu-footer">
+			{{- if site.Params.themeLightDarkSwitcher | default true -}}
+				<button
+					id="mobile-appearance-switcher"
+					aria-label="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
+					title="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
+					class="text-foreground hover:text-link-hover transition-colors">
+					<span class="block dark:hidden">
+						{{- partialCached "components/icon.html" "sun-light" "icon-sun-light" -}}
+					</span>
+					<span class="hidden dark:block">
+						{{- partialCached "components/icon.html" "half-moon" "icon-half-moon" -}}
+					</span>
+				</button>
+			{{- end -}}
+
 			{{- if .IsTranslated -}}
 				{{- partial "components/translations.html" . -}}
 			{{- end -}}

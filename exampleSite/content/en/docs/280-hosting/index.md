@@ -2,7 +2,7 @@
 title: "Hosting"
 slug: "hosting"
 description: "Deploy your Hugo site."
-weight: 280
+weight: 360
 date: 2026-01-22T16:30:00+08:00
 tags: ["guide", "hosting"]
 ---

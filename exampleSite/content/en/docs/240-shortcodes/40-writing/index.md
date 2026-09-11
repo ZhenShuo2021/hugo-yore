@@ -6,6 +6,8 @@ date: 2026-01-17T10:40:00+08:00
 description: "Master Hugo shortcodes for admonitions, figures, lightboxes, lead text, and tabs."
 tags: ["reference", "shortcodes", "writing-shortcodes"]
 series: ["Shortcodes"]
+params:
+  docsIcon: new-badge
 ---
 
 ## Admonition

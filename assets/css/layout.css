@@ -31,10 +31,6 @@
 		width: 100%;
 		transition: var(--sidebar-transition);
 
-		@media (width < 64rem) {
-			grid-template-columns: 0 1fr var(--sidebar-right-width);
-		}
-
 		@media (width < 48rem) {
 			grid-template-columns: 0 1fr 0;
 			column-gap: 0;

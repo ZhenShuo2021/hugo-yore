@@ -138,6 +138,8 @@
 		}
 	}
 
+	/* p: margin-block causes bug in Tailwind, defined it in base.css */
+
 	/* heading */
 	:where(h2):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
 		font-size: 1.7rem;

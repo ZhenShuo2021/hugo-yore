@@ -26,12 +26,27 @@
 	visibility: hidden;
 }
 
+a[data-depth='0'] {
+	border-inline-start-style: none;
+	border-inline-start-width: 0px;
+}
+
 .docs-nav__link--active {
-	background-color: var(--muted);
+	color: var(--link-hover);
+	border-color: var(--link-hover);
+	font-weight: bold;
 }
 
 [data-section-trigger]:focus-visible,
 .docs-nav__link:focus-visible,
 .docs-toc a:focus-visible {
 	outline-offset: -1px;
+}
+
+.docs-node-padding {
+	padding: calc(var(--spacing) * 1.5);
+}
+
+[data-section-list] .docs-nav__link {
+	padding-inline-start: calc(var(--spacing) * 3);
 }

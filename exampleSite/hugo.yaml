@@ -299,7 +299,7 @@ languages:
           weight: 20
         - name: Configuration
           parent: Docs
-          pageRef: /docs/160-configuration
+          pageRef: /docs/160-configuration/
           weight: 40
         - name: Features
           parent: Docs

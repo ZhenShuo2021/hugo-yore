@@ -42,7 +42,7 @@
 			<a
 				{{ with $externalURL -}}
 					href="{{ . }}" target="_blank" rel="noopener"
-				{{- else with .RelPermalink -}}
+				{{- else with or .Params.URL .RelPermalink -}}
 					href="{{ . }}"
 				{{- end }}
 				class="text-foreground hover:text-link-hover inline-flex items-center transition-colors">

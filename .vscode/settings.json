@@ -18,5 +18,24 @@
 		"**/layouts/**/*.json": "html",
 		"**/assets/**/*.json.tmpl": "html",
 	},
-	"rumdl.linkCompletions.contentRoots": ["exampleSite/content", "assets"]
+	"rumdl.linkCompletions.contentRoots": [
+		"exampleSite/content",
+		"assets"
+	],
+	"symbols.folders.associations": {
+		"layouts": "folder-layout",
+		"archetypes": "folder-config",
+		"assets": "folder-assets",
+		"img": "folder-images",
+		"i18n": "folder-i18n",
+		"static": "folder-assets",
+		"resources": "folder-build",
+		"data": "folder-database"
+	},
+	"symbols.files.associations": {
+		"hugo.yaml": "hugo",
+		"theme.toml": "hugo",
+		"*.work": "hugo"
+	},
+	"symbols.hidesExplorerArrows": true
 }

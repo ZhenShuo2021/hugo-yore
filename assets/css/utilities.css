@@ -8,6 +8,18 @@
 	text-align: center;
 }
 
+.crop-img img {
+	aspect-ratio: var(--ratio);
+	object-fit: cover;
+	object-position: var(--position);
+	width: 100%;
+	height: auto;
+}
+
+.crop-img {
+	width: 100%;
+}
+
 .header-active {
 	color: var(--color-link-hover);
 	.dropdown-menu-child & {
@@ -69,5 +81,12 @@ ul.ul-mark ul ul {
 	transition: transform var(--dur-300) ease;
 	.is-collapsed & {
 		transform: rotate(-90deg);
+	}
+}
+
+@media (width >= 48rem) {
+	.full-bleed {
+		/* 65% of full screen width - 100% max container width / 2 (left and right) and negative margin */
+		margin-inline: calc((75vw - 100%) / -2);
 	}
 }

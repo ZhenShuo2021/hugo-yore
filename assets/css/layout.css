@@ -25,7 +25,10 @@
 
 	.layout-wrapper {
 		display: grid;
-		grid-template-columns: var(--sidebar-left-width) 1fr var(--sidebar-right-width);
+		grid-template-columns:
+			minmax(0, var(--sidebar-left-width))
+			minmax(45ch, 1fr)
+			minmax(0, var(--sidebar-right-width));
 		column-gap: var(--sidebar-gap);
 		align-items: start;
 		width: 100%;

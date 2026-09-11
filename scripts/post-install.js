@@ -28,17 +28,6 @@ const tasks = [
 
 await Promise.all(tasks.map(({ src, dest }) => cpy([src, '!**/*.map'], dest, { flat: true })));
 
-// patch iconoir stroke width
-const iconoirFiles = await glob('assets/icons/iconoir/regular/*.svg');
-await Promise.all(
-	iconoirFiles.map(async (file) => {
-		const content = await readFile(file, 'utf8');
-		if (content.includes('stroke-width="1.5"')) {
-			await writeFile(file, content.replaceAll('stroke-width="1.5"', 'stroke-width="2"'), 'utf8');
-		}
-	}),
-);
-
 // mathjax: preserve directory structure for dynamic module loading
 await cpy(['node_modules/mathjax/**', '!**/*.map', '!**/*.md'], 'assets/lib/mathjax');
 

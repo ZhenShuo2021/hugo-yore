@@ -1,16 +1,17 @@
+{{- $id := partial `lib/uid.html` . -}}
 <div class="translation relative flex" data-nav-item>
 	<button
 		type="button"
 		class="text-foreground hover:text-link-hover flex items-center gap-2"
 		aria-expanded="false"
-		aria-controls="submenu-translations"
+		aria-controls="submenu-translations-{{ $id }}"
 		data-dropdown-toggle>
 		{{- partialCached "components/icon.html" "translate" "icon-translate" -}}
 		<span class="sr-only">{{ i18n `nav.change_language` | default `Change language` }}</span>
 	</button>
 
 	<div
-		id="submenu-translations"
+		id="submenu-translations-{{ $id }}"
 		class="opacity-0 transition-opacity duration-(--dur-200)"
 		data-dropdown-menu
 		hidden>

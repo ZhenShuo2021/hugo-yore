@@ -1,17 +1,18 @@
 {{- with .Rotate "version" -}}
+	{{- $id := partial `lib/uid.html` . -}}
 	<div class="version-switcher relative flex" data-nav-item>
 		<button
 			type="button"
 			class="text-foreground hover:text-link-hover flex items-center gap-2"
 			aria-expanded="false"
-			aria-controls="submenu-version"
+			aria-controls="submenu-version-{{ $id }}"
 			data-dropdown-toggle>
 			{{- replace site.Version.Name "v" "" }}{{ partialCached "components/icon.html" "nav-arrow-down" "icon-nav-arrow-down" -}}
 			<span class="sr-only">{{ i18n `nav.switch_version` | default `Switch version` }}</span>
 		</button>
 
 		<div
-			id="submenu-version"
+			id="submenu-version-{{ $id }}"
 			class="opacity-0 transition-opacity duration-(--dur-200)"
 			data-dropdown-menu
 			hidden>

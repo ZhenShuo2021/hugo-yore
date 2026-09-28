@@ -8,29 +8,32 @@
 {{- $contentClass := "admonition-content px-4 py-1 text-base leading-relaxed" -}}
 
 {{- $isCollapsible := in (slice "+" "-") .AlertSign -}}
+{{- $s := slice "icon" -}}
 {{- if $isCollapsible -}}
 	<details
 		data-admonition-wrapper
 		data-type="{{ .AlertType }}"
-		role="note"
 		{{- if eq .AlertSign "+" }}{{ printf " open" | safeHTMLAttr }}{{ end }}
 		{{- range $k, $v := .Attributes -}}
+			{{- if (in $s $k) -}}
+				{{- continue -}}
+			{{- end -}}
 			{{- if $v -}}
 				{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
 			{{- end -}}
 		{{- end -}}>
 		<summary class="{{ $headerClass }} cursor-pointer">
-			<div class="flex h-5 w-5 shrink-0 items-center justify-center text-lg" aria-hidden="true">
+			<span class="flex h-5 w-5 shrink-0 items-center justify-center text-lg" aria-hidden="true">
 				{{- partial "components/icon.html" $iconName -}}
-			</div>
-			<div class="flex grow items-center gap-1">
+			</span>
+			<span class="flex grow items-center gap-1">
 				{{ $admonitionTitle }}
-				<div
+				<span
 					class="admonition-chevron flex h-5 w-5 items-center justify-center print:hidden"
 					aria-hidden="true">
 					{{- partial "components/icon.html" "nav-arrow-down" -}}
-				</div>
-			</div>
+				</span>
+			</span>
 		</summary>
 		{{- if .Text -}}
 			<div class="{{ $contentClass }}">
@@ -42,8 +45,10 @@
 	<div
 		data-admonition-wrapper
 		data-type="{{ .AlertType }}"
-		role="note"
 		{{- range $k, $v := .Attributes -}}
+			{{- if (in $s $k) -}}
+				{{- continue -}}
+			{{- end -}}
 			{{- if $v -}}
 				{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
 			{{- end -}}

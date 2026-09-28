@@ -212,7 +212,7 @@
 											<a
 												class="author-banner__link {{ if $isMail }}cloaked-email{{ end }}"
 												{{ if $isMail -}}
-													data-email-cloak="{{ partial `lib/obfuscate-email.html` $url }}"
+													href="#" data-email-cloak="{{ partial `lib/obfuscate-email.html` $url }}"
 												{{- else -}}
 													href="{{ $url }}"
 												{{- end }}

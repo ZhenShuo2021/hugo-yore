@@ -19,7 +19,6 @@
 	{{- $mermaidJS := resources.Get "yore/shortcodes/mermaid/mermaid.js" | js.Build $opts -}}
 	{{- if hugo.IsProduction }}{{ $mermaidJS = $mermaidJS  | fingerprint }}{{ end -}}
 	<script
-		defer
 		type="module"
 		src="{{ $mermaidJS.RelPermalink }}"
 		integrity="{{ $mermaidJS.Data.Integrity }}"></script>

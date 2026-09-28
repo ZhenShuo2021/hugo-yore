@@ -138,7 +138,7 @@
 	<div class="card-inner">
 		<div class="bg-container">
 			{{- if $homepageImage -}}
-				<img class="bg-image" src="{{ $homepageImage.RelPermalink }}" alt="" role="presentation">
+				<img class="bg-image" src="{{ $homepageImage.RelPermalink }}" alt="">
 				<div class="bg-overlay"></div>
 			{{- end -}}
 		</div>
@@ -171,17 +171,14 @@
 									<a
 										class="social-link {{ if $isMail }}cloaked-email{{ end }}"
 										{{ if $isMail -}}
-											data-email-cloak="{{ partial `lib/obfuscate-email.html` $url }}"
+											href="#" data-email-cloak="{{ partial `lib/obfuscate-email.html` $url }}"
 										{{- else -}}
 											href="{{ $url }}"
 										{{- end }}
 										target="_blank"
-										aria-label="{{ $name | title }}"
+										title="{{ $name | title }}"
 										rel="me noopener noreferrer">
 										{{- partial "components/icon.html" $name -}}
-										<span class="sr-only select-none">
-											{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
-										</span>
 									</a>
 								{{- end -}}
 							{{- end -}}
@@ -192,9 +189,11 @@
 				{{- end -}}
 			</div>
 
-			<section class="content-prose prose">
-				{{- .Content -}}
-			</section>
+			{{- if .Content -}}
+				<section class="content-prose prose">
+					{{- .Content -}}
+				</section>
+			{{- end -}}
 		</div>
 	</div>
 </article>

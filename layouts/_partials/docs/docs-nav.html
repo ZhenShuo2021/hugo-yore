@@ -10,6 +10,10 @@
 		<div class="docs-sidebar-logo flex shrink-0 items-center gap-2 overflow-hidden px-4" aria-hidden="true">
 			{{- if site.Params.Logo -}}
 				{{- $logo := resources.Get site.Params.Logo -}}
+				{{- $logoDark := "" -}}
+				{{- if site.Params.LogoDark -}}
+					{{- $logoDark = resources.Get site.Params.LogoDark -}}
+				{{- end -}}
 				{{- if $logo -}}
 					<div class="logo-container flex h-8 w-auto flex-shrink-0 items-center">
 						<a
@@ -17,20 +21,21 @@
 							aria-label="{{ site.Title }}"
 							tabindex="-1"
 							class="flex h-full items-center">
-							<img src="{{ $logo.RelPermalink }}" alt="{{ site.Title }}" class="h-full w-auto object-contain">
+							{{- if $logoDark }}
+								<img
+									src="{{ $logo.RelPermalink }}"
+									alt="{{ site.Title }}"
+									class="h-full w-auto object-contain dark:hidden">
+								<img
+									src="{{ $logoDark.RelPermalink }}"
+									alt="{{ site.Title }}"
+									class="hidden h-full w-auto object-contain dark:block">
+							{{- else }}
+								<img src="{{ $logo.RelPermalink }}" alt="{{ site.Title }}" class="h-full w-auto object-contain">
+							{{- end }}
 						</a>
 					</div>
 				{{- end -}}
-			{{- end -}}
-			{{- if site.Params.headerShowTitle | default true -}}
-				<a
-					href="{{ "" | relLangURL }}"
-					translate="no"
-					class="text-foreground min-w-0 shrink truncate text-xl font-medium">
-					{{- site.Title | markdownify -}}
-				</a>
-			{{- else -}}
-				<span class="sr-only">{{ site.Title | markdownify }}</span>
 			{{- end -}}
 		</div>
 

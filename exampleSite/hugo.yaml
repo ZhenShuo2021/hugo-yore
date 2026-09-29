@@ -148,6 +148,8 @@ markup:
 params:
   logo: /img/logo.svg # Path to the site logo (assets/img/logo.svg -> /img/logo.svg)
   logoDark: /img/logo-dark.svg # Path to the dark mode logo
+  # Setting logoDark makes page load both logos, which hurts LCP.
+  # Prefer a single logo that works in both light and dark modes.
   logoWidth: 200 # Logo width to prevent layout shift
   logoHeight: 100 # Logo height to prevent layout shift
   blogLayout: 3-col # Overall site column layout. [2-col | 3-col]

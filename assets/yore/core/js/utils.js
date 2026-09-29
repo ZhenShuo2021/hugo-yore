@@ -1,6 +1,8 @@
 import * as params from '@params';
 
-const storage = {
+export { params };
+
+export const storage = {
 	get: (key, fallback = null) => {
 		try {
 			const value = localStorage.getItem(key);
@@ -10,7 +12,6 @@ const storage = {
 			return fallback;
 		}
 	},
-
 	set: (key, value) => {
 		try {
 			localStorage.setItem(key, JSON.stringify(value));
@@ -20,7 +21,6 @@ const storage = {
 			return false;
 		}
 	},
-
 	remove: (key) => {
 		try {
 			localStorage.removeItem(key);
@@ -30,7 +30,6 @@ const storage = {
 			return false;
 		}
 	},
-
 	getRaw: (key) => {
 		try {
 			return localStorage.getItem(key);
@@ -39,7 +38,6 @@ const storage = {
 			return null;
 		}
 	},
-
 	setRaw: (key, value) => {
 		try {
 			localStorage.setItem(key, value);
@@ -51,56 +49,16 @@ const storage = {
 	},
 };
 
-function debounce(fn, delay) {
-	let timeoutId;
-	return (...args) => {
-		clearTimeout(timeoutId);
-		timeoutId = setTimeout(() => fn(...args), delay);
-	};
-}
+export const meta = (name) => document.querySelector(`meta[name="${name}"]`)?.content;
 
-const _consentCallbacks = [];
-let _consentCategories = null;
-
-const consent = {
-	isGranted: (category = 'functional') => _consentCategories?.includes(category) ?? false,
-	onReady: (fn) => {
-		if (_consentCategories !== null) {
-			fn();
-			return;
-		}
-		_consentCallbacks.push(fn);
-	},
+export const once = (fn) => {
+	let p;
+	return () => (p ??= fn().catch((err) => ((p = undefined), Promise.reject(err))));
 };
 
-if (!params.cookieConsent) {
-	_consentCategories = new Proxy([], {
-		has: () => true,
-		get: (t, p) => (p === 'includes' ? () => true : t[p]),
-	});
-	_consentCallbacks.splice(0).forEach((fn) => fn());
-} else {
-	window.addEventListener(
-		'cc:onConsent',
-		({ detail }) => {
-			_consentCategories = detail.cookie.categories;
-			_consentCallbacks.splice(0).forEach((fn) => fn());
-		},
-		{ once: true },
-	);
-}
-
-function prefersReducedMotion() {
+export function prefersReducedMotion() {
 	return (
 		window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-		utils.storage.getRaw('yore-reduce-motion') === 'true'
+		storage.getRaw('yore-reduce-motion') === 'true'
 	);
 }
-
-export const utils = {
-	storage,
-	debounce,
-	prefersReducedMotion,
-	consent,
-	params,
-};

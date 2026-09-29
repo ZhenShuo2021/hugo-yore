@@ -2,19 +2,25 @@
 {{- if $cc.enable -}}
 	{{- $lang := .Language.Locale -}}
 	{{- $translationFile := resources.Get (printf "yore/components/cookies/translations/%s.json" $lang) | fingerprint -}}
-	{{- $enabledCategories := $cc.categories | default (slice "necessary" "functional" "analytics") -}}
 
 	<script>
 		window.__ccLang="{{ $lang }}";
 		window.__ccTranslationURL="{{ $translationFile.RelPermalink }}";
 	</script> {{- /**/ -}}
+	{{- $js := partial "inline/build-cookie-js" . -}}
+	<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+{{- end -}}
+
+{{- define "_partials/inline/build-cookie-js" -}}
+	{{- $cc := site.Params.cookieConsent | default dict -}}
+	{{- $enabledCategories := $cc.categories | default (slice "necessary" "functional" "analytics") -}}
 	{{- $jsParams := dict
 		"enabledCategories" $enabledCategories
 		"isDark" (eq site.Params.themeLightDarkMode "dark")
 		"hasSwitcher" (site.Params.themeLightDarkSwitcher | default true)
 	-}}
 	{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget "params" $jsParams -}}
-	{{- $js := resources.Get "yore/components/cookies/cookie-consent.js" | js.Build $opts -}}
+	{{- $js := resources.Get "yore/components/cookies/cookie-main.js" | js.Build $opts -}}
 	{{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
-	<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+	{{- return $js -}}
 {{- end -}}

@@ -1,4 +1,4 @@
-import { utils } from '../../core/js/utils.js';
+export * as utils from './utils.js';
 import { themeManager } from '../../components/appearance/appearance.js';
 
 {{ if site.Params.accessibilityEnabled }}
@@ -38,7 +38,6 @@ import '../../shortcodes/accordion/accordion.js';
 import '../../components/header/hide-header.js';
 {{ end }}
 
-window.utils = utils;
 window.themeManager = themeManager;
 {{ if site.Params.accessibilityEnabled }}
 window.a11yPanel = a11yPanel;

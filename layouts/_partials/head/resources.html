@@ -1,4 +1,5 @@
 {{- /* Critical JS */ -}}
+<!-- prettier-ignore-start -->
 <script>
 (() => {
 	const theme =
@@ -15,7 +16,8 @@
 	});
 	{{- end -}}
 })();
-</script> {{- /**/ -}}
+</script>
+<!-- prettier-ignore-end -->
 
 {{- /* CSS */ -}}
 {{- $buildOpts := dict
@@ -64,6 +66,20 @@
 	{{- end -}}
 {{- end -}}
 
+{{- /* importmap goes before all type=module scripts */ -}}
+{{- $cookie := partial "inline/build-cookie-js" . -}}
+{{- $mainJS := partial "inline/main-js" . -}}
+<!-- prettier-ignore-start -->
+<script type="importmap">
+	{
+		"imports": {
+			"yore-cookie": "{{ $cookie.RelPermalink }}",
+			"yore-main": "{{ $mainJS.RelPermalink }}"
+		}
+	}
+</script>
+<!-- prettier-ignore-end -->
+
 {{- partial "head/preload.html" . -}}
 
 {{- /* Additional file, analytics, CSS, JS, ... */ -}}
@@ -72,18 +88,27 @@
 {{- end -}}
 
 {{- /* Core JS */ -}}
-{{- with resources.Get "yore/core/js/main.js.tmpl" -}}
-	{{- with resources.ExecuteAsTemplate "js/main-bundle.js" $ . -}}
-		{{- $jsParams := dict
-			"headerLayout" site.Params.headerLayout
-			"cookieConsent" (site.Params.cookieConsent.enable | default true)
-		-}}
-		{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget "params" $jsParams -}}
-		{{- $js := . | js.Build $opts -}}
-		{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}
-		<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+{{- define "_partials/inline/main-js" -}}
+	{{- $js := "" -}}
+	{{- with resources.Get "yore/core/js/main.js" -}}
+		{{- with resources.ExecuteAsTemplate "js/main-bundle.js" $ . -}}
+			{{- $jsParams := dict
+				"headerLayout" site.Params.headerLayout
+			-}}
+			{{- $opts := dict
+				"format" "esm"
+				"minify" hugo.IsProduction
+				"target" hugo.Data.theme.esBuildTarget
+				"params" $jsParams
+			-}}
+			{{- $js = . | js.Build $opts -}}
+			{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}
+			{{- return $js -}}
+		{{- end -}}
 	{{- end -}}
 {{- end -}}
+<script type="module" src="{{ $mainJS.RelPermalink }}" integrity="{{ $mainJS.Data.Integrity }}"></script>
+
 {{- /* ========== End of core resources ========== */ -}}
 
 {{- /* ========== Conditional resources ========== */ -}}

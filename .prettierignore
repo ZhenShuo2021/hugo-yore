@@ -28,5 +28,5 @@ assets/yore/core/tailwind/compiled.css
 assets/yore/icons
 assets/yore/lib
 assets/yore/sw/config.json.tmpl
-assets/yore/core/scripts/main.js.tmpl
+assets/yore/core/js/main.js
 assets/yore/core/tailwind/compiled.css

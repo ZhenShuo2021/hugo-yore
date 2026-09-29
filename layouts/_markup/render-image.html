@@ -29,6 +29,7 @@ We should probably use the picture tag to solve these issues.
 	{{- $alt := .alt -}}
 	{{- $processable := .processable -}}
 	<img
+	class="pswp-gallery"
 		alt="{{ $alt }}"
 		src="{{ $src }}"
 		loading="lazy"
@@ -48,6 +49,7 @@ We should probably use the picture tag to solve these issues.
 	*/ -}}
 	{{- $i := partial "_internal/image/render-hook.html" (dict "imgObj" .imgObj) -}}
 	<img
+	class="pswp-gallery"
 		src="{{ .imgObj.RelPermalink }}"
 		alt="{{ .alt }}"
 		loading="lazy"

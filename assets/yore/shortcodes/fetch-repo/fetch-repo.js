@@ -1,4 +1,4 @@
-import { utils } from '../../core/js/utils.js';
+import { consent } from 'yore-cookie';
 
 const formatMetric = (n) => {
 	if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
@@ -120,9 +120,9 @@ const updateCard = async (script, ENABLE_CACHE) => {
 };
 
 const fetchRepo = () => {
-	const ENABLE_CACHE = utils.consent.isGranted('functional');
+	const ENABLE_CACHE = consent.isGranted('functional');
 	const scripts = document.querySelectorAll('script[data-repo-id]');
 	scripts.forEach((script) => updateCard(script, ENABLE_CACHE));
 };
 
-utils.consent.onReady(() => fetchRepo());
+consent.onReady(() => fetchRepo());

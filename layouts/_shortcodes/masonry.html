@@ -98,7 +98,7 @@
 {{- with .Get "gapY" }}{{ $attrs = printf `%s data-gap-y="%s"` $attrs (string .) }}{{ end -}}
 {{- with .Get "maxCols" }}{{ $attrs = printf `%s data-max-cols="%s"` $attrs (string .) }}{{ end -}}
 {{- if $items -}}
-	<div class="masonry-grid" {{ $attrs | safeHTMLAttr }}>
+	<div class="masonry-grid pswp-gallery" {{ $attrs | safeHTMLAttr }}>
 		{{- range $items }}
 			<figure class="item {{ if not (and (gt .width 0) (gt .height 0)) }}unknown{{ end }}">
 				<img

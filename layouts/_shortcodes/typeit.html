@@ -22,7 +22,9 @@
 {{- printf `<%v %v>%s</%v>` $tag $attrs $initialString $tag | safeHTML -}}
 
 <script type="module">
-	if (window.utils?.prefersReducedMotion?.()) {
+	import { utils } from "yore-main";
+
+	if (utils.prefersReducedMotion()) {
 		document.getElementById("{{ $id }}").textContent = {{ $content }}.join({{ if $breakLines }}"\n"{{ else }}""{{ end }});
 	} else {
 		new TypeIt("#{{ $id }}", {

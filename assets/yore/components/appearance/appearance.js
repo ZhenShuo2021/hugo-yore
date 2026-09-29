@@ -1,4 +1,4 @@
-import { utils } from '../../core/js/utils.js';
+import { storage } from '../../core/js/utils.js';
 
 const STORAGE_KEY = 'yore-appearance';
 const dom = {
@@ -19,7 +19,7 @@ function toggleTheme() {
 	const themeValue = isDark ? 'dark' : 'light';
 
 	document.documentElement.setAttribute('data-theme', themeValue);
-	utils.storage.setRaw(STORAGE_KEY, themeValue);
+	storage.setRaw(STORAGE_KEY, themeValue);
 	dispatchAppearanceEvent(isDark);
 }
 
@@ -32,7 +32,7 @@ function init() {
 		el.addEventListener('click', toggleTheme);
 		el.addEventListener('contextmenu', (e) => {
 			e.preventDefault();
-			utils.storage.remove(STORAGE_KEY);
+			storage.remove(STORAGE_KEY);
 		});
 	});
 }

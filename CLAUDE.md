@@ -68,9 +68,9 @@ The `define` name determines how to call it:
 
 ## JS Rules
 
-1. Generic JS goes in `assets/yore/components/<name>/`, always imported by `assets/yore/core/js/main.js.tmpl`.
+1. Generic JS goes in `assets/yore/components/<name>/`, always imported by `assets/yore/core/js/main.js`.
 2. Generic JS is referenced by HTML as `type="module"`, so no DOM-load listener is needed. Code must conform to module rules.
-3. Small non-generic JS (tabs, accordion, roughly 20 lines) is also loaded by `main.js.tmpl`.
+3. Small non-generic JS (tabs, accordion, roughly 20 lines) is also loaded by `main.js`.
 4. Large non-generic JS is loaded individually in its own HTML. For shortcodes, gate it with `.HasShortcode`.
 5. Conditional loading: Use `.Page.Store` only for conditional loading.
 6. Duplicated loading check: `.Page.Store` is the worst option, since Store values update incorrectly during Hugo live reload.

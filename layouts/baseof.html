@@ -17,7 +17,8 @@
 	data-copied-text="{{ i18n `code.copied` | default `Copied` }}"
 	data-header-layout="{{ site.Params.headerLayout }}"
 	data-page-kind="{{ .Kind }}"
-	data-page-type="{{ .Type }}">
+	data-page-type="{{ .Type }}"
+	data-cookie-enabled="{{ site.Params.cookieConsent.enable | default false }}">
 	{{- $noop := partialCached "init.html" . -}}
 	{{- $noop = partial "init-page.html" . -}}
 	{{- partial "head/main.html" . -}}

@@ -74,7 +74,12 @@
 
 {{- partial "components/card-shell-tail.html" $githubData -}}
 
-{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget -}}
+{{- $opts := dict
+	"format" "esm"
+	"minify" hugo.IsProduction
+	"target" hugo.Data.theme.esBuildTarget
+	"externals" (slice "yore-cookie")
+-}}
 {{- $js := resources.Get "yore/shortcodes/fetch-repo/fetch-repo.js" | js.Build $opts -}}
 {{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
 <script

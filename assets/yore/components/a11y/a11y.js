@@ -1,4 +1,4 @@
-import { utils } from '../../core/js/utils.js';
+import { storage } from '../../core/js/utils.js';
 
 const STORAGE_KEY = 'yore-a11ySettings';
 
@@ -23,7 +23,7 @@ const FEATURES = {
 			} else {
 				document.documentElement.removeAttribute('data-a11y-link-underline');
 			}
-			utils.storage.setRaw('yore-link-underline', enabled);
+			storage.setRaw('yore-link-underline', enabled);
 		},
 	},
 
@@ -35,7 +35,7 @@ const FEATURES = {
 			} else {
 				document.documentElement.removeAttribute('data-a11y-high-contrast');
 			}
-			utils.storage.setRaw('yore-high-contrast', enabled);
+			storage.setRaw('yore-high-contrast', enabled);
 		},
 	},
 
@@ -47,7 +47,7 @@ const FEATURES = {
 			} else {
 				document.documentElement.removeAttribute('data-a11y-reduce-motion');
 			}
-			utils.storage.setRaw('yore-reduce-motion', enabled);
+			storage.setRaw('yore-reduce-motion', enabled);
 		},
 	},
 
@@ -59,7 +59,7 @@ const FEATURES = {
 			} else {
 				document.documentElement.removeAttribute('data-a11y-reduce-transparency');
 			}
-			utils.storage.setRaw('yore-reduce-transparency', enabled);
+			storage.setRaw('yore-reduce-transparency', enabled);
 
 			const image = document.getElementById('hero-image');
 			if (image) {
@@ -73,12 +73,12 @@ const FEATURES = {
 		apply: (level) => {
 			if (level === 0) {
 				document.documentElement.style.fontSize = '';
-				utils.storage.remove('yore-a11yFontSize');
+				storage.remove('yore-a11yFontSize');
 			} else {
 				const pct = ((baseFontSizePx + level * 4) / browserDefaultPx) * 100;
 				const value = `${pct}%`;
 				document.documentElement.style.fontSize = value;
-				utils.storage.setRaw('yore-a11yFontSize', value);
+				storage.setRaw('yore-a11yFontSize', value);
 			}
 		},
 		initUI: (key, currentLevel) => {
@@ -128,7 +128,7 @@ let settings = null;
 function getSettings() {
 	if (settings) return settings;
 	const defaults = Object.fromEntries(Object.entries(FEATURES).map(([key, config]) => [key, config.default]));
-	const saved = utils.storage.get(STORAGE_KEY, {});
+	const saved = storage.get(STORAGE_KEY, {});
 	settings = { ...defaults, ...saved };
 	settings.fontSize = Number(settings.fontSize) || 0;
 	return settings;
@@ -137,7 +137,7 @@ function getSettings() {
 function updateSetting(key, value) {
 	const current = getSettings();
 	current[key] = value;
-	utils.storage.set(STORAGE_KEY, current);
+	storage.set(STORAGE_KEY, current);
 	FEATURES[key]?.apply(value);
 }
 

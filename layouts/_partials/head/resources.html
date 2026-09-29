@@ -193,18 +193,18 @@
 
 {{- /* knowledge-graph */ -}}
 {{- if site.Home.OutputFormats.Get "knowledge-graph" -}}
-	{{- $kg1 := and
-		(eq .Kind "page")
-		(in (slice "bottom" "sidebar") (.Param "pageKgStyle"))
-	-}}
-	{{- $kg2 := eq .Type "graph" -}}
-	{{- if or $kg1 $kg2 -}}
-		{{- partial "knowledge-graph/assets-js.html" . -}}
-	{{- end -}}
-	{{- if $kg2 -}}
+	{{- $style := .Param "pageKgStyle" -}}
+	{{- $full := eq .Type "graph" -}}
+	{{- $widget := and (eq .Kind "page") (in (slice "bottom" "sidebar") $style) -}}
+	{{- if $full -}}
 		{{- with resources.Get "css/knowledge-graph/full.css" | minify | fingerprint -}}
 			<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
 		{{- end -}}
+		{{- partial "knowledge-graph/assets-js.html" (dict "page" . "lazy" false) -}}
+	{{- else if $widget -}}
+		{{- /* Widget CSS is small and site wide so it's loaded in the main css bundle */ -}}
+		{{- $lazy := eq $style "bottom" -}}
+		{{- partial "knowledge-graph/assets-js.html" (dict "page" . "lazy" $lazy) -}}
 	{{- end -}}
 {{- end -}}
 

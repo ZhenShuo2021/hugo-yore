@@ -133,7 +133,7 @@
 				<h2 class="text-foreground mb-6 flex items-center gap-2 text-2xl!">
 					{{- i18n "article.kg_title" | default "Article Connections" -}}
 				</h2>
-				{{- partial "knowledge-graph/widget.html" . -}}
+				{{- partial "knowledge-graph/widget.html" (dict "page" .Page "lazy" true) -}}
 			</div>
 		{{- end -}}
 

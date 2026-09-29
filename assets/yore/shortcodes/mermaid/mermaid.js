@@ -59,6 +59,14 @@ function updateTheme() {
 	});
 }
 
+const link = document.getElementById('svg-toolbelt-css');
+if (link) {
+	if (link.sheet) {
+		link.media = 'all';
+	} else {
+		link.addEventListener('load', () => (link.media = 'all'), { once: true });
+	}
+}
 window.addEventListener('appearance-changed', updateTheme);
 updateTheme();
 

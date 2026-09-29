@@ -48,9 +48,20 @@ function syncDarkMode(isDark) {
 }
 
 function waitForCSS(link) {
-	if (!link || link.sheet) return Promise.resolve();
+	if (!link) return Promise.resolve();
+	if (link.sheet) {
+		link.media = 'all';
+		return Promise.resolve();
+	}
 	return new Promise((resolve) => {
-		link.addEventListener('load', () => resolve(), { once: true });
+		link.addEventListener(
+			'load',
+			() => {
+				link.media = 'all';
+				resolve();
+			},
+			{ once: true },
+		);
 		link.addEventListener('error', () => resolve(), { once: true });
 	});
 }

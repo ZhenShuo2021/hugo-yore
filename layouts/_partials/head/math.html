@@ -85,5 +85,5 @@
 
 {{- with resources.Get "yore/lib/mathjax/tex-svg.js" -}}
 	{{- hugo.Store.Add "swPrecache" (slice .RelPermalink) -}}
-	<script src="{{- .RelPermalink -}}"></script>
+	<script defer src="{{- .RelPermalink -}}"></script>
 {{- end -}}

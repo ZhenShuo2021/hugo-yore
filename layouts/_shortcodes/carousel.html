@@ -1,4 +1,11 @@
-{{- $raw := .Inner  | strings.TrimSpace | strings.TrimPrefix "```yaml" | strings.TrimPrefix "```" | strings.TrimSuffix "```" | transform.Unmarshal (dict "format" "yaml") -}}
+{{- $raw := "" -}}
+{{- if .Get "src" -}}
+	{{- $src := .Get "src" -}}
+	{{- $resource := or (.Page.Resources.GetMatch $src) (resources.Get $src) -}}
+	{{- $raw = $resource | transform.Unmarshal (dict "format" "yaml") -}}
+{{- else -}}
+	{{- $raw = .Inner | strings.TrimSpace | strings.TrimPrefix "```yaml" | strings.TrimPrefix "```" | strings.TrimSuffix "```" | transform.Unmarshal (dict "format" "yaml") -}}
+{{- end -}}
 {{- $id := printf "%s%s" "carousel-" (partial "lib/uid.html" .) -}}
 {{- $ratio := .Get "ratio" | default "4/3" | safeCSS -}}
 {{- $fit := .Get "fit" | default "contain" -}}

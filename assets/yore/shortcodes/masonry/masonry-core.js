@@ -11,6 +11,7 @@ const DEFAULT_OPTIONS = {
 	gapX: 12,
 	gapY: null, // null => falls back to gapX / 2
 	maxCols: 0,
+	heightTolerance: 0,
 	itemSelector: '.item',
 	imageSelector: 'img',
 };
@@ -21,6 +22,7 @@ export class Masonry {
 	#gapX;
 	#gapY;
 	#maxCols;
+	#heightTolerance;
 	#itemSelector;
 	#imageSelector;
 	#columns = 1;
@@ -48,6 +50,7 @@ export class Masonry {
 		this.#gapX = merged.gapX;
 		this.#gapY = merged.gapY != null ? merged.gapY : this.#gapX / 2;
 		this.#maxCols = merged.maxCols;
+		this.#heightTolerance = merged.heightTolerance;
 		this.#itemSelector = merged.itemSelector;
 		this.#imageSelector = merged.imageSelector;
 
@@ -117,7 +120,14 @@ export class Masonry {
 	}
 
 	#placeItem(it) {
-		const shortest = this.#columnHeights.indexOf(Math.min(...this.#columnHeights));
+		const minHeight = Math.min(...this.#columnHeights);
+		let shortest = this.#columnHeights.indexOf(minHeight);
+		for (let i = 0; i < this.#columnHeights.length; i++) {
+			if (this.#columnHeights[i] <= minHeight + this.#heightTolerance) {
+				shortest = i;
+				break;
+			}
+		}
 		const x = shortest * (this.#columnWidth + this.#gapX);
 		const y = this.#columnHeights[shortest];
 		const h = this.#columnWidth > 0 ? this.#columnWidth / it.ratio : 0;
@@ -280,6 +290,7 @@ export function initMasonryFromElement(el) {
 		gapX,
 		gapY: el.dataset.gapY != null ? Number(el.dataset.gapY) : undefined,
 		maxCols: el.dataset.maxCols != null ? Number(el.dataset.maxCols) : undefined,
+		heightTolerance: el.dataset.heightTolerance != null ? Number(el.dataset.heightTolerance) : undefined,
 	});
 	masonry.collectExisting();
 	el.__masonryInstance = masonry;

@@ -138,7 +138,7 @@ The `fig` shortcode renders an image inside a `<figure>` element with a `figcapt
 
 | Parameter | Description |
 | --- | --- |
-| `src` | **Required.** Image path. Resolves as page resource first, then global resource. |
+| `src` | **Required.** Image path. |
 | `alt` | **Optional.** Alt text for the image. |
 | `caption` | **Optional.** Caption text shown in the `figcaption`. |
 | `attrs` | **Optional.** Raw HTML attributes applied to the `<figure>` element. |
@@ -238,6 +238,7 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
 
 | Parameter | Description |
 | --- | --- |
+| `src` | **Optional.** YAML path to the image configuration file. Takes precedence over the shortcode's inner content. |
 | `ratio` | **Optional.** Aspect ratio of the slide frame, in `x/y` format. **Default:** `4/3` |
 | `fit` | **Optional.** How images fill the frame. `contain` shows the full image (may letterbox); `cover` crops to fill. **Default:** `contain` |
 | `thumbs` | **Optional.** Whether to show the thumbnail strip. **Default:** `true` |
@@ -248,7 +249,7 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
 
 | Field | Description |
 | --- | --- |
-| `src` | Image path. Resolves as page resource first, then global resource. |
+| `src` | Image path. |
 | `match` | Glob pattern to batch-load images. See [`Match`](https://gohugo.io/functions/resources/match/) for more details. |
 | `caption` | **Optional.** Caption text displayed below the main image. |
 | `alt` | **Optional.** Alt text for accessibility. Falls back to `caption` if omitted. |
@@ -303,6 +304,7 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
 
 | Parameter | Description |
 | --- | --- |
+| `src` | **Optional.** YAML path to the image configuration file. Takes precedence over the shortcode's inner content. |
 | `maxCols` | **Optional.** The maximum number of columns to display. **Default:** `3` |
 
 Images can be specified individually with `src`, or batch-loaded with `match`.
@@ -311,10 +313,12 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
 
 | Field | Description |
 | --- | --- |
-| `src` | Image path. Resolves as page resource first, then global resource. |
+| `src` | Image path. |
 | `match` | Glob pattern to batch-load images. See [`Match`](https://gohugo.io/functions/resources/match/) for more details. |
 | `caption` | **Optional.** Caption text displayed below the image. |
 | `alt` | **Optional.** Alt text for accessibility. Falls back to `caption` if omitted. |
+| `width` | **Optional.** Image width to prevent layout shift |
+| `height` | **Optional.** Image height to prevent layout shift |
 
 **Example**
 
@@ -386,7 +390,7 @@ The `audio` shortcode embeds a HTML5 audio player.
 
 | Parameter | Description |
 | --- | --- |
-| `src` | **Required.** Audio path. Resolves as page resource first, then global resource. |
+| `src` | **Required.** Audio path. |
 | `poster` | **Optional.** Poster path. If omitted, the shortcode attempts a same-name image in the page bundle. |
 | `alt` | **Optional.** Alt text for the cover image. |
 | `caption` | **Optional.** Markdown caption shown below the player. |
@@ -422,7 +426,7 @@ The `video` shortcode embeds a HTML5 video player.
 
 | Parameter | Description |
 | --- | --- |
-| `src` | **Required.** Video path. Resolves as page resource first, then global resource. |
+| `src` | **Required.** Video path. |
 | `poster` | **Optional.** Poster path. If omitted, the shortcode attempts a same-name image in the page bundle. |
 | `caption` | **Optional.** Markdown caption shown below the video. |
 | `autoplay` | **Optional.** Enables autoplay when `true`. **Default:** `false` |

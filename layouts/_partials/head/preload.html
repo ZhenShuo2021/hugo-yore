@@ -1,0 +1,20 @@
+{{- /*
+The site is lightweight enough for now, so we can take the easy route
+and put the consent resources in the preload.
+*/ -}}
+
+{{- $cc := site.Params.cookieConsent | default dict -}}
+{{- if $cc.enable -}}
+	{{- /* matches components/cookie-consent.html   */ -}}
+	{{- $lang := .Language.Locale -}}
+	{{- $cssFile := resources.Get "/yore/lib/cookieconsent/cookieconsent.css" | fingerprint -}}
+	{{- $translationFile := resources.Get (printf "yore/components/cookies/translations/%s.json" $lang) | fingerprint -}}
+	<link rel="stylesheet" href="{{ $cssFile.RelPermalink }}" id="cc-css" media="print" onload="this.media='all'">
+	<link
+		rel="preload"
+		as="fetch"
+		type="application/json"
+		href="{{ $translationFile.RelPermalink }}"
+		fetchpriority="low"
+		crossorigin>
+{{- end -}}

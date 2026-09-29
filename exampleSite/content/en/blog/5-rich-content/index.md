@@ -30,22 +30,40 @@ Rich-content example with front matter
 
 - src: /img/01.webp
   alt: Biplane
+  width: 1920
+  height: 1078
 - src: /img/02.webp
   alt: Fly high
+  width: 1920
+  height: 1283
 - src: /img/03.webp
   alt: Contrails
+  width: 1920
+  height: 1333
 - src: /img/04.webp
   alt: Parapet
+  width: 1920
+  height: 1280
 - src: /img/05.webp
   alt: Wing
+  width: 1920
+  height: 1440
 - src: /img/06.webp
   alt: Eaves
+  width: 1920
+  height: 1152
 - src: /img/07.webp
   alt: Biplane sunset
+  width: 1920
+  height: 1315
 - src: /img/drop.svg
   alt: SVG sample
   caption: example of SVG image
+  width: 1084
+  height: 322
 - src: https://cdn.zsl0621.cc/2025/docs/gemini-imagen-3-git-cover---2025-04-27T17-47-47.webp
+  width: 2048
+  height: 2048
   alt: External image sample
   caption: example of external image
 

@@ -64,6 +64,8 @@
 	{{- end -}}
 {{- end -}}
 
+{{- partial "head/preload.html" . -}}
+
 {{- /* Additional file, analytics, CSS, JS, ... */ -}}
 {{- if templates.Exists "_partials/extend-head.html" -}}
 	{{- partial "extend-head.html" . -}}
@@ -130,7 +132,7 @@
 {{- if .Page.HasShortcode "masonry" -}}
 	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
 	{{- $jsRes := resources.Get "yore/shortcodes/masonry/masonry.js" | js.Build $opts -}}
-	<script src="{{ $jsRes.RelPermalink }}" integrity="{{ $jsRes.Data.integrity }}"></script>
+	<script type="module" src="{{ $jsRes.RelPermalink }}" integrity="{{ $jsRes.Data.integrity }}"></script>
 {{- end -}}
 
 {{- /* TypeIt */ -}}

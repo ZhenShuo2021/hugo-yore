@@ -1,4 +1,11 @@
-{{- $raw := .Inner  | strings.TrimSpace | strings.TrimPrefix "```yaml" | strings.TrimPrefix "```" | strings.TrimSuffix "```" | transform.Unmarshal (dict "format" "yaml") -}}
+{{- $raw := "" -}}
+{{- if .Get "src" -}}
+	{{- $src := .Get "src" -}}
+	{{- $resource := or (.Page.Resources.GetMatch $src) (resources.Get $src) -}}
+	{{- $raw = $resource | transform.Unmarshal (dict "format" "yaml") -}}
+{{- else -}}
+	{{- $raw = .Inner | strings.TrimSpace | strings.TrimPrefix "```yaml" | strings.TrimPrefix "```" | strings.TrimSuffix "```" | transform.Unmarshal (dict "format" "yaml") -}}
+{{- end -}}
 {{- $page := .Page -}}
 {{- $colWidth := 200 -}}
 {{- $maxCols := .Get "maxCols" | default 3 -}}
@@ -44,21 +51,25 @@
 		{{- if $resource -}}
 			{{- if reflect.IsImageResourceProcessable $resource -}}
 				{{- $p := partial "lib/img-opt.html" (dict "imgObj" $resource) -}}
+				{{- $itemWidth := .width | default $p.imgDesktop.Width -}}
+				{{- $itemHeight := .height | default $p.imgDesktop.Height -}}
 				{{- $items = $items | append (dict
 					"resolved" $resource.RelPermalink
-					"width" $p.imgDesktop.Width
-					"height" $p.imgDesktop.Height
+					"width" $itemWidth
+					"height" $itemHeight
 					"srcset" (printf "%s 1280w, %s 2400w" $p.imgMobile.RelPermalink $p.imgDesktop.RelPermalink)
 					"alt" (.alt | default .caption | default "")
 					"caption" (.caption | default "")
 					)
 				-}}
 			{{- else -}}
-				{{- /* SVG and other unscaled resources: measurement is handled by the JavaScript side. */ -}}
+				{{- /* SVG and other unscaled resources: use user-provided width/height if given, otherwise fall back to 0 and let JS measure it. */ -}}
+				{{- $itemWidth := .width | default 0 -}}
+				{{- $itemHeight := .height | default 0 -}}
 				{{- $items = $items | append (dict
 					"resolved" $resource.RelPermalink
-					"width" 0
-					"height" 0
+					"width" $itemWidth
+					"height" $itemHeight
 					"srcset" ""
 					"alt" (.alt | default .caption | default "")
 					"caption" (.caption | default "")
@@ -66,11 +77,13 @@
 				-}}
 			{{- end -}}
 		{{- else -}}
-			{{- /* external resources: no width/height info */ -}}
+			{{- /* external resources: use user-provided width/height if given, otherwise no width/height info */ -}}
+			{{- $itemWidth := .width | default 0 -}}
+			{{- $itemHeight := .height | default 0 -}}
 			{{- $items = $items | append (dict
 				"resolved" .src
-				"width" 0
-				"height" 0
+				"width" $itemWidth
+				"height" $itemHeight
 				"srcset" ""
 				"alt" (.alt | default .caption | default "")
 				"caption" (.caption | default "")
@@ -80,7 +93,7 @@
 	{{- end -}}
 {{- end -}}
 
-{{- $attrs := printf `data-min-column-width="%s"` (string $colWidth) -}}
+{{- $attrs := printf `data-height-tolerance="25" data-min-column-width="%s"` (string $colWidth) -}}
 {{- with .Get "gapX" }}{{ $attrs = printf `%s data-gap-x="%s"` $attrs (string .) }}{{ end -}}
 {{- with .Get "gapY" }}{{ $attrs = printf `%s data-gap-y="%s"` $attrs (string .) }}{{ end -}}
 {{- with .Get "maxCols" }}{{ $attrs = printf `%s data-max-cols="%s"` $attrs (string .) }}{{ end -}}

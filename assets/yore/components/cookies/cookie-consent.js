@@ -4,7 +4,6 @@ import userConfig from './config.js';
 
 const lang = window.__ccLang;
 const translationURL = window.__ccTranslationURL;
-const cssURL = window.__ccCSSURL;
 
 const _categoryDefaults = {
 	necessary: { enabled: true, readOnly: true },
@@ -30,7 +29,7 @@ for (const name of enabledCategories) {
 function addCategory({ name, categoryConfig = {}, section = {} }) {
 	categories[name] = categoryConfig;
 
-	// No explicit section text — the JSON translation already handles it.
+	// No explicit section text. The JSON translation already handles it.
 	if (!section.title && !section.description) return;
 
 	const sections = translation.preferencesModal.sections;
@@ -48,15 +47,11 @@ function syncDarkMode(isDark) {
 	document.documentElement.classList.toggle('cc--darkmode', isDark);
 }
 
-function loadCSS(href) {
-	if (!href) return Promise.resolve();
+function waitForCSS(link) {
+	if (!link || link.sheet) return Promise.resolve();
 	return new Promise((resolve) => {
-		const link = document.createElement('link');
-		link.rel = 'stylesheet';
-		link.href = href;
 		link.addEventListener('load', () => resolve(), { once: true });
 		link.addEventListener('error', () => resolve(), { once: true });
-		document.head.appendChild(link);
 	});
 }
 
@@ -71,10 +66,10 @@ if (params.hasSwitcher) {
 window.CookieConsent = CookieConsent;
 
 let translation;
-const translationPromise = fetch(translationURL).then((r) => r.json());
-const cssPromise = loadCSS(cssURL);
+const translationPromise = fetch(translationURL, { priority: 'low' }).then((r) => r.json());
+const cssPromise = waitForCSS(document.getElementById('cc-css'));
 
-Promise.all([translationPromise, cssPromise]).then(([json, _cssResult]) => {
+Promise.all([translationPromise, cssPromise]).then(([json]) => {
 	translation = json;
 
 	const generalSections = translation.preferencesModal.sections.filter((s) => !s.linkedCategory);

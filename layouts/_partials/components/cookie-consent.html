@@ -1,25 +1,12 @@
 {{- $cc := site.Params.cookieConsent | default dict -}}
 {{- if $cc.enable -}}
 	{{- $lang := .Language.Locale -}}
-	{{- $translationURL := "" -}}
-	{{- $translationFile := printf "yore/components/cookies/translations/%s.json" $lang -}}
-	{{- with resources.Get $translationFile -}}
-		{{- $translationURL = (. | fingerprint).RelPermalink -}}
-	{{- else -}}
-		{{- errorf "cookies consent: translation file %s not found." $translationFile -}}
-	{{- end -}}
-
+	{{- $translationFile := resources.Get (printf "yore/components/cookies/translations/%s.json" $lang) | fingerprint -}}
 	{{- $enabledCategories := $cc.categories | default (slice "necessary" "functional" "analytics") -}}
-
-	{{- $ccCSSURL := "" -}}
-	{{- with resources.Get "/yore/lib/cookieconsent/cookieconsent.css" | fingerprint -}}
-		{{- $ccCSSURL = .RelPermalink -}}
-	{{- end -}}
 
 	<script>
 		window.__ccLang="{{ $lang }}";
-		window.__ccTranslationURL="{{ $translationURL }}";
-		window.__ccCSSURL="{{ $ccCSSURL }}";
+		window.__ccTranslationURL="{{ $translationFile.RelPermalink }}";
 	</script> {{- /**/ -}}
 	{{- $jsParams := dict
 		"enabledCategories" $enabledCategories

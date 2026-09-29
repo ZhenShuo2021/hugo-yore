@@ -29,12 +29,8 @@
 				{{- end -}}
 				{{- if $logo -}}
 					{{- $attrs := "" -}}
-					{{- $attrsDark := "" -}}
-					{{- if reflect.IsImageResourceWithMeta $logo -}}
-						{{- $attrs = printf " width=%d height=%d" $logo.Width $logo.Height -}}
-					{{- end -}}
-					{{- if reflect.IsImageResourceWithMeta $logoDark -}}
-						{{- $attrsDark = printf " width=%d height=%d" $logoDark.Width $logoDark.Height -}}
+					{{- if and site.Params.logoWidth site.Params.logoHeight -}}
+						{{- $attrs = printf " width=%d height=%d" site.Params.logoWidth site.Params.logoHeight -}}
 					{{- end -}}
 					<div class="flex h-full w-auto flex-shrink-0 items-center py-1">
 						<a
@@ -51,7 +47,7 @@
 									src="{{ $logoDark.RelPermalink }}"
 									alt="{{ site.Title }}"
 									class="hidden h-full w-auto object-contain dark:block"
-									{{- $attrsDark | safeHTMLAttr }}>
+									{{- $attrs | safeHTMLAttr }}>
 							{{- else }}
 								<img
 									src="{{ $logo.RelPermalink }}"

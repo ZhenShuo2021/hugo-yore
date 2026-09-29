@@ -144,6 +144,8 @@ markup:
 params:
   logo: /img/logo.svg # Path to the site logo image (assets/img/logo.svg -> /img/logo.svg)
   logoDark: /img/logo-dark.svg # Path to the dark mode logo
+  logoWidth: 200 # Logo width to prevent layout shift
+  logoHeight: 100 # Logo height to prevent layout shift
   blogLayout: 3-col # Overall site column layout. [2-col | 3-col]
 
   # Theme

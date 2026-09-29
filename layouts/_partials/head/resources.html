@@ -89,11 +89,24 @@
 
 {{- /* Core JS */ -}}
 {{- define "_partials/inline/main-js" -}}
-	{{- $js := "" -}}
+	{{- $mainJS := "" -}}
+
+	{{- $photoswipeJS := "" -}}
+	{{- if site.Params.imageLightbox -}}
+		{{- $optsPswp := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
+		{{- $pswp := resources.Get "yore/components/photoswipe/photoswipe.js" | js.Build $optsPswp -}}
+		{{- if hugo.IsProduction -}}{{- $pswp = $pswp | fingerprint -}}{{- end -}}
+		{{- $photoswipeJS = $pswp.RelPermalink -}}
+		{{- hugo.Store.Add "swPrecache" (slice $photoswipeJS) -}}
+	{{- end -}}
+
 	{{- with resources.Get "yore/core/js/main.js" -}}
 		{{- with resources.ExecuteAsTemplate "js/main-bundle.js" $ . -}}
 			{{- $jsParams := dict
 				"headerLayout" site.Params.headerLayout
+				"searchJS" ("pagefind/pagefind-component-ui.js" | relURL)
+				"searchCSS" ("pagefind/pagefind-component-ui.css" | relURL)
+				"photoswipeJS" $photoswipeJS
 			-}}
 			{{- $opts := dict
 				"format" "esm"
@@ -101,9 +114,9 @@
 				"target" hugo.Data.theme.esBuildTarget
 				"params" $jsParams
 			-}}
-			{{- $js = . | js.Build $opts -}}
-			{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}
-			{{- return $js -}}
+			{{- $mainJS = . | js.Build $opts -}}
+			{{- if hugo.IsProduction -}}{{- $mainJS = $mainJS | fingerprint -}}{{- end -}}
+			{{- return $mainJS -}}
 		{{- end -}}
 	{{- end -}}
 {{- end -}}
@@ -131,11 +144,16 @@
 
 {{- /* Docs Nav */ -}}
 {{- if eq .Type "docs" -}}
+	{{- $docsJS := partial "inline/build-docs-nav-js" . }}
+	<script type="module" src="{{- $docsJS.RelPermalink -}}" integrity="{{- $docsJS.Data.Integrity -}}"></script>
+{{- end -}}
+
+{{- define "_partials/inline/build-docs-nav-js" -}}
 	{{- $jsParams := dict "autoCollapseCategories" (site.Params.docsAutoCollapseCategories | default false) "cookieConsent" (site.Params.cookieConsent.enable | default true) -}}
 	{{- $opts := dict "format" "esm" "minify" hugo.IsProduction "target" hugo.Data.theme.esBuildTarget "params" $jsParams -}}
 	{{- $docsJS := resources.Get "yore/components/docs-nav/docs-nav.js" | js.Build $opts -}}
 	{{- if hugo.IsProduction -}}{{- $docsJS = $docsJS  | fingerprint -}}{{- end -}}
-	<script type="module" src="{{- $docsJS.RelPermalink -}}" integrity="{{- $docsJS.Data.Integrity -}}"></script>
+	{{- return $docsJS -}}
 {{- end -}}
 
 {{- /* Math */ -}}
@@ -147,6 +165,7 @@
 {{- if .Page.HasShortcode "carousel" -}}
 	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
 	{{- $jsRes := resources.Get "yore/shortcodes/carousel/carousel.js" | js.Build $opts -}}
+	{{- if hugo.IsProduction -}}{{- $jsRes = $jsRes | fingerprint -}}{{- end -}}
 	<script type="module">
 		import { initCarousels } from '{{ $jsRes.RelPermalink }}';
 		initCarousels();
@@ -157,6 +176,7 @@
 {{- if .Page.HasShortcode "masonry" -}}
 	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
 	{{- $jsRes := resources.Get "yore/shortcodes/masonry/masonry.js" | js.Build $opts -}}
+	{{- if hugo.IsProduction -}}{{- $jsRes = $jsRes | fingerprint -}}{{- end -}}
 	<script type="module" src="{{ $jsRes.RelPermalink }}" integrity="{{ $jsRes.Data.integrity }}"></script>
 {{- end -}}
 
@@ -195,25 +215,6 @@
 		integrity="{{ $echartsJS.Data.Integrity }}"
 		crossorigin="anonymous"
 		referrerpolicy="no-referrer"></script>
-{{- end -}}
-
-{{- /* Search */ -}}
-{{- if site.Params.searchEnabled -}}
-	<link
-		href="{{ "pagefind/pagefind-component-ui.css" | relURL }}"
-		rel="stylesheet"
-		media="print"
-		onload="this.media='all'">
-	<script src="{{ "pagefind/pagefind-component-ui.js" | relURL }}" type="module"></script>
-{{- end -}}
-
-{{- /* PhotoSwipe */ -}}
-{{- if site.Params.imageLightbox | default true -}}
-	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
-	{{- $pswp := resources.Get "yore/components/photoswipe/photoswipe.js" | js.Build $opts -}}
-	{{- if hugo.IsProduction -}}{{- $pswp = $pswp | fingerprint -}}{{- end -}}
-	{{- hugo.Store.Add "swPrecache" (slice $pswp.RelPermalink) -}}
-	<script type="module" src="{{ $pswp.RelPermalink }}" integrity="{{ $pswp.Data.Integrity }}"></script>
 {{- end -}}
 
 {{- /* knowledge-graph */ -}}

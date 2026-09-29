@@ -17,6 +17,10 @@ import '../../components/code/code.js';
 import '../../components/toc/toc.js';
 {{ end }}
 
+{{ if site.Params.imageLightbox }}
+import '../../components/photoswipe/lazy-load-photoswipe.js'
+{{ end }}
+
 {{ if site.Params.searchEnabled }}
 import '../../components/search/search.js'
 {{ end }}

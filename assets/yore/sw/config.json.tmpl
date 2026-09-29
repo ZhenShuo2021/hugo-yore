@@ -26,9 +26,7 @@
 {{- $precacheAssets := slice -}}
 
 {{- if .Site.Params.sw.precache.assets -}}
-	{{- $jsParams := dict "autoCollapseCategories" (site.Params.docsAutoCollapseCategories | default false) "cookieConsent" (site.Params.cookieConsent.enable | default true) -}}
-	{{- $opts := dict "format" "esm" "minify" hugo.IsProduction "target" hugo.Data.theme.esBuildTarget "params" $jsParams -}}
-	{{- $docsJS := resources.Get "yore/components/docs-nav/docs-nav.js" | js.Build $opts -}}
+	{{- $docsJS := partial "inline/build-docs-nav-js" . }}
 	{{- $precacheAssets = $precacheAssets | append $docsJS.RelPermalink -}}
 
 	{{- $precacheAssets = $precacheAssets | append (hugo.Store.Get "swPrecache") -}}

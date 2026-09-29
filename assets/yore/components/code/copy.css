@@ -22,7 +22,9 @@
 	--tw-ease: var(--ease-in-out);
 	transition-timing-function: var(--ease-in-out);
 	color: var(--muted);
-	@supports (color: color-mix(in lab, red, red)) {
+}
+@supports (color: color-mix(in lab, red, red)) {
+	.copy-button {
 		color: color-mix(var(--foreground), var(--muted));
 	}
 }

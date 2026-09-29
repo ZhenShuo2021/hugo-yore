@@ -92,22 +92,86 @@ function initDrawer() {
 
 	const mainEl = document.getElementById('main-content');
 
+	// Browsers without the Popover API: the drawer is opened with inline styles instead.
+	const isNativePopover = typeof drawer.showPopover === 'function';
+	const home = { parent: drawer.parentNode, next: drawer.nextSibling };
+	let fallbackOpen = false;
+	let fallbackBackdrop = null;
+	let savedStyleAttr = null;
+
+	function showFallback() {
+		savedStyleAttr = drawer.getAttribute('style');
+
+		fallbackBackdrop = document.createElement('div');
+		Object.assign(fallbackBackdrop.style, {
+			position: 'fixed',
+			top: '0',
+			right: '0',
+			bottom: '0',
+			left: '0',
+			zIndex: '2147483646',
+			background: 'rgba(0, 0, 0, 0.5)',
+		});
+		fallbackBackdrop.style.background = 'var(--backdrop)';
+
+		// Emulate the top layer: attach to body so no ancestor can clip or stack over it
+		document.body.appendChild(fallbackBackdrop);
+		document.body.appendChild(drawer);
+
+		Object.assign(drawer.style, {
+			display: 'flex',
+			position: 'fixed',
+			top: '0',
+			bottom: '0',
+			insetInlineStart: '0',
+			width: `${Math.min(384, window.innerWidth * 0.8)}px`,
+			maxWidth: '80vw',
+			height: 'auto',
+			maxHeight: 'none',
+			margin: '0',
+			border: '0',
+			transform: 'none',
+			zIndex: '2147483647',
+		});
+		fallbackOpen = true;
+	}
+
+	function hideFallback() {
+		if (savedStyleAttr === null) drawer.removeAttribute('style');
+		else drawer.setAttribute('style', savedStyleAttr);
+
+		if (home.parent) {
+			const next = home.next && home.next.parentNode === home.parent ? home.next : null;
+			home.parent.insertBefore(drawer, next);
+		}
+		if (fallbackBackdrop && fallbackBackdrop.parentNode) {
+			fallbackBackdrop.parentNode.removeChild(fallbackBackdrop);
+		}
+		fallbackBackdrop = null;
+		fallbackOpen = false;
+	}
+
+	function isDrawerOpen() {
+		return isNativePopover ? drawer.matches(':popover-open') : fallbackOpen;
+	}
+
 	function openDrawer() {
-		drawer.showPopover();
-		if (mainEl) mainEl.inert = true;
+		isNativePopover ? drawer.showPopover() : showFallback();
+		if (mainEl) mainEl.setAttribute('inert', '');
 		openBtn.setAttribute('aria-expanded', 'true');
 		drawer.focus({ preventScroll: true });
 	}
 
 	function closeDrawer() {
-		drawer.hidePopover();
-		if (mainEl) mainEl.inert = false;
+		isNativePopover ? drawer.hidePopover() : hideFallback();
+
+		if (mainEl) mainEl.removeAttribute('inert');
 		openBtn.setAttribute('aria-expanded', 'false');
 		openBtn.focus({ preventScroll: true });
 	}
 
 	openBtn.addEventListener('click', () => {
-		if (drawer.matches(':popover-open')) {
+		if (isDrawerOpen()) {
 			closeDrawer();
 		} else {
 			openDrawer();
@@ -115,18 +179,20 @@ function initDrawer() {
 	});
 
 	document.addEventListener('click', (e) => {
-		if (!drawer.matches(':popover-open')) return;
+		if (!isDrawerOpen()) return;
 		if (drawer.contains(e.target) || e.target.closest('#docs-drawer-open')) return;
 		closeDrawer();
 	});
 
 	document.addEventListener('keydown', (e) => {
-		if (e.key === 'Escape' && drawer.matches(':popover-open')) closeDrawer();
+		if (e.key === 'Escape' && isDrawerOpen()) closeDrawer();
 	});
 
-	matchMedia(DRAWER_MEDIA).addEventListener('change', (e) => {
-		if (e.matches && drawer.matches(':popover-open')) closeDrawer();
-	});
+	const mql = matchMedia(DRAWER_MEDIA);
+	const onMediaChange = (e) => {
+		if (e.matches && isDrawerOpen()) closeDrawer();
+	};
+	mql.addEventListener('change', onMediaChange);
 }
 
 // --- Init ---

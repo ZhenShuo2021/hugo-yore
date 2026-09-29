@@ -2,6 +2,8 @@
 .page-actions__menu {
 	position: fixed;
 	margin: 0;
+	/* Old browser fallback */
+	display: none;
 }
 
 .page-actions__icon-check {

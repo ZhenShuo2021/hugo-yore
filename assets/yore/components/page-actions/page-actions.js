@@ -1,17 +1,65 @@
-async function init() {
-	(async () => {
-		try {
-			if (!('popover' in HTMLElement.prototype)) {
-				await import('https://unpkg.com/@oddbird/popover-polyfill@latest/dist/popover.min.js');
-			}
-			if (!('commandForElement' in HTMLButtonElement.prototype)) {
-				await import('https://esm.run/invokers-polyfill');
-			}
-		} catch (err) {
-			console.error('Failed to load dialog/popover polyfill:', err);
-		}
-	})();
+const POPOVER_POLYFILL = 'https://unpkg.com/@oddbird/popover-polyfill@latest/dist/popover.min.js';
+const INVOKERS_POLYFILL = 'https://esm.run/invokers-polyfill@latest';
 
+// The popover polyfill injects UA-like styles (inset, margin: auto, fit-content, border,
+// padding, background) that override the site styles. Save the original computed styles
+// before loading it and re-apply them inline afterwards.
+const MENU_STYLE_PROPS = [
+	'backgroundColor',
+	'color',
+	'overflow',
+	'paddingTop',
+	'paddingRight',
+	'paddingBottom',
+	'paddingLeft',
+	'borderTopWidth',
+	'borderRightWidth',
+	'borderBottomWidth',
+	'borderLeftWidth',
+	'borderTopStyle',
+	'borderRightStyle',
+	'borderBottomStyle',
+	'borderLeftStyle',
+	'borderTopColor',
+	'borderRightColor',
+	'borderBottomColor',
+	'borderLeftColor',
+];
+
+function captureMenuStyle(menu) {
+	const cs = getComputedStyle(menu);
+	return Object.fromEntries(MENU_STYLE_PROPS.map((prop) => [prop, cs[prop]]));
+}
+
+function restoreMenuStyle(menu, saved) {
+	Object.assign(menu.style, saved, {
+		margin: '0',
+		right: 'auto',
+		bottom: 'auto',
+		height: 'auto',
+	});
+	menu.style.width = '-webkit-max-content';
+	menu.style.width = 'max-content';
+}
+
+async function loadPolyfills(menu) {
+	try {
+		if (!('popover' in HTMLElement.prototype)) {
+			const saved = captureMenuStyle(menu);
+			document.documentElement.classList.add('no-native-popover');
+			await import(POPOVER_POLYFILL);
+			restoreMenuStyle(menu, saved);
+		}
+		// Must load after the popover polyfill
+		if (!('commandForElement' in HTMLButtonElement.prototype)) {
+			await import(INVOKERS_POLYFILL);
+		}
+	} catch (err) {
+		console.error('Failed to load dialog/popover polyfill:', err);
+	}
+}
+
+async function init() {
 	const container = document.querySelector('.page-actions');
 	if (!container) {
 		return;
@@ -20,6 +68,8 @@ async function init() {
 	const menu = container.querySelector('.page-actions__menu');
 	const mdSourceLink = container.querySelector('.page-actions__view-source');
 	const mdURL = mdSourceLink ? mdSourceLink.href : null;
+
+	await loadPolyfills(menu);
 
 	const GAP = 8;
 	const VIEWPORT_PADDING = 8;
@@ -40,6 +90,9 @@ async function init() {
 	menu.addEventListener('toggle', (event) => {
 		const isOpen = 'newState' in event ? event.newState === 'open' : menu.matches(':popover-open');
 		toggle.setAttribute('aria-expanded', String(isOpen));
+
+		// Old browser fallback
+		menu.style.display = isOpen ? 'block' : 'none';
 
 		if (isOpen) {
 			positionMenu();
@@ -76,7 +129,7 @@ async function init() {
 				]);
 				return;
 			} catch {
-				// fall through to the plain await path below
+				// Fall through to the plain await path below.
 			}
 		}
 		await copyText(await textPromise);

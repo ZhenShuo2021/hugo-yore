@@ -1653,9 +1653,6 @@
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
-  .p-8 {
-    padding: calc(var(--spacing) * 8);
-  }
   .px-\(--yore-site-padding-x\) {
     padding-inline: var(--yore-site-padding-x);
   }

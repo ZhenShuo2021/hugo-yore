@@ -15,23 +15,37 @@
 					{{- $logoDark = resources.Get site.Params.LogoDark -}}
 				{{- end -}}
 				{{- if $logo -}}
-					<div class="logo-container flex h-8 w-auto flex-shrink-0 items-center">
+					{{- $attrs := "" -}}
+					{{- $attrsDark := "" -}}
+					{{- if reflect.IsImageResourceWithMeta $logo -}}
+						{{- $attrs = printf " width=%d height=%d" $logo.Width $logo.Height -}}
+					{{- end -}}
+					{{- if reflect.IsImageResourceWithMeta $logoDark -}}
+						{{- $attrsDark = printf " width=%d height=%d" $logoDark.Width $logoDark.Height -}}
+					{{- end -}}
+					<div class="flex h-full w-auto flex-shrink-0 items-center py-1">
 						<a
 							href="{{ site.Home.RelPermalink }}"
 							aria-label="{{ site.Title }}"
 							tabindex="-1"
 							class="flex h-full items-center">
-							{{- if $logoDark }}
+							{{- if $logoDark -}}
 								<img
 									src="{{ $logo.RelPermalink }}"
 									alt="{{ site.Title }}"
-									class="h-full w-auto object-contain dark:hidden">
+									class="h-full w-auto object-contain dark:hidden"
+									{{- $attrs | safeHTMLAttr }}>
 								<img
 									src="{{ $logoDark.RelPermalink }}"
 									alt="{{ site.Title }}"
-									class="hidden h-full w-auto object-contain dark:block">
+									class="hidden h-full w-auto object-contain dark:block"
+									{{- $attrsDark | safeHTMLAttr }}>
 							{{- else }}
-								<img src="{{ $logo.RelPermalink }}" alt="{{ site.Title }}" class="h-full w-auto object-contain">
+								<img
+									src="{{ $logo.RelPermalink }}"
+									alt="{{ site.Title }}"
+									class="h-full w-auto object-contain"
+									{{- $attrs | safeHTMLAttr }}>
 							{{- end }}
 						</a>
 					</div>

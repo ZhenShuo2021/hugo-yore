@@ -1,7 +1,7 @@
 {
 	"name": "hugo-yore-theme",
 	"type": "module",
-	"version": "0.6.1",
+	"version": "0.7.0",
 	"description": "yore theme for Hugo.",
 	"keywords": [
 		"hugo",

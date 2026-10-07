@@ -243,7 +243,7 @@ params:
   repoSubdir: exampleSite # Page actions: Path from the repository root to the Hugo project directory. Leave empty if the site is in the repo root
   sourceBaseURL: https://github.com/ZhenShuo2021/hugo-yore/blob/main/ # Page actions: Base URL used to link a docs page to its source file. See http://yore.zsl0621.cc/docs/features/docs-layout/#options
   cookieConsent:
-    enable: true # Show a cookie consent dialog
+    enable: false # Show a cookie consent dialog
     categories: # Cookie categories offered in the consent banner
       - necessary
       - functional

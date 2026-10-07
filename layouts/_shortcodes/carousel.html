@@ -179,7 +179,11 @@
 						{{- else -}}
 							{{- printf "Image %d" (add $i 1) -}}
 						{{- end }}">
-						{{- if reflect.IsImageResourceProcessable $resolved -}}
+						{{- $process := and
+							(reflect.IsImageResourceProcessable $resolved)
+							(not (strings.Contains ($resolved.Content | first 30) "ftypavis"))
+						-}}
+						{{- if $process -}}
 							{{- $pathInfo := partial "_internal/image/path.html" $resolved }}
 							{{- $path := printf "%s-144x_%s.webp" $pathInfo.base $pathInfo.hash }}
 							{{- $thumbImg := $resolved.Fill "144x144 webp" | resources.Copy $path -}}

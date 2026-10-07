@@ -1,20 +1,21 @@
-{{- $url := (.Store.Get "featuredImage").url -}}
-{{- $style := "" -}}
-{{- with .Params.imagePosition | default site.Params.imagePosition -}}
-	{{- $style = printf "object-position: %s;" . -}}
-{{- end -}}
+{{- $img := .Store.Get "featuredImage" -}}
+{{- $url := $img.url -}}
 
 {{- if $url -}}
 	<div class="page-hero--big my-1 mb-[5vh] w-full">
-		<div class="">
+		<picture>
+			{{ with $img.mobile }}<source media="(width < 768px)" srcset="{{ . }}" type="image/webp">{{ end }}
+			{{ with $img.desktop }}<source media="(width >= 768px)" srcset="{{ . }}" type="image/webp">{{ end }}
 			<img
 				id="hero-image"
 				src="{{ $url }}"
+				{{ with $img.width }}width="{{ . }}"{{ end }}
+				{{ with $img.height }}height="{{ . }}"{{ end }}
 				loading="eager"
 				decoding="async"
 				fetchpriority="high"
 				alt=""
 				class="w-full">
-		</div>
+		</picture>
 	</div>
 {{- end -}}

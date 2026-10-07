@@ -72,6 +72,10 @@ function initPhotoSwipe() {
 // --- Helpers ---
 
 function wrapImageForLightbox(img) {
+	// Support picture tag
+	const picture = img.closest('picture');
+	const target = picture || img;
+
 	const link = document.createElement('a');
 	link.href = img.src;
 	link.target = '_blank';
@@ -96,8 +100,8 @@ function wrapImageForLightbox(img) {
 		);
 	}
 
-	img.parentNode.insertBefore(link, img);
-	link.appendChild(img);
+	target.parentNode.insertBefore(link, target);
+	link.appendChild(target);
 	return link;
 }
 

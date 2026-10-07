@@ -1,62 +1,72 @@
-{{- /* TODO
+{{- define "RenderImage" -}}
+	{{- /*
+		Renders an image as a <picture> (WebP source plus original fallback) or as a plain <img>.
 
-Consider using picture tag instead of srcset.
+		Params (dict):
+			imgObj        Required. Hugo image resource, or "" if not found
+			src           Required. Fallback src used by the plain <img>
+			alt           Required. Alt text
+			processable   Required. Result of reflect.IsImageResourceProcessable
+			optimize      Optional. Truthy to enable the <picture> render
+			loading       Required. "eager" or "lazy"
+			prio          Optional. "high", "low" or "auto", omitted when empty
+			w             Optional. Width attribute, falls back to the intrinsic size
+			h             Optional. Height attribute, falls back to the intrinsic size
 
-Even Jake Archibald's website does *not* use srcset:
-https://jakearchibald.com/2021/f1-perf-part-7/
+		Returns:
+			None. Renders HTML directly.
 
-There are several issues with using srcset right now:
+		Note:
+			The <picture> render is used only when optimize, imgObj and processable are all truthy.
+			Otherwise the plain <img> render is used.
 
-1. We don't want to deal with the complexity of sizes.
-		We just want a smaller image on mobile and a larger image on desktop.
-2. To achieve this, the current setup is somewhat counterintuitive.
-		It relies on calculations to make the images happen to render this way.
-3. We don't actually know which container the images from
-		the Markdown render hook will be placed in.
-4. This causes the browser to warn about a potential CLS issue:
-		"Lazy-loaded images should have explicit dimensions."
-5. We also want users on all devices to be able to download the full-size image.
-6. We also need to make sure the render hook works correctly inside
-		all kinds of containers (masonry, carousel, PhotoSwipe, ...).
-
-We should probably use the picture tag to solve these issues.
-
-*/ -}}
-
-{{- define "RenderImageSimple" -}}
-	{{- $imgObj := .imgObj -}}
-	{{- $src := .src -}}
-	{{- $alt := .alt -}}
-	{{- $processable := .processable -}}
-	<img
-	class="pswp-gallery"
-		alt="{{ $alt }}"
-		src="{{ $src }}"
-		loading="lazy"
-		{{ if $processable -}}
-			{{ with $imgObj.Width }}width="{{ . }}"{{ end }}
-			{{ with $imgObj.Height }}height="{{ . }}"{{ end }}
-		{{- end }}>
-{{- end -}}
-
-{{- define "RenderImageResponsive" -}}
-	{{- /* Responsive Image
-		1. src: original image (high resolution, EXIF info, available in photoswipe)
-		2. srcset: the webp version with same resolution for tablet and desktop
-		           the 800x (1280w) version for smart phones
-		
-		input: .imgObj, .alt
+			In the <picture> render, src is the original image (high resolution, with EXIF data,
+			and available in PhotoSwipe) and srcset is the WebP version at the same resolution
+			for tablets and desktops. The container is never full-width on desktop but is
+			full-width on mobile, so the same source serves both.
 	*/ -}}
-	{{- $i := partial "_internal/image/render-hook.html" (dict "imgObj" .imgObj) -}}
-	<img
-	class="pswp-gallery"
-		src="{{ .imgObj.RelPermalink }}"
-		alt="{{ .alt }}"
-		loading="lazy"
-		{{ with $i.imgDesktop.Width }}width="{{ . }}"{{ end }}
-		{{ with $i.imgDesktop.Height }}height="{{ . }}"{{ end }}
-		srcset="{{ printf "%s 1280w, %s 2400w" $i.imgMobile.RelPermalink $i.imgDesktop.RelPermalink }}"
-		sizes="(max-width: 767px) 50vw, 100vw">
+	{{- $imgObj := .imgObj -}}
+	{{- $processable := .processable -}}
+	{{- $loading := .loading -}}
+	{{- $prio := .prio -}}
+	{{- $width := .w -}}
+	{{- $height := .h -}}
+	{{- $noSize := not (or $width $height) -}}
+
+	{{- if and .optimize $imgObj $processable -}}
+		{{- $opt := partial "lib/img-opt.html" (dict "imgObj" $imgObj "desktopWidth" 1320 "mobileWidth" 1320) -}}
+
+		{{- /* No w/h given: fall back to the size of the WebP version */ -}}
+		{{- if $noSize -}}
+			{{- $width = $opt.imgMobile.Width -}}
+			{{- $height = $opt.imgMobile.Height -}}
+		{{- end -}}
+		<picture>
+			{{ with $opt.imgMobile.RelPermalink }}<source media="all" srcset="{{ . }}" type="image/webp">{{ end }}
+			<img
+				src="{{ $opt.imgObj.RelPermalink }}"
+				alt="{{ .alt }}"
+				class="pswp-gallery"
+				loading="{{ $loading }}"
+				{{- with $prio }} fetchpriority="{{ . }}"{{ end }}
+				{{- with $width }} width="{{ . }}"{{ end }}
+				{{- with $height }} height="{{ . }}"{{ end }}>
+		</picture>
+	{{- else -}}
+		{{- /* No w/h given: fall back to the intrinsic size of the processable resource */ -}}
+		{{- if and $noSize $processable -}}
+			{{- $width = $imgObj.Width -}}
+			{{- $height = $imgObj.Height -}}
+		{{- end -}}
+		<img
+			alt="{{ .alt }}"
+			src="{{ .src }}"
+			class="pswp-gallery"
+			loading="{{ $loading }}"
+			{{- with $prio }} fetchpriority="{{ . }}"{{ end }}
+			{{- with $width }} width="{{ . }}"{{ end }}
+			{{- with $height }} height="{{ . }}"{{ end }}>
+	{{- end -}}
 {{- end -}}
 
 {{- $resource := "" -}}
@@ -78,30 +88,62 @@ We should probably use the picture tag to solve these issues.
 		{{- end -}}
 	{{- end -}}
 {{- end -}}
+{{- $processable := reflect.IsImageResourceProcessable $resource -}}
+
+{{- /* Attributes consumed by img, not passed to figure */ -}}
+{{- $imgOnlyAttrs := slice "w" "h" "prio" "width" "height" "fetchpriority" "loading" -}}
+
+{{- /* Short names take priority, full names act as aliases */ -}}
+{{- $w := or (index .Attributes "w") (index .Attributes "width") -}}
+{{- $h := or (index .Attributes "h") (index .Attributes "height") -}}
+
+{{- /* prio only accepts valid values, anything else is ignored */ -}}
+{{- $prio := "" -}}
+{{- with or (index .Attributes "prio") (index .Attributes "fetchpriority") -}}
+	{{- $v := lower (printf "%v" .) -}}
+	{{- if in (slice "high" "low" "auto") $v -}}
+		{{- $prio = $v -}}
+	{{- else -}}
+		{{- warnf "Unsupported fetchpriority setting: %s. Must be in one of \"high\", \"low\" or \"auto\"" $v }}
+	{{- end -}}
+{{- else -}}
+	{{- /* no default value, use browser's default priority */ -}}
+{{- end -}}
+
+{{- /* high defaults to eager, everything else defaults to lazy, loading can override manually */ -}}
+{{- $loading := cond (eq $prio "high") "eager" "lazy" -}}
+{{- with index .Attributes "loading" -}}
+	{{- $v := lower (printf "%v" .) -}}
+	{{- if in (slice "eager" "lazy") $v -}}
+		{{- $loading = $v -}}
+	{{- end -}}
+{{- end -}}
 
 <figure
 	{{- range $k, $v := .Attributes -}}
-		{{- if $v -}}
-			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
+		{{- if not (in $imgOnlyAttrs $k) -}}
+			{{- $s := printf "%v" $v -}}
+			{{- if $s -}}
+				{{- printf " %s=%q" $k ($s | transform.HTMLEscape) | safeHTMLAttr -}}
+			{{- else -}}
+				{{- printf " %s" $k | safeHTMLAttr -}}
+			{{- end -}}
 		{{- end -}}
 	{{- end -}}>
-	{{- $processable := reflect.IsImageResourceProcessable $resource }}
-	{{- if and
-		(.Page.Param "imageOptimizationMD")
-		$resource
-		$processable
-	-}}
-		{{- template "RenderImageResponsive" (dict "imgObj" $resource "alt" .Text) -}}
-	{{- else -}}
-		{{- /* simple render
-			1. falsy imageOptimizationMD
-			2. Not processable (SVG)
-			3. Resource not found ($resource="") 
-		*/ -}}
-		{{- template "RenderImageSimple" (dict "imgObj" $resource "src" $src "alt" .Text "processable" $processable) -}}
-	{{- end -}}
+	{{- template "RenderImage" (dict
+		"imgObj" $resource
+		"src" $src
+		"alt" .Text
+		"processable" $processable
+		"optimize" (.Page.Param "imageOptimizationMD")
+		"loading" $loading
+		"prio" $prio
+		"w" $w
+		"h" $h
+	) -}}
 
 	{{- with .Title -}}
 		<figcaption>{{ . | $.PageInner.RenderString }}</figcaption>
 	{{- end -}}
 </figure>
+{{- /**/ -}}

@@ -1,24 +1,94 @@
-{{- /* optimize image and returns the optimized result
-	input: the image object
-	output: the processed image object: original image, desktop and mobile version
+{{- /*
+	Generate desktop and mobile webp variants of a single image.
+
+	Params (dict):
+		imgObj        Required. Hugo image resource
+		desktopWidth  Optional. Target desktop width in px, default 1920
+		mobileWidth   Optional. Target mobile width in px, default 1320
+		              desktopWidth and mobileWidth must be given together or not at all.
+		              Giving only one of them fails the build.
+
+	Returns (dict):
+		imgObj      Original image resource
+		imgDesktop  Desktop variant resource
+		imgMobile   Mobile variant resource, same as imgDesktop when no downscale is needed
+
+	Rules:
+		Format  desktop                                   mobile
+		svg     Use original                              Use original
+		avif    Use original                              Use original
+		webp    Resize to desktopWidth only if width >    Resize to mobileWidth only if width >
+		        desktopWidth * 1.25, otherwise use        mobileWidth * 1.25, otherwise same
+		        original                                  as desktop
+		other   Convert to webp, resize to desktopWidth   Resize to mobileWidth only if width >
+		        only if width > desktopWidth * 1.25       mobileWidth * 1.25, otherwise same
+		                                                  as desktop
+
+		Resize thresholds are 1.25x the target width, to avoid re-encoding
+		for a marginal reduction. Animated gif is supported.
+
+		Output filename: <original path>-<width>px_<hash>.webp
+
+	Example:
+		{{- with $featured -}}
+			{{- $opt := partial "lib/img-opt.html" (dict "imgObj" .) -}}
+			{{- $imgURL = $opt.imgObj.RelPermalink -}}
+			{{- $desktopURL = $opt.imgDesktop.RelPermalink -}}
+			{{- $mobileURL = $opt.imgMobile.RelPermalink -}}
+		{{- end -}}
+
+		Custom sizes (both are required):
+		{{- $opt := partial "lib/img-opt.html" (dict "imgObj" . "desktopWidth" 1600 "mobileWidth" 960) -}}
+
+	Markup:
+		<picture>
+			<source media="(width < 48rem)" srcset="{{ $mobileURL }}" type="image/webp">
+			<source media="(width >= 48rem)" srcset="{{ $desktopURL }}" type="image/webp">
+			<img src="{{ $imgURL }}" alt="">
+		</picture>
+
+	Note:
+		1920: Default desktop width, Full HD.
+		1320: Default mobile width, iPhone 18 Pro Max, based on 440 CSS pixels × 3 pixel density.
 */ -}}
+
 {{- $imgObj := .imgObj -}}
-
-{{- $skipConvert := in (slice "webp" "avif" "gif") $imgObj.MediaType.SubType -}}
-
-{{- $decodedPath := urls.PathUnescape $imgObj.RelPermalink -}}
-{{- $base := path.Join (path.Dir $decodedPath) (path.BaseName $decodedPath) -}}
-{{- $hash := substr (hash.XxHash $decodedPath) 0 6 -}}
-
 {{- $imgDesktop := $imgObj -}}
-{{- if not $skipConvert -}}
-	{{- $imgDesktop = $imgObj.Resize (printf "%dx webp lossy" $imgObj.Width) -}}
-	{{- $imgDesktop = $imgDesktop | resources.Copy (printf "%s-full_%s.webp" $base $hash) -}}
+{{- $imgMobile := $imgObj -}}
+
+{{- /* Resize only when the source is at least this many times the target width. */ -}}
+{{- $marginal := 1.25 -}}
+
+{{- /* Sizes must be given as a pair, or not at all. */ -}}
+{{- $desktopWidth := .desktopWidth -}}
+{{- $mobileWidth := .mobileWidth -}}
+{{- if ne (not $desktopWidth) (not $mobileWidth) -}}
+	{{- errorf "img-opt: desktopWidth and mobileWidth must be provided together" -}}
 {{- end -}}
 
-{{- $imgMobile := $imgDesktop -}}
-{{- if gt $imgObj.Width 800 -}}
-	{{- $imgMobile = $imgObj.Resize "800x webp lossy" -}}
-	{{- $imgMobile = $imgMobile | resources.Copy (printf "%s-800px_%s.webp" $base $hash) -}}
+{{- $desktopWidth := or $desktopWidth 1920 -}}
+{{- $mobileWidth := or $mobileWidth 1320 -}}
+
+{{- $subType := $imgObj.MediaType.SubType -}}
+{{- $skip := or (eq $subType "svg") (eq $subType "avif") -}}
+
+{{- if and (not $skip) (reflect.IsImageResourceProcessable $imgObj) -}}
+	{{- $pathInfo := partial "_internal/image/path.html" $imgObj -}}
+	{{- $base := $pathInfo.base -}}
+	{{- $hash := $pathInfo.hash -}}
+
+	{{- $isWebp := eq $subType "webp" -}}
+	{{- $largeEnough := gt (float $imgObj.Width) (mul $desktopWidth $marginal) -}}
+	{{- if or $largeEnough (not $isWebp) -}}
+		{{- $dw := cond $largeEnough $desktopWidth $imgObj.Width -}}
+		{{- $imgDesktop = $imgObj.Resize (printf "%dx webp" $dw) -}}
+		{{- $imgDesktop = $imgDesktop | resources.Copy (printf "%s-%dpx_%s.webp" $base $dw $hash) -}}
+	{{- end -}}
+
+	{{- $imgMobile = $imgDesktop -}}
+	{{- if gt (float $imgObj.Width) (mul $mobileWidth $marginal) -}}
+		{{- $imgMobile = $imgObj.Resize (printf "%dx webp" $mobileWidth) -}}
+		{{- $imgMobile = $imgMobile | resources.Copy (printf "%s-%dpx_%s.webp" $base $mobileWidth $hash) -}}
+	{{- end -}}
 {{- end -}}
 {{- return (dict "imgObj" $imgObj "imgDesktop" $imgDesktop "imgMobile" $imgMobile) }}

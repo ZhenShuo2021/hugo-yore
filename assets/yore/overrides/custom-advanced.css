@@ -64,7 +64,7 @@ html {
 	margin-bottom: 1.5em;
 	border: 1px solid var(--gray-border);
 }
-[data-table-wrapper] [data-theme='dark'] {
+[data-theme='dark'] [data-table-wrapper] {
 	--table-border-strong: #e8e7e2;
 	--table-border-row: #35342f;
 	--table-hover-bg: #2a2a29;

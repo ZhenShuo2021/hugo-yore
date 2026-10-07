@@ -1,73 +1,194 @@
 <style>
-	.home-layout-selector {
-		position: fixed;
-		bottom: 1rem;
-		left: 1rem;
-		z-index: 50;
-		padding-left: 1rem;
-		padding-right: 2.5rem;
-		padding-top: 0.5rem;
-		padding-bottom: 0.5rem;
-		background-color: var(--card);
-		border: 1px solid var(--card-foreground);
-		border-radius: 0.5rem;
-		appearance: none;
-		background-repeat: no-repeat;
-		background-position: right 12px center;
-		background-size: 1.25rem;
-		cursor: pointer;
-		transition: box-shadow var(--dur-300);
+	footer {
+		display: none;
 	}
 
-	.home-layout-selector:hover {
-		box-shadow:
-			0 20px 25px -5px rgba(0, 0, 0, 0.1),
-			0 10px 10px -5px rgba(0, 0, 0, 0.04);
+	/* Disable scroll */
+	:root:has(.void-root) {
+		overflow: hidden;
+	}
+
+	/* Same color as shader */
+	@property --ground {
+		syntax: '<color>';
+		inherits: true;
+		initial-value: #f5f5f5;
+	}
+	.void-stage,
+	.void-root {
+		--ground: #f5f5f5;
+		transition-property: --ground;
+		transition-duration: var(--dur-300, var(--default-transition-duration, 150ms));
+		transition-timing-function: var(
+			--tw-ease,
+			var(--default-transition-timing-function, cubic-bezier(0.4, 0, 0.2, 1))
+		);
+	}
+	:root[data-theme='dark'] .void-stage,
+	:root[data-theme='dark'] .void-root {
+		--ground: #000000;
+	}
+	.void-root {
+		--pad: clamp(1.5rem, 4vw, 4rem);
+		--gap: clamp(1.5rem, 4vw, 4rem);
+
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+		padding-block: clamp(0.75rem, 2vh, 1.5rem);
+		padding-block: clamp(0.75rem, 2dvh, 1.5rem);
+		overflow: hidden;
+
+		/* The height is fixed at the viewport minus the sticky header. */
+		block-size: calc(100vh - var(--header-height, 4rem));
+		min-block-size: calc(100vh - var(--header-height, 4rem));
+		max-block-size: calc(100vh - var(--header-height, 4rem));
+		block-size: calc(100dvh - var(--header-height, 4rem));
+		min-block-size: calc(100dvh - var(--header-height, 4rem));
+		max-block-size: calc(100dvh - var(--header-height, 4rem));
+	}
+
+	/* Canvas fills the entire viewport, the header's backdrop blur will show through. */
+	.void-stage {
+		position: fixed;
+		inset: 0;
+		z-index: -50;
+		overflow: hidden;
+		background: var(--ground);
+		pointer-events: none;
+	}
+	.void-stage canvas {
+		position: absolute;
+		inset: 0;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* The point where the sphere lands. Used only for measurement.
+		cosmic.js will place the sphere within this rectangle.
+		Out of flow: it overlaps the text area instead of sharing space with it. */
+	.void-slot {
+		position: absolute;
+		inset-inline: 0;
+		inset-block-start: 0;
+		block-size: 60%;
+		visibility: hidden;
+	}
+
+	.void-veil {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom,
+			transparent 42%,
+			color-mix(in srgb, var(--ground) 74%, transparent) 70%
+		);
+		pointer-events: none;
+	}
+
+	/* Top canvas, bottom text (follows the HTML order, pushed down by the auto margin) */
+	.void-copy {
+		position: relative;
+		flex: 0 1 auto;
+		margin-block-start: auto;
+		min-block-size: 0;
+		inline-size: min(36rem, calc(100% - 2 * var(--pad)));
+		margin-inline: auto;
+		overflow: hidden;
+	}
+	.void-copy > .prose {
+		max-width: none;
+	}
+
+	/* head */
+	.void-head {
+		margin-block: clamp(1.25rem, 4vh, 3rem);
+		margin-block: clamp(1.25rem, 4dvh, 3rem);
+	}
+	.void-title {
+		margin: 0;
+		font-size: clamp(2.5rem, 2rem + 1.5vw, 4.25rem);
+		font-weight: 700;
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		text-wrap: balance;
+	}
+	.void-copy:lang(zh) .void-title,
+	.void-copy:lang(ja) .void-title {
+		line-height: 1.3;
+		letter-spacing: 0.02em;
+	}
+	.void-lede {
+		margin: 1rem 0 0;
+		max-inline-size: 32em;
+		font-size: 1.125rem;
+		font-weight: 400;
+		line-height: 1.7;
+		opacity: 0.68;
+		text-wrap: balance;
+	}
+
+	/* left text, right canvas */
+	@media (min-aspect-ratio: 11/10) and (min-width: 42rem) {
+		.void-root {
+			--measure: min(36rem, 56vw);
+			flex-direction: row;
+			padding-block: clamp(1rem, 4vh, 3rem);
+			padding-block: clamp(1rem, 4dvh, 3rem);
+		}
+		.void-copy {
+			flex: 0 0 var(--measure);
+			inline-size: var(--measure);
+			align-self: center;
+			max-block-size: 100%;
+			margin-block-start: 0;
+			margin-inline: var(--pad) 0;
+		}
+		.void-slot {
+			position: absolute;
+			inset-block: clamp(1rem, 4vh, 3rem);
+			inset-block: clamp(1rem, 4dvh, 3rem);
+			inset-inline: calc(var(--pad) + var(--measure) + var(--gap)) calc(var(--pad) * 0.6);
+			block-size: auto;
+		}
+		.void-veil {
+			background: linear-gradient(
+				to right,
+				color-mix(in srgb, var(--ground) 84%, transparent) 0,
+				color-mix(in srgb, var(--ground) 84%, transparent) calc(var(--pad) + var(--measure)),
+				transparent calc(var(--pad) + var(--measure) + var(--gap) * 2)
+			);
+		}
 	}
 </style>
+<style>
+	.void-title .brand {
+		color: var(--link-hover);
+	}
+</style>
+<div class="void-stage" aria-hidden="true">
+	<canvas id="cosmic-lines" style="opacity:0;transition:opacity 1.4s ease"></canvas>
+</div>
 
-{{- $layouts := slice "card" "classic" "void" -}}
-
-{{- range $layouts -}}
-	<div class="home-layout" data-layout="{{ . }}" {{ if ne . "classic" }}style="display:none"{{ end }}>
-		{{- partial (printf "home/%s.html" .) $ -}}
+<div class="void-root">
+	<div class="void-veil" aria-hidden="true"></div>
+	<div class="void-copy">
+		{{- if .Title -}}
+			<header class="void-head">
+				<h1 class="void-title">{{ .Title | safeHTML }}</h1>
+				{{- with .Description }}
+					<p class="void-lede">{{ . }}</p>
+				{{- end }}
+			</header>
+		{{- end }}
+		<div class="prose dark:prose-invert">
+			{{- .Content -}}
+		</div>
 	</div>
-{{- end -}}
+	<div class="void-slot" data-cosmic-slot aria-hidden="true"></div>
+</div>
 
-
-<script>
-	(function () {
-		const layouts = Array.from(document.querySelectorAll('.home-layout')).map((el) => el.dataset.layout);
-
-		const wrapper = document.createElement('div');
-
-		const label = document.createElement('label');
-		label.setAttribute('for', 'layoutSelector');
-		label.className = 'sr-only';
-		label.textContent = 'Select Home Layout';
-
-		const select = document.createElement('select');
-		select.id = 'layoutSelector';
-		const svgRed = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='gray' viewBox='0 0 20 20'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd' /%3E%3C/svg%3E`;
-
-		select.className = 'home-layout-selector';
-		select.style.backgroundImage = `url("${svgRed}")`;
-		select.innerHTML = layouts.map((name) => `<option value="${name}">${name}</option>`).join('');
-
-		wrapper.appendChild(label);
-		wrapper.appendChild(select);
-		document.body.appendChild(wrapper);
-
-		select.value = localStorage.getItem('layout') || 'classic';
-		document.querySelectorAll('.home-layout').forEach((el) => {
-			el.style.display = el.dataset.layout === select.value ? 'block' : 'none';
-		});
-
-		select.addEventListener('change', () => {
-			document.querySelectorAll('.home-layout').forEach((el) => {
-				el.style.display = el.dataset.layout === select.value ? 'block' : 'none';
-			});
-			localStorage.setItem('layout', select.value);
-		});
-	})();
-</script>
+{{- $js := resources.Get "yore/components/webgl/cosmic.js" | js.Build (dict "minify" true "format" "esm") -}}
+<script type="module">{{ $js.Content | safeJS }}</script>

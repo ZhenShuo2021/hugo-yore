@@ -95,3 +95,5 @@ Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium dolo
     Ut enim ad minima veniam, quis nostrum...
 
 *Photo credit: [Pixabay](https://pixabay.com/photos/aircraft-double-decker-biplane-1813731/)*
+
+![qweqwe](/img/png.png)

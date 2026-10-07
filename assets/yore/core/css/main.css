@@ -41,6 +41,7 @@
 @import "../../overrides/custom-advanced.css" layer(yore);
 
 {{ if site.Params.imageLightbox | default true }}
+	/* ~1.3KB gzipped */
 	@import "../../components/photoswipe/photoswipe.css" layer(yore);
   @import "../../lib/photoswipe/photoswipe.css" layer(yore);
 {{ end }}

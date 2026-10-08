@@ -10,7 +10,18 @@ outputFormats:
     baseName: index
     rel: alternate
     isPlainText: true
-    isHTML: false
+  headers:
+    mediaType: text/headers
+    baseName: _headers
+    isPlainText: true
+    weight: 999
+    notAlternative: true
+
+mediaTypes:
+  text/headers:
+    # The file name is just "_headers", so no suffix or delimiter
+    suffixes: ['']
+    delimiter: ''
 
 params:
   hkg:

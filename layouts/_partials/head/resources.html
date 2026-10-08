@@ -29,13 +29,12 @@
 	{{- with . | css.Build $buildOpts -}}
 		{{- if hugo.IsDevelopment -}}
 			<link rel="stylesheet" href="{{ .RelPermalink }}">
+			{{- site.Store.Set "cssPreload" .RelPermalink -}}
 		{{- else -}}
 			{{- with . | fingerprint -}}
-				<link
-					rel="stylesheet"
-					href="{{ .RelPermalink }}"
-					integrity="{{ .Data.Integrity }}"
-					crossorigin="anonymous">
+				<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+				{{- site.Store.Set "cssPreload" .RelPermalink -}}
+				{{- site.Store.Set "cssSRI" .Data.Integrity -}}
 			{{- end -}}
 		{{- end -}}
 	{{- end -}}
@@ -53,13 +52,12 @@
 		{{- with . | css.TailwindCSS $twOpts -}}
 			{{- if hugo.IsDevelopment -}}
 				<link rel="stylesheet" href="{{- .RelPermalink }}">
+				{{- site.Store.Set "cssPreload" .RelPermalink -}}
 			{{- else -}}
 				{{- with . | fingerprint -}}
-					<link
-						rel="stylesheet"
-						href="{{ .RelPermalink }}"
-						integrity="{{ .Data.Integrity }}"
-						crossorigin="anonymous">
+					<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+					{{- site.Store.Set "cssPreload" .RelPermalink -}}
+					{{- site.Store.Set "cssSRI" .Data.Integrity -}}
 				{{- end -}}
 			{{- end -}}
 		{{- end -}}
@@ -135,8 +133,7 @@
 				<link
 					rel="stylesheet"
 					href="{{ .RelPermalink }}"
-					integrity="{{ .Data.Integrity }}"
-					crossorigin="anonymous">
+					integrity="{{ .Data.Integrity }}">
 			{{- end -}}
 		{{- end -}}
 	{{- end -}}
@@ -213,7 +210,6 @@
 		defer
 		src="{{ $echartsJS.RelPermalink }}"
 		integrity="{{ $echartsJS.Data.Integrity }}"
-		crossorigin="anonymous"
 		referrerpolicy="no-referrer"></script>
 {{- end -}}
 

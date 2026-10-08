@@ -29,6 +29,7 @@ import '../../components/search/search.js'
 import '../../components/footnote-tooltip/footnote-tooltip.js';
 {{ end }}
 
+import '../../components/docs-nav/docs-nav.js';
 import '../../components/email/email.js';
 import '../../components/header/mobile-menu.js';
 import '../../components/header/nested-menu.js';

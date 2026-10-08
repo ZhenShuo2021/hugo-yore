@@ -26,9 +26,6 @@
 {{- $precacheAssets := slice -}}
 
 {{- if .Site.Params.sw.precache.assets -}}
-	{{- $docsJS := partial "inline/build-docs-nav-js" . }}
-	{{- $precacheAssets = $precacheAssets | append $docsJS.RelPermalink -}}
-
 	{{- $precacheAssets = $precacheAssets | append (hugo.Store.Get "swPrecache") -}}
 {{- end -}}
 

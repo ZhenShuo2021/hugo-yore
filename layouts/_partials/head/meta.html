@@ -1,14 +1,4 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="theme-color" content="var(--background)">
-
-{{- /* Title */ -}}
-{{- if .IsHome -}}
-	<title>{{- site.Title | emojify -}}</title>
-{{- else -}}
-	<title>{{- .Title | emojify }} | {{ site.Title | emojify -}}</title>
-{{- end -}}
 
 {{- /* Metadata */ -}}
 {{- with (.Params.Description | default .Params.Summary) | default site.Params.description -}}

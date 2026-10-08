@@ -247,7 +247,12 @@
 		{{- $swJS := resources.Get "yore/sw/sw.js" | js.Build $opts | minify -}}
 
 		{{- $script := printf `<script>
-			if (navigator.serviceWorker) { navigator.serviceWorker.register( "%s", { scope: "%s" } ); }
+			if (navigator.serviceWorker) {
+				navigator.serviceWorker.register( "%s", { scope: "%s" } ).then(function (reg) {
+					function ping() { var w = reg.installing || reg.waiting || reg.active; if (w) w.postMessage("page-loaded"); }
+					if (document.readyState === "complete") ping(); else window.addEventListener("load", ping);
+				});
+			}
 			</script>` $swJS.RelPermalink ("." | relURL)
 		-}}
 

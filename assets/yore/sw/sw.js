@@ -32,12 +32,20 @@ function saveData() {
 	return false;
 }
 
+let pageLoaded;
+const PAGE_LOADED = new Promise((resolve) => {
+	pageLoaded = resolve;
+});
+self.addEventListener('message', (event) => {
+	if (event.data === 'page-loaded') pageLoaded();
+});
+
 // ─── Install ─────────────────────────────────────────────────────────────────
 self.addEventListener('install', (event) => {
 	if (IS_LOCAL) return;
 
 	event.waitUntil(
-		caches.open(CACHE_VERSIONED).then((cache) => {
+		PAGE_LOADED.then(() => caches.open(CACHE_VERSIONED)).then((cache) => {
 			return Promise.allSettled(
 				_BUILD.precacheAssets.map((url) =>
 					fetch(url).then((res) => {

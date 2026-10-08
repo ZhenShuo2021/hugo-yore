@@ -1,10 +1,12 @@
 <head>
-	{{- /* Meta tags */ -}}
-	{{- partial "head/meta.html" . -}}
-
-	{{- /* Social medias (twitter/facebook...) */ -}}
-	{{- if ne .Kind "404" -}}
-		{{- partial "head/social.html" . -}}
+	{{- /* https://rviscomi.github.io/capo.js/ */ -}}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{{- /* Title */ -}}
+	{{- if .IsHome -}}
+		<title>{{- site.Title | emojify -}}</title>
+	{{- else -}}
+		<title>{{- .Title | emojify }} | {{ site.Title | emojify -}}</title>
 	{{- end -}}
 
 	{{- /* Resources */ -}}
@@ -12,6 +14,14 @@
 
 	{{- /* Favicons */ -}}
 	{{- partialCached "head/favicons.html" . site -}}
+
+	{{- /* Meta tags */ -}}
+	{{- partial "head/meta.html" . -}}
+
+	{{- /* Social medias (twitter/facebook...) */ -}}
+	{{- if ne .Kind "404" -}}
+		{{- partial "head/social.html" . -}}
+	{{- end -}}
 
 	{{- /* Schema */ -}}
 	{{- partial "head/schema.html" . -}}

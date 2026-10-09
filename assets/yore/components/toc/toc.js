@@ -130,14 +130,27 @@ function handleTocKeydown(e) {
 	target?.focus();
 }
 
+let ticking = false;
+
+function scheduleUpdate() {
+	if (ticking) return;
+	ticking = true;
+	requestAnimationFrame(() => {
+		setTimeout(() => {
+			ticking = false;
+			updateActiveLink();
+		});
+	});
+}
+
 function init() {
 	const toc = document.querySelector(CONFIG.tocSelector);
 	if (!toc) return;
 
-	document.addEventListener('scroll', updateActiveLink, { passive: true });
-	window.addEventListener('resize', updateActiveLink, { passive: true });
+	document.addEventListener('scroll', scheduleUpdate, { passive: true });
+	window.addEventListener('resize', scheduleUpdate, { passive: true });
 	toc.addEventListener('keydown', handleTocKeydown);
-	updateActiveLink();
+	scheduleUpdate();
 }
 
 init();

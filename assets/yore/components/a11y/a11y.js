@@ -2,17 +2,26 @@ import { storage } from '../../core/js/utils.js';
 
 const STORAGE_KEY = 'yore-a11ySettings';
 
-// Capture the CSS-defined base font size, bypassing any inline override set by the critical script
-const _inlineFontSize = document.documentElement.style.fontSize;
-document.documentElement.style.fontSize = '';
-const baseFontSizePx = parseFloat(getComputedStyle(document.documentElement).fontSize);
-document.documentElement.style.fontSize = _inlineFontSize;
+let fontMetrics = null;
 
-const tmp = document.createElement('div');
-tmp.style.cssText = 'font-size:medium;position:absolute;visibility:hidden';
-document.head.appendChild(tmp);
-const browserDefaultPx = parseFloat(getComputedStyle(tmp).fontSize);
-tmp.remove();
+function getFontMetrics() {
+	if (fontMetrics) return fontMetrics;
+
+	// Capture the CSS-defined base font size, bypassing any inline override set by the critical script
+	const inlineFontSize = document.documentElement.style.fontSize;
+	document.documentElement.style.fontSize = '';
+	const baseFontSizePx = parseFloat(getComputedStyle(document.documentElement).fontSize);
+	document.documentElement.style.fontSize = inlineFontSize;
+
+	const tmp = document.createElement('div');
+	tmp.style.cssText = 'font-size:medium;position:absolute;visibility:hidden';
+	document.head.appendChild(tmp);
+	const browserDefaultPx = parseFloat(getComputedStyle(tmp).fontSize);
+	tmp.remove();
+
+	fontMetrics = { baseFontSizePx, browserDefaultPx };
+	return fontMetrics;
+}
 
 const FEATURES = {
 	underlineLinks: {
@@ -70,11 +79,16 @@ const FEATURES = {
 
 	fontSize: {
 		default: 0, // offset from base: -2, -1, 0, 1, 2
-		apply: (level) => {
+		apply: (level, initial = false) => {
 			if (level === 0) {
 				document.documentElement.style.fontSize = '';
 				storage.remove('yore-a11yFontSize');
 			} else {
+				// On initial load the critical script has already applied the stored value inline,
+				// so skip the computation (and the forced reflow it would cause).
+				if (initial && document.documentElement.style.fontSize) return;
+
+				const { baseFontSizePx, browserDefaultPx } = getFontMetrics();
 				const pct = ((baseFontSizePx + level * 4) / browserDefaultPx) * 100;
 				const value = `${pct}%`;
 				document.documentElement.style.fontSize = value;
@@ -213,7 +227,7 @@ function initPanel(panelId) {
 function applyAll() {
 	const current = getSettings();
 	Object.entries(current).forEach(([key, value]) => {
-		FEATURES[key]?.apply(value);
+		FEATURES[key]?.apply(value, true);
 	});
 }
 

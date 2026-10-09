@@ -52,14 +52,13 @@ if (photoswipeJS) {
 		};
 		document.readyState === 'complete' ? preload() : addEventListener('load', preload, { once: true, signal });
 
-		const margin = `${Math.round(window.innerHeight * 2)}px 0px`;
 		observer = new IntersectionObserver(
 			(entries) => {
 				if (!entries.some((entry) => entry.isIntersecting)) return;
 				observer.disconnect();
 				warm();
 			},
-			{ rootMargin: margin, threshold: 0 },
+			{ rootMargin: '200% 0px', threshold: 0 },
 		);
 		const observe = () => galleries.forEach((el) => observer.observe(el));
 		document.readyState === 'complete' ? observe() : addEventListener('load', observe, { once: true, signal });

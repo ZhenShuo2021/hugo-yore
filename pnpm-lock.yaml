@@ -13,8 +13,8 @@ importers:
         version: 1.5.2
     devDependencies:
       '@ZhenShuo2021/prettier-plugin-go-template':
-        specifier: github:ZhenShuo2021/prettier-plugin-go-template#v0.0.3
-        version: https://codeload.github.com/ZhenShuo2021/prettier-plugin-go-template/tar.gz/7e09494dd48c32bdd358310975706ee758493900(prettier@3.9.6)
+        specifier: github:ZhenShuo2021/prettier-plugin-go-template#v0.0.4
+        version: https://codeload.github.com/ZhenShuo2021/prettier-plugin-go-template/tar.gz/970ec15e623d800ac6ff6093e8dc1892d461a03b(prettier@3.9.6)
       '@awmottaz/prettier-plugin-void-html':
         specifier: ^2.3.0
         version: 2.3.0(prettier@3.9.6)
@@ -99,9 +99,9 @@ importers:
 
 packages:
 
-  '@ZhenShuo2021/prettier-plugin-go-template@https://codeload.github.com/ZhenShuo2021/prettier-plugin-go-template/tar.gz/7e09494dd48c32bdd358310975706ee758493900':
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/ZhenShuo2021/prettier-plugin-go-template/tar.gz/7e09494dd48c32bdd358310975706ee758493900}
-    version: 0.0.3
+  '@ZhenShuo2021/prettier-plugin-go-template@https://codeload.github.com/ZhenShuo2021/prettier-plugin-go-template/tar.gz/970ec15e623d800ac6ff6093e8dc1892d461a03b':
+    resolution: {gitHosted: true, integrity: sha512-Cn6RUsoWmEu+ksXxsC0B0j3TOGMjPqU7fMJySuszP3ueuiMmzKKfxU7yJE0qpvim3IE14O4qTiM8eRaTp/L6cQ==, tarball: https://codeload.github.com/ZhenShuo2021/prettier-plugin-go-template/tar.gz/970ec15e623d800ac6ff6093e8dc1892d461a03b}
+    version: 0.0.4
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       prettier: ^3.0.0
@@ -1315,7 +1315,7 @@ packages:
 
 snapshots:
 
-  '@ZhenShuo2021/prettier-plugin-go-template@https://codeload.github.com/ZhenShuo2021/prettier-plugin-go-template/tar.gz/7e09494dd48c32bdd358310975706ee758493900(prettier@3.9.6)':
+  '@ZhenShuo2021/prettier-plugin-go-template@https://codeload.github.com/ZhenShuo2021/prettier-plugin-go-template/tar.gz/970ec15e623d800ac6ff6093e8dc1892d461a03b(prettier@3.9.6)':
     dependencies:
       prettier: 3.9.6
       ulid: 3.0.2

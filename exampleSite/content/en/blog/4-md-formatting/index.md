@@ -27,8 +27,6 @@ Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sap
 
 ## Blockquotes
 
-> Xerum, quo qui aut unt expliquam qui dolut labo.
-
 ## Tables
 
 **Default**

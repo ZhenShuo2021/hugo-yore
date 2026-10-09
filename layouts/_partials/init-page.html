@@ -38,6 +38,8 @@
 {{- $imgURL := "" -}}
 {{- $imgWidth := 0 -}}
 {{- $imgHeight := 0 -}}
+{{- $mobileURL := "" -}}
+{{- $desktopURL := "" -}}
 
 {{- /* Front matter setting: external URL or local path */ -}}
 {{- $p := .Page -}}
@@ -86,23 +88,14 @@
 		{{- end -}}
 	{{- end -}}
 
-	{{- /* Optimize local image: skip if smaller than 2400, non-processable */ -}}
+	{{- /* Optimize local image */ -}}
 	{{- if and (not $imgURL) $featured -}}
 		{{- with $featured -}}
-			{{- if reflect.IsImageResourceProcessable . }}
-				{{- if and $imageOptimization (gt .Width 2400) -}}
-					{{- $pathInfo := partial "_internal/image/path.html" . -}}
-					{{- $featured = partial "_internal/image/resize.html" (dict
-						"imgObj" .
-						"width" 1920
-						"path" (printf "%s-1920px_%s.webp" $pathInfo.base $pathInfo.hash))
-					-}}
-				{{- end -}}
-				{{- $imgURL = $featured.RelPermalink -}}
-				{{- $imgWidth = $featured.Width -}}
-				{{- $imgHeight = $featured.Height -}}
-			{{- else -}}
-				{{- $imgURL = .RelPermalink -}}
+			{{- $opt := partial "lib/img-opt.html" (dict "imgObj" .) -}}
+			{{- $imgURL = $opt.imgObj.RelPermalink -}}
+			{{- if ne $opt.imgObj.RelPermalink $opt.imgMobile.RelPermalink -}}
+				{{- $desktopURL = $opt.imgDesktop.RelPermalink -}}
+				{{- $mobileURL = $opt.imgMobile.RelPermalink -}}
 			{{- end -}}
 		{{- end -}}
 	{{- end -}}
@@ -112,5 +105,7 @@
 	"url" $imgURL
 	"width" $imgWidth
 	"height" $imgHeight
+	"mobile" $mobileURL
+	"desktop" $desktopURL
 	"useDefault" $useDefault)
 -}}

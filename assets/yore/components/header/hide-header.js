@@ -1,7 +1,8 @@
 const header = document.getElementById('site-header');
 
 if (header) {
-	let lastScrollY = window.scrollY;
+	// Do not read window.scrollY at load (it forces layout). The baseline is captured on the first update.
+	let lastScrollY = null;
 	let ticking = false;
 	let blockUpdate = false;
 	let blockTimeout = null;
@@ -14,6 +15,12 @@ if (header) {
 		}
 
 		const currentScrollY = window.scrollY;
+		if (lastScrollY === null) {
+			lastScrollY = currentScrollY;
+			ticking = false;
+			return;
+		}
+
 		if (currentScrollY <= 0) {
 			header.classList.remove('header-hidden');
 			lastScrollY = currentScrollY;

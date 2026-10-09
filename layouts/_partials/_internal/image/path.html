@@ -1,12 +1,21 @@
-{{- /* Computes the base path and content hash for an image, used to build cache-busted output filenames.
-	See render-hook.html for usage example.
-	@param imgObj {resource.Resources}: The image resource.
-	@returns {map} A dict with `base` (path without extension) and `hash` (6-char xxhash of the decoded path).
+{{- /*
+	Computes the base path and content hash for an image, used to build cache-busted output filenames.
+
+	Params (dict):
+		imgObj        Required. Hugo image resource
+
+	Returns (dict):
+		base          path without extension
+		hash          6-char xxhash of the image
+
+	Note:
+		Use w/h as the hash input because the .Content string can be millions of chars.
 */ -}}
 {{- $imgObj := . -}}
 
 {{- $decodedPath := urls.PathUnescape $imgObj.RelPermalink -}}
 {{- $base := path.Join (path.Dir $decodedPath) (path.BaseName $decodedPath) -}}
-{{- $hash := substr (hash.XxHash $decodedPath) 0 6 -}}
+{{- $hashSrc := printf "%s%d%d" $decodedPath $imgObj.Width $imgObj.Height -}}
+{{- $hash := substr (hash.XxHash $hashSrc) 0 6 -}}
 
 {{- return (dict "base" $base "hash" $hash) -}}

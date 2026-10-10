@@ -7,7 +7,7 @@
 		aria-label="{{ i18n "docs.sidebar_label" | default "Sidebar" }}"
 		data-docs-root="{{ (printf "%v" .FirstSection.Path) | xxhash | first 6 }}"
 		data-current-page-uid="{{ (printf "%v" .Path) | xxhash | first 6 }}">
-		<div class="docs-sidebar-logo flex shrink-0 items-center gap-2 overflow-hidden px-4" aria-hidden="true">
+		<div class="docs-sidebar-logo h-(--header-height) flex shrink-0 items-center gap-2 overflow-hidden px-4" aria-hidden="true">
 			{{- if site.Params.Logo -}}
 				{{- $logo := resources.Get site.Params.Logo -}}
 				{{- $logoDark := "" -}}

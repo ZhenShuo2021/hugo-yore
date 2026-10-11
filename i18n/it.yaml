@@ -55,6 +55,9 @@ docs:
 error:
   404_description: Sembra che la pagina che hai richiesto non esista.
   404_title: 'Pagina non trovata :confused:'
+external_link:
+  warning:
+    'Avviso: stai per aprire un link esterno. Questo sito non è responsabile del suo contenuto. Continuare?'
 footer:
   powered_by: Realizzato con {{ .Theme }}
 nav:

@@ -29,6 +29,10 @@ import '../../components/search/search.js'
 import '../../components/footnote-tooltip/footnote-tooltip.js';
 {{ end }}
 
+{{ if site.Params.externalLinkWarning }}
+import '../../components/external-link-warning/external-link-warning.js';
+{{ end }}
+
 import '../../components/email/email.js';
 import '../../components/header/mobile-menu.js';
 import '../../components/header/nested-menu.js';

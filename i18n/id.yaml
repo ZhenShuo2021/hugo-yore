@@ -55,6 +55,9 @@ docs:
 error:
   404_description: Tampaknya halaman yang Anda minta tidak ada.
   404_title: 'Halaman tidak ditemukan :confused:'
+external_link:
+  warning:
+    'Peringatan: Anda akan membuka tautan eksternal. Situs ini tidak bertanggung jawab atas isinya. Lanjutkan?'
 footer:
   powered_by: Didukung oleh {{ .Theme }}
 nav:

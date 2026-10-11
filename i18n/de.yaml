@@ -55,6 +55,10 @@ docs:
 error:
   404_description: Es sieht so aus, als ob es diese Seite nicht gibt.
   404_title: 'Seite nicht gefunden :confused:'
+external_link:
+  warning:
+    'Warnung: Sie sind dabei, einen externen Link zu öffnen. Diese Website ist für dessen Inhalt nicht
+    verantwortlich. Fortfahren?'
 footer:
   powered_by: Powered by {{ .Theme }}
 nav:

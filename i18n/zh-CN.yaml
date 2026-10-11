@@ -55,6 +55,8 @@ docs:
 error:
   404_description: 您请求的页面似乎不存在。
   404_title: '找不到网页 :confused:'
+external_link:
+  warning: 警告：即将访问外部链接，其内容与本站无关，本站不对其负责。是否继续？
 footer:
   powered_by: 由 {{ .Theme }} 驱动
 nav:

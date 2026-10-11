@@ -40,10 +40,13 @@
 		{{- block "main" . }}{{ end -}}
 		{{- partial "footer.html" . -}}
 
-		{{- partial "components/body-end.html" . -}}
-		{{- if templates.Exists "_partials/extend-body-end.html" -}}
-			{{- partial "extend-body-end.html" . -}}
-		{{- end -}}
+
+		<div>
+			{{- partial "components/body-end.html" . -}}
+			{{- if templates.Exists "_partials/extend-body-end.html" -}}
+				{{- partial "extend-body-end.html" . -}}
+			{{- end -}}
+		</div>
 	</body>
 </html>
 

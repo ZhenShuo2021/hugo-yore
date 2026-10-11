@@ -2296,6 +2296,12 @@
   }
 }
 @layer theme, base, components, utilities, yore;
+.prose :where(p):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-block: 1em;
+  margin-block: 1lh;
+}
 @layer utilities {
   html[data-theme='light'] {
     --adm-note-accent: oklch(50% 0.134 242.749);

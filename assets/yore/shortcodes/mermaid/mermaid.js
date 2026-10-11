@@ -1,18 +1,4 @@
 import { SvgToolbelt } from '../../lib/svg-toolbelt/svg-toolbelt.esm.js';
-import * as params from '@params';
-
-function needsElk() {
-	return [...document.querySelectorAll('.mermaid')].some((el) =>
-		new RegExp('layout\\s*:\\s*elk').test(el.textContent),
-	);
-}
-
-async function registerElkIfNeeded(mermaid) {
-	if (!needsElk()) return;
-	const url = new URL(params.elkUrl, location.origin);
-	const { default: elkLayouts } = await import(url.href);
-	mermaid.registerLayoutLoaders(elkLayouts);
-}
 
 function initSvgToolbelt() {
 	document.querySelectorAll('.mermaid').forEach((element) => {
@@ -52,10 +38,8 @@ function updateTheme() {
 	});
 
 	mermaid.initialize({ startOnLoad: false, theme: isDark ? 'dark' : 'base' });
-	registerElkIfNeeded(mermaid).then(() => {
-		mermaid.run({ querySelector: '.mermaid' }).then(() => {
-			setTimeout(initSvgToolbelt, 200);
-		});
+	mermaid.run({ querySelector: '.mermaid' }).then(() => {
+		setTimeout(initSvgToolbelt, 200);
 	});
 }
 

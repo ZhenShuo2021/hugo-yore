@@ -8,13 +8,12 @@
 
 {{- /* Mermaid */ -}}
 {{- if .Store.Get "hasMermaid" -}}
-	{{- $elkLib := resources.Get "yore/lib/mermaid/mermaid-layout-elk.esm.min.mjs" -}}
-	{{- $jsParams := dict "elkUrl" $elkLib.RelPermalink -}}
-	{{- range resources.Match "yore/lib/mermaid/chunks/**" -}}{{- .Publish -}}{{- end -}}
-	{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget "params" $jsParams }}
+	{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget -}}
 
-	{{- $mermaidLib := resources.Get "yore/lib/mermaid/mermaid.min.js" | fingerprint -}}
-	<script defer src="{{ $mermaidLib.RelPermalink }}" integrity="{{ $mermaidLib.Data.Integrity }}"></script>
+	<script type="module">
+		import mermaid from '{{ hugo.Data.cdn.mermaid.src }}';
+		window.mermaid = mermaid;
+	</script>
 
 	{{- $mermaidJS := resources.Get "yore/shortcodes/mermaid/mermaid.js" | js.Build $opts -}}
 	{{- if hugo.IsProduction }}{{ $mermaidJS = $mermaidJS  | fingerprint }}{{ end -}}

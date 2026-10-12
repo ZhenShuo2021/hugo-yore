@@ -69,12 +69,15 @@
 {{- /* importmap goes before all type=module scripts */ -}}
 {{- $cookie := partial "inline/build-cookie-js" . -}}
 {{- $mainJS := partial "inline/main-js" . -}}
+{{- $toolbelt := resources.Get "yore/lib/svg-toolbelt/svg-toolbelt.esm.js" -}}
 <!-- prettier-ignore-start -->
 <script type="importmap">
 	{
 		"imports": {
 			"yore-cookie": "{{ $cookie.RelPermalink }}",
-			"yore-main": "{{ $mainJS.RelPermalink }}"
+			"yore-main": "{{ $mainJS.RelPermalink }}",
+			"yore-svg-toolbelt": "{{ $toolbelt.RelPermalink }}",
+			"mermaid": "{{ hugo.Data.cdn.mermaid.src }}"
 		}
 	}
 </script>

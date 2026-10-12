@@ -34,6 +34,7 @@
 @import "../../shortcodes/accordion/accordion.css" layer(yore);
 @import "../../shortcodes/carousel/carousel.css" layer(yore);
 @import "../../shortcodes/masonry/masonry.css" layer(yore);
+@import "../../shortcodes/mermaid/mermaid.css" layer(yore);
 @import "../../shortcodes/tabs/tabs.css" layer(yore);
 @import "../../shortcodes/steps/steps.css" layer(yore);
 @import "../../shortcodes/float/float.css" layer(yore);

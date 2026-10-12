@@ -19,8 +19,19 @@
 		"isDark" (eq site.Params.themeLightDarkMode "dark")
 		"hasSwitcher" (site.Params.themeLightDarkSwitcher | default true)
 	-}}
-	{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget "params" $jsParams -}}
-	{{- $js := resources.Get "yore/components/cookies/cookie-main.js" | js.Build $opts -}}
-	{{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
+
+	{{- $js := "" -}}
+	{{- with resources.Get "yore/components/cookies/cookie-main.js" -}}
+		{{- with resources.ExecuteAsTemplate "js/cookie-main.js" $ . -}}
+			{{- $opts := dict
+				"format" "esm"
+				"minify" hugo.IsProduction
+				"target" hugo.Data.theme.esBuildTarget
+				"params" $jsParams
+			-}}
+			{{- $js = . | js.Build $opts -}}
+			{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}
+		{{- end -}}
+	{{- end -}}
 	{{- return $js -}}
 {{- end -}}

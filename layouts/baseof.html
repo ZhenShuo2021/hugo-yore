@@ -1,4 +1,4 @@
-{{- $minHugoVersion := "0.164.0" -}}
+{{- $minHugoVersion := "0.166.0" -}}
 {{- if lt hugo.Version $minHugoVersion -}}
 	{{- errorf "Please upgrade Hugo to v%s or later." $minHugoVersion -}}
 {{- end -}}

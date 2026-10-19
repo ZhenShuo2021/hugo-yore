@@ -8,6 +8,17 @@
 	mjx-container svg {
 		display: inline;
 	}
+	span.mathjax-src {
+		color: transparent;
+	}
+	span.mathjax-src:has(mjx-container) {
+		color: inherit;
+	}
+	@media (scripting: none) {
+		span.mathjax-src {
+			display: none;
+		}
+	}
 </style>
 <script>
 	window.MathJax = {

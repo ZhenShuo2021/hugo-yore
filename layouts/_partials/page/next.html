@@ -3,33 +3,29 @@
 {{- $hasNext := or $next $prev -}}
 
 {{- if and (page.Param "pageShowNext") $hasNext -}}
+	{{- $items := slice
+		(dict "page" $next "rel" "next" "label" (i18n "article.next" | default "Next"))
+		(dict "page" $prev "rel" "prev" "label" (i18n "article.previous" | default "Previous"))
+	-}}
 	<nav
-		class="border-border mt-16 flex justify-between gap-8 border-t py-8"
+		class="border-border mt-16 border-t"
 		aria-label="{{ i18n `article.more_articles` | default `More Articles` }}">
-		<div class="flex-1">
-			{{- with $prev -}}
-				<div>
-					<div class="text-muted-foreground mb-2 text-xs" aria-hidden="true">Previous</div>
-					<a
-						href="{{ .RelPermalink }}"
-						class="text-foreground hover:text-link-hover transition-colors"
-						aria-label="{{ i18n `article.previous` | default `Previous` }}: {{ .Title }}">
-						{{- .Title -}}
-					</a>
-				</div>
-			{{- end -}}
-		</div>
-		<div class="flex-1 text-end">
-			{{- with $next -}}
-				<div>
-					<div class="text-muted-foreground mb-2 text-xs" aria-hidden="true">Next</div>
-					<a
-						href="{{ .RelPermalink }}"
-						class="text-foreground hover:text-link-hover transition-colors"
-						aria-label="{{ i18n `article.next` | default `Next` }}: {{ .Title }}">
-						{{- .Title -}}
-					</a>
-				</div>
+		<div class="flex flex-col pt-4">
+			{{- range $items -}}
+				{{- $meta := . -}}
+				{{- with .page -}}
+					<div class="py-2">
+						<span class="text-muted-foreground mb-2 flex">
+							{{- $meta.label -}}
+						</span>
+						<a
+							href="{{ .RelPermalink }}"
+							rel="{{ $meta.rel }}"
+							class="text-foreground hover:text-link-hover transition-colors">
+							{{- .Title -}}
+						</a>
+					</div>
+				{{- end -}}
 			{{- end -}}
 		</div>
 	</nav>

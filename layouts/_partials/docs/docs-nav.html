@@ -7,7 +7,9 @@
 		aria-label="{{ i18n "docs.sidebar_label" | default "Sidebar" }}"
 		data-docs-root="{{ (printf "%v" .FirstSection.Path) | xxhash | first 6 }}"
 		data-current-page-uid="{{ (printf "%v" .Path) | xxhash | first 6 }}">
-		<div class="docs-sidebar-logo h-(--header-height) flex shrink-0 items-center gap-2 overflow-hidden px-4" aria-hidden="true">
+		<div
+			class="docs-sidebar-logo flex h-(--header-height) shrink-0 items-center gap-2 overflow-hidden px-4"
+			aria-hidden="true">
 			{{- if site.Params.Logo -}}
 				{{- $logo := resources.Get site.Params.Logo -}}
 				{{- $logoDark := "" -}}
@@ -305,7 +307,7 @@
 			<span class="line-clamp-2 wrap-break-word">{{ $page.LinkTitle -}}</span>
 			{{- if $externalURL -}}
 				<span class="ms-auto shrink-0">
-					{{- partialCached "components/icon.html" "yore/external" "icon-yore/external" -}}
+					{{- partialCached "components/icon.html" "external" "icon-yore/external" -}}
 				</span>
 				<span class="sr-only select-none">
 					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}

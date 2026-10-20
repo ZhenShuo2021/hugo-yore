@@ -1,6 +1,8 @@
 {{- /* default feature image */ -}}
 {{- $imageFeatured := "" -}}
 {{- $imageFeaturedURL := "" -}}
+{{- $h := 0 -}}
+{{- $w := 0 -}}
 {{- with site.Params.imageFeatured -}}
 	{{- if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") -}}
 		{{- if site.Params.imageHotlink -}}
@@ -11,8 +13,13 @@
 	{{- else -}}
 		{{- $imageFeatured = resources.Get . -}}
 	{{- end -}}
+
+	{{- if reflect.IsImageResourceProcessable $imageFeatured -}}
+		{{- $h = $imageFeatured.Height -}}
+		{{- $w = $imageFeatured.Width -}}
+	{{- end -}}
 {{- end -}}
-{{- site.Store.Set "defaultFeaturedImage" (dict "url" $imageFeaturedURL "obj" $imageFeatured) -}}
+{{- site.Store.Set "defaultFeaturedImage" (dict "url" $imageFeaturedURL "obj" $imageFeatured "width" $w "height" $h) -}}
 
 {{- /* render functional header section */ -}}
 {{- $renderFunctionalHeader := or

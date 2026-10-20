@@ -75,12 +75,10 @@
 	{{- end -}}
 
 	{{- /* Fallback: site-wide default featured image */ -}}
+	{{- $default := site.Store.Get "defaultFeaturedImage" -}}
 	{{- if and (not $featured) (not $imgURL) -}}
-		{{- $default := site.Store.Get "defaultFeaturedImage" -}}
 		{{- if $default.url -}}
 			{{- $imgURL = $default.url -}}
-			{{- $imgWidth = $default.width -}}
-			{{- $imgHeight = $default.height -}}
 			{{- $useDefault = true -}}
 		{{- else if $default.obj -}}
 			{{- $featured = $default.obj -}}
@@ -98,6 +96,14 @@
 				{{- $mobileURL = $opt.imgMobile.RelPermalink -}}
 			{{- end -}}
 		{{- end -}}
+	{{- end -}}
+
+	{{- if $useDefault -}}
+		{{- $imgWidth = $default.width -}}
+		{{- $imgHeight = $default.height -}}
+	{{- else if	reflect.IsImageResourceProcessable $featured -}}
+		{{- $imgHeight = $featured.Height -}}
+		{{- $imgWidth = $featured.Width -}}
 	{{- end -}}
 {{- end -}}
 

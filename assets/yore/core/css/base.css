@@ -18,14 +18,6 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-/* https://12daysofweb.dev/2024/css-margin-trim-line-height-units/ */
-.prose :where(p):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
-	margin-top: 0;
-	margin-bottom: 0;
-	margin-block: 1em;
-	margin-block: 1lh;
-}
-
 button,
 [role='button'] {
 	cursor: pointer;
@@ -53,12 +45,6 @@ a > img {
 /* long url */
 a {
 	overflow-wrap: break-word;
-}
-
-.icon svg {
-	height: 1.1em;
-	width: 1.1em;
-	stroke-width: 1.6;
 }
 
 lite-youtube {

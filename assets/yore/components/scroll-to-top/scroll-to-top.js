@@ -1,16 +1,9 @@
 const btn = document.getElementById('scroll-to-top');
-const threshold = 50;
+const sentinel = document.getElementById('scroll-sentinel');
 
-function toggleButton() {
-	if (window.scrollY > threshold) {
-		btn.classList.add('visible');
-	} else {
-		btn.classList.remove('visible');
-	}
-}
-
-window.addEventListener('scroll', toggleButton, { passive: true });
-toggleButton();
+new IntersectionObserver(function (entries) {
+	btn.classList.toggle('visible', !entries[entries.length - 1].isIntersecting);
+}).observe(sentinel);
 
 btn.addEventListener('click', function () {
 	window.scrollTo({ top: 0, behavior: 'instant' });

@@ -46,7 +46,7 @@ GitHub Pages builds your site using GitHub Actions. The workflow installs Hugo, 
           url: ${{ steps.deployment.outputs.page_url }}
         env:
           GO_VERSION: 1.25.0  # matches the version in go.mod
-          HUGO_VERSION: 0.164.0
+          HUGO_VERSION: 0.166.0
           NODE_VERSION: 24
           TZ: Asia/Taipei
         steps:

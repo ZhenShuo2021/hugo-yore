@@ -55,6 +55,8 @@ docs:
 error:
   404_description: 您在尋找的頁面似乎不存在。
   404_title: '找不到網頁 :confused:'
+external_link:
+  warning: 警告：即將訪問外部連結，其內容與本站無關，本站不對其負責。是否繼續？
 footer:
   powered_by: 由 {{ .Theme }} 製作
 nav:

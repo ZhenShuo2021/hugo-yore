@@ -69,12 +69,15 @@
 {{- /* importmap goes before all type=module scripts */ -}}
 {{- $cookie := partial "inline/build-cookie-js" . -}}
 {{- $mainJS := partial "inline/main-js" . -}}
+{{- $toolbelt := resources.Get "yore/lib/svg-toolbelt/svg-toolbelt.esm.js" -}}
 <!-- prettier-ignore-start -->
 <script type="importmap">
 	{
 		"imports": {
 			"yore-cookie": "{{ $cookie.RelPermalink }}",
-			"yore-main": "{{ $mainJS.RelPermalink }}"
+			"yore-main": "{{ $mainJS.RelPermalink }}",
+			"yore-svg-toolbelt": "{{ $toolbelt.RelPermalink }}",
+			"mermaid": "{{ hugo.Data.cdn.mermaid.src }}"
 		}
 	}
 </script>
@@ -247,7 +250,12 @@
 		{{- $swJS := resources.Get "yore/sw/sw.js" | js.Build $opts | minify -}}
 
 		{{- $script := printf `<script>
-			if (navigator.serviceWorker) { navigator.serviceWorker.register( "%s", { scope: "%s" } ); }
+			if (navigator.serviceWorker) {
+				navigator.serviceWorker.register( "%s", { scope: "%s" } ).then(function (reg) {
+					function ping() { var w = reg.installing || reg.waiting || reg.active; if (w) w.postMessage("page-loaded"); }
+					if (document.readyState === "complete") ping(); else window.addEventListener("load", ping);
+				});
+			}
 			</script>` $swJS.RelPermalink ("." | relURL)
 		-}}
 

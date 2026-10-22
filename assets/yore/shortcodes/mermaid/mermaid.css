@@ -1,0 +1,10 @@
+pre.mermaid:not([data-processed]) {
+	overflow: hidden;
+	color: transparent;
+}
+
+@media (scripting: none) {
+	pre.mermaid {
+		display: none;
+	}
+}

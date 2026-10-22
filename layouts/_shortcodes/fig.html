@@ -13,15 +13,15 @@
 	{{- $alt := .Get "alt" -}}
 	{{- $processable := reflect.IsImageResourceProcessable $resource -}}
 
-	{{- if and
-		(.Page.Param "imageOptimizationMD")
-		$resource
-		$processable
+	{{- template "RenderImage" (dict
+		"imgObj" $resource
+		"src" $src
+		"alt" $alt
+		"processable" $processable
+		"optimize" (.Page.Param "imageOptimizationMD")
+		"loading" "lazy"
+		)
 	-}}
-		{{- template "RenderImageResponsive" (dict "imgObj" $resource "alt" $alt) -}}
-	{{- else -}}
-		{{- template "RenderImageSimple" (dict "imgObj" $resource "src" $src "alt" $alt "processable" $processable) -}}
-	{{- end -}}
 
 	{{- if .Get "caption" -}}
 		<figcaption>

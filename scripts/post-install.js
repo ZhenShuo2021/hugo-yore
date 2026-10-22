@@ -5,15 +5,6 @@ const tasks = [
 	{ src: 'node_modules/photoswipe/dist/photoswipe-lightbox.esm.min.js', dest: 'assets/yore/lib/photoswipe' },
 	{ src: 'node_modules/photoswipe/dist/photoswipe.esm.min.js', dest: 'assets/yore/lib/photoswipe' },
 	{ src: 'node_modules/photoswipe/dist/photoswipe.css', dest: 'assets/yore/lib/photoswipe' },
-	{ src: 'node_modules/mermaid/dist/mermaid.min.js', dest: 'assets/yore/lib/mermaid' },
-	{
-		src: 'node_modules/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs',
-		dest: 'assets/yore/lib/mermaid',
-	},
-	{
-		src: 'node_modules/@mermaid-js/layout-elk/dist/chunks/mermaid-layout-elk.esm.min/*',
-		dest: 'assets/yore/lib/mermaid/chunks/mermaid-layout-elk.esm.min',
-	},
 	{ src: 'node_modules/svg-toolbelt/dist/svg-toolbelt.esm.js', dest: 'assets/yore/lib/svg-toolbelt' },
 	{ src: 'node_modules/svg-toolbelt/dist/svg-toolbelt.css', dest: 'assets/yore/lib/svg-toolbelt' },
 	{ src: 'node_modules/echarts/dist/echarts.min.js', dest: 'assets/yore/lib/echarts' },

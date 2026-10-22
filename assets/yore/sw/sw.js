@@ -32,12 +32,20 @@ function saveData() {
 	return false;
 }
 
+let pageLoaded;
+const PAGE_LOADED = new Promise((resolve) => {
+	pageLoaded = resolve;
+});
+self.addEventListener('message', (event) => {
+	if (event.data === 'page-loaded') pageLoaded();
+});
+
 // ─── Install ─────────────────────────────────────────────────────────────────
 self.addEventListener('install', (event) => {
 	if (IS_LOCAL) return;
 
 	event.waitUntil(
-		caches.open(CACHE_VERSIONED).then((cache) => {
+		PAGE_LOADED.then(() => caches.open(CACHE_VERSIONED)).then((cache) => {
 			return Promise.allSettled(
 				_BUILD.precacheAssets.map((url) =>
 					fetch(url).then((res) => {
@@ -77,7 +85,7 @@ self.addEventListener('fetch', (event) => {
 
 	// 1. HTML — Network First; precache.html only controls proactive idle prefetching
 	if (request.headers.get('Accept')?.includes('text/html')) {
-		event.respondWith(networkFirst(request, CACHE_PAGES));
+		respond(event, CACHE_PAGES);
 		return;
 	}
 
@@ -87,22 +95,35 @@ self.addEventListener('fetch', (event) => {
 		/\/js\/.*\.(js|mjs|cjs)$/i.test(url.pathname) ||
 		/\/lib\/.+/i.test(url.pathname)
 	) {
-		event.respondWith(networkFirst(request, CACHE_VERSIONED));
+		respond(event, CACHE_VERSIONED);
 		return;
 	}
 
 	// 3. Images — Network First, cross-version cache
 	if (/\.(png|jpe?g|avif|webp|gif|svg|ico)$/i.test(url.pathname)) {
-		event.respondWith(networkFirst(request, CACHE_IMAGES));
+		respond(event, CACHE_IMAGES);
 		return;
 	}
 
 	// 4. CDN third-party resources — Network First, tied to VERSION
 	if (CDN_DOMAINS.has(url.hostname)) {
-		event.respondWith(networkFirst(request, CACHE_VERSIONED));
+		respond(event, CACHE_VERSIONED);
 		return;
 	}
 });
+
+// ─── Foreground tracking ─────────────────────────────────────────────────────
+// Count requests the user is actually waiting on, so idle precache can back off.
+let foreground = 0;
+
+function respond(event, cacheName) {
+	foreground++;
+	event.respondWith(
+		networkFirst(event.request, cacheName).finally(() => {
+			foreground--;
+		}),
+	);
+}
 
 // ─── Strategies ──────────────────────────────────────────────────────────────
 
@@ -122,6 +143,11 @@ async function networkFirst(request, cacheName) {
 
 // ─── Idle Precache ───────────────────────────────────────────────────────────
 
+const PRECACHE_CONCURRENCY = 3;
+const PRECACHE_BACKOFF_MS = 300;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 async function idlePrecacheHtml() {
 	const cache = await caches.open(CACHE_PAGES);
 	const cached = await cache.keys();
@@ -132,19 +158,24 @@ async function idlePrecacheHtml() {
 		return !cachedUrls.has(abs);
 	});
 
-	if (pending.length === 0) return;
+	let next = 0;
 
-	function scheduleNext(index) {
-		if (index >= pending.length) return;
-		if (saveData()) return;
-		setTimeout(async () => {
+	// Each worker pulls the next url. It pauses while the user has live requests.
+	async function worker() {
+		while (next < pending.length) {
+			if (saveData()) return;
+			if (foreground > 0) {
+				await sleep(PRECACHE_BACKOFF_MS);
+				continue;
+			}
+			const url = pending[next++];
 			try {
-				const response = await fetch(pending[index]);
-				if (response.ok) await cache.put(pending[index], response);
+				const response = await fetch(url);
+				if (response.ok) await cache.put(url, response);
 			} catch (_) {}
-			scheduleNext(index + 1);
-		}, 0);
+		}
 	}
 
-	scheduleNext(0);
+	const count = Math.min(PRECACHE_CONCURRENCY, pending.length);
+	await Promise.all(Array.from({ length: count }, worker));
 }

@@ -9,7 +9,7 @@ tags: ["guide", "installation", "setup", "getting-started"]
 
 ## Prerequisites
 
-1. [Install Hugo](https://gohugo.io/installation/) extended version, the minimum version is `v0.164.0`.
+1. [Install Hugo](https://gohugo.io/installation/) extended version, the minimum version is `v0.166.0`.
 2. [Install Git](https://git-scm.com/install/) version manager.
 3. [Install Go](https://go.dev/doc/install), the minimum version is `v1.20.0`.
 

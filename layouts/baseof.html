@@ -1,4 +1,4 @@
-{{- $minHugoVersion := "0.164.0" -}}
+{{- $minHugoVersion := "0.166.0" -}}
 {{- if lt hugo.Version $minHugoVersion -}}
 	{{- errorf "Please upgrade Hugo to v%s or later." $minHugoVersion -}}
 {{- end -}}
@@ -18,7 +18,10 @@
 	data-header-layout="{{ site.Params.headerLayout }}"
 	data-page-kind="{{ .Kind }}"
 	data-page-type="{{ .Type }}"
-	data-cookie-enabled="{{ site.Params.cookieConsent.enable | default false }}">
+	data-cookie-enabled="{{ site.Params.cookieConsent.enable | default false }}"
+	{{- if site.Params.externalLinkWarning }}
+		data-external-link-warning="{{ i18n `external_link.warning` | default `You are about to open an external link. This site is not responsible for its content.` }}"
+	{{- end }}>
 	{{- $noop := partialCached "init.html" . -}}
 	{{- $noop = partial "init-page.html" . -}}
 	{{- partial "head/main.html" . -}}
@@ -40,10 +43,13 @@
 		{{- block "main" . }}{{ end -}}
 		{{- partial "footer.html" . -}}
 
-		{{- partial "components/body-end.html" . -}}
-		{{- if templates.Exists "_partials/extend-body-end.html" -}}
-			{{- partial "extend-body-end.html" . -}}
-		{{- end -}}
+
+		<div>
+			{{- partial "components/body-end.html" . -}}
+			{{- if templates.Exists "_partials/extend-body-end.html" -}}
+				{{- partial "extend-body-end.html" . -}}
+			{{- end -}}
+		</div>
 	</body>
 </html>
 

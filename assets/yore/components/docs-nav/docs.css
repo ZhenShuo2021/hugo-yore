@@ -7,10 +7,6 @@ html[data-header-layout='hideOnScroll'] .docs-sidebar-container {
 	}
 }
 
-.docs-sidebar-logo {
-	height: var(--header-height);
-}
-
 @media (width > 48rem) {
 	html[data-header-layout='static'] .docs-sidebar-logo {
 		display: none;

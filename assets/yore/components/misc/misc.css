@@ -8,7 +8,17 @@
 	mask: var(--icon-up) center/1.4rem 1.4rem no-repeat;
 	background-color: var(--color-neutral-800);
 }
-
 html[data-theme='dark'] .icon-arrow-up::after {
 	background-color: var(--color-neutral-200);
+}
+
+/* external link */
+.external-link {
+	text-wrap: nowrap;
+}
+.external-link svg {
+	display: inline;
+	vertical-align: middle;
+	position: relative;
+	top: -0.1em;
 }

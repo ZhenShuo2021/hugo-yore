@@ -112,7 +112,8 @@ html[data-theme='dark'] code:not(pre code) {
 }
 
 /* Remove the error color because the lexer of chroma sucks */
-.chroma .err {
+html[data-theme='dark'] .chroma .err,
+html[data-theme='light'] .chroma .err {
 	color: inherit;
 	background-color: inherit;
 }

@@ -55,6 +55,8 @@ docs:
 error:
   404_description: ご要望のページは存在しないようです。
   404_title: 'ページが見つかりませんでした。 :confused:'
+external_link:
+  warning: 警告：外部リンクを開こうとしています。当サイトはその内容について責任を負いません。続行しますか？
 footer:
   powered_by: Powered by {{ .Theme }}
 nav:

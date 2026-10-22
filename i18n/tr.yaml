@@ -55,6 +55,10 @@ docs:
 error:
   404_description: Görünüşe göre istediğiniz sayfa mevcut değil.
   404_title: 'Sayfa Bulunamadı :confused:'
+external_link:
+  warning:
+    'Uyarı: Harici bir bağlantıyı açmak üzeresiniz. Bu site, bağlantının içeriğinden sorumlu değildir. Devam
+    edilsin mi?'
 footer:
   powered_by: '{{ .Theme }} ile güçlendirilmiştir'
 nav:

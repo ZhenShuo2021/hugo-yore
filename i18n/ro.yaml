@@ -55,6 +55,10 @@ docs:
 error:
   404_description: Se pare că pagina pe care o cauți nu există.
   404_title: 'Pagină Lipsă :confused:'
+external_link:
+  warning:
+    'Avertisment: sunteți pe cale să deschideți un link extern. Acest site nu este responsabil pentru conținutul
+    său. Continuați?'
 footer:
   powered_by: Susținut de {{ .Theme }}
 nav:

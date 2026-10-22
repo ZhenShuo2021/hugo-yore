@@ -1,3 +1,9 @@
+.icon svg {
+	height: 1.1em;
+	width: 1.1em;
+	stroke-width: 1.6;
+}
+
 .center-img {
 	display: block;
 	margin: 0 auto;

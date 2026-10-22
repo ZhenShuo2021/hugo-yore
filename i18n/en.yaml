@@ -55,6 +55,9 @@ docs:
 error:
   404_description: It seems that the page you've requested does not exist.
   404_title: 'Page Not Found :confused:'
+external_link:
+  warning:
+    'Warning: You are about to open an external link. This site is not responsible for its content. Continue?'
 footer:
   powered_by: Powered by {{ .Theme }}
 nav:

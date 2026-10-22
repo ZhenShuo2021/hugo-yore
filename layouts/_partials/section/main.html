@@ -64,7 +64,7 @@
 					{{- end }}
 					class="text-foreground hover:text-link-hover inline-flex items-center transition-colors">
 					{{- .Title -}}
-					{{- if .IsNode -}}
+					{{- if .IsBranch -}}
 						<span class="ms-1 leading-none">
 							{{- partialCached "components/icon.html" "folder" "icon-folder" -}}
 						</span>

@@ -4,30 +4,29 @@
 
 {{- if and (page.Param "pageShowNext") $hasNext -}}
 	{{- $items := slice
-		(dict "page" $next "rel" "next" "label" (i18n "article.next" | default "Next"))
 		(dict "page" $prev "rel" "prev" "label" (i18n "article.previous" | default "Previous"))
+		(dict "page" $next "rel" "next" "label" (i18n "article.next" | default "Next"))
 	-}}
 	<nav
-		class="border-border mt-16 border-t"
+		class="border-border mt-10 grid grid-cols-1 gap-3 border-t pt-6 sm:grid-cols-2"
 		aria-label="{{ i18n `article.more_articles` | default `More Articles` }}">
-		<div class="flex flex-col pt-4">
-			{{- range $items -}}
-				{{- $meta := . -}}
-				{{- with .page -}}
-					<div class="py-2">
-						<span class="text-muted-foreground mb-2 flex">
-							{{- $meta.label -}}
-						</span>
-						<a
-							href="{{ .RelPermalink }}"
-							rel="{{ $meta.rel }}"
-							class="text-foreground hover:text-link-hover transition-colors">
-							{{- .Title -}}
-						</a>
-					</div>
-				{{- end -}}
+		{{- range $items -}}
+			{{- $meta := . -}}
+			{{- with .page -}}
+				{{- $isNext := eq $meta.rel "next" -}}
+				<a
+					href="{{ .RelPermalink }}"
+					rel="{{ $meta.rel }}"
+					class="{{ if $isNext -}}
+						items-end text-end
+					{{- end }} border-border hover:border-link-hover flex flex-col gap-1 rounded-lg border p-4 transition-colors">
+					<span class="text-muted-foreground flex items-center text-sm">
+						{{ $meta.label }}
+					</span>
+					<span class="text-foreground font-medium">{{ .Title }}</span>
+				</a>
 			{{- end -}}
-		</div>
+		{{- end -}}
 	</nav>
 {{- end -}}
 

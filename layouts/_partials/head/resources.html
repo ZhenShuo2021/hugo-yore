@@ -131,17 +131,9 @@
 {{- /* Random page */ -}}
 {{- if eq .Type "random" -}}
 	{{- with resources.Get "yore/core/css/layouts/random.css" -}}
-		{{- if hugo.IsDevelopment -}}
-			<link rel="stylesheet" href="{{ .RelPermalink }}">
-		{{- else -}}
-			{{- with . | fingerprint -}}
-				<link
-					rel="stylesheet"
-					href="{{ .RelPermalink }}"
-					integrity="{{ .Data.Integrity }}"
-					crossorigin="anonymous">
-			{{- end -}}
-		{{- end -}}
+		{{- $css := . -}}
+		{{- if hugo.IsDevelopment -}}{{- $css = $css | fingerprint -}}{{- end -}}
+		<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 	{{- end -}}
 {{- end -}}
 
@@ -155,7 +147,7 @@
 	{{- $jsParams := dict "autoCollapseCategories" (site.Params.docsAutoCollapseCategories | default false) "cookieConsent" (site.Params.cookieConsent.enable | default true) -}}
 	{{- $opts := dict "format" "esm" "minify" hugo.IsProduction "target" hugo.Data.theme.esBuildTarget "params" $jsParams -}}
 	{{- $docsJS := resources.Get "yore/components/docs-nav/docs-nav.js" | js.Build $opts -}}
-	{{- if hugo.IsProduction -}}{{- $docsJS = $docsJS  | fingerprint -}}{{- end -}}
+	{{- if hugo.IsProduction -}}{{- $docsJS = $docsJS | fingerprint -}}{{- end -}}
 	{{- return $docsJS -}}
 {{- end -}}
 
@@ -164,15 +156,19 @@
 	{{- partialCached "head/math.html" . "foo" -}}
 {{- end -}}
 
+{{- if .Param "staleContentWarning" -}}
+	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
+	{{- $js := resources.Get "yore/components/stale-warning/index.js" | js.Build $opts -}}
+	{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}
+	<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.integrity }}"></script>
+{{- end -}}
+
 {{- /* Carousel */ -}}
 {{- if .Page.HasShortcode "carousel" -}}
 	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
-	{{- $jsRes := resources.Get "yore/shortcodes/carousel/carousel.js" | js.Build $opts -}}
-	{{- if hugo.IsProduction -}}{{- $jsRes = $jsRes | fingerprint -}}{{- end -}}
-	<script type="module">
-		import { initCarousels } from '{{ $jsRes.RelPermalink }}';
-		initCarousels();
-	</script>
+	{{- $js := resources.Get "yore/shortcodes/carousel/carousel-init.js" | js.Build $opts -}}
+	{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}
+	<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.integrity }}"></script>
 {{- end -}}
 
 {{- /* Masonry */ -}}
@@ -191,6 +187,8 @@
 		integrity="{{ hugo.Data.cdn.typeit.integrity }}"
 		crossorigin="anonymous"
 		referrerpolicy="no-referrer"></script>
+	{{- $js := resources.Get "yore/shortcodes/typeit/index.js" | minify | fingerprint -}}
+	<script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
 {{- end -}}
 
 {{- /* YouTube Lite */ -}}
@@ -212,12 +210,9 @@
 {{- /* Chart */ -}}
 {{- if .Page.HasShortcode "chart" -}}
 	{{- $echartsJS := resources.Get "yore/lib/echarts/echarts.min.js" | fingerprint -}}
-	<script
-		defer
-		src="{{ $echartsJS.RelPermalink }}"
-		integrity="{{ $echartsJS.Data.Integrity }}"
-		crossorigin="anonymous"
-		referrerpolicy="no-referrer"></script>
+	{{- $runtimeJS := resources.Get "yore/shortcodes/charts/index.js" | fingerprint -}}
+	<script defer src="{{ $echartsJS.RelPermalink }}" integrity="{{ $echartsJS.Data.Integrity }}"></script>
+	<script defer src="{{ $runtimeJS.RelPermalink }}" integrity="{{ $runtimeJS.Data.Integrity }}"></script>
 {{- end -}}
 
 {{- /* knowledge-graph */ -}}
@@ -249,18 +244,9 @@
 		{{- $opts := (dict "params" $config "targetPath" "sw.js") -}}
 		{{- $swJS := resources.Get "yore/sw/sw.js" | js.Build $opts | minify -}}
 
-		{{- $script := printf `<script>
-			if (navigator.serviceWorker) {
-				navigator.serviceWorker.register( "%s", { scope: "%s" } ).then(function (reg) {
-					function ping() { var w = reg.installing || reg.waiting || reg.active; if (w) w.postMessage("page-loaded"); }
-					if (document.readyState === "complete") ping(); else window.addEventListener("load", ping);
-				});
-			}
-			</script>` $swJS.RelPermalink ("." | relURL)
-		-}}
-
-		{{- $resource := resources.FromString "sw-register.html" $script | minify -}}
-		{{- $resource.Content | safeHTML -}}
+		{{- $regOpts := dict "params" (dict "swURL" $swJS.RelPermalink "scope" ("." | relURL)) -}}
+		{{- $js := resources.Get "yore/sw/register.js" | js.Build $regOpts | minify | fingerprint -}}
+		<script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
 	{{- end -}}
 {{- end -}}
 {{- partialCached "inline/sw.html" . -}}

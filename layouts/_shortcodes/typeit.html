@@ -1,40 +1,20 @@
 {{- $content := split .Inner "\n" -}}
 {{- $initialString := .Get "initialString" | default "" -}}
-{{- $speed := .Get "speed" | default 100 -}}
-{{- $lifeLike := .Get "lifeLike" | default false | partial "lib/tobool.html" -}}
-{{- $startDelay := .Get "startDelay" | default 0 -}}
-{{- $breakLines := .Get "breakLines" | default true | partial "lib/tobool.html" -}}
-{{- $waitUntilVisible := .Get "waitUntilVisible" | default true | partial "lib/tobool.html" -}}
-{{- $loop := .Get "loop" | default false | partial "lib/tobool.html" -}}
-{{- $classList := slice -}}
-{{- with .Get "class" -}}
-	{{- $classList = $classList | append . -}}
-{{- end -}}
 {{- $tag := .Get "tag" | default "div" -}}
 
-{{- $id := printf "%s%s" "typeit-" (partial "lib/uid.html" .) -}}
+{{- $config := dict
+	"strings" $content
+	"speed" (.Get "speed" | default 100 | int)
+	"lifeLike" (.Get "lifeLike" | default false | partial "lib/tobool.html")
+	"startDelay" (.Get "startDelay" | default 0 | int)
+	"breakLines" (.Get "breakLines" | default true | partial "lib/tobool.html")
+	"waitUntilVisible" (.Get "waitUntilVisible" | default true | partial "lib/tobool.html")
+	"loop" (.Get "loop" | default false | partial "lib/tobool.html")
+-}}
 
-{{- $attrs := printf `id="%v"` $id -}}
-{{- with $classList -}}
-	{{- $attrs = delimit $classList " " | printf `%v class="%v"` $attrs -}}
+{{- $classAttr := "" -}}
+{{- with .Get "class" -}}
+	{{- $classAttr = printf ` class="%s"` (. | htmlEscape) -}}
 {{- end -}}
 
-{{- printf `<%v %v>%s</%v>` $tag $attrs $initialString $tag | safeHTML -}}
-
-<script type="module">
-	import { utils } from "yore-main";
-
-	if (utils.prefersReducedMotion()) {
-		document.getElementById("{{ $id }}").textContent = {{ $content }}.join({{ if $breakLines }}"\n"{{ else }}""{{ end }});
-	} else {
-		new TypeIt("#{{ $id }}", {
-			strings: {{ $content }},
-			speed: {{ $speed }},
-			lifeLike: {{ $lifeLike }},
-			startDelay: {{ $startDelay }},
-			breakLines: {{ $breakLines }},
-			waitUntilVisible: {{ $waitUntilVisible }},
-			loop: {{ $loop }}
-		}).go();
-	}
-</script>
+{{- printf `<%s%s data-typeit="%s">%s</%s>` $tag $classAttr ($config | jsonify | htmlEscape) $initialString $tag | safeHTML -}}

@@ -2,13 +2,14 @@
 {{- if $cc.enable -}}
 	{{- $lang := .Language.Locale -}}
 	{{- $translationFile := resources.Get (printf "yore/components/cookies/translations/%s.json" $lang) | fingerprint -}}
-
-	<script>
-		window.__ccLang="{{ $lang }}";
-		window.__ccTranslationURL="{{ $translationFile.RelPermalink }}";
-	</script> {{- /**/ -}}
 	{{- $js := partial "inline/build-cookie-js" . -}}
-	<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+	<script
+		type="module"
+		id="cookie-consent-script"
+		src="{{ $js.RelPermalink }}"
+		integrity="{{ $js.Data.Integrity }}"
+		data-lang="{{ $lang }}"
+		data-translation-url="{{ $translationFile.RelPermalink }}"></script>
 {{- end -}}
 
 {{- define "_partials/inline/build-cookie-js" -}}

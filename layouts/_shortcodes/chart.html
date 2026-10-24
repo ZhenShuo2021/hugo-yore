@@ -1,27 +1,6 @@
 {{- $id := printf "echart-%s" (partial "lib/uid.html" .) -}}
-<div id="{{ $id }}" style="width: 100%; height: 500px;"></div>
+<div id="{{ $id }}" class="h-120 w-full"></div>
 
-<script type="module">
-	const chartDom = document.getElementById('{{ $id }}');
-	if (chartDom) {
-		let myChart = echarts.init(chartDom);
-		let option;
-
-		{{ .Inner | safeJS }}
-
-		myChart.setOption(option);
-
-		window.addEventListener('resize', () => myChart?.resize());
-
-		chartDom.addEventListener('tab-activated', () => {
-			requestAnimationFrame(() => myChart?.resize());
-		});
-
-		window.addEventListener('appearance-changed', (e) => {
-			const theme = e.detail.appearance;
-			myChart.dispose();
-			myChart = echarts.init(chartDom, theme);
-			myChart.setOption(option);
-		});
-	}
-</script>
+{{- $code := printf "window.__echartsRegister(%s, () => {let option; %s return option;});" ($id | jsonify) .Inner -}}
+{{- $chartJS := resources.FromString (printf "yore/shortcodes/charts/%s.js" $id) $code | minify | fingerprint -}}
+<script defer src="{{ $chartJS.RelPermalink }}" integrity="{{ $chartJS.Data.Integrity }}"></script>

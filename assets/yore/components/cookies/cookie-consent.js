@@ -2,8 +2,9 @@ import * as CookieConsent from '../../lib/cookieconsent/cookieconsent.esm.js';
 import * as params from '@params';
 import userConfig from './config.js';
 
-const lang = window.__ccLang;
-const translationURL = window.__ccTranslationURL;
+const scriptEl = document.getElementById('cookie-consent-script');
+const lang = scriptEl.dataset.lang;
+const translationURL = scriptEl.dataset.translationUrl;
 
 const _categoryDefaults = {
 	necessary: { enabled: true, readOnly: true },

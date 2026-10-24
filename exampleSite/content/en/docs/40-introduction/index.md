@@ -24,6 +24,7 @@ Yore is a simple yet feature-rich Hugo theme, designed specifically for content-
 - RTL support
 - Automated responsive image
 - Perfect Google Lighthouse scores on desktop and mobile
+- A+ score on [HTTP Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=yore.zsl0621.cc)
 - GDPR cookie consent banner
 - Semantic CSS layer for consistent visual customization
 - [TailwindCSS v4](https://tailwindcss.com/) lightweight CSS framework

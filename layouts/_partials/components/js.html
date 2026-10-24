@@ -1,0 +1,7 @@
+{{- warnidf "inline-js" "[inline js] Inner is emitted as raw JavaScript and runs with full page privileges (XSS risk). Use only content you wrote. Never pass user-supplied or third-party content. Source: %s" .position -}}
+
+{{- with trim .content "\n\r\t " -}}
+	{{- $res := resources.FromString (printf "js/inline/%s.js" (sha256 . | first 16)) . | minify | fingerprint -}}
+	<script defer src="{{ $res.RelPermalink }}" integrity="{{ $res.Data.Integrity }}"></script>
+{{- end -}}
+{{- /**/ -}}

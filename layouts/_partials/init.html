@@ -43,3 +43,6 @@
 {{- end -}}
 {{- site.Store.Set "siteAuthor" $siteAuthor -}}
 {{- site.Store.Set "siteAuthorImage" $siteAuthorImage -}}
+
+{{- /* Initialize an empty slice */ -}}
+{{- hugo.Store.Set "js-hash" slice -}}

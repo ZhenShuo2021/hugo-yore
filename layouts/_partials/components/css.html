@@ -1,0 +1,7 @@
+{{- warnidf "inline-css" "[inline css] Inner is emitted as raw CSS. Use only content you wrote. Never pass user-supplied or third-party content. Source: %s" .position -}}
+
+{{- with trim .content "\n\r\t " -}}
+	{{- $res := resources.FromString (printf "css/inline/%s.css" (sha256 . | first 16)) . | minify | fingerprint -}}
+	<link rel="stylesheet" href="{{ $res.RelPermalink }}" integrity="{{ $res.Data.Integrity }}">
+{{- end -}}
+{{- /**/ -}}

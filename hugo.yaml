@@ -11,6 +11,15 @@ outputFormats:
     rel: alternate
     isPlainText: true
     isHTML: false
+  headers:
+    mediaType: text/header
+    baseName: _headers
+    isPlainText: true
+    notAlternative: true
+    weight: 20
+mediaTypes:
+  text/header:
+    delimiter: ''
 
 params:
   hkg:

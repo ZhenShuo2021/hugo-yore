@@ -29,5 +29,6 @@ assets/yore/icons
 assets/yore/lib
 assets/yore/sw/config.json.tmpl
 assets/yore/core/js/main.js
+assets/yore/core/js/critical.js
 assets/yore/core/tailwind/compiled.css
 assets/yore/components/cookies/cookie-main.js

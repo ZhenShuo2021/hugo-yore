@@ -59,6 +59,7 @@ outputs: # Custom output formats per page type
     - backlinks
     - knowledge-graph
     - markdown
+    - headers
   section:
     - HTML
     - RSS

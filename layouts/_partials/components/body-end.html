@@ -46,20 +46,30 @@
 
 {{- /* include prerender in dev server causes page not immediately update */ -}}
 {{- if not hugo.IsServer -}}
-<script type="speculationrules">
-	{
-		"prefetch": [
-			{
-				"where": { "href_matches": "/*" },
-				"eagerness": "eager"
-			}
-		]{{ if ne .Type "docs" }},
-		"prerender": [
-			{
-				"where": { "href_matches": "/*" },
-				"eagerness": "moderate"
-			}
-		]{{ end }}
-	}
-</script>
+	{{- $s := partial "inline/innerContentForSpeculationRules" . | jsonify -}}
+	{{- partialCached "inline/hashForSpeculationRules" $s $s -}}
+	<script type="speculationrules">{{- $s | safeHTML -}}</script>
+{{- end -}}
+
+{{- define "_partials/inline/innerContentForSpeculationRules" -}}
+	{{- $rules := dict
+		"prefetch" (slice (dict
+		"where" (dict "href_matches" "/*")
+		"eagerness" "eager"
+		))
+	-}}
+	{{- if ne .Type "docs" -}}
+		{{- $rules = merge $rules (dict
+			"prerender" (slice (dict
+			"where" (dict "href_matches" "/*")
+			"eagerness" "moderate"
+			))
+			)
+		-}}
+	{{- end -}}
+	{{- return $rules -}}
+{{- end -}}
+{{- define "_partials/inline/hashForSpeculationRules" -}}
+	{{- $b64 := . | sha256 | encoding.HexDecode | base64Encode -}}
+	{{- hugo.Store.Add "js-hash" (slice (printf "sha256-%s" $b64)) -}}
 {{- end -}}

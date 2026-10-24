@@ -1,23 +1,20 @@
 {{- /* Critical JS */ -}}
-<!-- prettier-ignore-start -->
-<script>
-(() => {
-	const theme =
-		localStorage.getItem('yore-appearance') ||
-		document.documentElement.getAttribute('data-default-appearance');
-	document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
-
-	{{- /* a11y */ -}}
-	{{- if site.Params.accessibilityEnabled -}}
-	const fontSize = localStorage.getItem('yore-a11yFontSize');
-	if (fontSize) document.documentElement.style.fontSize = fontSize;
-	['high-contrast','reduce-motion','reduce-transparency','link-underline'].forEach(k => {
-		if (localStorage.getItem('yore-' + k) === 'true') document.documentElement.setAttribute('data-a11y-' + k, 'true');
-	});
+{{- if or site.Params.themeLightDarkSwitcher site.Params.accessibilityEnabled -}}
+	{{- partialCached "inline/criticalJS" . -}}
+{{- end -}}
+{{- define "_partials/inline/criticalJS" -}}
+	{{- with resources.Get "yore/core/js/critical.js" -}}
+		{{- with resources.ExecuteAsTemplate "" $ . | minify -}}
+			<script>{{- .Content | safeJS -}}</script>
+			{{- $b64 := .Content | sha256 | encoding.HexDecode | base64Encode -}}
+			{{- hugo.Store.Add "js-hash" (slice (printf "sha256-%s" $b64)) -}}
+		{{- else -}}
+			{{- errorf "Failed to ExecuteAsTemplate 'critical.js'" -}}
+		{{- end -}}
+	{{- else -}}
+		{{- errorf "Failed to find 'critical.js'" -}}
 	{{- end -}}
-})();
-</script>
-<!-- prettier-ignore-end -->
+{{- end -}}
 
 {{- /* CSS */ -}}
 {{- $buildOpts := dict
@@ -27,17 +24,9 @@
 
 {{- with resources.Get "yore/core/css/main.css" | resources.ExecuteAsTemplate "css/main-bundle.css" . -}}
 	{{- with . | css.Build $buildOpts -}}
-		{{- if hugo.IsDevelopment -}}
-			<link rel="stylesheet" href="{{ .RelPermalink }}">
-		{{- else -}}
-			{{- with . | fingerprint -}}
-				<link
-					rel="stylesheet"
-					href="{{ .RelPermalink }}"
-					integrity="{{ .Data.Integrity }}"
-					crossorigin="anonymous">
-			{{- end -}}
-		{{- end -}}
+		{{- $css := . -}}
+		{{- if hugo.IsDevelopment -}}{{- $css = $css | fingerprint -}}{{- end -}}
+		<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 	{{- end -}}
 {{- end -}}
 
@@ -51,37 +40,37 @@
 	{{- with resources.Get "yore/core/tailwind/main.css" -}}
 		{{- $twOpts := dict "minify" (hugo.IsProduction) -}}
 		{{- with . | css.TailwindCSS $twOpts -}}
-			{{- if hugo.IsDevelopment -}}
-				<link rel="stylesheet" href="{{- .RelPermalink }}">
-			{{- else -}}
-				{{- with . | fingerprint -}}
-					<link
-						rel="stylesheet"
-						href="{{ .RelPermalink }}"
-						integrity="{{ .Data.Integrity }}"
-						crossorigin="anonymous">
-				{{- end -}}
-			{{- end -}}
+			{{- $css := . -}}
+			{{- if hugo.IsDevelopment -}}{{- $css = $css | fingerprint -}}{{- end -}}
+			<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 		{{- end -}}
 	{{- end -}}
 {{- end -}}
 
 {{- /* importmap goes before all type=module scripts */ -}}
-{{- $cookie := partial "inline/build-cookie-js" . -}}
-{{- $mainJS := partial "inline/main-js" . -}}
-{{- $toolbelt := resources.Get "yore/lib/svg-toolbelt/svg-toolbelt.esm.js" -}}
-<!-- prettier-ignore-start -->
-<script type="importmap">
-	{
-		"imports": {
-			"yore-cookie": "{{ $cookie.RelPermalink }}",
-			"yore-main": "{{ $mainJS.RelPermalink }}",
-			"yore-svg-toolbelt": "{{ $toolbelt.RelPermalink }}",
-			"mermaid": "{{ hugo.Data.cdn.mermaid.src }}"
-		}
-	}
-</script>
-<!-- prettier-ignore-end -->
+
+{{- $s := partial "inline/innerContentForImportMap" . | jsonify -}}
+{{- partialCached "inline/hashForImportMap" $s -}}
+<script type="importmap">{{- $s | safeHTML -}}</script>
+{{- /* prettier-ignore-start */ -}}
+{{- define "_partials/inline/innerContentForImportMap" -}}
+	{{- $cookie := partial "inline/build-cookie-js" . -}}
+	{{- $mainJS := partial "inline/main-js" . -}}
+	{{- $toolbelt := resources.Get "yore/lib/svg-toolbelt/svg-toolbelt.esm.js" -}}
+	{{- return (dict
+		"imports" (dict
+			"yore-cookie" $cookie.RelPermalink
+			"yore-main" $mainJS.RelPermalink
+			"yore-svg-toolbelt" $toolbelt.RelPermalink
+			"mermaid" hugo.Data.cdn.mermaid.src
+		)
+	) -}}
+{{- end -}}
+{{- /* prettier-ignore-end */ -}}
+{{- define "_partials/inline/hashForImportMap" -}}
+	{{- $b64 := . | sha256 | encoding.HexDecode | base64Encode -}}
+	{{- hugo.Store.Add "js-hash" (slice (printf "sha256-%s" $b64)) -}}
+{{- end -}}
 
 {{- partial "head/preload.html" . -}}
 
@@ -123,6 +112,7 @@
 		{{- end -}}
 	{{- end -}}
 {{- end -}}
+{{- $mainJS := partial "inline/main-js" . -}}
 <script type="module" src="{{ $mainJS.RelPermalink }}" integrity="{{ $mainJS.Data.Integrity }}"></script>
 
 {{- /* ========== End of core resources ========== */ -}}

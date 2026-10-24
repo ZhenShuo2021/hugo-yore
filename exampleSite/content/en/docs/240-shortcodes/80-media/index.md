@@ -26,7 +26,7 @@ The `card` shortcode renders a general-purpose preview card with a title, descri
 
 ```md
 {{</* card
-  title="Getting Started"
+  title="Example.com"
   url="https://example.com"
   desc="Description."
   image="/img/01.webp"

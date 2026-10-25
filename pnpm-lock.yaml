@@ -81,9 +81,6 @@ importers:
       rumdl:
         specifier: ^0.3.0
         version: 0.3.0
-      svg-toolbelt:
-        specifier: ^0.7.0
-        version: 0.7.0
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
@@ -94,7 +91,7 @@ importers:
 packages:
 
   '@ZhenShuo2021/prettier-plugin-go-template@https://codeload.github.com/ZhenShuo2021/prettier-plugin-go-template/tar.gz/970ec15e623d800ac6ff6093e8dc1892d461a03b':
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/ZhenShuo2021/prettier-plugin-go-template/tar.gz/970ec15e623d800ac6ff6093e8dc1892d461a03b}
+    resolution: {gitHosted: true, integrity: sha512-Cn6RUsoWmEu+ksXxsC0B0j3TOGMjPqU7fMJySuszP3ueuiMmzKKfxU7yJE0qpvim3IE14O4qTiM8eRaTp/L6cQ==, tarball: https://codeload.github.com/ZhenShuo2021/prettier-plugin-go-template/tar.gz/970ec15e623d800ac6ff6093e8dc1892d461a03b}
     version: 0.0.4
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
@@ -837,10 +834,6 @@ packages:
     resolution: {integrity: sha512-SS+jx45GF1QjgEXQx4NJZV9ImqmO2NPz5FNsIHrsDjh2YsHnawpan7SNQ1o8NuhrbHZy9AZhIoCUiCeaW/C80g==}
     engines: {node: '>=18'}
 
-  svg-toolbelt@0.7.0:
-    resolution: {integrity: sha512-EK5IYUc7Tk4H4d5QcJ7C6t9Qu1YAqpKECYABxUf2GAyGyNWKdy/+T5AJ0oKBmsbv3snCi/Zaev6tLQOqoxRJHw==}
-    engines: {node: '>=18'}
-
   tailwindcss@4.3.3:
     resolution: {integrity: sha512-gOhV3P7ufE62QDGg1zVaTgCR+EtPv92k2nIhVcVKcLmxT1sUBsQGhnZj175j+MqRt4zLF7ic+sCYjfhxMxj7YQ==}
 
@@ -1446,8 +1439,6 @@ snapshots:
       ansi-regex: 6.3.0
 
   supports-color@10.2.2: {}
-
-  svg-toolbelt@0.7.0: {}
 
   tailwindcss@4.3.3: {}
 

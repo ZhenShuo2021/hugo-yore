@@ -5,8 +5,6 @@ const tasks = [
 	{ src: 'node_modules/photoswipe/dist/photoswipe-lightbox.esm.min.js', dest: 'assets/yore/lib/photoswipe' },
 	{ src: 'node_modules/photoswipe/dist/photoswipe.esm.min.js', dest: 'assets/yore/lib/photoswipe' },
 	{ src: 'node_modules/photoswipe/dist/photoswipe.css', dest: 'assets/yore/lib/photoswipe' },
-	{ src: 'node_modules/svg-toolbelt/dist/svg-toolbelt.esm.js', dest: 'assets/yore/lib/svg-toolbelt' },
-	{ src: 'node_modules/svg-toolbelt/dist/svg-toolbelt.css', dest: 'assets/yore/lib/svg-toolbelt' },
 	{ src: 'node_modules/echarts/dist/echarts.min.js', dest: 'assets/yore/lib/echarts' },
 	{
 		src: 'node_modules/vanilla-cookieconsent/dist/cookieconsent.esm.js',

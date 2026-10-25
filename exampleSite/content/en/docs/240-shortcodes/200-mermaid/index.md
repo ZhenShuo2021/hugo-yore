@@ -10,7 +10,7 @@ series: ["Shortcodes"]
 
 ## Mermaid
 
-`mermaid` allows you to draw detailed diagrams and visualisations using text. It uses Mermaid under the hood and supports a wide variety of diagrams, charts and other output formats.
+`mermaid` allows you to draw detailed diagrams and visualizations using text. It uses [Pele](https://pele.run/) under the hood and supports a wide variety of diagrams, charts and other output formats.
 
 Refer to the [official Mermaid docs](https://mermaid-js.github.io/) for details on syntax and supported diagram types.
 
@@ -39,8 +39,6 @@ stateDiagram-v2
 ```mermaid
 ---
 title: Simple sample
-config:
-#  layout: elk
 ---
 stateDiagram-v2
     [*] --> Still

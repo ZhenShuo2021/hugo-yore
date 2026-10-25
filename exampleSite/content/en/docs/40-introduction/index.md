@@ -32,7 +32,6 @@ Yore is a simple yet feature-rich Hugo theme, designed specifically for content-
 - [ECharts](https://echarts.apache.org/) interactive charts
 - [MathJax](https://www.mathjax.org/) LaTeX notation
 - [Pagefind](https://pagefind.app/) site search
-- [Mermaid](https://mermaid.ai/open-source/) diagram
-- [SVG Toolbelt](https://github.com/zakariaf/svg-toolbelt) diagram zooming
+- [Mermaid](https://mermaid.ai/open-source/) diagram using [Pele](https://pele.run/)
 - [iconoir](https://iconoir.com/) and [fontawesome](https://fontawesome.com/icons/packs/brands) SVG icon set
 - [Hugo Knowledge Graph](https://github.com/ZhenShuo2021/hugo-knowledge-graph) article relationship graph

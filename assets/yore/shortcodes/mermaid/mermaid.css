@@ -8,3 +8,25 @@ pre.mermaid:not([data-processed]) {
 		display: none;
 	}
 }
+
+pre.mermaid,
+.pele {
+	--pele-bg: #fffcf0;
+	--pele-fg: #100f0f;
+	--pele-muted: #4f4e4a;
+	--pele-line: #100f0f;
+	--pele-surface: #fff4dd;
+	--pele-surface-alt: #fff5ad;
+	--pele-border: #6f6e69;
+}
+
+[data-theme='dark'] pre.mermaid,
+[data-theme='dark'] .pele {
+	--pele-bg: #100f0f;
+	--pele-fg: #f2f0e5;
+	--pele-muted: #b7b5ac;
+	--pele-line: #cecdc3;
+	--pele-surface: #282726;
+	--pele-surface-alt: #403e3c;
+	--pele-border: #878580;
+}

@@ -8,7 +8,7 @@
 
 {{- /* Mermaid */ -}}
 {{- if .Store.Get "hasMermaid" -}}
-	{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget "externals" (slice "yore-svg-toolbelt" "mermaid") -}}
+	{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget "params" (dict "src" hugo.Data.cdn.mermaid.src) -}}
 
 	{{- $mermaidJS := resources.Get "yore/shortcodes/mermaid/mermaid.js" | js.Build $opts -}}
 	{{- if hugo.IsProduction }}{{ $mermaidJS = $mermaidJS | fingerprint }}{{ end -}}
@@ -16,17 +16,6 @@
 		type="module"
 		src="{{ $mermaidJS.RelPermalink }}"
 		integrity="{{ $mermaidJS.Data.Integrity }}"></script>
-
-	{{- if .Store.Get "mermaidZoom" -}}
-		{{- with resources.Get "yore/shortcodes/svg-toolbelt/svg-toolbelt-modified.css" | minify | fingerprint -}}
-			<link
-				rel="stylesheet"
-				href="{{ .RelPermalink }}"
-				integrity="{{ .Data.Integrity }}"
-				media="print"
-				id="svg-toolbelt-css">
-		{{- end -}}
-	{{- end -}}
 {{- end -}}
 
 {{- if site.Params.searchEnabled -}}

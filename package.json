@@ -63,7 +63,6 @@
 		"prettier": "~3.9.6",
 		"prettier-plugin-tailwindcss": "^0.8.1",
 		"rumdl": "^0.3.0",
-		"svg-toolbelt": "^0.7.0",
 		"tailwindcss": "^4.3.3",
 		"vanilla-cookieconsent": "^3.1.0"
 	},

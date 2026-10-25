@@ -1,4 +1,7 @@
 {{- $zoom := .Page.Param "mermaidZoom" | default true -}}
+{{- if isset .Attributes "zoom" -}}
+	{{- $zoom = .Attributes.zoom | partial "lib/tobool.html" -}}
+{{- end -}}
 
 {{- $class := "not-prose mermaid [&_svg]:m-auto" -}}
 {{- with (index .Attributes "class") -}}
@@ -6,13 +9,10 @@
 {{- end -}}
 
 {{- .Page.Store.Set "hasMermaid" true -}}
-{{- if (partial "lib/tobool.html" $zoom) -}}
-	{{- .Page.Store.Set "mermaidZoom" true -}}
-{{- end -}}
 
 <pre class="{{ $class }}" data-zoom="{{ $zoom }}"
 	{{- range $k, $v := .Attributes -}}
-		{{- if and $v (ne $k "class") -}}
+		{{- if not (in (slice "class" "zoom") $k) -}}
 			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
 		{{- end -}}
 	{{- end -}}>

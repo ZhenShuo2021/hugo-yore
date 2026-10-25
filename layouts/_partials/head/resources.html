@@ -56,12 +56,10 @@
 {{- define "_partials/inline/innerContentForImportMap" -}}
 	{{- $cookie := partial "inline/build-cookie-js" . -}}
 	{{- $mainJS := partial "inline/main-js" . -}}
-	{{- $toolbelt := resources.Get "yore/lib/svg-toolbelt/svg-toolbelt.esm.js" -}}
 	{{- return (dict
 		"imports" (dict
 			"yore-cookie" $cookie.RelPermalink
 			"yore-main" $mainJS.RelPermalink
-			"yore-svg-toolbelt" $toolbelt.RelPermalink
 			"mermaid" hugo.Data.cdn.mermaid.src
 		)
 	) -}}

@@ -59,7 +59,6 @@ outputs: # Custom output formats per page type
     - backlinks
     - knowledge-graph
     - markdown
-    - headers
   section:
     - HTML
     - RSS
@@ -301,6 +300,21 @@ languages:
     direction: ltr
     weight: 1
     title: Yore
+    outputs: # Only default language needs headers output
+      home:
+        - HTML
+        - RSS
+        - backlinks
+        - knowledge-graph
+        - markdown
+        - headers
+      section:
+        - HTML
+        - RSS
+        - markdown
+      page:
+        - HTML
+        - markdown
     params:
       description: A powerful, lightweight theme for Hugo.
     menus:

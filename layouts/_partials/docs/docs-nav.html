@@ -66,6 +66,8 @@
 
 		{{- $el := resources.Get "yore/components/docs-nav/docs-nav-el.js" | minify -}}
 		<script>{{ $el.Content | safeJS }}</script>
+		{{- $noop := partialCached "lib/sha256-hash.html" (dict "content" $el.Content "store" true "name" "docs-nav-el") ($el.Content | first 10) -}}
+
 
 		<div class="scrollbar-mask flex-1 overflow-y-auto">
 			<div class="ps-1 pe-2 pt-2 pb-4">
@@ -75,17 +77,8 @@
 
 		{{- $pr := resources.Get "yore/components/docs-nav/docs-nav-process.js" | minify -}}
 		<script>{{ $pr.Content | safeJS }}</script>{{- /**/ -}}
-		{{- partialCached "inline/calcJSHashForDocsNav" (dict "el" $el "pr" $pr) -}}
+		{{- $noop := partialCached "lib/sha256-hash.html" (dict "content" $pr.Content "store" true "name" "docs-nav-process") ($pr.Content | first 10) -}}
 	</aside>
-{{- end -}}
-
-{{- define "_partials/inline/calcJSHashForDocsNav" -}}
-	{{- $hashes := slice -}}
-	{{- range $e := slice .el .pr -}}
-		{{- $b64 := $e.Content | sha256 | encoding.HexDecode | base64Encode -}}
-		{{- $hashes = $hashes | append (printf "sha256-%s" $b64) -}}
-	{{- end -}}
-	{{- hugo.Store.Add "js-hash" $hashes -}}
 {{- end -}}
 
 {{- define "_partials/inline/nav-pages.html" -}}

@@ -6,8 +6,7 @@
 	{{- with resources.Get "yore/core/js/critical.js" -}}
 		{{- with resources.ExecuteAsTemplate "" $ . | minify -}}
 			<script>{{- .Content | safeJS -}}</script>
-			{{- $b64 := .Content | sha256 | encoding.HexDecode | base64Encode -}}
-			{{- hugo.Store.Add "js-hash" (slice (printf "sha256-%s" $b64)) -}}
+			{{- $noop := partial "lib/sha256-hash.html" (dict "content" .Content "store" true "name" "resources-critical") -}}
 		{{- else -}}
 			{{- errorf "Failed to ExecuteAsTemplate 'critical.js'" -}}
 		{{- end -}}
@@ -50,7 +49,7 @@
 {{- /* importmap goes before all type=module scripts */ -}}
 
 {{- $s := partial "inline/innerContentForImportMap" . | jsonify -}}
-{{- partialCached "inline/hashForImportMap" $s -}}
+{{- $noop := partialCached "lib/sha256-hash.html" (dict "content" $s "store" true "name" "resources-importmap") $s -}}
 <script type="importmap">{{- $s | safeHTML -}}</script>
 {{- /* prettier-ignore-start */ -}}
 {{- define "_partials/inline/innerContentForImportMap" -}}
@@ -65,11 +64,6 @@
 	) -}}
 {{- end -}}
 {{- /* prettier-ignore-end */ -}}
-{{- define "_partials/inline/hashForImportMap" -}}
-	{{- $b64 := . | sha256 | encoding.HexDecode | base64Encode -}}
-	{{- hugo.Store.Add "js-hash" (slice (printf "sha256-%s" $b64)) -}}
-{{- end -}}
-
 {{- partial "head/preload.html" . -}}
 
 {{- partialCached "head/analytics.html" . -}}

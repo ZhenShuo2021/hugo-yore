@@ -1,0 +1,37 @@
+{{- /*
+	Computes a base64-encoded SHA-256 hash of the given content.
+
+	Params (dict):
+		content       string, the content to hash
+		store         bool, whether to record the result in hugo.Store (map)
+		name          string, the script name used as the map key (required when store is true)
+		store_key     string, optional, the hugo.Store map name (default: "js-hashes")
+
+	Returns (string):
+		base64-encoded SHA-256 hash, prefixed with "sha256-"
+
+	Example:
+		{{- $hash := partial "lib/sha256-hash.html" (dict
+			"content" $js.Content
+			"store" true
+			"name" "speculation-rules"
+		) -}}
+
+		Reading the stored hashes (name -> hash):
+		{{- range $name, $hash := hugo.Store.Get "js-hashes" -}}
+			{{ $name }}, {{ $hash }}
+		{{ end -}}
+
+	Note:
+		Make sure the content is already minified,
+		otherwise the hash is computed on the pre-minified content.
+*/ -}}
+{{- $hash := printf "sha256-%s" (.content | sha256 | encoding.HexDecode | base64Encode) -}}
+{{- if .store -}}
+	{{- if not .name -}}
+		{{- warnf "sha256-hash.html: store is true but name is missing" -}}
+	{{- else -}}
+		{{- hugo.Store.SetInMap (.store_key | default "js-hashes") .name $hash -}}
+	{{- end -}}
+{{- end -}}
+{{- return $hash -}}

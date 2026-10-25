@@ -122,12 +122,7 @@
 <figure
 	{{- range $k, $v := .Attributes -}}
 		{{- if not (in $imgOnlyAttrs $k) -}}
-			{{- $s := printf "%v" $v -}}
-			{{- if $s -}}
-				{{- printf " %s=%q" $k ($s | transform.HTMLEscape) | safeHTMLAttr -}}
-			{{- else -}}
-				{{- printf " %s" $k | safeHTMLAttr -}}
-			{{- end -}}
+			{{- printf " %v=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
 		{{- end -}}
 	{{- end -}}>
 	{{- template "RenderImage" (dict

@@ -1,6 +1,6 @@
 {{- /* https://css-tricks.com/under-engineered-responsive-tables/ */ -}}
 {{- /* trigger Tailwind: text-left text-right text-center */ -}}
-{{- $c := dict 
+{{- $c := dict
 	"center" (.Attributes.center | default (.Page.Param "renderHook.table.center") | partial "lib/tobool.html")
 	"merge" (.Attributes.merge | default (.Page.Param "renderHook.table.merge") | partial "lib/tobool.html")
 	"compact" (.Attributes.compact | default (.Page.Param "renderHook.table.compact") | partial "lib/tobool.html")
@@ -11,12 +11,10 @@
 		{{- (printf "aria-labelledby=\"md-table-%d\"" .Ordinal) | safeHTMLAttr }}
 	{{- end }}
 	{{- range $k, $v := .Attributes }}
-		{{- if $v }}
-			{{- if (in (slice `caption` `merge` `center` `compact`) $k )}}
-				{{- continue }}
-			{{- end }}
-			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr }}
+		{{- if (in (slice `caption` `merge` `center` `compact`) $k )}}
+			{{- continue }}
 		{{- end }}
+		{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr }}
 	{{- end }}
 	{{- if $c.merge -}}
 		{{- printf " data-merge" | safeHTMLAttr }}

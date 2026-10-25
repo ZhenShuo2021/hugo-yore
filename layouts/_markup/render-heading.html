@@ -6,10 +6,8 @@
 		{{- if $k | in (slice `id`) -}}
 			{{- continue -}}
 		{{- end -}}
-		{{- if $v -}}
-			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
-		{{- end -}}
-	{{- end -}}>
+		{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
+		{{- end -}}>
 	{{ $text }}
 	<a class="heading-anchor" href="#{{ $anchor }}">
 		<span class="sr-only select-none">

@@ -3,12 +3,10 @@
 {{- $class := or .Attributes.class "" -}}
 <div data-code-wrapper
 	{{- range $k, $v := .Attributes -}}
-		{{- if $v -}}
-			{{- if $k | in (slice `title`) -}}
-				{{- continue -}}
-			{{- end -}}
-			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
+		{{- if $k | in (slice `title`) -}}
+			{{- continue -}}
 		{{- end -}}
+		{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
 	{{- end -}}>
 	{{- with $title -}}
 		<div class="codeblock-title">{{ . }}</div>

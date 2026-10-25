@@ -33,7 +33,7 @@
 	{{- $normalizedType = default $type }}
 	{{- end }}
 
-	{{- $d := dict 
+	{{- $d := dict
 		"AlertTitle" .AlertTitle
 		"AlertType" .AlertType
 		"AlertSign" .AlertSign
@@ -44,10 +44,8 @@
 {{- else -}}
 	<blockquote
 	{{- range $k, $v := .Attributes -}}
-		{{- if $v -}}
-			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
-		{{- end -}}
-	{{- end -}}>
+		{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
+		{{- end -}}>
 		{{- .Text | safeHTML -}}
 	</blockquote>
 {{- end -}}

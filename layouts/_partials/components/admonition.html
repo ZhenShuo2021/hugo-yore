@@ -49,9 +49,7 @@
 			{{- if (in $s $k) -}}
 				{{- continue -}}
 			{{- end -}}
-			{{- if $v -}}
-				{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
-			{{- end -}}
+			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}
 		{{- end -}}>
 		<div class="{{ $headerClass }}">
 			<div class="flex h-5 w-5 shrink-0 items-center justify-center text-lg" aria-hidden="true">

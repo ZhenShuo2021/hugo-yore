@@ -4,7 +4,7 @@
 			id="pf-custom-icon-mobile"
 			aria-label="{{ i18n `nav.search` | default `Search` }}"
 			title="{{ i18n `nav.search` | default `Search` }}"
-			class="text-foreground hover:text-link-hover">
+			class="text-foreground hover:text-link-hover inline-flex items-center justify-center">
 			{{- partialCached "components/icon.html" "search" "icon-search" -}}
 		</button>
 	{{- end -}}
@@ -14,7 +14,7 @@
 		id="mobile-menu-toggle"
 		aria-label="{{ i18n `nav.toggle_mobile_menu` | default `Toggle mobile menu` }}"
 		title="{{ i18n `nav.toggle_mobile_menu` | default `Toggle mobile menu` }}"
-		class="text-foreground hover:text-link-hover py-4 transition-colors">
+		class="text-foreground hover:text-link-hover inline-flex items-center justify-center py-4 transition-colors">
 		{{- partialCached "components/icon.html" "menu" "icon-menu" -}}
 	</button>
 </div>

@@ -423,17 +423,30 @@ The `icon` shortcode renders an inline SVG icon from the theme's icon library.
 
 | Parameter | Description |
 | --- | --- |
-| `0` | **Required.** Icon name. |
+| `0` / `name` | **Required.** Icon name, with or without the `.svg` extension. Positional `0` and named `name` are interchangeable. |
+| `label` | **Optional.** Accessible label. When set, the icon is exposed as `role="img"`. Otherwise it is hidden from assistive technology. |
+| `class` | **Optional.** Extra CSS classes. |
+| `rotate` | **Optional.** Rotation in degrees, such as `90`. |
+| `flip` | **Optional.** Flip direction: `x`, `y`, or `both`. |
+| `animation` | **Optional.** Animation: `spin`, `pulse`, or `bounce`. |
 
-**Example**
+**Example: Positional name**
 
 ```md
-{{</* icon "activity" */>}}
-{{</* icon "arrow-left-circle" */>}}
-{{</* icon "clock" */>}}
+{{</* icon "google" >}}
+{{< icon name="google" flip="x" >}}
+{{< icon name="google" rotate=315 >}}
+{{< icon name="google" animation="spin" >}}
+{{< icon name="google" animation="pulse" >}}
+{{< icon name="google" animation="bounce" class="text-success" */>}}
 ```
 
-{{< icon "activity" >}} {{< icon "arrow-left-circle" >}} {{< icon "clock" >}}
+{{< icon "google" >}}
+{{< icon name="google" flip="x" >}}
+{{< icon name="google" rotate=315 >}}
+{{< icon name="google" animation="spin" >}}
+{{< icon name="google" animation="pulse" >}}
+{{< icon name="google" animation="bounce" class="text-success" >}}
 
 See all available icons in [reference page](../../1000-reference-icon/index.md).
 

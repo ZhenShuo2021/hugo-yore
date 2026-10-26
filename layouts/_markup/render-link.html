@@ -24,7 +24,7 @@
 	{{- .Text -}}
 	{{- if $external -}}
 		{{- with .Page.Param "externalLinkMarker" -}}
-			<span class="external-link icon">{{ . | safeHTML }}</span>
+			<span class="external-link">{{ . | safeHTML }}</span>
 		{{- else -}}
 			<span class="sr-only select-none">
 				{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}

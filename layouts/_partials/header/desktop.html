@@ -27,7 +27,7 @@
 					aria-expanded="false"
 					aria-controls="a11y-panel"
 					type="button"
-					class="text-foreground hover:text-link-hover">
+					class="text-foreground hover:text-link-hover inline-flex items-center justify-center">
 					{{- partialCached "components/icon.html" "a11y" "icon-a11y" -}}
 				</button>
 			{{- end -}}
@@ -38,11 +38,11 @@
 					aria-label="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
 					title="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
 					type="button"
-					class="text-foreground hover:text-link-hover">
-					<span class="block dark:hidden">
+					class="text-foreground hover:text-link-hover inline-flex items-center justify-center">
+					<span class="inline-flex items-center justify-center dark:hidden">
 						{{- partialCached "components/icon.html" "sun-light" "icon-sun-light" -}}
 					</span>
-					<span class="hidden dark:block">
+					<span class="hidden items-center justify-center dark:inline-flex">
 						{{- partialCached "components/icon.html" "half-moon" "icon-half-moon" -}}
 					</span>
 				</button>
@@ -54,7 +54,7 @@
 					type="button"
 					aria-label="{{ i18n `nav.search` | default `Search` }}"
 					title="{{ i18n `nav.search` | default `Search` }}"
-					class="text-foreground hover:text-link-hover">
+					class="text-foreground hover:text-link-hover inline-flex items-center justify-center">
 					{{- partialCached "components/icon.html" "search" "icon-search" -}}
 				</button>
 			{{- end -}}

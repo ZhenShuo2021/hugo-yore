@@ -1,5 +1,20 @@
-{{- with resources.GetMatch (printf "yore/icons/**/%s.svg" (strings.TrimSuffix ".svg" ($.Get 0))) -}}
-	<span class="icon relative inline-block align-text-bottom">{{- .Content | safeHTML -}}</span>
+{{- $name := "" -}}
+{{- $d := dict -}}
+{{- if .IsNamedParams -}}
+	{{- $name = .Get "name" -}}
+	{{- $d = dict
+		"name" (.Get "name")
+		"label" (.Get "label")
+		"class" (.Get "class")
+		"rotate" (.Get "rotate")
+		"flip" (.Get "flip")
+		"animation" (.Get "animation")
+	-}}
 {{- else -}}
-	{{- warnf `icon shortcode: resource "icons/%s.svg" not found: %s` ($.Get 0) .Position -}}
+	{{ $name = (.Get 0) -}}
+{{- end -}}
+{{- with resources.GetMatch (printf "yore/icons/**/%s.svg" (strings.TrimSuffix ".svg" $name)) -}}
+	{{- partial "components/icon.html" (cond $.IsNamedParams $d $name) -}}
+{{- else -}}
+	{{- warnf `icon shortcode: resource "icons/%s.svg" not found: %s` $name .Position -}}
 {{- end -}}

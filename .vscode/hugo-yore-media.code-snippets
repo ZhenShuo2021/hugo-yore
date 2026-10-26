@@ -198,9 +198,9 @@
 		"scope": "markdown",
 		"prefix": "yore-icon",
 		"body": [
-			"{{< icon \"${1:github}\" >}}"
+			"{{< icon name=\"${1:github}\" label=\"${2:GitHub}\" class=\"${3:text-lg}\" rotate=${4:90} flip=\"${5|x,y,both|}\" animation=\"${6|spin,pulse,bounce|}\" >}}"
 		],
-		"description": "Renders an inline SVG icon from the theme's icon library."
+		"description": "Inline SVG icon from the theme's icon library. name is required. label, class, rotate, flip and animation are optional. flip accepts x, y or both. animation accepts spin, pulse or bounce. Delete unused parameters."
 	},
 
 	"Yore Audio": {

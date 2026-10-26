@@ -98,6 +98,42 @@ option = {
 
   {{< /tab >}}
 
+  {{< tab label="cards" >}}
+
+{{< cards >}}
+{{< card
+  title="Title Only"
+  icon="cube"
+>}}
+{{< card
+  desc="Description Only"
+>}}
+{{< card
+  title="Example.com"
+  url="#card"
+  desc="Static image, default."
+  media="/img/01.webp"
+  icon="steam"
+>}}
+{{< card
+  title="Video Wave"
+  desc="Video by <a href='https://pixabay.com/users/mario_krimer-34815979/?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Mario_Krimer</a> from <a href='https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Pixabay</a>"
+  media="https://cdn.zsl0621.cc/2026/docs/wave-rock-splash-sunset-sea-shore-353078.mp4"
+  width=16
+  height=9
+  icon="xbox"
+>}}
+{{< card
+  title="YouTube Embed"
+  desc="Iframe."
+  media="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  mediaType="iframe"
+  icon="google"
+>}}
+{{< /cards >}}
+
+  {{< /tab >}}
+
   {{< tab label="figure" >}}
 
   {{% fig
@@ -122,8 +158,7 @@ option = {
   {{< tab label="video" >}}
 
   {{< video
-    src="https://upload.wikimedia.org/wikipedia/commons/5/5a/CC0_-_Public_Domain_Dedication_video_bumper.webm"
-    muted=true
+    src="https://cdn.zsl0621.cc/2026/docs/wave-rock-splash-sunset-sea-shore-353078.mp4"
     loop=true
   >}}
 

@@ -15,30 +15,83 @@ The `card` shortcode renders a general-purpose preview card with a title, descri
 
 | Parameter | Description |
 | --- | --- |
-| `title` | **Required.** Card heading text. |
+| `title` | **Optional.** Card heading text, rendered as `<h3>`. Supports HTML. |
 | `url` | **Optional.** Link target for the whole card. |
-| `desc` | **Optional.** Description text shown below the title. Supports HTML. |
-| `image` | **Optional.** Thumbnail image URL. Falls back to a placeholder icon when omitted. |
+| `target` | **Optional.** Link target attribute, e.g. `_blank`. Only applies with `url`. |
+| `desc` | **Optional.** Description text shown below the title. Supports HTML. Must not contain `<a>` when `url` is set. |
+| `metaText` | **Optional.** Metadata content shown below the description. Supports HTML. Must not contain `<a>` when `url` is set. |
 | `icon` | **Optional.** Icon name shown inline before the title. |
-| `metaText` | **Optional.** Metadata content shown below the description. Supports HTML. |
-
-**Example**
+| `media` | **Optional.** Image, video or embed page shown at the top of the card. Accepts a page resource, an assets file, a static path or an external URL. No media is shown when omitted. |
+| `mediaType` | **Optional.** `image`, `video` or `iframe`. Default: resources use their own type, URLs are guessed from the extension (`.mp4`, `.webm`, `.ogv`, `.mov` mean video, anything else means image). Set it for URLs without extension, e.g. `iframe` for a YouTube embed. |
+| `width` | **Optional.** Media width to prevent layout shift. |
+| `height` | **Optional.** Media height to prevent layout shift. |
+| `fit` | **Optional.** `cover` or `contain`. Default: no cropping, full width, height follows the media. |
+| `ratio` | **Optional.** Display aspect ratio of the media, e.g. `16/9` or `4/2`. Implies `fit="cover"` when `fit` is not set. `iframe` defaults to `16/9`. |
 
 ```md
-{{</* card
-  title="Example.com"
-  url="https://example.com"
-  desc="Description."
-  image="/img/01.webp"
-*/>}}
-```
+{{</* cards >}}
+{{< card
+  title="Title Only"
+  icon="cube"
+>}}
+
+{{< card
+  desc="Description Only"
+>}}
 
 {{< card
   title="Example.com"
-  url="https://example.com"
-  desc="Description."
-  image="/img/02.webp"
+  url="#card"
+  desc="Static image, default."
+  media="/img/01.webp"
+  icon="steam"
 >}}
+
+{{< card
+  title="Video Wave"
+  desc="Video by <a href='https://pixabay.com/users/mario_krimer-34815979/?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Mario_Krimer</a> from <a href='https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Pixabay</a>"
+  media="https://cdn.zsl0621.cc/2026/docs/wave-rock-splash-sunset-sea-shore-353078.mp4"
+  icon="xbox"
+>}}
+{{< /cards */>}}
+```
+
+{{< cards >}}
+{{< card
+  title="Title Only"
+  icon="cube"
+>}}
+
+{{< card
+  desc="Description Only"
+>}}
+
+{{< card
+  title="Example.com"
+  url="#card"
+  desc="Static image, default."
+  media="/img/01.webp"
+  icon="steam"
+>}}
+
+{{< card
+  title="Video Wave"
+  desc="Video by <a href='https://pixabay.com/users/mario_krimer-34815979/?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Mario_Krimer</a> from <a href='https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Pixabay</a>"
+  media="https://cdn.zsl0621.cc/2026/docs/wave-rock-splash-sunset-sea-shore-353078.mp4"
+  width=16
+  height=9
+  icon="xbox"
+>}}
+{{< /cards >}}
+
+## Cards
+
+The `cards` shortcode arranges multiple `card` shortcodes in a responsive grid. Cards inside it always fill the width of their grid cell.
+
+| Parameter | Description |
+| --- | --- |
+| `cols` | **Optional.** Number of columns on large screens. Accepts `1`, `2`, `3` or `4`. Defaults to `3`. |
+| `gap` | **Optional.** Spacing between cards, `s`, `m`, or `l`. **Default:** `m` |
 
 ## Article Card
 
@@ -54,7 +107,7 @@ The `article` shortcode generates a visual preview card for a specified internal
 **Example**
 
 ```md
-{{</* article path="/docs/40-getting-started" desc=true meta=false */>}}
+{{</* article path="/docs/80-getting-started" desc=true meta=false */>}}
 ```
 
 {{< article path="/docs/80-getting-started" desc=true meta=false >}}
@@ -444,18 +497,16 @@ The `video` shortcode embeds a HTML5 video player.
 
 ```md
 {{</* video
-    src="https://upload.wikimedia.org/wikipedia/commons/5/5a/CC0_-_Public_Domain_Dedication_video_bumper.webm"
-    caption="*Public domain demo*"
+    src="https://cdn.zsl0621.cc/2026/docs/wave-rock-splash-sunset-sea-shore-353078.mp4"
+    caption="Video by <a href='https://pixabay.com/users/mario_krimer-34815979/?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Mario_Krimer</a> from <a href='https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Pixabay</a>"
     loop=true
-    muted=true
 */>}}
 ```
 
 {{< video
-  src="https://upload.wikimedia.org/wikipedia/commons/5/5a/CC0_-_Public_Domain_Dedication_video_bumper.webm"
-  caption="*Public domain demo*"
+  src="https://cdn.zsl0621.cc/2026/docs/wave-rock-splash-sunset-sea-shore-353078.mp4"
+  caption="Video by <a href='https://pixabay.com/users/mario_krimer-34815979/?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Mario_Krimer</a> from <a href='https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Pixabay</a>"
   loop=true
-  muted=true
 >}}
 
 ## PDF

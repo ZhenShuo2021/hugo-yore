@@ -2,63 +2,120 @@
 	Shared card shell. Call "card-shell-head.html" before your content,
 	and "card-shell-tail.html" after it.
 
-	Includes group hover, background, rounded and image.
+	Includes group hover, background, rounded and media.
 
 	Params (dict) for "card-shell-head":
-		href      (string, required) - link target
-		id        (string, optional) - id attribute on <a>
+		href      (string, optional) - link target. Without it the card is a <div>.
 		target    (string, optional) - target attribute on <a>, e.g. "_blank"
-		image     (string, optional) - image URL; if empty, shows placeholder SVG
-		width     (string, optional) - image width
-		height    (string, optional) - image height
-		alt       (string, optional) - alt text for the image. Because the
-		                     entire card is wrapped in a single <a>, this
-		                     text is merged into the link's accessible name.
-		                     Describe the link DESTINATION (what the user
-		                     will get by clicking), not the visual content
-		                     of the image. E.g. use "Read the article" or
-		                     the article title, not "a photo of a laptop".
+		attributes (map, optional) - extra attributes on the wrapper <div>.
+		media     (string or resource, optional) - image, video or embed page.
+		                     String: any URL (static path, external URL).
+		                     Resource: Hugo resource, also fills width and height
+		                     when it is an image.
+		mediaType (string, optional) - "image", "video" or "iframe".
+		                     Default: resource uses its own media type, string is
+		                     guessed from the extension (video extensions mean
+		                     video, anything else means image). Set it explicitly
+		                     for URLs without extension, e.g. a YouTube embed
+		                     page needs "iframe".
+		width     (string, optional) - media width
+		height    (string, optional) - media height
+		fit       (string, optional) - "cover" or "contain". Default: no
+		                     cropping, height follows the media.
+		ratio     (string, optional) - fixed media ratio, e.g. "16/9".
+		                     Implies fit "cover" when fit is not set.
+		                     iframe defaults to "16/9" because it has no
+		                     intrinsic size.
 
-	inline define is not updating even with called with noop, so this is an individual file
+	Note:
+		Because the entire card is wrapped in a single <a>, alt should be empty.
 */ -}}
 
-<div class="not-prose my-1 md:max-w-80">
+{{- $ratio := .ratio -}}
+{{- $fit := .fit -}}
+{{- $width := .width -}}
+{{- $height := .height -}}
+{{- $type := .mediaType -}}
+
+{{- $url := "" -}}
+{{- with .media -}}
+	{{- if eq (printf "%T" .) "string" -}}
+		{{- $url = . -}}
+		{{- if not $type -}}
+			{{- $ext := lower (path.Ext (urls.Parse .).Path) -}}
+			{{- $type = cond (in (slice ".mp4" ".webm" ".ogv" ".mov") $ext) "video" "image" -}}
+		{{- end -}}
+	{{- else -}}
+		{{- $url = .RelPermalink -}}
+		{{- if not $type -}}
+			{{- $type = .MediaType.MainType -}}
+		{{- end -}}
+		{{- if reflect.IsImageResourceWithMeta . -}}
+			{{- $width = .Width -}}
+			{{- $height = .Height -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- if and (eq $type "iframe") (not $ratio) -}}
+	{{- $ratio = "16/9" -}}
+{{- end -}}
+
+{{- if and $ratio (not $fit) -}}
+	{{- $fit = "cover" -}}
+{{- end -}}
+
+{{- $mediaClass := "w-full" -}}
+{{- if eq $fit "cover" }}
+	{{- $mediaClass = "w-full h-auto object-cover" -}}
+{{- end -}}
+{{- if eq $fit "contain" -}}
+	{{- $mediaClass = "bg-muted w-full h-auto object-contain" -}}
+{{- end -}}
+
+{{- $cls := "border-border bg-card block overflow-hidden rounded-lg border transition-all" -}}
+{{- if .href -}}
+	{{- $cls = printf "group hover:border-card-foreground/30 hover:shadow-md %s" $cls -}}
+{{- end -}}
+
+{{- $attrs := .attributes | default dict -}}
+{{- $wrapperClass := "not-prose my-4 md:max-w-84" -}}
+{{- with index $attrs "class" -}}
+	{{- $wrapperClass = printf "%s %s" $wrapperClass . -}}
+{{- end -}}
+
+<div class="{{ $wrapperClass }}"
+	{{- range $name, $value := $attrs }}
+		{{- if ne $name "class" }} {{ printf `%s="%s"` $name (htmlEscape $value) | safeHTMLAttr }}{{ end }}
+	{{- end }}>
+	{{- if .href }}
 	<a
 		href="{{ .href }}"
-		{{- with .id }} id="{{ . }}"{{ end }}
 		{{- with .target }} target="{{ . }}"{{ end }}
-		class="group border-border bg-card hover:border-card-foreground/30 block overflow-hidden rounded-lg border transition-all hover:shadow-md">
+		class="{{ $cls }}">
+	{{- else }}
+	<div
+		class="{{ $cls }}">
+	{{- end }}
 		<div class="flex flex-col">
-			{{- with .imageObj -}}
-				<img src="{{ .RelPermalink }}"
-				{{ if reflect.IsImageResourceWithMeta . -}}
-					{{- with .Height }}height="{{ . }}"{{ end -}}
-					{{- with .Width }}width="{{ . }}"{{ end -}}
+			{{- if $url -}}
+				{{- if eq $type "video" -}}
+					<video src="{{ $url }}" autoplay muted loop playsinline
+				{{- else if eq $type "iframe" -}}
+					<iframe src="{{ $url }}" loading="lazy" allowfullscreen
+				{{- else -}}
+					<img src="{{ $url }}" alt=""
 				{{- end }}
-				alt="{{ $.alt }}" class="w-full">
-			{{- else with .image -}}
-				<img src="{{ . }}" alt="{{ $.alt }}" class="w-full">
-			{{- else -}}
-				<div class="flex h-40 w-full items-center justify-center" aria-hidden="true">
-					<svg
-						class="text-muted-foreground/30 h-12 w-12"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-					</svg>
-				</div>
+				{{- with $height }} height="{{ . }}"{{ end }}
+				{{- with $width }} width="{{ . }}"{{ end }}
+				{{- with $ratio }} style="{{ printf "aspect-ratio: %s" . | safeCSS }}"{{ end }}
+				class="{{ $mediaClass }}">
+				{{- if or (eq $type "video") (eq $type "iframe") }}{{ printf "</%s>" $type | safeHTML }}{{ end -}}
 			{{- end -}}
-			{{- /**/ -}}
-			{{- if eq .target "_blank" -}}
+			{{- if and .href (eq .target "_blank") -}}
 				<span class="sr-only select-none">
 					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
 				</span>
 			{{- end -}}
-
 
 			<div class="flex-1 space-y-3 p-4">

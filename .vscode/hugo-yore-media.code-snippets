@@ -6,18 +6,40 @@
 			"{{< card",
 			"  title=\"${1:Title}\"",
 			"  url=\"${2:https://example.com}\"",
-			"  desc=\"${3:Description.}\"",
-			"  image=\"${4:/img/01.webp}\"",
+			"  target=\"${3|_blank,_self|}\"",
+			"  desc=\"${4:Description.}\"",
+			"  metaText=\"${5:Meta text.}\"",
+			"  icon=\"${6:cube}\"",
+			"  media=\"${7:/img/01.webp}\"",
+			"  mediaType=\"${8|image,video,iframe|}\"",
+			"  width=${9:16}",
+			"  height=${10:9}",
+			"  fit=\"${11|cover,contain|}\"",
+			"  ratio=\"${12:16/9}\"",
 			">}}"
 		],
-		"description": "General-purpose preview card with title, description, optional image or icon, and metadata."
+		"description": "General-purpose card component."
+	},
+
+	"Yore Cards": {
+		"scope": "markdown",
+		"prefix": "yore-cards",
+		"body": [
+			"{{< cards cols=${1|3,1,2,4|} gap=\"${2|m,s,l|}\" >}}",
+			"{{< card",
+			"  title=\"${3:Title}\"",
+			"  desc=\"${4:Description.}\"",
+			">}}",
+			"{{< /cards >}}"
+		],
+		"description": "Responsive grid of card shortcodes."
 	},
 
 	"Yore Article Card": {
 		"scope": "markdown",
 		"prefix": "yore-article",
 		"body": [
-			"{{< article path=\"${1:/docs/40-getting-started}\" desc=${2|true,false|} meta=${3|true,false|} >}}"
+			"{{< article path=\"${1:/docs/40-getting-started}\" desc=${2|true,false|} meta=${3|true,false|} lang=\"${4:en}\" >}}"
 		],
 		"description": "Visual preview card for an internal page. path is required."
 	},
@@ -37,7 +59,7 @@
 		"body": [
 			"{{< email address=\"${1:hello@example.com}\" >}}"
 		],
-		"description": "Obfuscates an email address using base64 encoding, decoded client-side into a mailto link."
+		"description": "Obfuscates an email address."
 	},
 
 	"Yore Embed Code": {

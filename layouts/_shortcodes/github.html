@@ -25,10 +25,8 @@
 
 {{- partial "components/card-shell-head.html" (dict
 	"href" $htmlURL
-	"id" $id
 	"target" "_blank"
-	"image" $githubThumbnailURL
-	"alt" (printf "Github %s Thumbnail" $repo)
+	"media" $githubThumbnailURL
 	)
 -}}
 
@@ -72,7 +70,7 @@
 	</div>
 </div>
 
-{{- partial "components/card-shell-tail.html" $githubData -}}
+{{- partial "components/card-shell-tail.html" (dict "href" $htmlURL) -}}
 
 {{- $opts := dict
 	"format" "esm"

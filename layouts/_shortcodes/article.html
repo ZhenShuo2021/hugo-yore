@@ -30,10 +30,9 @@
 	{{- if $i.width -}}
 		{{- partial "components/card-shell-head.html" (dict
 			"href" $targetPage.RelPermalink
-			"image" $i.url
+			"media" $i.url
 			"width" $i.width
 			"height" $i.height
-			"alt" (printf "%s%s" "Feature image of " $targetPage.LinkTitle)
 			)
 		-}}
 	{{- else -}}
@@ -53,7 +52,7 @@
 
 	{{- if $desc -}}
 		<p class="text-muted-foreground line-clamp-2 text-sm">
-			{{- $targetPage.Description | plainify -}}
+			{{- $targetPage.Description | safeHTML -}}
 		</p>
 	{{- end -}}
 
@@ -79,5 +78,5 @@
 		</div>
 	{{- end -}}
 
-	{{- partial "components/card-shell-tail.html" . -}}
+	{{- partial "components/card-shell-tail.html" (dict "href" $targetPage.RelPermalink) -}}
 {{- end -}}

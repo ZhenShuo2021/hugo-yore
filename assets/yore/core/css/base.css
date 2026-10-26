@@ -27,6 +27,11 @@ figure {
 	display: inline-block;
 }
 
+figure picture {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
 figure a:has(img) {
 	display: block;
 	width: 100%;

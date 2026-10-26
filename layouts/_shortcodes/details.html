@@ -3,7 +3,7 @@
 <details class="border-border bg-card yr-details my-4 rounded-lg border p-2 px-4" {{ if $open }}open{{ end }}>
 	<summary>{{ $summary | markdownify }}</summary>
 	<div class="yr-details-content py-2">
-		{{- printf "\n\n%s\n\n" .Inner -}}
+		{{- printf "\n\n%s\n\n" .Inner | safeHTML -}}
 	</div>
 </details>
 {{- /**/ -}}

@@ -82,7 +82,7 @@ Rich-content example with front matter
 
 {{% float side="end" size="m" %}}
 
-{{% fig attrs="class='center-cap center-img'" src="/img/07.webp" alt="Float and footnote sample" caption="Foo[^foo]" %}}
+{{% fig attrs="class='yr-center-cap yr-center-img'" src="/img/07.webp" alt="Float and footnote sample" caption="Foo[^foo]" %}}
 
 {{% /float %}}
 

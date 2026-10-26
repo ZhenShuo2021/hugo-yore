@@ -4,7 +4,7 @@
 	site.Params.versionSwitcher
 	site.Params.accessibilityEnabled
 -}}
-	<dialog id="mobile-menu-overlay" class="dialog-overlay">
+	<dialog id="mobile-menu-overlay" class="yr-dialog-overlay">
 		<div class="max-h-[calc(100dvh-2rem)] scrollbar-gutter-stable overflow-y-auto px-6 py-8">
 			<button
 				id="mobile-menu-close"
@@ -118,7 +118,7 @@
 		site.Params.versionSwitcher
 		site.Params.accessibilityEnabled
 	-}}
-		<div class="mobile-menu-footer">
+		<div class="yr-mobile-menu-footer">
 			{{- if site.Params.themeLightDarkSwitcher | default true -}}
 				<button
 					id="mobile-appearance-switcher"
@@ -139,7 +139,7 @@
 			{{- end -}}
 
 			{{- if site.Params.versionSwitcher -}}
-				{{- partial "components/version-switcher.html" $ -}}
+				{{- partial "components/yr-version-switcher.html" $ -}}
 			{{- end -}}
 
 			{{- if site.Params.accessibilityEnabled | default false -}}

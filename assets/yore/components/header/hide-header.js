@@ -22,7 +22,7 @@ if (header) {
 		}
 
 		if (currentScrollY <= 0) {
-			header.classList.remove('header-hidden');
+			header.classList.remove('yr-header-hidden');
 			lastScrollY = currentScrollY;
 			ticking = false;
 			return;
@@ -31,9 +31,9 @@ if (header) {
 		const diff = currentScrollY - lastScrollY;
 		if (Math.abs(diff) > 10) {
 			if (diff > 0) {
-				header.classList.add('header-hidden');
+				header.classList.add('yr-header-hidden');
 			} else {
-				header.classList.remove('header-hidden');
+				header.classList.remove('yr-header-hidden');
 			}
 			lastScrollY = currentScrollY;
 		}
@@ -53,14 +53,14 @@ if (header) {
 	document.addEventListener('click', (e) => {
 		const anchor = e.target.closest('a[href^="#"]');
 		if (anchor && anchor.getAttribute('role') !== 'doc-noteref') {
-			header.classList.add('header-hidden');
+			header.classList.add('yr-header-hidden');
 			blockUpdate = true;
 			resetBlockUpdate();
 		}
 	});
 
 	window.addEventListener('hashchange', () => {
-		header.classList.add('header-hidden');
+		header.classList.add('yr-header-hidden');
 		blockUpdate = true;
 		resetBlockUpdate();
 	});

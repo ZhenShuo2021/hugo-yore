@@ -23,7 +23,7 @@ Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sap
 ## Images
 
 ![sample image](/img/01.webp "Image with caption")
-{class="center-cap crop-img" style="--ratio:21/9;--position:50% 0%;"}
+{class="yr-center-cap yr-crop-img" style="--ratio:21/9;--position:50% 0%;"}
 
 ## Blockquotes
 

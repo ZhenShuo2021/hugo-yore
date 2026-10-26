@@ -1,5 +1,5 @@
 {{- $id := partial `lib/uid.html` . -}}
-<div class="translation relative flex" data-nav-item>
+<div class="yr-translation relative flex" data-nav-item>
 	<button
 		type="button"
 		class="text-foreground hover:text-link-hover flex items-center gap-2"
@@ -22,7 +22,7 @@
 					<a
 						href="{{ .RelPermalink }}"
 						class="text-popover-foreground {{ if $isCurrent -}}
-							header-active
+							yr-header-active
 						{{- end }} hover:text-link-hover hover:bg-muted flex items-center rounded p-1.5 text-sm whitespace-nowrap transition-colors"
 						aria-label="{{ .Title }}"
 						{{ if $isCurrent }}aria-current="true"{{ end }}>

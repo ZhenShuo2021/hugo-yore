@@ -200,7 +200,7 @@ The `fig` shortcode renders an image inside a `<figure>` element with a `figcapt
 
 ```md
 {{%/* fig
-  attrs="class='center-cap center-img' style='width:50%'"
+  attrs="class='yr-center-cap yr-center-img' style='width:50%'"
   src="/img/04.webp"
   alt="alt"
   caption="*1234*[^fn_a]"
@@ -210,7 +210,7 @@ The `fig` shortcode renders an image inside a `<figure>` element with a `figcapt
 ```
 
 {{% fig
-  attrs="class='center-cap center-img' style='width:50%'"
+  attrs="class='yr-center-cap yr-center-img' style='width:50%'"
   src="/img/04.webp"
   alt="alt"
   caption="*1234*[^fn_a]"
@@ -220,7 +220,7 @@ This is equivalent to the standard markdown image syntax below, but the syntax d
 
 ```md
 ![alt](/img/04.webp "*1234*")
-{class="center-cap center-img" style="width:50%"}
+{class="yr-center-cap yr-center-img" style="width:50%"}
 ```
 
 [^fn_a]: Footnote text.

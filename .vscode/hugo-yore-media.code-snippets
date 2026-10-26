@@ -93,7 +93,7 @@
 		"scope": "markdown",
 		"prefix": "yore-fig",
 		"body": [
-			"{{% fig attrs=\"${1:class='center-cap center-img'}\" src=\"${2:/img/04.webp}\" alt=\"${3:alt}\" caption=\"${4:Caption text}\" %}}"
+			"{{% fig attrs=\"${1:class='yr-center-cap yr-center-img'}\" src=\"${2:/img/04.webp}\" alt=\"${3:alt}\" caption=\"${4:Caption text}\" %}}"
 		],
 		"description": "Renders an image inside a figure element with a figcaption that supports footnotes. Must use markdown notation."
 	},

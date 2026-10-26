@@ -35,7 +35,7 @@
 {{- $icon := resources.GetMatch (printf "yore/icons/{**/,}%s.svg" $name) -}}
 
 {{- with $icon -}}
-	{{- $cls := "yore-icon inline-flex" -}}
+	{{- $cls := "yr-icon inline-flex" -}}
 	{{- with $p.flip -}}
 		{{- $c := index $flips . -}}
 		{{- if not $c -}}

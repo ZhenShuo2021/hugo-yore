@@ -1,24 +1,24 @@
-.yore-icon svg {
+.yr-icon svg {
 	height: 1.1em;
 	width: 1.1em;
 	stroke-width: 1.6;
 	align-items: center;
 	justify-content: center;
 }
-.yore-icon {
+.yr-icon {
 	vertical-align: -0.2em;
 }
-.center-img {
+.yr-center-img {
 	display: block;
 	margin: 0 auto;
 	width: fit-content;
 }
 
-.center-cap figcaption {
+.yr-center-cap figcaption {
 	text-align: center;
 }
 
-.crop-img img {
+.yr-crop-img img {
 	aspect-ratio: var(--ratio);
 	object-fit: cover;
 	object-position: var(--position);
@@ -26,23 +26,23 @@
 	height: auto;
 }
 
-.crop-img {
+.yr-crop-img {
 	width: 100%;
 }
 
-.header-active {
+.yr-header-active {
 	color: var(--color-link-hover);
 	[data-dropdown-menu] & {
 		background-color: var(--color-muted);
 	}
 }
 
-.header-hidden {
+.yr-header-hidden {
 	transition: transform var(--dur-200) ease;
 	transform: translateY(-100%);
 }
 
-.dialog-overlay {
+.yr-dialog-overlay {
 	width: calc(100% - 2rem);
 	max-width: var(--container-md);
 	overflow: hidden;
@@ -55,11 +55,11 @@
 	margin: auto;
 }
 
-.dialog-overlay::backdrop {
+.yr-dialog-overlay::backdrop {
 	background: color-mix(in oklab, var(--color-neutral-950) 82%, transparent);
 }
 
-.yore-outline:focus {
+.yr-outline:focus {
 	outline-offset: -1px;
 	outline: 2px solid #005fcc;
 	&:where([data-theme='dark'], [data-theme='dark'] *) {
@@ -67,27 +67,27 @@
 	}
 }
 
-.ul-mark,
-.ul-mark ul {
+.yr-ul-mark,
+.yr-ul-mark ul {
 	list-style-type: disc;
 	list-style-position: outside;
 }
 
-.ul-mark ul ul,
-ul.ul-mark ul {
+.yr-ul-mark ul ul,
+ul.yr-ul-mark ul {
 	list-style-type: circle;
 }
 
-.ul-mark ul ul ul,
-ul.ul-mark ul ul {
+.yr-ul-mark ul ul ul,
+ul.yr-ul-mark ul ul {
 	list-style-type: square !important;
 }
 
-.ol-mark {
+.yr-ol-mark {
 	list-style-type: decimal;
 }
 
-.chevron {
+.yr-chevron {
 	transition: transform var(--dur-300) ease;
 	.is-collapsed & {
 		transform: rotate(-90deg);
@@ -95,7 +95,7 @@ ul.ul-mark ul ul {
 }
 
 @media (width >= 48rem) {
-	.full-bleed {
+	.yr-full-bleed {
 		/* 65% of full screen width - 100% max container width / 2 (left and right) and negative margin */
 		margin-inline: calc((75vw - 100%) / -2);
 	}
@@ -111,12 +111,12 @@ ul.ul-mark ul ul {
 [data-dropdown-menu][data-nav-open] {
 	opacity: 1;
 }
-.version-switcher [data-dropdown-menu],
-.translation [data-dropdown-menu] {
+.yr-version-switcher [data-dropdown-menu],
+.yr-translation [data-dropdown-menu] {
 	padding-top: calc(var(--spacing) * 3);
 }
-.mobile-menu-footer .version-switcher [data-dropdown-menu],
-.mobile-menu-footer .translation [data-dropdown-menu] {
+.yr-mobile-menu-footer .yr-version-switcher [data-dropdown-menu],
+.yr-mobile-menu-footer .yr-translation [data-dropdown-menu] {
 	top: auto;
 	bottom: 100%;
 	inset-inline-end: auto;
@@ -127,7 +127,7 @@ ul.ul-mark ul ul {
 }
 
 /* dropdown end */
-.mobile-menu-footer {
+.yr-mobile-menu-footer {
 	margin-top: calc(var(--spacing) * 8);
 	display: flex;
 	flex-wrap: wrap;
@@ -138,7 +138,7 @@ ul.ul-mark ul ul {
 	border-color: var(--color-border);
 	padding-inline-start: calc(var(--spacing) * 2);
 	padding-top: calc(var(--spacing) * 8);
-	& .yore-icon {
+	& .yr-icon {
 		font-size: var(--text-2xl);
 		line-height: var(--tw-leading, var(--text-2xl--line-height));
 	}

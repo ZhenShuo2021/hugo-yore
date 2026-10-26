@@ -127,30 +127,30 @@ summary::-webkit-details-marker {
 	display: none;
 }
 
-details:not([data-admonition-wrapper], [data-admonition-wrapper] *) {
-	border: 1px solid var(--color-border);
-	border-radius: 8px;
-	margin-block: 1.25em;
-	padding: 0.5rem 1rem;
-	background-color: var(--color-card);
-}
-details:not([data-admonition-wrapper], [data-admonition-wrapper] *)[open] {
-	padding-bottom: 1rem;
-}
-details:not([data-admonition-wrapper], [data-admonition-wrapper] *) summary {
+.yr-details summary {
 	font-weight: 600;
 	cursor: pointer;
 	list-style: none;
 	outline: none;
 }
-details:not([data-admonition-wrapper], [data-admonition-wrapper] *) summary::before {
+.yr-details summary::before {
 	content: '▶';
 	display: inline-block;
 	margin-right: 0.5rem;
 	transition: transform var(--dur-200);
 }
-details:not([data-admonition-wrapper], [data-admonition-wrapper] *)[open] summary::before {
+.yr-details[open] summary::before {
 	transform: rotate(90deg);
+}
+
+.yr-details-content {
+	> :first-child {
+		margin-top: 0 !important;
+	}
+
+	> :last-child {
+		margin-bottom: 0 !important;
+	}
 }
 
 /* animation: only available in chromium browser */

@@ -411,3 +411,109 @@ The `accordion` shortcode renders a collapsible list of content panels, useful f
   {{< /accordion-item >}}
 
 {{% /accordion %}}
+
+## Details
+
+The `details` shortcode renders a collapsible block.
+
+| Parameter | Description |
+| --- | --- |
+| `summary` | **Optional.** Summary text. Default is `Details`. |
+| `open` | **Optional.** Boolean. Expand by default. Default is `false`. |
+
+**Example**
+
+`````md
+{{%/* details summary="Click to expand" */%}}
+
+Hidden *Markdown* content.
+
+{{%/* /details */%}}
+`````
+
+{{% details summary="Click to expand" %}}
+
+Hidden *Markdown* content.
+
+{{% /details %}}
+
+## Tree
+
+The `tree` shortcode renders directory tree output as a collapsible folder and file list. It accepts the output of the `tree` command (Unicode or ASCII) as well as hand-written plain indentation.
+
+**Shortcode parameters**
+
+| Parameter | Description |
+| --- | --- |
+| `open` | **Optional.** String. Set to `"false"` to collapse all folders by default. Default is expanded. |
+
+**Line format**
+
+Each line follows the format `name  comment  flags`.
+
+| Part | Description |
+| --- | --- |
+| Name | The file or folder name. A trailing `/` marks a folder. |
+| Comment | Text shown beside the name. Add 2 or more spaces after the name, or use `#`. |
+| Flags | Zero or more settings at the end of the line, each starting with `@`. |
+
+**Flags**
+
+| Flag | Description |
+| --- | --- |
+| `@dir` | Force a folder, for example an empty folder. |
+| `@file` | Force a file. It only overrides a trailing slash, and items with children stay folders. |
+| `@open` | Expand this folder. |
+| `@closed` | Collapse this folder. |
+
+**Example: Tree output with comments and flags**
+
+`````md
+{{</* tree */>}}
+```sh
+.
+├── src  # Source code
+│   ├── main.go
+│   └── utils/
+│       └── helper.go
+├── docs  # Documentation @closed
+│   └── index.md
+├── empty  @dir
+└── dist/  @file
+```
+{{</* /tree */>}}
+`````
+
+{{< tree >}}
+`````sh
+.
+├── src  # Source code
+│   ├── main.go
+│   └── utils/
+│       └── helper.go
+├── docs  # Documentation @closed
+│   └── index.md
+├── empty  @dir
+└── dist/  @file
+`````
+{{< /tree >}}
+
+**Example: Plain indentation**
+
+`````md
+{{</* tree */>}}
+content
+    posts @closed
+        hello.md
+        world.md
+    about.md
+{{</* /tree */>}}
+`````
+
+{{< tree >}}
+content
+    posts @closed
+        hello.md
+        world.md
+    about.md
+{{< /tree >}}

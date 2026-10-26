@@ -1,0 +1,165 @@
+{{- /*
+	Render the tree shortcode as a details-summary list.
+
+	Usage:
+		{{< tree >}} Paste tree output here, optionally wrapped in ``` {{< /tree >}}
+
+	Params (shortcode):
+		open      (string, optional) - set to "false" to collapse all folders by default
+
+	Line format: name  comment  flags
+		Comment: 2 or more spaces after the name, or a #
+		Flags: zero or more at the end of the line, each starting with @
+			@dir     Force a folder (e.g. an empty folder)
+			@file    Force a file (only overrides a trailing slash, items with children stay folders)
+			@open    Expand this folder
+			@closed  Collapse this folder
+		Example:
+				src       # Source code @closed
+				Makefile  @file
+				dist/     @dir
+
+	Parsing: only the starting column of each name is used, and a column stack
+	converts it to a depth. This means 4-space indentation is not required, and
+	Unicode / ASCII tree output as well as hand-written plain indentation all work.
+*/ -}}
+{{- $icons := dict "chevron" "nav-arrow-right" "folder" "folder" "file" "page" -}}
+{{- $collapsed := eq (printf "%v" (.Get "open")) "false" -}}
+
+{{- /* 前綴 = 縱線與空白，後面接一個分支符號（├ └ | ` +）。分支符號要寫成「必須出現」的另一個選項，若寫成可選群組，會被前面貪婪的縱線吃掉而匹配不到 */ -}}
+{{- /* 第 1 組是前綴、第 2 組是其餘內容，一次取得 */ -}}
+{{- $lineRE := `^((?:[│|\s\x{00A0}]*?[├└\x60+|][─-]+\s*|[│|\s\x{00A0}]*))(.*)$` -}}
+{{- /* 只認已知的設定名稱，拼錯的會留在註解裡顯示出來，比靜默忽略容易發現 */ -}}
+{{- $flagRE := `(?:\s+@(?:dir|file|open|closed))+\s*$` -}}
+
+{{- /* 預處理每行內容 */ -}}
+{{- $items := slice -}}
+
+{{- /* 目前路徑上每個祖先的前綴長度 */ -}}
+{{- $stack := slice -}}
+{{- range split (trim .InnerDeindent "\r\n") "\n" -}}
+	{{- $line := trim . "\r" -}}
+	{{- if findRE `^\s*(\x60{3,}|~{3,})` $line -}}
+		{{- /* code block 的圍欄行 */ -}}
+	{{- else if findRE `^\d+ director` $line -}}
+		{{- /* tree 結尾的統計行 */ -}}
+	{{- else if trim $line " \t" -}}
+		{{- $m := index (findRESubmatch $lineRE $line 1) 0 -}}
+	{{- /* 前綴 */ -}}
+		{{- $prefixLen := strings.RuneCount (index $m 1) -}}
+	{{- /* 其餘內容（檔名、註解和設定） */ -}}
+		{{- $rest := index $m 2 -}}
+ 
+		{{- /* 用每行的前綴長度計算深度
+			核心概念是用長度變化檢查是否是祖先（同一路徑）
+
+			kept 是當前行計算的暫存器，當 stack 都比當前長度更短才放入 kept 暫存。
+			最後把 stack 更新成 kept + prefixLen，也就是所有祖先和最新一次的結果。
+			對 slice 取 len 就得到深度。
+		*/ -}}
+		{{- $kept := slice -}}
+		{{- range $stack -}}
+			{{- if lt . $prefixLen -}}
+		{{- $kept = $kept | append . -}}
+		{{- end -}}
+		{{- end -}}
+		{{- $depth := len $kept -}}
+		{{- $stack = $kept | append $prefixLen -}}
+ 
+		{{- /* 移除行尾設定 */ -}}
+		{{- $name := trim $rest " \t" -}}
+		{{- $flags := slice -}}
+		{{- with findRE $flagRE $name 1 -}}
+			{{- $flags = findRE `@[a-z]+` (index . 0) -}}
+			{{- $name = replaceRE $flagRE "" $name 1 -}}
+		{{- end -}}
+ 
+		{{- /* 移除無內容的註解 */ -}}
+		{{- $name = replaceRE `\s+#+\s*$` "" $name 1 -}}
+ 
+		{{- $comment := "" -}}
+		{{- with findRESubmatch `^(.+?)(?:\s+#\s*|\s{2,})(.+)$` $name 1 -}}
+			{{- $name = index (index . 0) 1 -}}
+			{{- $comment = index (index . 0) 2 -}}
+		{{- end -}}
+ 
+		{{- /* 輸出每行的資訊如深度、設定等等 */ -}}
+		{{- $items = $items | append (dict "name" (strings.TrimSuffix "/" $name) "depth" $depth "slash" (hasSuffix $name "/") "comment" $comment "flags" $flags) -}}
+	{{- end -}}
+{{- end -}}
+
+{{- if $items }}
+	{{- /* 只有單一個 "." 根才省略，其餘（包含有名字的根）都照一般資料夾顯示 */ -}}
+	{{- $zeros := 0 -}}
+	{{- range $items -}}
+		{{- if eq .depth 0 -}}
+			{{- $zeros = add $zeros 1 -}}
+		{{- end -}}
+	{{- end -}}
+	{{- $base := cond (and (eq $zeros 1) (eq (index $items 0).name ".")) 1 0 -}}
+<div class="not-prose border-border bg-background my-6 overflow-x-auto rounded-xl border p-2 text-sm shadow-sm">
+	<ul class="m-0 p-0">
+		{{- $level := 0 -}}
+		{{- range $idx, $item := $items -}}
+			{{- if ge $idx $base -}}
+				{{- /* 進入到下一個不同路徑前先關掉所有資料夾 */ -}}
+				{{- /* 第 n 層的項目外面有 n 個開著的資料夾 */ -}}
+				{{- $want := sub $item.depth $base -}}
+				{{- if gt $level $want -}}
+					{{- range seq (sub $level $want) -}}
+						</ul></details></li>
+					{{- end -}}
+					{{- $level = $want -}}
+				{{- end -}}
+
+				{{- /* 判斷是資料夾還是檔案 */ -}}
+				{{- $hasChildren := false -}}
+				{{- if lt (add $idx 1) (len $items) -}}
+					{{- if gt (index $items (add $idx 1)).depth $item.depth -}}
+						{{- $hasChildren = true -}}
+					{{- end -}}
+				{{- end -}}
+				{{- $isDir := or $hasChildren (in $item.flags "@dir") (and $item.slash (not (in $item.flags "@file"))) -}}
+				{{- $ellipsis := findRE `^(\.{2,}|…)$` $item.name -}}
+
+				{{- if $ellipsis -}}
+					<li class="py-1 ps-7 pe-2 text-slate-500 dark:text-slate-400">{{ $item.name }}</li>
+				{{- else if $isDir -}}
+					{{- $isOpen := not $collapsed -}}
+					{{- if in $item.flags "@open" -}}
+						{{- $isOpen = true -}}
+					{{- else if in $item.flags "@closed" -}}
+						{{- $isOpen = false -}}
+					{{- end -}}
+					<li>
+						<details{{ if $isOpen }} open{{ end }}>
+							<summary class="flex cursor-pointer select-none list-none items-center gap-1.5 whitespace-nowrap rounded-md px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800 [&::-webkit-details-marker]:hidden">
+								{{- partial "components/icon.html" (dict "name" $icons.chevron "class" "h-3.5 w-3.5 shrink-0 text-slate-600 transition-transform dark:text-slate-300 [details[open]>summary_&]:rotate-90") -}}
+								{{- partial "components/icon.html" (dict "name" $icons.folder "class" "h-4 w-4 shrink-0 text-sky-600 dark:text-sky-400") -}}
+								<span>{{ $item.name }}</span>
+								{{- with $item.comment -}}
+									<span class="ms-6 text-xs text-muted-foreground">{{ . }}</span>
+								{{- end -}}
+							</summary>
+							<ul class="relative m-0 ps-4 before:absolute before:inset-y-0 before:start-[0.9rem] before:w-px before:bg-border">
+					{{- $level = add $level 1 -}}
+				{{- else -}}
+					<li class="flex items-center gap-1.5 whitespace-nowrap rounded-md py-1 ps-7 pe-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+						{{- partial "components/icon.html" (dict "name" $icons.file "class" "h-4 w-4 shrink-0 text-slate-600 dark:text-slate-300") -}}
+						<span>{{ $item.name }}</span>
+						{{- with $item.comment -}}
+							<span class="ms-6 text-xs text-muted-foreground">{{ . }}</span>
+						{{- end -}}
+					</li>
+				{{- end -}}
+			{{- end -}}
+		{{- end -}}
+
+		{{- if gt $level 0 -}}
+			{{- range seq $level -}}
+				</ul></details></li>
+			{{- end -}}
+		{{- end -}}
+	</ul>
+</div>
+{{- end -}}

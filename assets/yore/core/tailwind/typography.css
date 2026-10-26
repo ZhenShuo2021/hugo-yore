@@ -79,15 +79,15 @@
 		display: none;
 	}
 
-	ul {
+	ul:not(:where([class~='not-prose'], [class~='not-prose'] *)) {
 		list-style-type: disc;
 	}
 
-	ul ul {
+	ul ul:not(:where([class~='not-prose'], [class~='not-prose'] *)) {
 		list-style-type: circle;
 	}
 
-	ul ul ul {
+	ul ul ul:not(:where([class~='not-prose'], [class~='not-prose'] *)) {
 		list-style-type: square;
 	}
 
@@ -186,6 +186,8 @@
 .prose :where(p):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
 	margin-top: 0;
 	margin-bottom: 0;
-	margin-block: 1em;
-	margin-block: 1lh;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-top: 1lh;
+	margin-bottom: 1lh;
 }

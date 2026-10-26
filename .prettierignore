@@ -17,6 +17,7 @@ static
 
 layouts/_markup
 layouts/_shortcodes/float.html
+layouts/_shortcodes/tree.html
 layouts/_partials/components/card-shell-head.html
 layouts/_partials/components/card-shell-tail.html
 layouts/home.backlinks.json

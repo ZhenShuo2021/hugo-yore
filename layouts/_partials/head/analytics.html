@@ -1,0 +1,92 @@
+{{- if hugo.IsProduction -}}
+	{{- $a := site.Params.analytics | default (dict) -}}
+
+	{{- with $a.gtag -}}
+		{{- partial "analytics/gtag.html" . -}}
+	{{- end -}}
+
+	{{- with $a.plausible -}}
+		{{- partial "analytics/plausible.html" . -}}
+	{{- end -}}
+
+	{{- with $a.umami -}}
+		{{- partial "analytics/umami.html" . -}}
+	{{- end -}}
+{{- end -}}
+
+{{- define "_partials/analytics/gtag.html" -}}
+	{{- $g := . -}}
+	{{- hugo.Store.Add "script-src" (slice "https://www.googletagmanager.com") -}}
+
+	{{- $cc := site.Params.cookieConsent | default dict -}}
+	{{- if $cc.enable -}}
+		{{- if in $cc.categories "analytics" -}}
+			<script
+				type="text/plain"
+				data-category="analytics"
+				data-src="https://www.googletagmanager.com/gtag/js?id={{ .id }}"></script>
+			{{- with resources.Get "yore/components/analytics/gtag.js" | minify | fingerprint -}}
+				<script
+					type="text/plain"
+					data-category="analytics"
+					data-src="{{ .RelPermalink }}"
+					integrity="{{ .Data.Integrity }}"
+					data-id="{{ $g.id }}"
+					{{ if eq $g.sendPageView false }}data-send-page-view="false"{{ end }}></script>
+			{{- end -}}
+		{{- else -}}
+			<script async src="https://www.googletagmanager.com/gtag/js?id={{ .id }}"></script>
+			{{- with resources.Get "yore/components/analytics/gtag.js" | minify | fingerprint -}}
+				<script
+					defer
+					src="{{ .RelPermalink }}"
+					integrity="{{ .Data.Integrity }}"
+					data-id="{{ $g.id }}"
+					{{ if eq $g.sendPageView false }}data-send-page-view="false"{{ end }}></script>
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- define "_partials/analytics/plausible.html" -}}
+	{{- /* https://plausible.io/docs/proxy/guides/fresh */ -}}
+	{{- $p := . -}}
+	{{- $src := .src | default (printf "https://plausible.io/js/pa-%s.js" .id) -}}
+	{{- with urls.Parse $src }}
+		{{- hugo.Store.Add "script-src" (slice (printf "%s://%s" .Scheme .Host)) -}}
+	{{- end -}}
+	{{- $init := dict -}}
+	{{- with $p.endpoint -}}
+		{{- $init = merge $init (dict "endpoint" .) -}}
+	{{ end }}
+	<script async src="{{ $src }}"></script>
+	{{- with resources.Get "yore/components/analytics/plausible.js" | minify | fingerprint -}}
+		<script
+			defer
+			src="{{ .RelPermalink }}"
+			integrity="{{ .Data.Integrity }}"
+			data-options="{{ $init | jsonify }}"></script>
+	{{- end -}}
+{{- end -}}
+
+{{- define "_partials/analytics/umami.html" -}}
+	{{- /* https://docs.umami.is/docs/tracker-configuration */ -}}
+	{{- $u := . -}}
+	{{- $src := .src | default "https://cloud.umami.is/script.js" -}}
+	{{- with urls.Parse $src -}}
+		{{- hugo.Store.Add "script-src" (slice (printf "%s://%s" .Scheme .Host)) -}}
+	{{- end -}}
+	<script
+		defer
+		src="{{ $src }}"
+		data-website-id="{{ $u.id }}"
+		{{ with $u.hostUrl }}data-host-url="{{ . }}"{{ end }}
+		{{ if eq $u.autoTrack false }}data-auto-track="false"{{ end }}
+		{{ with $u.domains }}data-domains="{{ delimit (cond (reflect.IsSlice .) . (slice .)) "," }}"{{ end }}
+		{{ with $u.tag }}data-tag="{{ . }}"{{ end }}
+		{{ with $u.doNotTrack }}data-do-not-track="true"{{ end }}
+		{{ with $u.performance }}data-performance="true"{{ end }}
+		{{ with $u.excludeSearch }}data-exclude-search="true"{{ end }}
+		{{ with $u.excludeHash }}data-exclude-hash="true"{{ end }}
+		{{ with $u.cache }}data-cache="true"{{ end }}></script>
+{{- end -}}

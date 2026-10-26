@@ -4,6 +4,8 @@
 {{- range $h -}}
 	{{- $s = printf "%s '%s'" $s . -}}
 {{- end -}}
+{{- $o := hugo.Store.Get "script-src" -}}
+{{- $s = printf "%s %s" $s (delimit ($o | uniq) " ") -}}
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Content-Type-Options: nosniff

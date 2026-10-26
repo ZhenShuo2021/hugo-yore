@@ -72,6 +72,8 @@
 
 {{- partial "head/preload.html" . -}}
 
+{{- partialCached "head/analytics.html" . -}}
+
 {{- /* Additional file, analytics, CSS, JS, ... */ -}}
 {{- if templates.Exists "_partials/extend-head.html" -}}
 	{{- partial "extend-head.html" . -}}

@@ -46,3 +46,6 @@
 
 {{- /* Initialize an empty slice */ -}}
 {{- hugo.Store.Set "js-hash" slice -}}
+
+{{- /* Origins allowed in CSP script-src */ -}}
+{{- hugo.Store.Set "script-src" slice -}}

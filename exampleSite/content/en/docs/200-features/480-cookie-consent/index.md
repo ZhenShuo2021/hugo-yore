@@ -47,6 +47,14 @@ The `cookie-settings` shortcode renders a button that opens the preferences moda
 {{< cookie-settings >}}
 {{< cookie-settings title="Cookie Settings" >}}
 
+## Yore Integration
+
+Yore automatically wires cookie consent into `gtag.js`, so no source changes are needed on your end[^gtag].
+
+Other analytics tools that don't require a consent banner, such as Plausible or Umami, are not managed by the cookie consent banner. You are still responsible for disclosure obligations, for example, linking to your privacy policy in the footer and documenting which analytics you use there.
+
+[^gtag]: Triggered when `cookieConsent.categories` includes `analytics` and `analytics.gtag` is enabled.
+
 ## Examples
 
 Once your categories are configured, you need to put your scripts under consent management. There are two ways to do this:
@@ -63,29 +71,17 @@ Add `type="text/plain"` and `data-category` to any `<script>` tag to gate its ex
 Before:
 
 ```html {title="layouts/_partials/extend-head.html"}
-<!-- Google tag, always executed -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=TAG_ID"></script>
+<!-- Hotjar, always executed -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'TAG_ID');
+  // ...
 </script>
 ```
 
 After:
 
-```html {title="layouts/_partials/extend-head.html", hl_lines=["2-4", 6]}
-<script
-  type="text/plain"
-  data-category="analytics"
-  data-src="https://www.googletagmanager.com/gtag/js?id=TAG_ID"
-></script>
+```html {title="layouts/_partials/extend-head.html", hl_lines=[1]}
 <script type="text/plain" data-category="analytics">
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'TAG_ID');
+  // ...
 </script>
 ```
 

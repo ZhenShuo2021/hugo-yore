@@ -246,6 +246,24 @@ params:
       - example_social_media
       - example_marketing
       # - advertising
+  # analytics: # Production builds only. Enabled when `id` is set; `src` is optional (self-host / proxy)
+  #   gtag: # Google tag
+  #     id: G-XXXXXXXXXX
+  #     # sendPageView: true
+  #   plausible:
+  #     id: XXXXX # From the pa-XXXXX.js script URL in Site Installation
+  #     # endpoint: /api/event
+  #   umami:
+  #     id: 00000000-0000-0000-0000-000000000000
+  #     # hostUrl: https://stats.example.com
+  #     # autoTrack: true
+  #     # domains: [example.com]
+  #     # tag: ""
+  #     # doNotTrack: false
+  #     # performance: false
+  #     # excludeSearch: false
+  #     # excludeHash: false
+  #     # cache: false
   # metaRobots: index, follow # Default value for the meta robots tag
 
   renderHook: # Custom render hooks for Markdown elements

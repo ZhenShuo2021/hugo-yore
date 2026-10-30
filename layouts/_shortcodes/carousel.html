@@ -64,11 +64,12 @@
 						style="aspect-ratio: {{ $ratio }};"
 						data-caption="{{ $item.caption }}">
 						{{- if and site.Params.imageOptimizationMD (reflect.IsImageResourceProcessable $resolved) -}}
-							{{- $processed := partial "lib/img-opt.html" (dict "imgObj" $resolved) -}}
-							{{- $srcset := printf "%s 1280w, %s 2400w" $processed.imgMobile.RelPermalink $processed.imgDesktop.RelPermalink -}}
+							{{- /* Same responsive rule as the image render hook: webp at 1320px for all viewports */ -}}
+							{{- $processed := partial "lib/img-opt.html" (dict "imgObj" $resolved "desktopWidth" 1320 "mobileWidth" 1320) -}}
 							<img
 								src="{{ $resolved.RelPermalink }}"
-								srcset="{{ $srcset }}"
+								srcset="{{ $processed.imgMobile.RelPermalink }} {{ $processed.imgMobile.Width }}w"
+								sizes="(width < 1320px) 100vw, 1320px"
 								alt="{{ $item.alt }}"
 								class="{{ $imgClass }}"
 								{{- /* prettier-ignore */ -}}

@@ -1,0 +1,12 @@
+{{- $id := .Get "id" | default (.Get 0) | anchorize -}}
+{{- $content := .Get "content" }}
+<a
+	{{- if not $content }}
+		class="sr-only yr-anchor" aria-hidden="true" tabindex="-1"
+	{{- else }}
+		class="yr-anchor"
+	{{- end }}
+	href="#{{ $id }}"
+	id="{{ $id }}">
+	{{- $content -}}
+</a>

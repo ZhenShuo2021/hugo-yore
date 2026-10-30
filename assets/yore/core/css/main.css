@@ -22,6 +22,7 @@
 @import "./utilities.css" layer(yore);
 @import "./layouts/blog.css" layer(yore);
 @import "./layouts/gallery.css" layer(yore);
+@import "../../components/card/index.css" layer(yore);
 @import "../../components/code/chroma.css" layer(yore);
 @import "../../components/code/copy.css" layer(yore);
 @import "../../components/code/code.css" layer(yore);

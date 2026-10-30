@@ -13,7 +13,9 @@ const shouldReduceMotion = () =>
 
 function findRoots(scope) {
 	// The carousel root is the parent element of its viewport
-	return Array.from(scope.querySelectorAll('.carousel-viewport'), (viewport) => viewport.parentElement).filter(Boolean);
+	return Array.from(scope.querySelectorAll('.carousel-viewport'), (viewport) => viewport.parentElement).filter(
+		Boolean,
+	);
 }
 
 function createCarousel(root) {
@@ -183,7 +185,7 @@ function createCarousel(root) {
 		() => {
 			viewport.scrollLeft = 0;
 		},
-		{ signal }
+		{ signal },
 	);
 
 	thumbs.forEach((thumb) => {
@@ -194,7 +196,7 @@ function createCarousel(root) {
 				e.stopPropagation();
 				goTo(parseInt(thumb.getAttribute('data-index'), 10));
 			},
-			{ signal }
+			{ signal },
 		);
 
 		const thumbStrip = thumb.parentElement;

@@ -1,6 +1,5 @@
 {{- partial "components/card.html" (dict
 	"page" .Page
-	"shortcode" .
 	"title" (.Get "title")
 	"url" (.Get "url")
 	"target" (.Get "target")
@@ -13,5 +12,15 @@
 	"height" (.Get "height")
 	"fit" (.Get "fit")
 	"ratio" (.Get "ratio")
+	"attrs" (.Get "attrs")
+	"hoverCard" (.Get "hoverCard" | default true)
+	"compact" (.Get "compact")
+	"attrs" (.Get "attrs")
+	"fUrl" (.Get "fUrl")
+	"fIcon" (.Get "fIcon")
+	"fText" (.Get "fText")
+	"fDownload" (.Get "fDownload")
+	"fId" (.Get "fId")
+	"fTarget" (.Get "fTarget")
 	)
 -}}

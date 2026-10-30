@@ -61,9 +61,9 @@
 
 .yr-outline:focus {
 	outline-offset: -1px;
-	outline: 2px solid #005fcc;
+	outline: 2px solid var(--outline);
 	&:where([data-theme='dark'], [data-theme='dark'] *) {
-		outline: 2px solid #99c8ff;
+		outline: 2px solid var(--outline);
 	}
 }
 
@@ -142,4 +142,11 @@ ul.yr-ul-mark ul ul {
 		font-size: var(--text-2xl);
 		line-height: var(--tw-leading, var(--text-2xl--line-height));
 	}
+}
+
+/* shadow with dark mode */
+.yr-hover-shadow:hover {
+	box-shadow:
+		0 1px 3px 0 oklch(from var(--foreground) l c h / 0.1),
+		0 1px 2px -1px oklch(from var(--foreground) l c h / 0.1);
 }

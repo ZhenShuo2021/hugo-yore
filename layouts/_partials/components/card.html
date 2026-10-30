@@ -2,22 +2,32 @@
 	Card content built on "card-shell-head.html" and "card-shell-tail.html".
 
 	Params (dict):
-		page      (page, optional) - looked up for page resources of "media".
-		                     Without it only assets files and URLs resolve.
-		shortcode (shortcode context, optional) - only for the error position.
-		                     Passed as is, because Position is expensive and
-		                     must only be evaluated when an error occurs.
-		                     Plain partial callers omit it, Hugo already
-		                     traces their errors.
-		title     (string, optional) - heading text, rendered as <h3>. Supports HTML.
-		desc      (string, optional) - description. Supports HTML.
-		metaText  (string, optional) - metadata below the description. Supports HTML.
-		icon      (string, optional) - icon name shown before the title.
-		url       (string, optional) - link target of the whole card.
-		target, media, mediaType, width, height, fit, ratio
-		          passed to "card-shell-head.html", see its params.
+		page			(page, optional) - looked up for page resources of "media".
+													Without it only assets files and URLs resolve.
+		title			(string, optional) - heading text, rendered as <h3>. Supports HTML.
+		desc			(string, optional) - description. Supports HTML.
+		metaText	(string, optional) - metadata below the description. Supports HTML.
+		icon			(string, optional) - icon name shown before the title.
+		url				(string, optional) - link target of the whole card.
+		footer		(slice of dict, optional) - buttons, see "card-footer-button.html"
+													for each item's params.
+		media, mediaType, width, height, fit, ratio, hoverCard
+							passed to "card-shell-head.html", see its params.
+		compact		(bool, optional) - passed to "card-shell-head.html", see its params.
 
-	desc and metaText must not contain <a> when url is set.
+
+		Card footer:
+			fIcon     (string) - icon name shown inline before fText
+			fText			(string) - button label. Supports HTML.
+			fUrl			(string, optional) - link target. Presence makes this an <a>.
+			fDownload	(bool or string, optional) - only used with "url". true emits a bare
+														"download" attribute, a string sets the downloaded file name.
+			fId				(string, optional) - id for external JS to hook into.
+
+	Note:
+		The Card element consists of a tail/head and core content.
+		The core content must contain only media, header, content, and footer; no more, no duplicates.
+		The core content must be the first child element of the component.
 */ -}}
 
 {{- $title := .title -}}
@@ -26,30 +36,34 @@
 {{- $icon := .icon -}}
 {{- $url := .url -}}
 {{- $meta := .metaText -}}
+{{- $footer := or .fUrl .fText -}}
 
-{{- /* The whole card is wrapped in an <a>, so another <a> inside would be a nested link. */ -}}
-{{- range $name, $text := dict "desc" $desc "metaText" $meta -}}
-	{{- if and $url $text (findRE `(?i)<a[\s>]` $text) -}}
-		{{- with $.shortcode -}}
-			{{- errorf "card: %q must not contain <a> tags when \"url\" is set: %v" $name .Position -}}
-		{{- else -}}
-			{{- errorf "card: %q must not contain <a> tags when \"url\" is set" $name -}}
-		{{- end -}}
-	{{- end -}}
+{{- /* Auto detect external links: an absolute URL whose host differs from the site's host. */ -}}
+
+{{- $target := "" -}}
+{{- if partial "lib/is-external" .url -}}
+	{{- $target = "_blank" -}}
 {{- end -}}
 
-{{- with $media -}}
-	{{- if not (findRE `^(https?:)?//` .) -}}
-		{{- with or (and $.page ($.page.Resources.Get .)) (resources.Get .) -}}
-			{{- $media = . -}}
-		{{- end -}}
-	{{- end -}}
+{{- $fTarget := "" -}}
+{{- if partial "lib/is-external" .fUrl -}}
+	{{- $fTarget = "_blank" -}}
 {{- end -}}
+
+{{- /* No interactive content: the root element becomes the link. */ -}}
+{{- $textHTML := printf "%s%s" ($desc | default "") ($meta | default "") -}}
+{{- $wrapLink := and $url (not $footer) (not (findRE `<a[\s>]` $textHTML)) -}}
 
 {{- partial "components/card-shell-head.html" (dict
-	"href" $url
-	"attributes" (dict "data-component" "card")
-	"target" .target
+	"hoverCard" .hoverCard
+	"compact" .compact
+	"href" (cond $wrapLink $url "")
+	"target" $target
+	"attrs" .attrs
+	)
+-}}
+
+{{- partial "components/card-media.html" (dict
 	"media" $media
 	"mediaType" .mediaType
 	"width" .width
@@ -61,24 +75,90 @@
 
 {{- if or $title $icon -}}
 	<h3
-		class="text-foreground group-hover:text-link-hover flex items-center gap-2 text-lg font-semibold transition-colors">
+		class="yr-card__header text-foreground group-hover/card:text-link-hover flex items-center gap-2 text-lg font-semibold transition-colors duration-(--dur-150)">
 		{{- with $icon -}}
 			{{- partial "components/icon.html" . -}}
 		{{- end -}}
-		{{- $title | safeHTML -}}
+		{{- if and $url (not $wrapLink) -}}
+			<a
+				href="{{ $url }}"
+				{{- with $target }}target="{{ . }}"{{ end }}
+				class="yr-link-stretch">
+				{{- $title | markdownify -}}
+			</a>
+			{{- if eq $target "_blank" -}}
+				<span class="sr-only select-none">
+					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+				</span>
+			{{- end -}}
+		{{- else -}}
+			{{- $title | markdownify -}}
+			{{- if and $wrapLink (eq $target "_blank") -}}
+				<span class="sr-only select-none">
+					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+				</span>
+			{{- end -}}
+		{{- end -}}
 	</h3>
 {{- end -}}
 
-{{- with $desc -}}
-	<p class="prose-links text-muted-foreground line-clamp-2">
-		{{- . | safeHTML -}}
-	</p>
-{{- end -}}
-
-{{- with $meta -}}
-	<div class="text-muted-foreground flex items-center text-xs">
-		{{- . | safeHTML -}}
+{{- if or $desc $meta -}}
+	<div class="yr-card__content">
+		{{- with $desc -}}
+			<p class="prose-links text-muted-foreground">
+				{{- . | markdownify -}}
+			</p>
+		{{- end -}}
+		{{- with $meta -}}
+			<div class="text-muted-foreground flex items-center text-xs">
+				{{- . | markdownify -}}
+			</div>
+		{{- end -}}
 	</div>
 {{- end -}}
 
-{{- partial "components/card-shell-tail.html" (dict "href" $url) -}}
+{{- if $footer -}}
+	{{- $layout := "inline-flex h-9 items-center justify-center whitespace-nowrap select-none" -}}
+	{{- $appearance := "rounded-full bg-card-foreground text-background text-sm font-medium px-4 outline-offset-4" -}}
+	{{- $interaction := "yr-button-shadow transition-shadow duration-(--dur-250)" -}}
+	{{- $cls := print $layout " " $appearance " " $interaction }}
+	<div class="yr-card__footer flex flex-wrap items-center gap-3">
+		{{- if .fUrl -}}
+			<a
+				href="{{ .fUrl }}"
+				{{- with .fId }}id="{{ . }}"{{ end }}
+				{{- with $fTarget }}target="{{ . }}"{{ end }}
+				{{- if .fDownload -}}
+					{{- if eq (printf "%T" .fDownload) "string" }}
+						download="{{ .fDownload }}"
+					{{- else }}
+						download
+					{{- end -}}
+				{{- end }}
+				class="{{ $cls }}">
+				<span>
+					{{- with .fIcon -}}
+						{{- partial "components/icon.html" . -}}
+					{{- end -}}
+					&nbsp;
+					{{- .fText | markdownify -}}
+				</span>
+			</a>
+		{{- else -}}
+			<button
+				type="button"
+				{{- with .fId }}id="{{ . }}"{{ end }}
+				class="{{ $cls }}">
+				<span>
+					{{- with .fIcon -}}
+						{{- partial "components/icon.html" . -}}
+						&nbsp;
+					{{- end -}}
+					{{- .fText | markdownify -}}
+				</span>
+			</button>
+		{{- end -}}
+	</div>
+{{- end -}}
+
+{{- partial "components/card-shell-tail.html" (dict "href" $wrapLink) -}}

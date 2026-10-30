@@ -1,0 +1,95 @@
+{{- /*  
+	Media block for card component.
+
+	Params (dict):
+		media			(string or resource, optional) - image, video or embed page.
+													String: any URL (static path, external URL).
+													Resource: Hugo resource, also fills width and height
+													when it is an image.
+		mediaType (string, optional) - "image", "video" or "iframe".
+													Default: resource uses its own media type, string is
+													guessed from the extension (video extensions mean
+													video, anything else means image). Set it explicitly
+													for URLs without extension, e.g. a YouTube embed
+													page needs "iframe".
+		width			(string, optional) - media width
+		height		(string, optional) - media height
+		fit				(string, optional) - "cover" or "contain". Default: no
+													cropping, height follows the media.
+		ratio			(string, optional) - fixed media ratio, e.g. "16/9".
+													Implies fit "cover" when fit is not set.
+													iframe defaults to "16/9" because it has no
+													intrinsic size.
+*/ -}}
+{{- $media := .media -}}
+{{- $ratio := .ratio -}}
+{{- $fit := .fit -}}
+{{- $width := .width -}}
+{{- $height := .height -}}
+{{- $type := .mediaType -}}
+
+{{- if eq (printf "%T" $media) "string" -}}
+	{{- if not (partial "lib/is-external" $media) -}}
+		{{- with or (and $.page ($.page.Resources.Get $media)) (resources.Get $media) -}}
+			{{- $media = . -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+
+{{- $url := "" -}}
+{{- if $media -}}
+	{{- /* Process resource */ -}}
+	{{- if eq (printf "%T" $media) "string" -}}
+		{{- $url = $media -}}
+		{{- if not $type -}}
+			{{- $ext := lower (path.Ext (urls.Parse $media).Path) -}}
+			{{- $type = cond (in (slice ".mp4" ".webm" ".ogv" ".mov") $ext) "video" "image" -}}
+		{{- end -}}
+	{{- else -}}
+		{{- $url = $media.RelPermalink -}}
+		{{- if not $type -}}
+			{{- $type = $media.MediaType.MainType -}}
+		{{- end -}}
+		{{- if reflect.IsImageResourceWithMeta $media -}}
+			{{- $width = $media.Width -}}
+			{{- $height = $media.Height -}}
+		{{- end -}}
+	{{- end -}}
+
+	{{- /* Setup more parameters */ -}}
+	{{- if and (eq $type "iframe") (not $ratio) -}}
+		{{- $ratio = "16/9" -}}
+	{{- end -}}
+
+	{{- if and $ratio (not $fit) -}}
+		{{- $fit = "cover" -}}
+	{{- end -}}
+
+	{{- $mediaClass := "card__media w-full" -}}
+	{{- if eq $fit "cover" }}
+		{{- $mediaClass = printf "%s h-auto object-cover" $mediaClass -}}
+	{{- end -}}
+	{{- if eq $fit "contain" -}}
+		{{- $mediaClass = printf "%s bg-muted h-auto object-contain" $mediaClass -}}
+	{{- end -}}
+
+	{{- /* Render */ -}}
+	{{- if $url -}}
+		{{- if eq $type "video" -}}
+			<video src="{{ $url }}" autoplay muted loop playsinline
+		{{- else if eq $type "iframe" -}}
+			<iframe src="{{ $url }}" loading="lazy" allowfullscreen
+		{{- else -}}
+			<img src="{{ $url }}" alt=""
+			{{- /* decorative img must use empty alt */ -}}
+		{{- end }}
+		{{- with $height }} height="{{ . }}"{{ end }}
+		{{- with $width }} width="{{ . }}"{{ end }}
+		{{- with $ratio }} style="{{ printf "aspect-ratio: %s" . | safeCSS }}"{{ end }}
+		tabindex="-1"
+		class="{{ $mediaClass }} ">
+		{{- if or (eq $type "video") (eq $type "iframe") }}
+			{{ printf "</%s>" $type | safeHTML }}
+		{{ end -}}
+	{{- end -}}
+{{- end -}}

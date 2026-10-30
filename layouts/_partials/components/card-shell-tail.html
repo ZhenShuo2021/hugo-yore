@@ -1,4 +1,11 @@
-			</div>
-		</div>
-	{{ if .href }}</a>{{ else }}</div>{{ end }}
-</div>
+{{- /*
+	Closes the root element opened by "card-shell-head.html".
+
+	Params (dict):
+		href (bool, optional) - must match whether the head received "href".
+*/ -}}
+{{- if .href -}}
+</a>
+{{- else -}}
+</article>
+{{- end -}}

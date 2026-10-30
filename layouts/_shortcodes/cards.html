@@ -1,6 +1,8 @@
 {{- $cols := .Get "cols" | default "2" | string -}}
 {{- $gap := .Get "gap" | default "m" | string -}}
+{{- $align := .Get "align" -}}
 
+{{- $classes := "" -}}
 {{- $colClasses := dict
 	"1" "grid-cols-1"
 	"2" "grid-cols-1 sm:grid-cols-2"
@@ -25,8 +27,8 @@
 	{{- $gapClass = index $gapClasses "m" -}}
 {{- end -}}
 
-
-<div class="{{ $colClass }} {{ $gapClass }} grid *:m-0! *:w-full! *:max-w-none!">
+{{- $classes = printf "%s %s %s" $colClass $gapClass (cond $align "yr-cards--align" "") -}}
+<div class="yr-cards {{ $classes }} my-4 grid *:m-0! *:w-full! *:max-w-none!">
 	{{- .Inner -}}
 </div>
 {{- /**/ -}}

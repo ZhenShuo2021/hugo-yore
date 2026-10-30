@@ -4,118 +4,43 @@
 
 	Includes group hover, background, rounded and media.
 
-	Params (dict) for "card-shell-head":
-		href      (string, optional) - link target. Without it the card is a <div>.
-		target    (string, optional) - target attribute on <a>, e.g. "_blank"
-		attributes (map, optional) - extra attributes on the wrapper <div>.
-		media     (string or resource, optional) - image, video or embed page.
-		                     String: any URL (static path, external URL).
-		                     Resource: Hugo resource, also fills width and height
-		                     when it is an image.
-		mediaType (string, optional) - "image", "video" or "iframe".
-		                     Default: resource uses its own media type, string is
-		                     guessed from the extension (video extensions mean
-		                     video, anything else means image). Set it explicitly
-		                     for URLs without extension, e.g. a YouTube embed
-		                     page needs "iframe".
-		width     (string, optional) - media width
-		height    (string, optional) - media height
-		fit       (string, optional) - "cover" or "contain". Default: no
-		                     cropping, height follows the media.
-		ratio     (string, optional) - fixed media ratio, e.g. "16/9".
-		                     Implies fit "cover" when fit is not set.
-		                     iframe defaults to "16/9" because it has no
-		                     intrinsic size.
+	Params (dict):
+		hoverCard	(bool, optional) - add hover effect.
+		compact		(bool, optional) - compact within `cards` grid.
+		href			(string, optional) - when set, the root element becomes <a> instead
+											of <article>. The tail must receive trusy "href".
+		target		(string, optional) - target of the root <a>, only used with href.
+		attributes (map, optional) - extra attributes on the root element.
 
 	Note:
-		Because the entire card is wrapped in a single <a>, alt should be empty.
+		`href` is allowed only if the card contains no other interactive elements
+		(a, button, input, select, textarea). Otherwise, use stretched card with
+		`.yr-link-stretch` (::after + absolute + inset-0).
+
+		Should follow the guides:
+		- https://piccalil.li/blog/accessible-faux-nested-interactive-controls/
+		- https://github.com/GoogleChrome/modern-web-guidance/blob/4f2b13e25c5815b3f080ca0d983e828d96561a0f/skills/modern-web-guidance/guides/ui-components/card.md
 */ -}}
 
-{{- $ratio := .ratio -}}
-{{- $fit := .fit -}}
-{{- $width := .width -}}
-{{- $height := .height -}}
-{{- $type := .mediaType -}}
+{{- $attrs := .attrs | default "data-component=yr-card" -}}
 
-{{- $url := "" -}}
-{{- with .media -}}
-	{{- if eq (printf "%T" .) "string" -}}
-		{{- $url = . -}}
-		{{- if not $type -}}
-			{{- $ext := lower (path.Ext (urls.Parse .).Path) -}}
-			{{- $type = cond (in (slice ".mp4" ".webm" ".ogv" ".mov") $ext) "video" "image" -}}
-		{{- end -}}
-	{{- else -}}
-		{{- $url = .RelPermalink -}}
-		{{- if not $type -}}
-			{{- $type = .MediaType.MainType -}}
-		{{- end -}}
-		{{- if reflect.IsImageResourceWithMeta . -}}
-			{{- $width = .Width -}}
-			{{- $height = .Height -}}
-		{{- end -}}
-	{{- end -}}
+{{- $cls := "yr-card not-prose relative grid grid-cols-1 overflow-hidden rounded-lg transition-all" -}}
+{{- if .compact -}}
+	{{- $cls = printf "%s yr-card--compact" $cls -}}
+{{- end -}}
+{{- if .border | default true -}}
+	{{- $cls = printf "%s border-border border" $cls -}}
+{{- end -}}
+{{- if .hoverCard -}}
+	{{- $cls = printf "%s group/card yr-hover-shadow" $cls -}}
 {{- end -}}
 
-{{- if and (eq $type "iframe") (not $ratio) -}}
-	{{- $ratio = "16/9" -}}
-{{- end -}}
-
-{{- if and $ratio (not $fit) -}}
-	{{- $fit = "cover" -}}
-{{- end -}}
-
-{{- $mediaClass := "w-full" -}}
-{{- if eq $fit "cover" }}
-	{{- $mediaClass = "w-full h-auto object-cover" -}}
-{{- end -}}
-{{- if eq $fit "contain" -}}
-	{{- $mediaClass = "bg-muted w-full h-auto object-contain" -}}
-{{- end -}}
-
-{{- $cls := "border-border bg-card block overflow-hidden rounded-lg border transition-all" -}}
 {{- if .href -}}
-	{{- $cls = printf "group hover:border-card-foreground/30 hover:shadow-md %s" $cls -}}
+<a href="{{ .href }}"
+	{{- with .target }} target="{{ . }}"{{ end }}
+	class="{{ $cls }}"
+	{{- with $attrs }} {{ . | safeHTMLAttr }}{{ end }}>
+{{- else -}}
+<article class="{{ $cls }}"
+	{{- with $attrs }} {{ . | safeHTMLAttr }}{{ end }}>
 {{- end -}}
-
-{{- $attrs := .attributes | default dict -}}
-{{- $wrapperClass := "not-prose my-4 md:max-w-84" -}}
-{{- with index $attrs "class" -}}
-	{{- $wrapperClass = printf "%s %s" $wrapperClass . -}}
-{{- end -}}
-
-<div class="{{ $wrapperClass }}"
-	{{- range $name, $value := $attrs }}
-		{{- if ne $name "class" }} {{ printf `%s="%s"` $name (htmlEscape $value) | safeHTMLAttr }}{{ end }}
-	{{- end }}>
-	{{- if .href }}
-	<a
-		href="{{ .href }}"
-		{{- with .target }} target="{{ . }}"{{ end }}
-		class="{{ $cls }}">
-	{{- else }}
-	<div
-		class="{{ $cls }}">
-	{{- end }}
-		<div class="flex flex-col">
-			{{- if $url -}}
-				{{- if eq $type "video" -}}
-					<video src="{{ $url }}" autoplay muted loop playsinline
-				{{- else if eq $type "iframe" -}}
-					<iframe src="{{ $url }}" loading="lazy" allowfullscreen
-				{{- else -}}
-					<img src="{{ $url }}" alt=""
-				{{- end }}
-				{{- with $height }} height="{{ . }}"{{ end }}
-				{{- with $width }} width="{{ . }}"{{ end }}
-				{{- with $ratio }} style="{{ printf "aspect-ratio: %s" . | safeCSS }}"{{ end }}
-				class="{{ $mediaClass }}">
-				{{- if or (eq $type "video") (eq $type "iframe") }}{{ printf "</%s>" $type | safeHTML }}{{ end -}}
-			{{- end -}}
-			{{- if and .href (eq .target "_blank") -}}
-				<span class="sr-only select-none">
-					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
-				</span>
-			{{- end -}}
-
-			<div class="flex-1 space-y-3 p-4">

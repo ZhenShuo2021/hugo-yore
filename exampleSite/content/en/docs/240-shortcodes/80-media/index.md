@@ -9,125 +9,6 @@ tags: ["reference", "shortcodes", "media-embeds"]
 series: ["Shortcodes"]
 ---
 
-## Card
-
-The `card` shortcode renders a general-purpose preview card with a title, description, optional image or icon, and metadata.
-
-| Parameter | Description |
-| --- | --- |
-| `title` | **Optional.** Card heading text, rendered as `<h3>`. Supports HTML. |
-| `url` | **Optional.** Link target for the whole card. |
-| `target` | **Optional.** Link target attribute, e.g. `_blank`. Only applies with `url`. |
-| `desc` | **Optional.** Description text shown below the title. Supports HTML. Must not contain `<a>` when `url` is set. |
-| `metaText` | **Optional.** Metadata content shown below the description. Supports HTML. Must not contain `<a>` when `url` is set. |
-| `icon` | **Optional.** Icon name shown inline before the title. |
-| `media` | **Optional.** Image, video or embed page shown at the top of the card. Accepts a page resource, an assets file, a static path or an external URL. No media is shown when omitted. |
-| `mediaType` | **Optional.** `image`, `video` or `iframe`. Default: resources use their own type, URLs are guessed from the extension (`.mp4`, `.webm`, `.ogv`, `.mov` mean video, anything else means image). Set it for URLs without extension, e.g. `iframe` for a YouTube embed. |
-| `width` | **Optional.** Media width to prevent layout shift. |
-| `height` | **Optional.** Media height to prevent layout shift. |
-| `fit` | **Optional.** `cover` or `contain`. Default: no cropping, full width, height follows the media. |
-| `ratio` | **Optional.** Display aspect ratio of the media, e.g. `16/9` or `4/2`. Implies `fit="cover"` when `fit` is not set. `iframe` defaults to `16/9`. |
-
-```md
-{{</* cards >}}
-{{< card
-  title="Title Only"
-  icon="cube"
->}}
-
-{{< card
-  desc="Description Only"
->}}
-
-{{< card
-  title="Example.com"
-  url="#card"
-  desc="Static image, default."
-  media="/img/01.webp"
-  icon="steam"
->}}
-
-{{< card
-  title="Video Wave"
-  desc="Video by <a href='https://pixabay.com/users/mario_krimer-34815979/?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Mario_Krimer</a> from <a href='https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Pixabay</a>"
-  media="https://cdn.zsl0621.cc/2026/docs/wave-rock-splash-sunset-sea-shore-353078.mp4"
-  icon="xbox"
->}}
-{{< /cards */>}}
-```
-
-{{< cards >}}
-{{< card
-  title="Title Only"
-  icon="cube"
->}}
-
-{{< card
-  desc="Description Only"
->}}
-
-{{< card
-  title="Example.com"
-  url="#card"
-  desc="Static image, default."
-  media="/img/01.webp"
-  icon="steam"
->}}
-
-{{< card
-  title="Video Wave"
-  desc="Video by <a href='https://pixabay.com/users/mario_krimer-34815979/?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Mario_Krimer</a> from <a href='https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Pixabay</a>"
-  media="https://cdn.zsl0621.cc/2026/docs/wave-rock-splash-sunset-sea-shore-353078.mp4"
-  width=16
-  height=9
-  icon="xbox"
->}}
-{{< /cards >}}
-
-## Cards
-
-The `cards` shortcode arranges multiple `card` shortcodes in a responsive grid. Cards inside it always fill the width of their grid cell.
-
-| Parameter | Description |
-| --- | --- |
-| `cols` | **Optional.** Number of columns on large screens. Accepts `1`, `2`, `3` or `4`. Defaults to `3`. |
-| `gap` | **Optional.** Spacing between cards, `s`, `m`, or `l`. **Default:** `m` |
-
-## Article Card
-
-The `article` shortcode generates a visual preview card for a specified internal page.
-
-| Parameter | Description |
-| --- | --- |
-| `path` | **Required.** The logical path of the target internal page. |
-| `desc` | **Optional.** Whether the page description is displayed. |
-| `meta` | **Optional.** Whether the page metadata is displayed. |
-| `lang` | **Optional.** Get page from another language of your site. |
-
-**Example**
-
-```md
-{{</* article path="/docs/80-getting-started" desc=true meta=false */>}}
-```
-
-{{< article path="/docs/80-getting-started" desc=true meta=false >}}
-
-## GitHub Card
-
-The `github` shortcode creates a dynamic preview card for a GitHub repository.
-
-| Parameter | Description |
-| --- | --- |
-| `repo` | **Required.** Format `owner/repo`. |
-
-**Example: Repository preview with thumbnail**
-
-```md
-{{</* github repo="gohugoio/hugo" */>}}
-```
-
-{{< github repo="gohugoio/hugo" show-thumbnail=false >}}
-
 ## Email
 
 The `email` shortcode obfuscates an email address to reduce exposure to scrapers. The address is base64-encoded at build time and decoded client-side into a `mailto` link.
@@ -416,6 +297,249 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
   alt: SVG sample
 
 {{< /masonry >}}
+
+## Card
+
+The `card` shortcode renders a general-purpose preview card with a title, description, optional image or icon, and metadata.
+
+| Parameter | Description |
+| --- | --- |
+| `title` | **Optional.** Card heading text, rendered as `<h3>`. Supports HTML. |
+| `url` | **Optional.** Link target for the whole card. |
+| `icon` | **Optional.** Icon name shown inline before the title. |
+| `media` | **Optional.** Image, video or embed page shown at the top of the card. Accepts a page resource, an assets file, a static path or an external URL. No media is shown when omitted. |
+| `mediaType` | **Optional.** `image`, `video` or `iframe`. Default: resources use their own type, URLs are guessed from the extension (`.mp4`, `.webm`, `.ogv`, `.mov` mean video, anything else means image). Set it for URLs without extension, e.g. `iframe` for a YouTube embed. |
+| `width` | **Optional.** Media width to prevent layout shift. |
+| `height` | **Optional.** Media height to prevent layout shift. |
+| `fit` | **Optional.** `cover` or `contain`. Default: no cropping, full width, height follows the media. |
+| `ratio` | **Optional.** Display aspect ratio of the media, e.g. `16/9` or `4/2`. Implies `fit="cover"` when `fit` is not set. `iframe` defaults to `16/9`. |
+| `desc` | **Optional.** Description text shown below the title. Supports HTML. |
+| `metaText` | **Optional.** Metadata content shown below the description. Supports HTML. |
+| `compact` | **Optional.** Set compact mode. Only takes effect within cards shortcode. |
+| `attrs` | **Optional.** Attributes for card wrapper. Default is `data-component=yr-card`. |
+| `fUrl` | **Optional.** Footer action: URL option. |
+| `fId` | **Optional.** Footer action: HTML `id` attribute. |
+| `fIcon` | **Optional.** Footer action: Icon name shown inline before `fText`. |
+| `fText` | **Optional.** Footer action: text content. Supports HTML. |
+| `fDownload` | **Optional.** Footer action: Enables the link's `download` attribute when `fUrl` is set. A string value specifies the downloaded filename; a non-string truthy value downloads the `fUrl`. |
+
+```md
+{{</* cards cols=3 align=false >}}
+  {{< card
+    title="Title Only"
+    icon="cube"
+  >}}
+
+  {{< card
+    title="Title with link"
+    icon="cube"
+    url="#cards-demo"
+  >}}
+
+  {{< card
+    desc="Description with link"
+    url="#cards-demo"
+  >}}
+{{< /cards >}}
+
+{{< cards align=true >}}
+  {{< card
+    title="Example.com"
+    url="#cards-demo"
+    desc="Sample image"
+    media="/img/01.webp"
+    icon="steam"
+    ratio="16/9"
+  >}}
+
+  {{< card
+    title="Video Wave"
+    url="#cards-demo"
+    desc="Video by <a href='https://pixabay.com/users/mario_krimer-34815979/?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Mario_Krimer</a> from <a href='https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Pixabay</a>"
+    media="https://cdn.zsl0621.cc/2026/docs/wave-rock-splash-sunset-sea-shore-353078.mp4"
+    width=16
+    height=9
+    icon="xbox"
+  >}}
+{{< /cards >}}
+
+{{< cards >}}
+{{< card
+  title="With footer button"
+  desc="Download <code>01.webp</code> and set a custom downloaded file name"
+  fUrl="/img/01.webp"
+  fIcon="download"
+  fText="Download image"
+  fDownload="cocoparisienne-pixabay.webp"
+>}}
+{{< /cards */>}}
+```
+
+**Examples**
+
+{{< anchor id="card-demo" content="" >}}
+
+{{< cards cols=3 align=false >}}
+  {{< card
+    title="Title Only"
+    icon="cube"
+  >}}
+
+  {{< card
+    title="Title with link"
+    icon="cube"
+    url="#card-demo"
+  >}}
+
+  {{< card
+    desc="Description with link"
+    url="#card-demo"
+  >}}
+{{< /cards >}}
+
+{{< cards align=true >}}
+  {{< card
+    title="Example.com"
+    url="#card-demo"
+    desc="Sample image"
+    media="/img/01.webp"
+    icon="steam"
+    ratio="16/9"
+  >}}
+
+  {{< card
+    title="Video Wave"
+    url="#card-demo"
+    desc="Video by <a href='https://pixabay.com/users/mario_krimer-34815979/?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Mario_Krimer</a> from <a href='https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=353078'>Pixabay</a>"
+    media="https://cdn.zsl0621.cc/2026/docs/wave-rock-splash-sunset-sea-shore-353078.mp4"
+    width=16
+    height=9
+    icon="xbox"
+  >}}
+{{< /cards >}}
+
+{{< cards >}}
+{{< card
+  title="With footer button"
+  desc="Download <code>01.webp</code> and set a custom downloaded file name"
+  fUrl="/img/01.webp"
+  fIcon="download"
+  fText="Download image"
+  fDownload="cocoparisienne-pixabay.webp"
+>}}
+{{< /cards >}}
+
+## Cards
+
+The `cards` shortcode arranges multiple `card` shortcodes in a responsive grid. Cards inside it always fill the width of their grid cell.
+
+| Parameter | Description |
+| --- | --- |
+| `cols` | **Optional.** Number of columns on large screens. Accepts `1`, `2`, `3` or `4`. **Default:** `3`. |
+| `gap` | **Optional.** Spacing between cards, `s`, `m`, or `l`. **Default:** `m` |
+| `align` | **Optional.** Align cells across cards. **Default:** true. |
+
+**Example: compact=true in card shortcode**
+
+{{< anchor id="cards" content="" >}}
+
+{{< cards cols=3 align=false >}}
+  {{< card
+    title="This card has a very long title spans across multiple lines"
+    url="#cards"
+    ratio="3/1"
+    compact=true
+    fDownload=true
+    fText="Download image"
+    fUrl="/img/01.webp"
+  >}}
+
+  {{< card
+    title="No description"
+    url="#cards"
+    compact=true
+    fDownload=true
+    fText="Download image"
+    fUrl="/img/01.webp"
+  >}}
+{{< /cards >}}
+
+**Example: align=true (default)**
+
+{{< cards cols=3 align=true >}}
+  {{< card
+    title="This card has a very long title spans across multiple lines"
+    url="#cards"
+    ratio="3/1"
+    fDownload=true
+    fText="Download image"
+    fUrl="/img/01.webp"
+  >}}
+
+  {{< card
+    title="No description"
+    url="#cards"
+    fDownload=true
+    fText="Download image"
+    fUrl="/img/01.webp"
+  >}}
+{{< /cards >}}
+
+**Example: align=false**
+
+{{< cards cols=3 align=false >}}
+  {{< card
+    title="This card has a very long title spans across multiple lines"
+    url="#cards"
+    ratio="3/1"
+    fDownload=true
+    fText="Download image"
+    fUrl="/img/01.webp"
+  >}}
+
+  {{< card
+    title="No description"
+    url="#cards"
+    fDownload=true
+    fText="Download image"
+    fUrl="/img/01.webp"
+  >}}
+{{< /cards >}}
+
+## Article Card
+
+The `article` shortcode generates a visual preview card for a specified internal page.
+
+| Parameter | Description |
+| --- | --- |
+| `path` | **Required.** The logical path of the target internal page. |
+| `desc` | **Optional.** Whether the page description is displayed. |
+| `meta` | **Optional.** Whether the page metadata is displayed. |
+| `lang` | **Optional.** Get page from another language of your site. |
+
+**Example**
+
+```md
+{{</* article path="/docs/80-getting-started" desc=true meta=false */>}}
+```
+
+{{< article path="/docs/80-getting-started" desc=true meta=false >}}
+
+## GitHub Card
+
+The `github` shortcode creates a dynamic preview card for a GitHub repository.
+
+| Parameter | Description |
+| --- | --- |
+| `repo` | **Required.** Format `owner/repo`. |
+
+**Example: Repository preview with thumbnail**
+
+```md
+{{</* github repo="gohugoio/hugo" */>}}
+```
+
+{{< github repo="gohugoio/hugo" show-thumbnail=false >}}
 
 ## Icon
 

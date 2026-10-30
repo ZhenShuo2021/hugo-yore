@@ -1,0 +1,91 @@
+.yr-card[data-component='yr-card'] {
+	margin-block: calc(var(--spacing) * 4);
+	@media (width >= 48rem) {
+		max-width: calc(var(--spacing) * 84);
+	}
+}
+/* card spacing
+	gap: spacing between card elements
+	padding: inline spacing and first/last spacing for card elements
+*/
+.yr-card {
+	--card-gap: calc(var(--spacing) * 4);
+	gap: var(--card-gap);
+}
+.yr-card > :not(.card__media) {
+	padding-inline: var(--card-gap);
+}
+.yr-card > :not(.card__media):first-child {
+	padding-top: var(--card-gap);
+}
+.yr-card > :not(.card__media):last-child {
+	padding-bottom: var(--card-gap);
+}
+/* yr-link-stretch: stretch link */
+.yr-link-stretch::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+}
+.yr-link-stretch:focus-visible {
+	outline: none;
+}
+a.yr-card:focus-visible,
+.yr-card:has(> .yr-card__header > .yr-link-stretch:focus-visible) {
+	outline: 3px solid var(--outline);
+	outline-offset: 3px;
+}
+.yr-card__footer a,
+.yr-card__content a {
+	position: relative;
+	z-index: 1;
+}
+.yr-cards--align > .yr-card > *,
+.yr-card--compact {
+	align-self: start;
+}
+@supports (grid-template-rows: subgrid) {
+	/* align: cards in .yr-cards--align share row tracks, one per region that exists in this grid */
+	/* spacing between cards comes only from the parent gap-* class */
+	.yr-cards--align {
+		--has-media: 0;
+		--has-header: 0;
+		--has-content: 0;
+		--has-footer: 0;
+	}
+	.yr-cards--align:has(> .yr-card > .card__media) {
+		--has-media: 1;
+	}
+	.yr-cards--align:has(> .yr-card > .yr-card__header) {
+		--has-header: 1;
+	}
+	.yr-cards--align:has(> .yr-card > .yr-card__content) {
+		--has-content: 1;
+	}
+	.yr-cards--align:has(> .yr-card > .yr-card__footer) {
+		--has-footer: 1;
+	}
+	.yr-cards--align > .yr-card {
+		grid-row: span calc(var(--has-media) + var(--has-header) + var(--has-content) + var(--has-footer));
+		grid-template-rows: subgrid;
+	}
+	.yr-cards--align > .yr-card > .card__media {
+		grid-row: 1;
+	}
+	.yr-cards--align > .yr-card > h3 {
+		grid-row: calc(1 + var(--has-media));
+	}
+	.yr-cards--align > .yr-card > .yr-card__content {
+		grid-row: calc(1 + var(--has-media) + var(--has-header));
+	}
+	.yr-cards--align > .yr-card > .yr-card__footer {
+		grid-row: calc(1 + var(--has-media) + var(--has-header) + var(--has-content));
+	}
+}
+@media not (prefers-reduced-motion: reduce) {
+	html:not([data-a11y-reduce-motion]) {
+		.yr-button-shadow:hover {
+			box-shadow: 4px 6px 0 0 #52525c7e;
+		}
+	}
+}

@@ -3,6 +3,8 @@
 {{- $githubPageURL := print "https://github.com/" $repo -}}
 {{- $githubThumbnailURL := print "https://opengraph.githubassets.com/1/" $repo -}}
 {{- $githubData := dict -}}
+{{- $ratio := .Get "ratio" | default "" -}}
+{{- $fit := .Get "fit" | default "" -}}
 {{- $id := printf "%s%s" "github-" (partial "lib/uid.html" (dict "page" .Page "extra" (slice $repo))) -}}
 {{- $opts := dict "timeout" "10s" -}}
 
@@ -24,49 +26,57 @@
 {{- $forks := $githubData.forks | default 0 -}}
 
 {{- partial "components/card-shell-head.html" (dict
+	"hoverCard" true
 	"href" $htmlURL
 	"target" "_blank"
+	)
+-}}
+{{- partial "components/card-media.html" (dict
 	"media" $githubThumbnailURL
+	"ratio" $ratio
+	"fit" $fit
 	)
 -}}
 
 
 <h3
-	class="text-foreground group-hover:text-link-hover flex flex-wrap items-center gap-2 text-lg font-semibold transition-colors">
+	class="yr-card__header text-foreground group-hover:text-link-hover flex flex-wrap items-center gap-2 text-lg font-semibold transition-colors">
 	{{- partialCached "components/icon.html" "github" "icon-github" -}}
 	{{- $fullName -}}
 </h3>
 {{- /**/ -}}
 
 
-<p id="{{ $id }}-description" class="text-muted-foreground line-clamp-2 text-sm">
-	{{- $description -}}
-</p>
-{{- /**/ -}}
-
-
-<div class="text-muted-foreground flex items-center gap-4 text-sm">
-	<div class="flex items-center gap-1">
-		{{- partialCached "components/icon.html" "code" "icon-code" -}}
-		<span id="{{ $id }}-language">{{ if $language }}{{ $language }}{{ else }}—{{ end }}</span>
-	</div>
+<div class="yr-card__content space-y-2">
+	<p id="{{ $id }}-description" class="text-muted-foreground line-clamp-2 text-sm">
+		{{- $description -}}
+	</p>
 	{{- /**/ -}}
 
 
-	<div class="flex items-center gap-1">
-		{{- partial "components/icon.html" "star" -}}
-		<span id="{{ $id }}-stargazers">
-			{{- $stargazersCount -}}
-		</span>
-	</div>
-	{{- /**/ -}}
+	<div class="text-muted-foreground flex items-center gap-4 text-sm">
+		<div class="flex items-center gap-1">
+			{{- partialCached "components/icon.html" "code" "icon-code" -}}
+			<span id="{{ $id }}-language">{{ if $language }}{{ $language }}{{ else }}—{{ end }}</span>
+		</div>
+		{{- /**/ -}}
 
 
-	<div class="flex items-center gap-1">
-		{{- partial "components/icon.html" "fork" -}}
-		<span id="{{ $id }}-forks">
-			{{- $forks -}}
-		</span>
+		<div class="flex items-center gap-1">
+			{{- partial "components/icon.html" "star" -}}
+			<span id="{{ $id }}-stargazers">
+				{{- $stargazersCount -}}
+			</span>
+		</div>
+		{{- /**/ -}}
+
+
+		<div class="flex items-center gap-1">
+			{{- partial "components/icon.html" "fork" -}}
+			<span id="{{ $id }}-forks">
+				{{- $forks -}}
+			</span>
+		</div>
 	</div>
 </div>
 

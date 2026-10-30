@@ -21,7 +21,7 @@ const lightboxOptions = {
 function initPhotoSwipe() {
 	// --- Article images ---
 	const proseImages = document.querySelectorAll(
-		'.prose img:not(a img):not(.carousel-slide img):not(.carousel-thumb img)',
+		'.prose img:not(a img):not(.carousel-slide img):not(.carousel-thumb img):not(.yr-card img)',
 	);
 
 	proseImages.forEach((img) => {

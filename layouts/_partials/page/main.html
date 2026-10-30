@@ -61,6 +61,12 @@
 				{{- end -}}
 			</div>
 		{{- end -}}
+		{{- if .Param "chineseConverter" -}}
+			<button class="text-muted-foreground text-sm" id="chinese-translate">
+				繁簡轉換
+				{{- partialCached "components/icon.html" "translate" "icon-translate" -}}
+			</button>
+		{{- end -}}
 	</header>
 
 	{{- /* Series */ -}}

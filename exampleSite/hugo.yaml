@@ -399,6 +399,7 @@ languages:
     hasCJKLanguage: true
     params:
       description: 一个强大、轻量级的 Hugo 主题。
+      chineseConverter: true # Add a button to convert between tradition and simplified Chinese
     menus:
       # 顶部导航链接按权重排序（最小值优先）。
       main:

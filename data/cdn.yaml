@@ -10,3 +10,5 @@ youtube:
     integrity: 'sha512-l8cIzs5aAJutiOPIyW/9PAvDevwTA8F17Pmge51rwmKBkjZ47tap3kRv+pI8JX9owkkBpRMuOIUE7v+Rg6os9w=='
 mermaid:
   src: https://cdn.jsdelivr.net/npm/pele@1.10.0/dist/pele.js
+opencc:
+  src: https://cdn.jsdelivr.net/npm/opencc-js@1.4.1/dist/esm/full.js

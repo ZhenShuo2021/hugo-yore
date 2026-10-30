@@ -191,6 +191,13 @@
 		referrerpolicy="no-referrer"></script>
 {{- end -}}
 
+{{- if .Param "chineseConverter" -}}
+	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) "params" (dict "url" hugo.Data.cdn.opencc.src) -}}
+	{{- $js := resources.Get "yore/components/translate-chinese/translate.js" | js.Build $opts -}}
+	{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}
+	<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.integrity }}"></script>
+{{- end -}}
+
 {{- /* Chart */ -}}
 {{- if .Page.HasShortcode "chart" -}}
 	{{- $echartsJS := resources.Get "yore/lib/echarts/echarts.min.js" | fingerprint -}}

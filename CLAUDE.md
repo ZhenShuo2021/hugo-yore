@@ -1,14 +1,37 @@
 # hugo-theme-yore
 
-A text-first Hugo theme. Hugo v0.146.0 new template system · Tailwind CSS v4 · pnpm
+A text-first Hugo theme. Hugo v0.146.0 new template system, Tailwind CSS v4, pnpm.
 
-## Design Philosophy
+## Hard Rules
 
-Typography is the primary design element. No shadows, gradients, or decorative borders unless they serve a
-functional purpose (e.g. distinguishing interactive elements). Maintain WCAG AA contrast in both light and dark
-themes.
+Never violate these rules.
 
-## Development
+- Never nest `define`. Never put `define` inside `if/else/with`. Use one `return` per partial.
+- Never edit `i18n/*.yaml` directly. Always use `node scripts/manage-i18n.js`.
+- Never use the `dark:` prefix. Dark mode uses the `data-theme` attribute, and semantic tokens (e.g. `bg-background`, `text-foreground`) resolve per theme automatically.
+- Always use trim markers (`{{- ... -}}`) unless trimming would change the output.
+
+## Workflow
+
+Work incrementally. In the first pass, implement only the core behavior. Do not write documentation, handle exhaustive edge cases, or polish details. Treat the first pass as a draft and wait for feedback before refining.
+
+## Environment Setup
+
+Run this first to detect the environment:
+
+```sh
+[ -d /mnt/user-data ] && echo sandbox || echo normal
+```
+
+If `sandbox`, follow [sandbox-env/SKILL.md](.claude/skills/sandbox-env/SKILL.md) and skip the rest of this section.
+
+If `normal`, ensure these are installed:
+
+1. pnpm
+2. hugo (version: `grep HUGO_VERSION ./build.sh | head -1`)
+3. go (version: `grep GO_VERSION ./build.sh | head -1`)
+
+Commands:
 
 ```sh
 pnpm dev:hugo     # Hugo dev server
@@ -17,67 +40,56 @@ pnpm build:hugo   # Build example site
 pnpm build:css    # Build Tailwind
 ```
 
-## Hard Rules
+## Design Principles
 
-Follow these rules without exception or explanation.
+Typography is the primary design element. Do not add shadows, gradients, or decorative borders unless they serve a functional purpose (e.g. distinguishing interactive elements). Maintain WCAG a11y guidelines.
 
-- **No nested `define`**, no `define` inside `if/else/with`, one `return` per partial. Hugo silently ignores or errors on these.
-- **No `IsSet`**. Use `with` (skip if falsy) or `| default value` (provide fallback).
-- **No direct edits to `i18n/*.yaml`**. Always use `node scripts/manage-i18n.js`.
-- **Avoid `dark:` prefix**. Dark mode uses `data-theme` attribute. Semantic tokens (e.g. `bg-background`, `text-foreground`) resolve per-theme automatically.
-- Always trim spaces unless it cannot be trimmed (`{{- ... -}}`).
+## Hugo Templates
 
-## Hugo v0.146.0 Template Paths
+Paths used by this project:
 
-This project uses Hugo's new template system. The paths below are what this project actually uses:
-
-- Page templates live at `layouts/` root: `page.html`, `section.html`, `taxonomy.html`, `term.html`, `home.html`
+- Page templates are at the `layouts/` root: `page.html`, `section.html`, `taxonomy.html`, `term.html`, `home.html`
 - Partials: `layouts/_partials/` (not `layouts/partials/`)
 - Shortcodes: `layouts/_shortcodes/` (not `layouts/shortcodes/`)
-- Internal templates: call with `{{ partial "x.html" . }}` (not `{{ template "_internal/x.html" . }}`)
-- Base template naming: dot-separated (`baseof.list.html`, not `list-baseof.html`)
-
-## `define` and Partial Calling
+- Base templates use dot-separated names (`baseof.list.html`, not `list-baseof.html`)
 
 The `define` name determines how to call it:
 
 ```go-html-template
 {{ define "_partials/inline/foo.html" }}...{{ end }}
-{{/* -> {{ partial "inline/foo.html" . }} */}}
+{{/* call: {{ partial "inline/foo.html" . }} */}}
 
 {{ define "foo" }}...{{ end }}
-{{/* -> {{ template "foo" . }} */}}
+{{/* call: {{ template "foo" . }} */}}
 ```
 
 ## Where New Code Goes
 
-| What                                      | Where                                               |
-| ----------------------------------------- | --------------------------------------------------- |
-| Reusable UI component                     | `_partials/components/`                             |
-| Data-only helper (returns value, no HTML) | `_partials/lib/`                                    |
-| Shortcode                                 | `_shortcodes/`, complex logic in `_partials/impls/` |
-| JS feature                                | `assets/yore/components/<name>/`                    |
-| CSS component                             | `assets/yore/components/<name>/`                    |
-| Home layout variant                       | `_partials/home/` (plain CSS only, no Tailwind)     |
+| What                             | Where                            |
+| -------------------------------- | -------------------------------- |
+| Reusable UI component            | `_partials/components/`          |
+| Data-only helper (returns value) | `_partials/lib/`                 |
+| Shortcode                        | `_shortcodes/`                   |
+| JS/CSS feature                   | `assets/yore/components/<name>/` |
 
 ## CSS Rules
 
 1. Always use Tailwind CSS.
-2. Variant classes (e.g. `is-active`) go in a standalone CSS file under `assets/yore/components/<name>/`.
-3. Reusable atomic utility classes go in `assets/yore/core/css/utilities.css`.
+2. Put variant classes (e.g. `yr-active`) in a standalone CSS file under `assets/yore/components/<name>/`.
+3. Prefix all custom classes with `yr-`.
+4. Put reusable atomic utility classes in `assets/yore/core/css/utilities.css`.
 
 ## JS Rules
 
-1. Generic JS goes in `assets/yore/components/<name>/`, always imported by `assets/yore/core/js/main.js`.
-2. Generic JS is referenced by HTML as `type="module"`, so no DOM-load listener is needed. Code must conform to module rules.
-3. Small non-generic JS (tabs, accordion, roughly 20 lines) is also loaded by `main.js`.
-4. Large non-generic JS is loaded individually in its own HTML. For shortcodes, gate it with `.HasShortcode`.
-5. Conditional loading: Use `.Page.Store` only for conditional loading.
-6. Duplicated loading check: `.Page.Store` is the worst option, since Store values update incorrectly during Hugo live reload.
+Generic JS means JS reused across pages. Non-generic JS belongs to one feature.
 
-## JS Build Pattern
+1. Put generic JS in `assets/yore/components/<name>/` and always import it from `assets/yore/core/js/main.js`.
+2. HTML loads generic JS with `type="module"`. Do not use a DOM-load listener. Code must follow ES module rules.
+3. Small non-generic JS (tabs, accordion, roughly 20 lines) is also imported from `main.js`.
+4. Large non-generic JS is loaded individually in its own HTML.
+5. Load conditionally. For shortcodes, gate with `.HasShortcode`. Otherwise, gate with `.Page.Store`.
 
-Pass Hugo values into JS through `js.Build` params, read in JS with `import * as params from '@params'`:
+Pass Hugo values into JS through `js.Build` params and read them with `import * as params from '@params'`:
 
 ```go-html-template
 {{- $jsParams := dict "myKey" (site.Params.myValue | default "fallback") }}
@@ -88,7 +100,7 @@ Pass Hugo values into JS through `js.Build` params, read in JS with `import * as
 
 ## A11y Rules
 
-Check both the standard media query and the custom a11y feature together. Example for reduced motion:
+Every style affected by an a11y feature must check both the standard media query and the custom attribute. Example for reduced motion:
 
 ```css
 @media not (prefers-reduced-motion: reduce) {
@@ -98,14 +110,14 @@ Check both the standard media query and the custom a11y feature together. Exampl
 }
 ```
 
-This project's a11y features:
+Supported a11y features:
 
 1. high-contrast
 2. reduce-motion
 3. reduce-transparency
 4. link-underline
 
-Details are in the first 20 lines of `layouts/_partials/head/resources.html`, and the a11y panel is controlled by `assets/yore/components/a11y/a11y.js`.
+Implementation details are in `assets/yore/core/js/critical.js`. The a11y panel is controlled by `assets/yore/components/a11y/a11y.js`.
 
 ## Naming
 

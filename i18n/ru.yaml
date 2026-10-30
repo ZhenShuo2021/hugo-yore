@@ -41,9 +41,20 @@ article:
   related_articles: Related
   series: This article is part of a series.
   tags: Теги
+author:
+  social_links: Социальные ссылки
 code:
   copied: Скопировано
   copy: Копировать
+components:
+  carousel:
+    choose_slide: Выбрать слайд для отображения
+    next_slide: Следующий слайд
+    previous_slide: Предыдущий слайд
+    slide_of_total: '{{ .current }} из {{ .total }}'
+  file_tree:
+    label: Структура файлов
+    omitted: Пропущенное содержимое
 docs:
   nav_label: Документация
   next: Далее
@@ -82,6 +93,11 @@ page_actions:
   copy_url: Копировать URL
   edit_this_page: Редактировать эту страницу
   view_source: Просмотр источника
+pagination:
+  next_page: Следующая страница
+  page_number: Страница {{ .number }}
+  pagination_navigation: Навигация по страницам
+  previous_page: Предыдущая страница
 random:
   choosing: Выбираем что-нибудь стоящее почитать
   js_required: Для случайного перехода требуется JavaScript.

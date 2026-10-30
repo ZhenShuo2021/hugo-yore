@@ -70,6 +70,9 @@
 						</span>
 					{{- end -}}
 					{{- if $externalURL -}}
+						<span class="sr-only select-none">
+							{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+						</span>
 						<span class="ms-1 shrink-0 leading-none">
 							{{- partialCached "components/icon.html" "yore/external" "icon-yore/external" -}}
 						</span>

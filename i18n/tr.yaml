@@ -41,9 +41,20 @@ article:
   related_articles: Related
   series: This article is part of a series.
   tags: Etiketler
+author:
+  social_links: Sosyal bağlantılar
 code:
   copied: Kopyalandı
   copy: Kopyala
+components:
+  carousel:
+    choose_slide: Gösterilecek slaydı seç
+    next_slide: Sonraki slayt
+    previous_slide: Önceki slayt
+    slide_of_total: '{{ .total }} içinden {{ .current }}'
+  file_tree:
+    label: Dosya yapısı
+    omitted: Atlanan içerik
 docs:
   nav_label: Dokümantasyon
   next: Sonraki
@@ -82,6 +93,11 @@ page_actions:
   copy_url: URL'yi kopyala
   edit_this_page: Bu sayfayı düzenle
   view_source: Kaynağı görüntüle
+pagination:
+  next_page: Sonraki sayfa
+  page_number: Sayfa {{ .number }}
+  pagination_navigation: Sayfalama gezinmesi
+  previous_page: Önceki sayfa
 random:
   choosing: Okumaya değer bir yazı seçiliyor
   js_required: Rastgele yönlendirme için JavaScript gereklidir.

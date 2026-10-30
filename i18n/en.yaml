@@ -41,9 +41,20 @@ article:
   related_articles: Related
   series: 'Series: '
   tags: Tags
+author:
+  social_links: Social links
 code:
   copied: Copied
   copy: Copy
+components:
+  carousel:
+    choose_slide: Choose slide to display
+    next_slide: Next slide
+    previous_slide: Previous slide
+    slide_of_total: '{{ .current }} of {{ .total }}'
+  file_tree:
+    label: File structure
+    omitted: Omitted content
 docs:
   nav_label: Documentation
   next: Next
@@ -81,6 +92,11 @@ page_actions:
   copy_url: Copy URL
   edit_this_page: Edit this page
   view_source: View Source
+pagination:
+  next_page: Next page
+  page_number: Page {{ .number }}
+  pagination_navigation: Pagination Navigation
+  previous_page: Previous page
 random:
   choosing: Choosing something worth reading
   js_required: JavaScript is required for the random redirect.

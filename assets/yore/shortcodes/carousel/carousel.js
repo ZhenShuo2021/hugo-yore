@@ -126,6 +126,7 @@ function createCarousel(root) {
 		thumbs.forEach((t, i) => {
 			t.classList.toggle('border-accent-500', i === current);
 			t.classList.toggle('border-transparent', i !== current);
+			t.setAttribute('aria-disabled', i === current ? 'true' : 'false');
 		});
 
 		slides.forEach((slide, i) => {
@@ -176,7 +177,6 @@ function createCarousel(root) {
 			slide.style.transform = '';
 			slide.inert = false;
 		});
-		thumbs[0]?.parentElement.classList.remove('thumb-hovered');
 	}
 
 	// Browsers scroll an overflow-hidden container when a clipped element gets focus, which conflicts with the transform
@@ -198,10 +198,6 @@ function createCarousel(root) {
 			},
 			{ signal },
 		);
-
-		const thumbStrip = thumb.parentElement;
-		thumb.addEventListener('mouseenter', () => thumbStrip.classList.add('thumb-hovered'), { signal });
-		thumb.addEventListener('mouseleave', () => thumbStrip.classList.remove('thumb-hovered'), { signal });
 	});
 
 	root.querySelector('.carousel-prev')?.addEventListener('click', () => move(-1), { signal });

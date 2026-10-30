@@ -41,9 +41,20 @@ article:
   related_articles: Related
   series: This article is part of a series.
   tags: Etichete
+author:
+  social_links: Linkuri sociale
 code:
   copied: Copiat
   copy: Copiază
+components:
+  carousel:
+    choose_slide: Alegeți diapozitivul de afișat
+    next_slide: Diapozitivul următor
+    previous_slide: Diapozitivul anterior
+    slide_of_total: '{{ .current }} din {{ .total }}'
+  file_tree:
+    label: Structura fișierelor
+    omitted: Conținut omis
 docs:
   nav_label: Documentație
   next: Următorul
@@ -82,6 +93,11 @@ page_actions:
   copy_url: Copiază URL
   edit_this_page: Editează această pagină
   view_source: Vezi sursa
+pagination:
+  next_page: Pagina următoare
+  page_number: Pagina {{ .number }}
+  pagination_navigation: Navigare prin pagini
+  previous_page: Pagina anterioară
 random:
   choosing: Se alege ceva ce merită citit
   js_required: Este necesar JavaScript pentru redirecționarea aleatorie.

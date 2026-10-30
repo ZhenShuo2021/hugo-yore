@@ -41,9 +41,20 @@ article:
   related_articles: Articles connexes
   series: Cet article fait partie d'une série.
   tags: Étiquettes
+author:
+  social_links: Liens sociaux
 code:
   copied: Copié
   copy: Copier
+components:
+  carousel:
+    choose_slide: Choisir la diapositive à afficher
+    next_slide: Diapositive suivante
+    previous_slide: Diapositive précédente
+    slide_of_total: '{{ .current }} sur {{ .total }}'
+  file_tree:
+    label: Structure des fichiers
+    omitted: Contenu omis
 docs:
   nav_label: Documentation
   next: Suivant
@@ -82,6 +93,11 @@ page_actions:
   copy_url: Copier l'URL
   edit_this_page: Modifier cette page
   view_source: Voir la source
+pagination:
+  next_page: Page suivante
+  page_number: Page {{ .number }}
+  pagination_navigation: Navigation de pagination
+  previous_page: Page précédente
 random:
   choosing: Sélection d'un article qui vaut la peine d'être lu
   js_required: JavaScript est requis pour la redirection aléatoire.

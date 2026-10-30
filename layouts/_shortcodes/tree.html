@@ -98,7 +98,7 @@
 	{{- end -}}
 	{{- $base := cond (and (eq $zeros 1) (eq (index $items 0).name ".")) 1 0 -}}
 <div class="not-prose border-border bg-background my-6 overflow-x-auto rounded-xl border p-2 text-sm shadow-sm">
-	<ul class="m-0 p-0">
+	<ul class="m-0 p-0" aria-label="{{ i18n "components.file_tree.label" }}">
 		{{- $level := 0 -}}
 		{{- range $idx, $item := $items -}}
 			{{- if ge $idx $base -}}
@@ -123,7 +123,7 @@
 				{{- $ellipsis := findRE `^(\.{2,}|…)$` $item.name -}}
 
 				{{- if $ellipsis -}}
-					<li class="py-1 ps-7 pe-2 text-slate-500 dark:text-slate-400">{{ $item.name }}</li>
+					<li class="py-1 ps-7 pe-2 text-slate-500 dark:text-slate-400" aria-label="{{ i18n "components.file_tree.omitted" }}">{{ $item.name }}</li>
 				{{- else if $isDir -}}
 					{{- $isOpen := not $collapsed -}}
 					{{- if in $item.flags "@open" -}}

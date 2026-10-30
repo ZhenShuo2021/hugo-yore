@@ -41,9 +41,20 @@ article:
   related_articles: 相关文章
   series: 系列文章：
   tags: 标签
+author:
+  social_links: 社交链接
 code:
   copied: 已复制
   copy: 复制
+components:
+  carousel:
+    choose_slide: 选择要显示的幻灯片
+    next_slide: 下一张
+    previous_slide: 上一张
+    slide_of_total: 第 {{ .current }} 张，共 {{ .total }} 张
+  file_tree:
+    label: 文件结构
+    omitted: 省略的内容
 docs:
   nav_label: 文档
   next: 下一页
@@ -80,6 +91,11 @@ page_actions:
   copy_url: 复制链接
   edit_this_page: 编辑此页
   view_source: 查看源码
+pagination:
+  next_page: 下一页
+  page_number: 第 {{ .number }} 页
+  pagination_navigation: 分页导航
+  previous_page: 上一页
 random:
   choosing: 正在挑选一篇值得一读的文章
   js_required: 随机跳转功能需要启用 JavaScript。

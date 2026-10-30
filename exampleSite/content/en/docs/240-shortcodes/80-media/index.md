@@ -9,6 +9,9 @@ tags: ["reference", "shortcodes", "media-embeds"]
 series: ["Shortcodes"]
 ---
 
+<!-- rumdl-disable MD045 -->
+<!-- most image here are decorative, not related to the docs -->
+
 ## Email
 
 The `email` shortcode obfuscates an email address to reduce exposure to scrapers. The address is base64-encoded at build time and decoded client-side into a `mailto` link.
@@ -83,7 +86,7 @@ The `fig` shortcode renders an image inside a `<figure>` element with a `figcapt
 {{%/* fig
   attrs="class='yr-center-cap yr-center-img' style='width:50%'"
   src="/img/04.webp"
-  alt="alt"
+  alt=""
   caption="*1234*[^fn_a]"
 */%}}
 
@@ -93,14 +96,14 @@ The `fig` shortcode renders an image inside a `<figure>` element with a `figcapt
 {{% fig
   attrs="class='yr-center-cap yr-center-img' style='width:50%'"
   src="/img/04.webp"
-  alt="alt"
+  alt=""
   caption="*1234*[^fn_a]"
 %}}
 
 This is equivalent to the standard markdown image syntax below, but the syntax does not support footnotes.
 
 ```md
-![alt](/img/04.webp "*1234*")
+![](/img/04.webp "*1234*")
 {class="yr-center-cap yr-center-img" style="width:50%"}
 ```
 
@@ -110,7 +113,7 @@ This is equivalent to the standard markdown image syntax below, but the syntax d
 
 {{% float side="end" %}}
 
-![alt](/img/04.webp)
+![](/img/04.webp)
 
 {{% /float %}}
 
@@ -126,7 +129,7 @@ The `float` shortcode wraps arbitrary content with text flowing around it, float
 ```md
 {{%/* float side="end" %}}
 
-![alt](/img/04.webp)
+![](/img/04.webp)
 
 {{% /float */%}}
 ```
@@ -145,7 +148,7 @@ Use `{{%/* float-clear */%}}` to cancel the float effect.
 ```md
 {{%/* cols widths="70%,30%" rwd=false %}}
 
-![qwe](/img/01.webp)
+![](/img/01.webp)
 
 <!-- cell -->
 
@@ -156,7 +159,7 @@ Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
 
 {{% cols widths="70%,30%" rwd=false %}}
 
-![qwe](/img/01.webp)
+![](/img/01.webp)
 
 <!-- cell -->
 
@@ -196,7 +199,7 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
 - match: /img/*[5-7]* # 05, 06, 07
 - src: /img/drop.svg
   caption: carousel caption
-  alt: carousel alt
+  alt: carousel sample image
 
 {{< /carousel */>}}
 ```
@@ -206,7 +209,7 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
 - match: /img/*[5-7]* # 05, 06, 07
 - src: /img/drop.svg
   caption: carousel caption
-  alt: carousel alt
+  alt: carousel sample image
 
 {{< /carousel >}}
 
@@ -218,7 +221,7 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
 - match: /img/*[5-7]* # 05, 06, 07
 - src: /img/drop.svg
   caption: carousel caption
-  alt: carousel alt
+  alt: carousel sample image
 
 {{< /carousel */>}}
 ```
@@ -228,7 +231,7 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
 - match: /img/*[5-7]* # 05, 06, 07
 - src: /img/drop.svg
   caption: carousel caption
-  alt: carousel alt
+  alt: carousel sample image
 
 {{< /carousel >}}
 

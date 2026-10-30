@@ -205,7 +205,9 @@
 							</span>
 
 							{{- with .Params.links -}}
-								<nav class="author-banner__links" aria-label="Social links">
+								<nav
+									class="author-banner__links"
+									aria-label="{{- i18n "author.social_links" | default "Social links" -}}">
 									{{- range $linkMap := . -}}
 										{{- range $name, $url := $linkMap -}}
 											{{- $isMail := eq $name "mail" -}}
@@ -223,9 +225,11 @@
 													{{- partial "components/icon.html" $name -}}
 												</span>
 												<span>{{ $name | title }}</span>
-												<span class="sr-only select-none">
-													{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
-												</span>
+												{{- if partial "lib/is-external" $url -}}
+													<span class="sr-only select-none">
+														{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+													</span>
+												{{- end -}}
 											</a>
 										{{- end -}}
 									{{- end -}}

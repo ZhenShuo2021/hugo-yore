@@ -89,6 +89,9 @@ And reference them within `index.md`:
 ![alt text](./local-image.png "image description")
 ```
 
+> [!TIP]
+> Alt text helps people who use screen readers understand an image. Write alt text that describes what the image conveys. If an image is purely decorative, leave the alt text empty. Empty alt text is better than inaccurate or meaningless alt text.
+
 ## Page Types
 
 Hugo classifies every page into one of four types, and each type determines which template Hugo uses to render it.

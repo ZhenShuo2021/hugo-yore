@@ -57,10 +57,11 @@
 						{{- $imgClass = "h-full w-full object-cover" -}}
 					{{- end -}}
 					<div
+						id="{{ $id }}-slide-{{ $i }}"
 						class="{{ $itemClass }}"
 						role="group"
 						aria-roledescription="slide"
-						aria-label="{{ printf "%d of %d" (add $i 1) (len $items) }}"
+						aria-label="{{- i18n "components.carousel.slide_of_total" (dict "current" (add $i 1) "total" (len $items)) | default (printf "%d of %d" (add $i 1) (len $items)) -}}"
 						style="aspect-ratio: {{ $ratio }};"
 						data-caption="{{ $item.caption }}">
 						{{- if and site.Params.imageOptimizationMD (reflect.IsImageResourceProcessable $resolved) -}}
@@ -112,13 +113,11 @@
 				{{- printf "1 / %d" (len $items) -}}
 			</div>
 
-			{{- if gt (len $items) 1 -}}
+			{{- if and $showArrows (gt (len $items) 1) -}}
 				<button
 					type="button"
-					class="carousel-prev {{ if not $showArrows }}
-						hidden
-					{{ end }} absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
-					aria-label="Previous slide">
+					class="carousel-prev absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
+					aria-label="{{- i18n "components.carousel.previous_slide" | default "Previous slide" -}}">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="20"
@@ -135,10 +134,8 @@
 				</button>
 				<button
 					type="button"
-					class="carousel-next {{ if not $showArrows }}
-						hidden
-					{{ end }} absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
-					aria-label="Next slide">
+					class="carousel-next absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
+					aria-label="{{- i18n "components.carousel.next_slide" | default "Next slide" -}}">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="20"
@@ -163,7 +160,9 @@
 		{{- if $showThumbs -}}
 			<div
 				class="carousel-thumbs flex gap-2 overflow-x-auto pt-2 pb-1"
-				style="-webkit-overflow-scrolling: touch;">
+				style="-webkit-overflow-scrolling: touch;"
+				role="group"
+				aria-label="{{- i18n "components.carousel.choose_slide" | default "Choose slide to display" -}}">
 				{{- range $i, $item := $items -}}
 					{{- $resolved := $item.resolved -}}
 					<button
@@ -175,11 +174,10 @@
 						{{- end }} h-18 w-18 flex-shrink-0 overflow-hidden rounded-md border-2 transition-all duration-(--dur-200)"
 						data-index="{{ $i }}"
 						data-caption="{{ $item.caption }}"
-						aria-label="{{- with $item.alt -}}
-							{{- . -}}
-						{{- else -}}
-							{{- printf "Image %d" (add $i 1) -}}
-						{{- end }}">
+						aria-labelledby="{{ $id }}-slide-{{ $i }}"
+						{{- if eq $i 0 }}
+							aria-disabled="true"
+						{{- end }}>
 						{{- $process := and
 							(reflect.IsImageResourceProcessable $resolved)
 							(not (strings.Contains ($resolved.Content | first 30) "ftypavis"))

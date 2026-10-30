@@ -41,9 +41,20 @@ article:
   related_articles: บทความที่เกี่ยวข้อง
   series: บทความในชุดเดียวกัน
   tags: แท็ก
+author:
+  social_links: ลิงก์โซเชียล
 code:
   copied: คัดลอกแล้ว
   copy: คัดลอก
+components:
+  carousel:
+    choose_slide: เลือกสไลด์ที่จะแสดง
+    next_slide: สไลด์ถัดไป
+    previous_slide: สไลด์ก่อนหน้า
+    slide_of_total: '{{ .current }} จาก {{ .total }}'
+  file_tree:
+    label: โครงสร้างไฟล์
+    omitted: เนื้อหาที่ถูกละไว้
 docs:
   nav_label: เอกสาร
   next: ถัดไป
@@ -81,6 +92,11 @@ page_actions:
   copy_url: คัดลอก URL
   edit_this_page: แก้ไขหน้านี้
   view_source: ดูซอร์ส
+pagination:
+  next_page: หน้าถัดไป
+  page_number: หน้า {{ .number }}
+  pagination_navigation: การนำทางแบ่งหน้า
+  previous_page: หน้าก่อนหน้า
 random:
   choosing: กำลังเลือกบทความที่น่าอ่าน
   js_required: ต้องใช้ JavaScript สำหรับการเปลี่ยนเส้นทางแบบสุ่ม

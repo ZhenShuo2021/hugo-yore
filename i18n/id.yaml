@@ -41,9 +41,20 @@ article:
   related_articles: Terkait
   series: Artikel ini merupakan bagian dari sebuah seri.
   tags: Tag
+author:
+  social_links: Tautan sosial
 code:
   copied: Disalin
   copy: Salin
+components:
+  carousel:
+    choose_slide: Pilih slide yang ditampilkan
+    next_slide: Slide berikutnya
+    previous_slide: Slide sebelumnya
+    slide_of_total: '{{ .current }} dari {{ .total }}'
+  file_tree:
+    label: Struktur berkas
+    omitted: Konten yang dihilangkan
 docs:
   nav_label: Dokumentasi
   next: Berikutnya
@@ -81,6 +92,11 @@ page_actions:
   copy_url: Salin URL
   edit_this_page: Edit halaman ini
   view_source: Lihat sumber
+pagination:
+  next_page: Halaman berikutnya
+  page_number: Halaman {{ .number }}
+  pagination_navigation: Navigasi halaman
+  previous_page: Halaman sebelumnya
 random:
   choosing: Memilih tulisan yang layak dibaca
   js_required: JavaScript diperlukan untuk pengalihan acak.

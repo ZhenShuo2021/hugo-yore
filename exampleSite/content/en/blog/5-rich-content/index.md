@@ -22,7 +22,7 @@ Rich-content example with front matter
 
 ### Basic Markdown Syntax
 
-![qwe](/img/animated-webp-supported.webp "[Source](https://mathiasbynens.be/demo/animated-webp)")
+![sample image](/img/animated-webp-supported.webp "[Source](https://mathiasbynens.be/demo/animated-webp)")
 
 ### Masonry Shortcode
 

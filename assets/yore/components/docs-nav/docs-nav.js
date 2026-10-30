@@ -57,6 +57,10 @@ function collapseOtherSiblings(nav, btn) {
 }
 
 function initCollapseToggle(nav) {
+	nav.querySelectorAll('a[data-section-trigger]').forEach((btn) => {
+		btn.setAttribute('role', 'button');
+	});
+
 	nav.addEventListener('click', (e) => {
 		const btn = e.target.closest('a[data-section-trigger]');
 		if (!btn) return;

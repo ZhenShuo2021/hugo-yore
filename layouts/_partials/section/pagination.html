@@ -4,16 +4,20 @@
 {{- if gt $paginator.TotalPages 0 -}}
 	{{- /* Pagination Navigation */ -}}
 	{{- if gt $paginator.TotalPages 1 -}}
-		<nav class="pagination mt-16 flex items-center justify-center gap-2" aria-label="Pagination">
+		<nav
+			class="pagination mt-16 flex items-center justify-center gap-2"
+			aria-label="{{- i18n "pagination.pagination_navigation" | default "Pagination Navigation" -}}">
 			{{- /* Previous Button */ -}}
-			{{- if $paginator.HasPrev -}}
-				<a
+			<a
+				{{- if $paginator.HasPrev }}
 					href="{{ $paginator.Prev.URL }}"
-					class="text-foreground hover:text-link-hover px-4 py-2 transition-colors"
-					aria-label="Previous page">
-					Previous
-				</a>
-			{{- end -}}
+				{{- else }}
+					aria-disabled="true" tabindex="-1"
+				{{- end }}
+				class="text-foreground hover:text-link-hover px-4 py-2 transition-colors"
+				aria-label="{{- i18n "pagination.previous_page" | default "Previous page" -}}">
+				Previous
+			</a>
 
 			{{- /* Page Numbers */ -}}
 			<div class="flex items-center gap-1">
@@ -33,14 +37,17 @@
 
 					{{- if $show -}}
 						{{- if eq . $paginator -}}
-							<span class="text-foreground bg-muted rounded px-3 py-2 font-medium">
+							<a
+								href="{{ .URL }}"
+								class="text-foreground bg-muted rounded px-3 py-2 font-medium"
+								aria-current="page">
 								{{- .PageNumber -}}
-							</span>
+							</a>
 						{{- else -}}
 							<a
 								href="{{ .URL }}"
 								class="text-foreground hover:text-link-hover px-3 py-2 transition-colors"
-								aria-label="Page {{ .PageNumber }}">
+								aria-label="{{- i18n "pagination.page_number" (dict "number" .PageNumber) | default (printf "Page %d" .PageNumber) -}}">
 								{{- .PageNumber -}}
 							</a>
 						{{- end -}}
@@ -51,14 +58,16 @@
 			</div>
 
 			{{- /* Next Button */ -}}
-			{{- if $paginator.HasNext -}}
-				<a
-					href="{{- $paginator.Next.URL -}}"
-					class="text-foreground hover:text-link-hover px-4 py-2 transition-colors"
-					aria-label="Next page">
-					Next
-				</a>
-			{{- end -}}
+			<a
+				{{- if $paginator.HasNext }}
+					href="{{ $paginator.Next.URL }}"
+				{{- else }}
+					aria-disabled="true" tabindex="-1"
+				{{- end }}
+				class="text-foreground hover:text-link-hover px-4 py-2 transition-colors"
+				aria-label="{{- i18n "pagination.next_page" | default "Next page" -}}">
+				Next
+			</a>
 		</nav>
 	{{- end -}}
 {{- end -}}

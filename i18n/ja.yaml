@@ -41,9 +41,20 @@ article:
   related_articles: 関連記事
   series: この記事は連載の一部です
   tags: タグ
+author:
+  social_links: ソーシャルリンク
 code:
   copied: コピーしました
   copy: コピー
+components:
+  carousel:
+    choose_slide: 表示するスライドを選択
+    next_slide: 次のスライド
+    previous_slide: 前のスライド
+    slide_of_total: '{{ .total }} 枚中 {{ .current }} 枚目'
+  file_tree:
+    label: ファイル構造
+    omitted: 省略された内容
 docs:
   nav_label: ドキュメント
   next: 次へ
@@ -80,6 +91,11 @@ page_actions:
   copy_url: URLをコピー
   edit_this_page: このページを編集
   view_source: ソースを表示
+pagination:
+  next_page: 次のページ
+  page_number: '{{ .number }} ページ'
+  pagination_navigation: ページネーション
+  previous_page: 前のページ
 random:
   choosing: 読む価値のある記事を選んでいます
   js_required: ランダムリダイレクトには JavaScript が必要です。

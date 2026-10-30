@@ -41,9 +41,20 @@ article:
   related_articles: 관련 글
   series: 이 글은 시리즈의 일부입니다.
   tags: 태그
+author:
+  social_links: 소셜 링크
 code:
   copied: 복사되었습니다
   copy: 복사
+components:
+  carousel:
+    choose_slide: 표시할 슬라이드 선택
+    next_slide: 다음 슬라이드
+    previous_slide: 이전 슬라이드
+    slide_of_total: '{{ .total }}개 중 {{ .current }}번째'
+  file_tree:
+    label: 파일 구조
+    omitted: 생략된 내용
 docs:
   nav_label: 문서
   next: 다음
@@ -81,6 +92,11 @@ page_actions:
   copy_url: URL 복사
   edit_this_page: 이 페이지 편집
   view_source: 소스 보기
+pagination:
+  next_page: 다음 페이지
+  page_number: '{{ .number }} 페이지'
+  pagination_navigation: 페이지 네비게이션
+  previous_page: 이전 페이지
 random:
   choosing: 읽을 만한 글을 고르는 중입니다
   js_required: 무작위 이동 기능을 사용하려면 JavaScript가 필요합니다.

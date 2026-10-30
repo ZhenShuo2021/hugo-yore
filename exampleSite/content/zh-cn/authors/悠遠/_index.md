@@ -13,8 +13,4 @@ params:
     - discord: https://example.com
     - github: https://github.com/ZhenShuo2021/hugo-yore
     - mail: 'mailto:example@gmail.com'
-    - apple: 'mailto:example@gmail.com'
-    - bell: 'mailto:example@gmail.com'
-    - sun-light: 'mailto:example@gmail.com'
-    - half-moon: 'mailto:example@gmail.com'
 ---

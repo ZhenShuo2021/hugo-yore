@@ -41,9 +41,20 @@ article:
   related_articles: 相關文章
   series: 系列文章：
   tags: 標籤
+author:
+  social_links: 社群連結
 code:
   copied: 已複製
   copy: 複製
+components:
+  carousel:
+    choose_slide: 選擇要顯示的幻燈片
+    next_slide: 下一張
+    previous_slide: 上一張
+    slide_of_total: 第 {{ .current }} 張，共 {{ .total }} 張
+  file_tree:
+    label: 檔案結構
+    omitted: 省略的內容
 docs:
   nav_label: 文件
   next: 下一頁
@@ -80,6 +91,11 @@ page_actions:
   copy_url: 複製連結
   edit_this_page: 編輯此頁
   view_source: 查看原始碼
+pagination:
+  next_page: 下一頁
+  page_number: 第 {{ .number }} 頁
+  pagination_navigation: 分頁導覽
+  previous_page: 上一頁
 random:
   choosing: 正在挑選一篇值得一讀的文章
   js_required: 隨機跳轉功能需要啟用 JavaScript。

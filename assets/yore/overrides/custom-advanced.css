@@ -131,7 +131,6 @@ summary::-webkit-details-marker {
 	font-weight: 600;
 	cursor: pointer;
 	list-style: none;
-	outline: none;
 }
 .yr-details summary::before {
 	content: '▶';
@@ -142,7 +141,6 @@ summary::-webkit-details-marker {
 .yr-details[open] summary::before {
 	transform: rotate(90deg);
 }
-
 .yr-details-content {
 	> :first-child {
 		margin-top: 0 !important;

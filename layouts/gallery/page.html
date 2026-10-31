@@ -18,7 +18,7 @@
 					<div class="text-muted-foreground mt-2 text-sm">
 						{{- if .Date -}}
 							<time datetime="{{ .Date.Format "2006-01-02" }}">
-								{{- .Date.Format "January 2, 2006" -}}
+								{{- .Date.Format (.Param "dateFormat" | default "January 2, 2006") -}}
 							</time>
 						{{- end -}}
 					</div>

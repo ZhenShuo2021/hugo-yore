@@ -91,18 +91,56 @@ page:
 # =============================================================================
 # Cascade
 # =============================================================================
+# IMPORTANT: Earlier items take precedence over later ones; later items cannot override earlier ones.
 # Front matter settings
-# Only index homepage and regular article pages for a clean SEO result
-# cascade:
-#   - params:
-#       metaRobots: ""
-#     target:
-#       path: '{/blog,/blog/**,/docs,/docs/**}'
-#       kind: section
-#   - params:
-#       metaRobots: noindex
-#     target:
-#       kind: '{taxonomy,term,section}'
+cascade:
+  # Set `dateFormat` for different areas
+  - params:
+      dateFormat: 2006 · 01.02
+    target:
+      path: '{/gallery}'
+      kind: section
+      sites:
+        matrix:
+          languages: '{zh-tw}'
+  - params:
+      dateFormat: 2006 年 1 月 2 日
+    target:
+      kind: section
+      path: '{/docs,/docs/**}'
+      sites:
+        matrix:
+          languages: '{zh-tw}'
+  - params:
+      dateFormat: 2006-01-02
+    target:
+      kind: section
+      sites:
+        matrix:
+          languages: '{zh-tw}'
+  - params:
+      dateFormat: 2006 年 1 月 2 日
+    target:
+      kind: page
+      sites:
+        matrix:
+          languages: '{zh-tw}'
+  # Set `docsNavCollapsed`` to true for all docs sections
+  - params:
+      docsNavCollapsed: true
+    target:
+      path: '{/docs/**}'
+      kind: section
+  # Set `metaRobots` to empty for main sections
+  - params:
+      metaRobots: ''
+    target:
+      path: '{/blog,/blog/**,/docs,/docs/**}'
+  # Set `metaRobots` to noindex to maintain a clean SEO result
+  - params:
+      metaRobots: noindex
+    target:
+      kind: '{taxonomy,term,section}'
 
 # =============================================================================
 # Markup Configuration
@@ -358,6 +396,10 @@ languages:
   #   hasCJKLanguage: true
   #   params:
   #     description: 一个强大、轻量级的 Hugo 主题。
+  #     # Display date format. See https://gohugo.io/functions/time/format/
+  #     # Support localization and can be overridden by front matter.
+  #     # Tip: use hugo cascade to specify the target
+  #     dateFormat: 2006 年 1 月 2 日
   # 
   # .... and more settings
 

@@ -53,7 +53,7 @@
 		{{- $externalURL := .Param "link" -}}
 		<li class="flex flex-col items-start text-lg sm:contents">
 			<time datetime="{{ .Date.Format "2006-01-02" }}" class="text-muted-foreground">
-				{{- .Date.Format "2006-01-02" }}
+				{{- .Date.Format (page.Param "dateFormat" | default "2006-01-02") -}}
 			</time>
 			<span>
 				<a

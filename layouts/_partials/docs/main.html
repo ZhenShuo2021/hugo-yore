@@ -40,7 +40,7 @@
 					<div class="flex items-center gap-1">
 						<span>{{ i18n "article.date" | default "Published:" }}</span>
 						<time datetime="{{ .Date.Format "2006-01-02" }}">
-							{{- .Date.Format "January 2, 2006" -}}
+							{{- .Date.Format (.Param "dateFormat" | default "January 2, 2006") -}}
 						</time>
 					</div>
 				{{- end -}}
@@ -48,7 +48,7 @@
 					<div class="flex items-center gap-1">
 						<span>{{ i18n "article.date_updated" | default "Updated:" }}</span>
 						<time datetime="{{ .Lastmod.Format "2006-01-02" }}">
-							{{- .Lastmod.Format "January 2, 2006" -}}
+							{{- .Lastmod.Format (.Param "dateFormat" | default "January 2, 2006") -}}
 						</time>
 					</div>
 				{{- end -}}

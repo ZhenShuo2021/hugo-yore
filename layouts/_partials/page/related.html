@@ -16,7 +16,7 @@
 					</h3>
 					<div class="text-muted-foreground mt-2 flex flex-wrap items-center gap-2 text-xs">
 						<time datetime="{{ .Date.Format "2006-01-02" }}">
-							{{- .Date.Format "2006-01-02" -}}
+							{{- .Date.Format (.Param "dateFormat" | default "2006-01-02") -}}
 						</time>
 						{{- with .GetTerms "tags" -}}
 							<div

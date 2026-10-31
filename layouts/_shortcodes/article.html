@@ -75,7 +75,7 @@
 					{{- if $targetPage.Date -}}
 						<div class="flex items-center gap-1">
 							<time datetime="{{ $targetPage.Date.Format "2006-01-02" }}">
-								{{- $targetPage.Date.Format "2006-01-02" -}}
+								{{- $targetPage.Date.Format (.Param "dateFormat" | default "2006-01-02") -}}
 							</time>
 						</div>
 					{{- end -}}

@@ -250,7 +250,7 @@
 								<time
 									datetime="{{ .Date.Format "2006-01-02" }}"
 									class="text-muted-foreground flex-shrink-0 sm:w-26">
-									{{- .Date.Format "2006-01-02" -}}
+									{{- .Date.Format (.Param "dateFormat" | default "2006-01-02") -}}
 								</time>
 								<span>
 									<a

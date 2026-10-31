@@ -73,6 +73,11 @@ html[data-theme='dark'] .ios-toggle::after {
 	color: var(--color-foreground);
 	transition: background-color var(--dur-200);
 	line-height: 1.4;
+	font-size: 1.2em;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2.2em;
 }
 
 .font-size-btn:hover:not(:disabled) {
@@ -82,14 +87,6 @@ html[data-theme='dark'] .ios-toggle::after {
 .font-size-btn:disabled {
 	opacity: 0.35;
 	cursor: not-allowed;
-}
-
-.font-size-btn--small {
-	font-size: 0.8em;
-}
-
-.font-size-btn--large {
-	font-size: 1.2em;
 }
 
 .font-size-levels {

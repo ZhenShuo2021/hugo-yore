@@ -113,6 +113,7 @@ html[data-theme='dark'] {
 }
 
 :root {
+	--dur-100: 150ms;
 	--dur-150: 150ms;
 	--dur-200: 200ms;
 	--dur-250: 250ms;
@@ -120,6 +121,7 @@ html[data-theme='dark'] {
 	--dur-400: 400ms;
 	--dur-500: 500ms;
 	@media (prefers-reduced-motion: reduce) {
+		--dur-100: 0.1ms;
 		--dur-150: 0.1ms;
 		--dur-200: 0.1ms;
 		--dur-250: 0.1ms;
@@ -130,6 +132,7 @@ html[data-theme='dark'] {
 }
 
 html[data-a11y-reduce-motion] {
+	--dur-100: 0.1ms;
 	--dur-150: 0.1ms;
 	--dur-200: 0.1ms;
 	--dur-250: 0.1ms;

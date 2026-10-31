@@ -19,7 +19,7 @@
 
 @import "./base.css" layer(yore);
 @import "./tokens.css" layer(yore);
-@import "./utilities.css" layer(yore);
+@import "./utilities.css";
 @import "./layouts/blog.css" layer(yore);
 @import "./layouts/gallery.css" layer(yore);
 @import "../../components/card/index.css" layer(yore);

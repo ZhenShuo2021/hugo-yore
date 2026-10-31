@@ -124,7 +124,7 @@
 					id="mobile-appearance-switcher"
 					aria-label="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
 					title="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
-					class="text-foreground hover:text-link-hover transition-colors">
+					class="text-foreground hover:text-link-hover -m-2 rounded p-2 transition-colors">
 					<span class="block dark:hidden">
 						{{- partialCached "components/icon.html" "sun-light" "icon-sun-light" -}}
 					</span>
@@ -150,7 +150,7 @@
 						aria-label="{{ i18n `nav.accessibility_panel` | default `Open accessibility panel` }}"
 						aria-expanded="false"
 						aria-controls="a11y-panel"
-						class="text-foreground hover:text-link-hover transition-colors">
+						class="text-foreground hover:text-link-hover -m-2 rounded p-2 transition-colors">
 						{{- partialCached "components/icon.html" "a11y" "icon-a11y" -}}
 					</button>
 				</div>

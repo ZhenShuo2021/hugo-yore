@@ -21,10 +21,10 @@
 				<div class="font-size-stepper">
 					<button
 						id="font-size-decrease"
-						class="yr-outline font-size-btn font-size-btn--small"
+						class="yr-outline font-size-btn"
 						aria-label="{{ i18n `a11y_panel.decrease_font_size` | default `Decrease font size` }}"
 						title="{{ i18n `a11y_panel.decrease_font_size` | default `Decrease font size` }}">
-						A
+						A<sup>-</sup>
 					</button>
 					<div class="font-size-levels" aria-hidden="true">
 						<span class="font-size-dot" data-level="-2"></span>
@@ -36,10 +36,10 @@
 					<span id="font-size-status" class="sr-only" aria-live="polite"></span>
 					<button
 						id="font-size-increase"
-						class="yr-outline font-size-btn font-size-btn--large"
+						class="yr-outline font-size-btn"
 						aria-label="{{ i18n `a11y_panel.increase_font_size` | default `Increase font size` }}"
 						title="{{ i18n `a11y_panel.increase_font_size` | default `Increase font size` }}">
-						A
+						A<sup>+</sup>
 					</button>
 				</div>
 			</div>

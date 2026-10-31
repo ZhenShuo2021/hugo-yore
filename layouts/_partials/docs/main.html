@@ -58,10 +58,13 @@
 			</div>
 		{{- end -}}
 		{{- if .Param "chineseConverter" -}}
-			<button class="text-muted-foreground text-sm" id="chinese-translate">
+			<button disabled id="chinese-translate" class="text-muted-foreground min-h-6 min-w-6 text-sm">
 				繁簡轉換
-				{{- partialCached "components/icon.html" "translate" "icon-translate" -}}
+				<span aria-hidden="true">
+					{{- partialCached "components/icon.html" "translate" "icon-translate" -}}
+				</span>
 			</button>
+			<span id="chinese-translate-status" role="status" class="sr-only"></span>
 		{{- end -}}
 	</header>
 

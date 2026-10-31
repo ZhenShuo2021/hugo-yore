@@ -1315,6 +1315,9 @@
   .min-w-0 {
     min-width: 0px;
   }
+  .min-w-6 {
+    min-width: calc(var(--spacing) * 6);
+  }
   .min-w-20 {
     min-width: calc(var(--spacing) * 20);
   }

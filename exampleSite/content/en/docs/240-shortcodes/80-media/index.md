@@ -440,72 +440,61 @@ The `cards` shortcode arranges multiple `card` shortcodes in a responsive grid. 
 | --- | --- |
 | `cols` | **Optional.** Number of columns on large screens. Accepts `1`, `2`, `3` or `4`. **Default:** `3`. |
 | `gap` | **Optional.** Spacing between cards, `s`, `m`, or `l`. **Default:** `m` |
-| `align` | **Optional.** Align cells across cards. **Default:** true. |
-
-**Example: compact=true in card shortcode**
-
-{{< anchor id="cards" content="" >}}
-
-{{< cards cols=3 align=false >}}
-  {{< card
-    title="This card has a very long title spans across multiple lines"
-    url="#cards"
-    ratio="3/1"
-    compact=true
-    fDownload=true
-    fText="Download image"
-    fUrl="/img/01.webp"
-  >}}
-
-  {{< card
-    title="No description"
-    url="#cards"
-    compact=true
-    fDownload=true
-    fText="Download image"
-    fUrl="/img/01.webp"
-  >}}
-{{< /cards >}}
-
-**Example: align=true (default)**
-
-{{< cards cols=3 align=true >}}
-  {{< card
-    title="This card has a very long title spans across multiple lines"
-    url="#cards"
-    ratio="3/1"
-    fDownload=true
-    fText="Download image"
-    fUrl="/img/01.webp"
-  >}}
-
-  {{< card
-    title="No description"
-    url="#cards"
-    fDownload=true
-    fText="Download image"
-    fUrl="/img/01.webp"
-  >}}
-{{< /cards >}}
+| `align` | **Optional.** Align cells across cards. Works when `compact=false` in `card`. **Default:** true. |
 
 **Example: align=false**
 
 {{< cards cols=3 align=false >}}
   {{< card
-    title="This card has a very long title spans across multiple lines"
-    url="#cards"
-    ratio="3/1"
-    fDownload=true
-    fText="Download image"
-    fUrl="/img/01.webp"
+    title="Lorem ipsum dolor sit amet"
+    desc="Deserunt proident accusamus fugiat, ad vero culpa anim excepteur quis proident magna fugiat."
+    fUrl="#cards"
+    fText="Card footer action"
   >}}
 
   {{< card
-    title="No description"
-    url="#cards"
-    fDownload=true
-    fText="Download image"
-    fUrl="/img/01.webp"
+    title="Culpa labore"
+    desc="Culpa labore sed est occaecat irure qui dignissimos, exercitation adipiscing."
+    fUrl="#cards"
+    fText="Card footer action"
+  >}}
+{{< /cards >}}
+
+**Example: align=true**
+
+{{< cards cols=3 align=true >}}
+  {{< card
+    title="Lorem ipsum dolor sit amet"
+    desc="Deserunt proident accusamus fugiat, ad vero culpa anim excepteur quis proident magna fugiat."
+    fUrl="#cards"
+    fText="Card footer action"
+  >}}
+
+  {{< card
+    title="Culpa labore"
+    desc="Culpa labore sed est occaecat irure qui dignissimos, exercitation adipiscing."
+    fUrl="#cards"
+    fText="Card footer action"
+  >}}
+{{< /cards >}}
+
+**Example: compact=true**
+
+{{< cards cols=3 >}}
+  {{< card
+    title="Lorem ipsum dolor sit amet"
+    desc="Deserunt proident accusamus fugiat, ad vero culpa anim excepteur quis proident magna fugiat."
+    compact=true
+    fUrl="#cards"
+    fText="Card footer action"
+  >}}
+
+  {{< card
+    title="Culpa labore"
+    desc="Culpa labore sed est occaecat irure qui dignissimos, exercitation adipiscing."
+    compact=true
+    fUrl="#cards"
+    fText="Card footer action"
   >}}
 {{< /cards >}}
 

@@ -40,9 +40,13 @@ a.yr-card:focus-visible,
 	position: relative;
 	z-index: 1;
 }
-.yr-cards--align > .yr-card > *,
-.yr-card--compact {
+.yr-cards--align > .yr-card > * {
 	align-self: start;
+}
+/* compact disable all grid features (subgrid) */
+.yr-card--compact {
+	display: flex;
+	flex-direction: column;
 }
 @supports (grid-template-rows: subgrid) {
 	/* align: cards in .yr-cards--align share row tracks, one per region that exists in this grid */

@@ -1,6 +1,6 @@
 {{- $cols := .Get "cols" | default "2" | string -}}
 {{- $gap := .Get "gap" | default "m" | string -}}
-{{- $align := .Get "align" -}}
+{{- $align := .Get "align" | default true -}}
 
 {{- $classes := "" -}}
 {{- $colClasses := dict

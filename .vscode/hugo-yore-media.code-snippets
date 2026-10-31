@@ -6,7 +6,6 @@
 			"{{< card",
 			"  title=\"${1:Title}\"",
 			"  url=\"${2:https://example.com}\"",
-			"  target=\"${3|_blank,_self|}\"",
 			"  desc=\"${4:Description.}\"",
 			"  metaText=\"${5:Meta text.}\"",
 			"  icon=\"${6:cube}\"",
@@ -16,6 +15,7 @@
 			"  height=${10:9}",
 			"  fit=\"${11|cover,contain|}\"",
 			"  ratio=\"${12:16/9}\"",
+			"  compact=${13|false,true|}",
 			">}}"
 		],
 		"description": "General-purpose card component."
@@ -25,7 +25,7 @@
 		"scope": "markdown",
 		"prefix": "yore-cards",
 		"body": [
-			"{{< cards cols=${1|3,1,2,4|} gap=\"${2|m,s,l|}\" >}}",
+			"{{< cards cols=${1|3,1,2,4|} gap=\"${2|m,s,l|}\" align=${3|true,false|} >}}",
 			"{{< card",
 			"  title=\"${3:Title}\"",
 			"  desc=\"${4:Description.}\"",

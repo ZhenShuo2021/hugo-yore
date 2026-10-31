@@ -11,7 +11,7 @@ build:
 # 1. [advanced] = Advanced setting, safe to ignore
 # 2. Note on language: all language keys are lowercased by Hugo internally,
 #    so keeping every language-related setting in lowercase is the most
-#    consistent approach. The only place that should use uppercase (en-US, zh-CN)
+#    consistent approach. The only place that should use uppercase (en-US, zh-TW)
 #    is the "locale" setting, which is used directly in templates.
 # =============================================================================
 baseURL: https://yore.zsl0621.cc/
@@ -211,7 +211,7 @@ params:
   # sectionSortBy: Weight # Field used to sort pages within a section. [Date | ExpiryDate | Lastmod | Length | LinkTitle | PublishDate | Title | Weight | Param.[FRONT_MATTER_KEY]]
   # sectionSortOrder: asc # Sort direction for sectionSortBy. [asc | desc]
   # sectionGroupBy: Date # Field used to group pages within a section. [Date | ExpiryDate | Lastmod | PublishDate | Param.[FRONT_MATTER_KEY]]
-  # sectionGroupLayout: January 2006 # Go time-layout string used to format group headings, e.g. "2006年1月" for zh-cn. See https://gohugo.io/methods/time/format/#layout-string
+  # sectionGroupLayout: January 2006 # Go time-layout string used to format group headings, e.g. "2006年1月" for zh-tw. See https://gohugo.io/methods/time/format/#layout-string
   # sectionGroupOrder: desc # Sort direction for the groups themselves. [asc | desc]
 
   # Footer
@@ -349,8 +349,8 @@ languages:
           weight: 20
 
   # Multilingual site
-  # zh-cn:
-  #   locale: zh-CN # the region subtag MUST be uppercase
+  # zh-tw:
+  #   locale: zh-TW # the region subtag MUST be uppercase
   #   label: 简体中文
   #   direction: ltr
   #   weight: 2

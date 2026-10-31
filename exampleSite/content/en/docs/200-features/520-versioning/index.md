@@ -114,7 +114,7 @@ content/
 │   │   └── docs/
 │   ├── blog/              # not versioned
 │   └── authors/           # not versioned, en-only
-└── zh-cn/
+└── zh-tw/
     ├── v1.0.0/
     │   └── docs/          # partial translation, fallback to English docs
     ├── v2.0.0/
@@ -127,19 +127,19 @@ content/
 ```yaml {title="hugo.yaml"}
 module:
   mounts:
-    # versioned docs: zh-cn translation (must come before en fallback)
-    - source: content/zh-cn/v2.0.0
+    # versioned docs: zh-tw translation (must come before en fallback)
+    - source: content/zh-tw/v2.0.0
       target: content
       sites:
         matrix:
-          languages: [zh-cn]
+          languages: [zh-tw]
           versions: [v2.0.0]
 
-    - source: content/zh-cn/v1.0.0
+    - source: content/zh-tw/v1.0.0
       target: content
       sites:
         matrix:
-          languages: [zh-cn]
+          languages: [zh-tw]
           versions: [v1.0.0]
 
     # versioned docs: en as fallback for all languages
@@ -157,15 +157,15 @@ module:
           languages: ['**']
           versions: [v1.0.0]
 
-    # non-versioned content: zh-cn first (wins on path collision)
-    - source: content/zh-cn
+    # non-versioned content: zh-tw first (wins on path collision)
+    - source: content/zh-tw
       target: content
       files:
         - '! v1.0.0/**'
         - '! v2.0.0/**'
       sites:
         matrix:
-          languages: [zh-cn]
+          languages: [zh-tw]
           versions: ['**']
 
     # non-versioned content: en shared across all languages
@@ -192,7 +192,7 @@ module:
 **Notes:**
 
 - `languages` and `versions` in `sites.matrix` are AND conditions.
-- zh-cn mounts come before their en equivalents. The first mount wins on path collision, so zh-cn translations take precedence over the en fallback.
+- zh-tw mounts come before their en equivalents. The first mount wins on path collision, so zh-tw translations take precedence over the en fallback.
 - Non-versioned mounts use `versions: ['**']` so blog, authors, and other pages appear in every version site.
 - The `files` exclusion list prevents non-versioned mounts from double-mounting versioned subdirectories. Add `! vX.Y.Z/**` for every new version.
 
@@ -200,7 +200,7 @@ module:
 
 To add `v3.0.0`:
 
-1. Create `content/en/v3.0.0/docs/` and optionally `content/zh-cn/v3.0.0/docs/`.
+1. Create `content/en/v3.0.0/docs/` and optionally `content/zh-tw/v3.0.0/docs/`.
 2. Add `v3.0.0: {}` under `versions`.
-3. Add two mount entries (zh-cn and en) with `versions: [v3.0.0]`.
+3. Add two mount entries (zh-tw and en) with `versions: [v3.0.0]`.
 4. Add `- '! v3.0.0/**'` to the `files` list in both non-versioned mounts.

@@ -17,22 +17,22 @@ languages:
   en:
     languageName: English
     weight: 1
-  zh-cn:
+  zh-tw:
     languageName: 中文
     weight: 2
 module:
   mounts:
-    - source: content/zh-cn/v2.0.0
+    - source: content/zh-tw/v2.0.0
       target: content
       sites:
         matrix:
-          languages: [zh-cn]
+          languages: [zh-tw]
           versions: [v2.0.0]
-    - source: content/zh-cn/v1.0.0
+    - source: content/zh-tw/v1.0.0
       target: content
       sites:
         matrix:
-          languages: [zh-cn]
+          languages: [zh-tw]
           versions: [v1.0.0]
     - source: content/en/v2.0.0
       target: content
@@ -46,14 +46,14 @@ module:
         matrix:
           languages: ['**']
           versions: [v1.0.0]
-    - source: content/zh-cn
+    - source: content/zh-tw
       target: content
       files:
         - '! v1.0.0/**'
         - '! v2.0.0/**'
       sites:
         matrix:
-          languages: [zh-cn]
+          languages: [zh-tw]
           versions: ['**']
     - source: content/en
       target: content

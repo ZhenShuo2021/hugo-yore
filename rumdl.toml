@@ -62,7 +62,7 @@
 
 [MD057]
     absolute-links = "relative_to_roots"
-    roots = ["exampleSite/content/en", "exampleSite/content/zh-cn", "assets"]
+    roots = ["exampleSite/content/en", "exampleSite/content/zh-tw", "assets"]
 
 [per-file-ignores]
-    "exampleSite/content/zh-cn/**/*.md" = ["MD057"]
+    "exampleSite/content/zh-tw/**/*.md" = ["MD057"]

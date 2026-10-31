@@ -82,18 +82,18 @@ runTest('versioning-only', [
 runTest('multilingual-dir-version', [
 	{ path: 'docs/feature-a/index.html' }, // v2.0.0 en, shared with v1
 	{ path: 'docs/feature-b/index.html' }, // v2.0.0 en, v2 only
-	{ path: 'zh-cn/docs/feature-a/index.html' }, // v2.0.0 zh-cn, shared with v1
-	{ path: 'zh-cn/docs/feature-b/index.html' }, // v2.0.0 zh-cn, v2 only
+	{ path: 'zh-tw/docs/feature-a/index.html' }, // v2.0.0 zh-tw, shared with v1
+	{ path: 'zh-tw/docs/feature-b/index.html' }, // v2.0.0 zh-tw, v2 only
 	{ path: 'v1.0.0/docs/feature-a/index.html' }, // v1.0.0 en, shared with v2
-	{ path: 'v1.0.0/zh-cn/docs/feature-a/index.html' }, // v1.0.0 zh-cn, shared with v2
+	{ path: 'v1.0.0/zh-tw/docs/feature-a/index.html' }, // v1.0.0 zh-tw, shared with v2
 	{ path: 'v1.0.0/docs/feature-b/index.html', absent: true }, // v2-only page absent in v1 en
-	{ path: 'v1.0.0/zh-cn/docs/feature-b/index.html', absent: true }, // v2-only page absent in v1 zh-cn
+	{ path: 'v1.0.0/zh-tw/docs/feature-b/index.html', absent: true }, // v2-only page absent in v1 zh-tw
 	{ path: 'blog/post-en/index.html' }, // non-versioned blog, en
 	{ path: 'v1.0.0/blog/post-en/index.html' }, // non-versioned blog in v1.0.0
-	{ path: 'zh-cn/blog/post-en/index.html' }, // en fallback under zh-cn
-	{ path: 'v1.0.0/zh-cn/blog/post-en/index.html' }, // en fallback under v1.0.0 zh-cn
-	{ path: 'zh-cn/blog/post-zh/index.html' }, // zh-cn native post
-	{ path: 'blog/post-zh/index.html', absent: true }, // zh-cn post must not appear under en
+	{ path: 'zh-tw/blog/post-en/index.html' }, // en fallback under zh-tw
+	{ path: 'v1.0.0/zh-tw/blog/post-en/index.html' }, // en fallback under v1.0.0 zh-tw
+	{ path: 'zh-tw/blog/post-zh/index.html' }, // zh-tw native post
+	{ path: 'blog/post-zh/index.html', absent: true }, // zh-tw post must not appear under en
 	{ path: 'v2.0.0/docs/feature-b/index.html', absent: true }, // default must not appear under own prefix
 ]);
 

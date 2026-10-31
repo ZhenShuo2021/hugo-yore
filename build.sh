@@ -131,9 +131,9 @@ languages:
   en:
     contentDir: content/en
     locale: en
-  zh-cn:
-    contentDir: content/zh-cn
-    locale: zh-cn
+  zh-tw:
+    contentDir: content/zh-tw
+    locale: zh-tw
 EOF
   fi
 

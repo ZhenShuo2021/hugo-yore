@@ -3,7 +3,7 @@
 # 1. [advanced] = Advanced setting, safe to ignore
 # 2. Note on language: all language keys are lowercased by Hugo internally,
 #    so keeping every language-related setting in lowercase is the most
-#    consistent approach. The only place that should use uppercase (en-US, zh-CN)
+#    consistent approach. The only place that should use uppercase (en-US, zh-tw)
 #    is the "locale" setting, which is used directly in templates.
 # =============================================================================
 baseURL: https://yore.zsl0621.cc/
@@ -219,7 +219,7 @@ params:
   # sectionSortBy: Weight # Field used to sort pages within a section. [Date | ExpiryDate | Lastmod | Length | LinkTitle | PublishDate | Title | Weight | Param.[FRONT_MATTER_KEY]]
   # sectionSortOrder: asc # Sort direction for sectionSortBy. [asc | desc]
   # sectionGroupBy: Date # Field used to group pages within a section. [Date | ExpiryDate | Lastmod | PublishDate | Param.[FRONT_MATTER_KEY]]
-  # sectionGroupLayout: January 2006 # Go time-layout string used to format group headings, e.g. "2006年1月" for zh-cn. See https://gohugo.io/methods/time/format/#layout-string
+  # sectionGroupLayout: January 2006 # Go time-layout string used to format group headings, e.g. "2006年1月" for zh-tw. See https://gohugo.io/methods/time/format/#layout-string
   # sectionGroupOrder: desc # Sort direction for the groups themselves. [asc | desc]
 
   # Footer
@@ -332,10 +332,6 @@ languages:
             collapsed: true # Whether the nested menu is collapsed by default on mobile
 
         # Nested menu
-        - name: Getting Started
-          parent: Docs
-          pageRef: /docs/40-introduction
-          weight: 20
         - name: Configuration
           parent: Docs
           pageRef: /docs/160-configuration/
@@ -390,47 +386,43 @@ languages:
           weight: 20
 
   # 各種語言獨立的設定
-  zh-cn:
-    locale: zh-CN # the region subtag MUST be uppercase
-    label: 简体中文
+  zh-tw:
+    locale: zh-TW # the region subtag MUST be uppercase
+    label: 繁體中文
     direction: ltr
     weight: 2
     title: Yore
     hasCJKLanguage: true
     params:
-      description: 一个强大、轻量级的 Hugo 主题。
+      description: 一個強大、輕量級的 Hugo 主題。
       chineseConverter: true # Add a button to convert between tradition and simplified Chinese
     menus:
-      # 顶部导航链接按权重排序（最小值优先）。
+      # 頂部導航連結按權重排序（最小值優先）。
       main:
-        - name: 博客
+        - name: 部落格
           pageRef: /blog
           weight: 20
           params:
             # url: /url/to/override/pageRef # Extra url setting to override the URL of pageRef
 
-        - name: 文档
+        - name: 文檔
           pageRef: /docs
-          weight: 20
+          weight: 30
           params:
-            collapsed: true # 行动装置上是否预设折叠嵌套选单
-            # icon: code # 要显示的图标，名为「code」
+            collapsed: true # 行動裝置上是否預設折疊嵌套選單
+            # icon: code # 要顯示的圖標，名為「code」
 
         # 子菜單範例
-        - name: 入门
-          parent: 文档
-          pageRef: /docs/40-introduction
-          weight: 20
-        - name: 配置
-          parent: 文档
+        - name: 設定
+          parent: 文檔
           pageRef: /docs/160-configuration
           weight: 40
         - name: 功能
-          parent: 文档
+          parent: 文檔
           pageRef: /docs/200-features
           weight: 50
-        - name: 短代码
-          parent: 文档
+        - name: 短碼
+          parent: 文檔
           pageRef: /docs/240-shortcodes
           weight: 60
 
@@ -438,36 +430,36 @@ languages:
           pageRef: /gallery
           weight: 60
 
-        - name: 随机
+        - name: 隨機
           pageRef: /random
           weight: 70
 
-        - name: 图谱
+        - name: 圖譜
           pageRef: /graph
           weight: 80
 
-        # 图标链接，无 pageRef，必须使用 identifier
-        - identifier: Github 仓库连结
+        # 圖標連結，無 pageRef，必須使用 identifier
+        - identifier: Github 倉庫連結
           url: https://github.com/ZhenShuo2021/hugo-yore
           weight: 1000
           params:
             icon: github
 
-      # 显示在版权信息前的底部导航链接。
+      # 顯示在版權資訊前的底部導航連結。
       footer:
-        - name: 关于
+        - name: 關於
           pageRef: /about
           weight: 1
-        - name: 归档
+        - name: 歸檔
           pageRef: /archive
           weight: 5
         - name: 作者
           pageRef: /authors
           weight: 7
-        - name: 标签
+        - name: 標籤
           pageRef: /tags
           weight: 10
-        - name: 隐私政策
+        - name: 隱私政策
           pageRef: /privacy
           weight: 15
         - name: RSS
@@ -486,7 +478,7 @@ segments:
       - sites:
           matrix:
             languages:
-              - zh-cn
+              - zh-tw
     includes:
       - path: /
       - path: /**
@@ -503,13 +495,13 @@ module:
     - path: github.com/ZhenShuo2021/hugo-knowledge-graph
 
   mounts:
-    # first mount wins on path collision, so zh-cn must come before en
-    - source: content/zh-cn
+    # first mount wins on path collision, so zh-tw must come before en
+    - source: content/zh-tw
       target: content
       sites:
         matrix:
           languages:
-            - zh-cn
+            - zh-tw
     # en content shared across all languages (authors excluded)
     - source: content/en
       target: content
@@ -532,9 +524,9 @@ module:
 # [advanced]
 server:
   redirects:
-    - from: /zh-cn/**
+    - from: /zh-tw/**
       status: 404
-      to: /zh-cn/404.html
+      to: /zh-tw/404.html
     - from: /**
       status: 404
       to: /404.html

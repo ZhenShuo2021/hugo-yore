@@ -37,7 +37,8 @@ Otherwise, `cd` into your existing project.
 Initialize your site as a Hugo module:
 
 ```bash
-hugo mod init github.com/username/repo  # or hugo mod init my-project
+hugo mod init github.com/username/repo
+# or hugo mod init my-project
 ```
 
   {{< /step >}}
@@ -65,18 +66,18 @@ Set up the language configurations.
   {{< tab label="Multilingual site" >}}
 
 1. Change the `defaultContentLanguage` to your language.
-2. Replace the existing `module` field with the following configuration. In each mount, replace `zh-cn` and `en` with your own language codes, in both the `source` path and the matching `matrix.languages` value.
+2. Replace the existing `module` field with the following configuration. In each mount, replace `zh-tw` and `en` with your own language codes, in both the `source` path and the matching `matrix.languages` value.
 
     ```yaml
     module:
       imports:
         - path: github.com/ZhenShuo2021/hugo-yore
       mounts:
-        - source: content/zh-cn
+        - source: content/zh-tw
           target: content
           sites:
             matrix:
-              languages: [zh-cn]  # matches languages.LANG (see next step)
+              languages: [zh-tw]  # matches languages.LANG (see next step)
         - source: content/en
           target: content
           sites:

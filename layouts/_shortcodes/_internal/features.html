@@ -1,0 +1,245 @@
+<style>
+	.yr-intro-accent {
+		--ia-ink: #1c1b18;
+		--ia-accent: #b8552f;
+		--ia-line: color-mix(in oklab, #1c1b18 14%, transparent);
+		--ia-surface: color-mix(in oklab, #1c1b18 4%, transparent);
+	}
+	html[data-theme='dark'] .yr-intro-accent {
+		--ia-ink: #efece4;
+		--ia-accent: #e08a5c;
+		--ia-line: color-mix(in oklab, #efece4 14%, transparent);
+		--ia-surface: color-mix(in oklab, #efece4 6%, transparent);
+	}
+
+	.yr-stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin: 1.25rem 0;
+	}
+
+	.yr-tag {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: 0.82rem;
+		padding: 0.4rem 0.7rem;
+		border: 1px solid var(--ia-line);
+		border-radius: 3px;
+		text-decoration: none;
+		color: var(--ia-ink);
+		background: transparent;
+		overflow: visible;
+		isolation: isolate;
+		transition:
+			border-color 220ms ease,
+			background-color 220ms ease,
+			transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	.yr-tag:hover,
+	.yr-tag:focus-visible {
+		border-color: var(--yr-tool, var(--ia-accent));
+		background: color-mix(in oklab, var(--yr-tool, var(--ia-accent)) 10%, var(--ia-surface));
+	}
+
+	.yr-tag:active {
+		transform: translateY(0);
+	}
+
+	.yr-tag svg {
+		width: 0.9rem;
+		height: 0.9rem;
+		flex: none;
+		transition:
+			transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1),
+			color 220ms ease;
+	}
+
+	.yr-tag:hover svg,
+	.yr-tag:focus-visible svg {
+		transform: scale(1.18) rotate(-8deg);
+		color: var(--yr-tool, var(--ia-accent));
+	}
+
+	/* 彩色粒子迸出：每個 icon 旁邊放 4 顆小圓點，預設隱藏，hover 時各自飛散 */
+	.yr-burst {
+		position: absolute;
+		top: 50%;
+		left: 1.05rem;
+		width: 0;
+		height: 0;
+		pointer-events: none;
+	}
+
+	.yr-burst i {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		background: var(--yr-tool, var(--ia-accent));
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.4);
+	}
+
+	.yr-tag:hover .yr-burst i,
+	.yr-tag:focus-visible .yr-burst i {
+		animation: yr-pop 620ms cubic-bezier(0.22, 0.78, 0.32, 1) forwards;
+	}
+
+	.yr-burst i:nth-child(1) {
+		--dx: -16px;
+		--dy: -14px;
+		animation-delay: 0ms;
+	}
+	.yr-burst i:nth-child(2) {
+		--dx: 14px;
+		--dy: -16px;
+		animation-delay: 30ms;
+	}
+	.yr-burst i:nth-child(3) {
+		--dx: -12px;
+		--dy: 14px;
+		animation-delay: 60ms;
+	}
+	.yr-burst i:nth-child(4) {
+		--dx: 15px;
+		--dy: 12px;
+		animation-delay: 15ms;
+	}
+	.yr-burst i:nth-child(5) {
+		--dx: 0px;
+		--dy: -19px;
+		animation-delay: 45ms;
+	}
+
+	@keyframes yr-pop {
+		0% {
+			opacity: 0;
+			transform: translate(-50%, -50%) scale(0.4);
+		}
+		35% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+			transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.yr-tag,
+		.yr-tag svg,
+		.yr-burst i {
+			transition: none !important;
+			animation: none !important;
+		}
+		.yr-tag:hover {
+			transform: none;
+		}
+		.yr-tag:hover svg {
+			transform: none;
+		}
+	}
+</style>
+
+<div class="yr-intro-accent">
+	<div class="yr-stack">
+		<a class="yr-tag" style="--yr-tool:#38bdf8" href="https://tailwindcss.com/">
+			<svg viewBox="0 0 24 24" fill="currentColor">
+				<path
+					d="M12 6c-2.67 0-4.33 1.33-5 4 1-1.33 2.17-1.83 3.5-1.5.76.19 1.31.74 1.91 1.35.98 1 2.11 2.15 4.59 2.15 2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.31-.74-1.91-1.35C15.61 7.15 14.48 6 12 6zm-5 6c-2.67 0-4.33 1.33-5 4 1-1.33 2.17-1.83 3.5-1.5.76.19 1.31.74 1.91 1.35.98 1 2.11 2.15 4.59 2.15 2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.31-.74-1.91-1.35-.98-1-2.11-2.15-4.59-2.15z" />
+			</svg>
+			<span class="yr-burst"><i></i><i></i><i></i><i></i><i></i></span>TailwindCSS v4
+		</a>
+		<a class="yr-tag" style="--yr-tool:#a855f7" href="https://photoswipe.com/">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<rect x="3" y="3" width="18" height="18" rx="2" />
+				<circle cx="8.5" cy="8.5" r="1.5" />
+				<path d="M21 15l-5-5L5 21" />
+			</svg>
+			<span class="yr-burst"><i></i><i></i><i></i><i></i><i></i></span>PhotoSwipe
+		</a>
+		<a class="yr-tag" style="--yr-tool:#ef4444" href="https://echarts.apache.org/">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<path d="M3 3v18h18" />
+				<path d="M7 15l3-4 3 3 5-7" />
+			</svg>
+			<span class="yr-burst"><i></i><i></i><i></i><i></i><i></i></span>ECharts
+		</a>
+		<a class="yr-tag" style="--yr-tool:#3b82f6" href="https://www.mathjax.org/">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<path d="M4 7V4h16v3" />
+				<path d="M9 20h6" />
+				<path d="M12 4v16" />
+			</svg>
+			<span class="yr-burst"><i></i><i></i><i></i><i></i><i></i></span>MathJax
+		</a>
+		<a class="yr-tag" style="--yr-tool:#eab308" href="https://pagefind.app/">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<circle cx="11" cy="11" r="7" />
+				<path d="M21 21l-4.3-4.3" />
+			</svg>
+			<span class="yr-burst"><i></i><i></i><i></i><i></i><i></i></span>Pagefind search
+		</a>
+		<a class="yr-tag" style="--yr-tool:#22c55e" href="https://mermaid.ai/open-source/">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<circle cx="6" cy="6" r="2" />
+				<circle cx="18" cy="6" r="2" />
+				<circle cx="12" cy="18" r="2" />
+				<path d="M6 8v4a2 2 0 0 0 2 2h2M18 8v4a2 2 0 0 1-2 2h-2M12 14v2" />
+			</svg>
+			<span class="yr-burst"><i></i><i></i><i></i><i></i><i></i></span>Mermaid diagrams
+		</a>
+		<a class="yr-tag" style="--yr-tool:#ec4899" href="https://iconoir.com/">
+			<svg
+				viewBox="0 0 24 24"
+				stroke-width="1.5"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				color="currentColor">
+				<path
+					d="M14.1488 9.47163V3.61153C14.1488 2.72151 13.4273 2 12.5373 2V2C11.6473 2 10.9258 2.72151 10.9258 3.61153V8.44611"
+					stroke="currentColor"
+					stroke-linecap="round"></path>
+				<path
+					d="M16.346 12.841L18.5217 5.58862C18.7755 4.74265 18.2886 3.85248 17.4394 3.60984V3.60984C16.5943 3.3684 15.7142 3.8609 15.4779 4.70743L14.1484 9.47149"
+					stroke="currentColor"
+					stroke-linecap="round"></path>
+				<path
+					d="M7.61935 9.24985L8.67489 11.5913C9.03961 12.4003 8.68159 13.352 7.87404 13.72C7.06183 14.0901 6.10347 13.7296 5.73663 12.9159L4.68109 10.5745C4.31637 9.76542 4.67439 8.81376 5.48193 8.44574C6.29415 8.07559 7.25251 8.43614 7.61935 9.24985Z"
+					stroke="currentColor"
+					stroke-linecap="round"></path>
+				<path
+					d="M11.7192 12.2615V12.2615C11.9239 11.694 11.8998 11.0692 11.6518 10.5192L10.5787 8.13874C10.2181 7.33892 9.27613 6.98454 8.4778 7.34836V7.34836C7.66469 7.71892 7.31885 8.68832 7.71382 9.48986L7.84946 9.76511"
+					stroke="currentColor"
+					stroke-linecap="round"></path>
+				<path
+					d="M13.8566 17.6767L14.3487 16.6927C14.3976 16.5947 14.3461 16.4763 14.241 16.4454L10.6903 15.4011C9.97853 15.1918 9.51797 14.5038 9.59563 13.766V13.766C9.68372 12.9292 10.4284 12.3188 11.2662 12.3968L16.0542 12.8422C16.0542 12.8422 19.8632 13.4282 18.5447 17.2372C17.2262 21.0463 16.7867 22.3648 13.8566 22.3648C11.9521 22.3648 9.16855 22.3648 9.16855 22.3648H8.87555C6.52912 22.3648 4.62697 20.4627 4.62697 18.1163V18.1163L4.48047 9.91211"
+					stroke="currentColor"
+					stroke-linecap="round"></path>
+			</svg>
+			<span class="yr-burst"><i></i><i></i><i></i><i></i><i></i></span>Iconoir icons
+		</a>
+		<a class="yr-tag" style="--yr-tool:#428FDE" href="https://fontawesome.com/">
+			<svg viewBox="0 0 512 512" fill="currentColor">
+				<path
+					d="M91.7 96C106.3 86.8 116 70.5 116 52 116 23.3 92.7 0 64 0S12 23.3 12 52c0 16.7 7.8 31.5 20 41l0 419 64 0 0-64 373.6 0c14.6 0 26.4-11.8 26.4-26.4 0-3.7-.8-7.3-2.3-10.7L432 272 493.7 133.1c1.5-3.4 2.3-7 2.3-10.7 0-14.6-11.8-26.4-26.4-26.4L91.7 96z" />
+			</svg>
+			<span class="yr-burst"><i></i><i></i><i></i><i></i><i></i></span>Font Awesome icons
+		</a>
+		<a class="yr-tag" style="--yr-tool:#f97316" href="https://github.com/ZhenShuo2021/hugo-knowledge-graph">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<circle cx="5" cy="6" r="2" />
+				<circle cx="19" cy="6" r="2" />
+				<circle cx="12" cy="18" r="2" />
+				<path d="M5 8v2a2 2 0 0 0 2 2h3M19 8v2a2 2 0 0 1-2 2h-3M12 14v2" />
+			</svg>
+			<span class="yr-burst"><i></i><i></i><i></i><i></i><i></i></span>Hugo Knowledge Graph
+		</a>
+	</div>
+</div>

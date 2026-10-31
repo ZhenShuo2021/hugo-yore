@@ -24,7 +24,7 @@ Use the shortcode in Markdown files, or the partial in layouts. Pass the icon na
 
 ## Custom Icons
 
-Place any `.svg` file under `assets/icons/` in your project root. Add `fill="currentColor"` to the SVG root element so the icon inherits the surrounding text color.
+Place any `.svg` file under `assets/yore/icons/` in your project root. Add `fill="currentColor"` to the SVG root element so the icon inherits the surrounding text color.
 
 ## References
 
@@ -40,7 +40,7 @@ Icons bundled with the theme. Path prefix: `yore/`.
 
 Icons sourced from [Fort Awesome Brands](https://fontawesome.com/icons/packs/brands). Path prefix: `fa/brands/`.
 
-{{< _internal/icon-reference path="yore" path="fa/brands/" >}}
+{{< _internal/icon-reference path="fa/brands/" >}}
 
 ### Iconoir
 
@@ -54,8 +54,8 @@ Notable icons are:
 
 #### Regular
 
-{{< _internal/icon-reference path="yore" path="iconoir/regular/" >}}
+{{< _internal/icon-reference path="iconoir/regular/" >}}
 
 #### Solid
 
-{{< _internal/icon-reference path="yore" path="iconoir/solid/" >}}
+{{< _internal/icon-reference path="iconoir/solid/" >}}

@@ -7,11 +7,13 @@
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); column-gap: 2em;">
 	{{- range $icons -}}
 		{{- $name := strings.TrimSuffix ".svg" (path.Base .Name) -}}
-		<div class="border-border flex items-center border-b" style="gap: 10px; padding: 5px 0;">
+		<div
+			class="border-border flex items-center border-b"
+			style="gap: 10px; padding: 5px 0; content-visibility: auto; contain-intrinsic-size: 18px 18px;">
 			<span class="flex-1"><code>{{- $name -}}</code></span>
 			{{ if $printIcon }}
 				<div class="flex justify-center">
-					<span class="icon">{{- .Content | safeHTML -}}</span>
+					<span class="yr-icon">{{- .Content | safeHTML -}}</span>
 				</div>
 			{{- end -}}
 		</div>

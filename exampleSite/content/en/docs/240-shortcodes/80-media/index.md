@@ -121,8 +121,8 @@ The `float` shortcode wraps arbitrary content with text flowing around it, float
 
 | Parameter | Description |
 | --- | --- |
-| `side` | **Optional.** Float direction, `start` or `end`. **Default:** `start` |
-| `size` | **Optional.** Float width, `s`, `m`, or `l`. **Default:** `m` |
+| `side` | **Optional.** Float direction, `start` or `end`. Default: `start` |
+| `size` | **Optional.** Float width, `s`, `m`, or `l`. Default: `m` |
 
 **Example:**
 
@@ -143,7 +143,7 @@ Use `{{%/* float-clear */%}}` to cancel the float effect.
 | Parameter | Description |
 | --- | --- |
 | `widths` | **Optional.** Comma-separated list of column widths (e.g., `30%,70%`). If not specified, columns are evenly distributed. |
-| `rwd` | **Optional.** Responsive web design (rwd) controls responsive behavior. When `true`, columns stack vertically on small screens and display horizontally on larger screens. **Default:** `true` |
+| `rwd` | **Optional.** Responsive web design (rwd) controls responsive behavior. When `true`, columns stack vertically on small screens and display horizontally on larger screens. Default: `true` |
 
 ```md
 {{%/* cols widths="70%,30%" rwd=false %}}
@@ -176,11 +176,11 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
 | Parameter | Description |
 | --- | --- |
 | `src` | **Optional.** YAML path to the image configuration file. Takes precedence over the shortcode's inner content. |
-| `ratio` | **Optional.** Aspect ratio of the slide frame, in `x/y` format. **Default:** `4/3` |
-| `fit` | **Optional.** How images fill the frame. `contain` shows the full image (may letterbox); `cover` crops to fill. **Default:** `contain` |
-| `thumbs` | **Optional.** Whether to show the thumbnail strip. **Default:** `true` |
-| `arrows` | **Optional.** Whether to show the previous/next buttons. **Default:** `true` |
-| `counter` | **Optional.** Whether to show the slide counter. **Default:** `true` |
+| `ratio` | **Optional.** Aspect ratio of the slide frame, in `x/y` format. Default: `4/3` |
+| `fit` | **Optional.** How images fill the frame. `contain` shows the full image (may letterbox); `cover` crops to fill. Default: `contain` |
+| `thumbs` | **Optional.** Whether to show the thumbnail strip. Default: `true` |
+| `arrows` | **Optional.** Whether to show the previous/next buttons. Default: `true` |
+| `counter` | **Optional.** Whether to show the slide counter. Default: `true` |
 
 **YAML fields per item:**
 
@@ -242,7 +242,7 @@ Images can be specified individually with `src`, or batch-loaded with `match`.
 | Parameter | Description |
 | --- | --- |
 | `src` | **Optional.** YAML path to the image configuration file. Takes precedence over the shortcode's inner content. |
-| `maxCols` | **Optional.** The maximum number of columns to display. **Default:** `3` |
+| `maxCols` | **Optional.** The maximum number of columns to display. Default: `3` |
 
 Images can be specified individually with `src`, or batch-loaded with `match`.
 
@@ -438,9 +438,9 @@ The `cards` shortcode arranges multiple `card` shortcodes in a responsive grid. 
 
 | Parameter | Description |
 | --- | --- |
-| `cols` | **Optional.** Number of columns on large screens. Accepts `1`, `2`, `3` or `4`. **Default:** `3`. |
-| `gap` | **Optional.** Spacing between cards, `s`, `m`, or `l`. **Default:** `m` |
-| `align` | **Optional.** Align cells across cards. Works when `compact=false` in `card`. **Default:** true. |
+| `cols` | **Optional.** Number of columns on large screens. Accepts `1`, `2`, `3` or `4`. Default: `3`. |
+| `gap` | **Optional.** Spacing between cards, `s`, `m`, or `l`. Default: `m` |
+| `align` | **Optional.** Align cells across cards. Works when `compact=false` in `card`. Default: true. |
 
 **Example: align=false**
 
@@ -576,15 +576,15 @@ The `audio` shortcode embeds a HTML5 audio player.
 | `poster` | **Optional.** Poster path. If omitted, the shortcode attempts a same-name image in the page bundle. |
 | `alt` | **Optional.** Alt text for the cover image. |
 | `caption` | **Optional.** Markdown caption shown below the player. |
-| `autoplay` | **Optional.** Enables autoplay when `true`. **Default:** `false` |
-| `loop` | **Optional.** Loops when `true`. **Default:** `false` |
-| `muted` | **Optional.** Mutes when `true`. **Default:** `false` |
-| `controls` | **Optional.** Shows the browser's default playback controls when `true`. **Default:** `true` |
-| `preload` | **Optional.** `metadata` (load info), `none` (save bandwidth), or `auto` (preload more). **Default:** `metadata` |
+| `autoplay` | **Optional.** Enables autoplay when `true`. Default: `false` |
+| `loop` | **Optional.** Loops when `true`. Default: `false` |
+| `muted` | **Optional.** Mutes when `true`. Default: `false` |
+| `controls` | **Optional.** Shows the browser's default playback controls when `true`. Default: `true` |
+| `preload` | **Optional.** `metadata` (load info), `none` (save bandwidth), or `auto` (preload more). Default: `metadata` |
 | `start` | **Optional.** Start time in seconds. |
 | `end` | **Optional.** End time in seconds. |
-| `ratio` | **Optional.** Reserved aspect ratio for the cover image, only applied when `poster` is set. Supports `16/9`, `4/3`, `1/1`, or custom `W/H`. **Default:** `1/1` |
-| `fit` | **Optional.** How the cover image fits the ratio: `contain` (no crop), `cover` (crop to fill), `fill` (stretch). **Default:** `contain` |
+| `ratio` | **Optional.** Reserved aspect ratio for the cover image, only applied when `poster` is set. Supports `16/9`, `4/3`, `1/1`, or custom `W/H`. Default: `1/1` |
+| `fit` | **Optional.** How the cover image fits the ratio: `contain` (no crop), `cover` (crop to fill), `fill` (stretch). Default: `contain` |
 
 **Example: Looped muted audio**
 
@@ -611,16 +611,16 @@ The `video` shortcode embeds a HTML5 video player.
 | `src` | **Required.** Video path. |
 | `poster` | **Optional.** Poster path. If omitted, the shortcode attempts a same-name image in the page bundle. |
 | `caption` | **Optional.** Markdown caption shown below the video. |
-| `autoplay` | **Optional.** Enables autoplay when `true`. **Default:** `false` |
-| `loop` | **Optional.** Loops when `true`. **Default:** `false` |
-| `muted` | **Optional.** Mutes when `true`. **Default:** `false` |
-| `controls` | **Optional.** Shows the browser's default playback controls when `true`. **Default:** `true` |
-| `playsinline` | **Optional.** Inline playback on mobile when `true`. **Default:** `true` |
-| `preload` | **Optional.** `metadata` (load info), `none` (save bandwidth), or `auto` (preload more). **Default:** `metadata` |
+| `autoplay` | **Optional.** Enables autoplay when `true`. Default: `false` |
+| `loop` | **Optional.** Loops when `true`. Default: `false` |
+| `muted` | **Optional.** Mutes when `true`. Default: `false` |
+| `controls` | **Optional.** Shows the browser's default playback controls when `true`. Default: `true` |
+| `playsinline` | **Optional.** Inline playback on mobile when `true`. Default: `true` |
+| `preload` | **Optional.** `metadata` (load info), `none` (save bandwidth), or `auto` (preload more). Default: `metadata` |
 | `start` | **Optional.** Start time in seconds. |
 | `end` | **Optional.** End time in seconds. |
-| `ratio` | **Optional.** Reserved aspect ratio for the player. Supports `16/9`, `4/3`, `1/1`, or custom `W/H`. **Default:** `16/9` |
-| `fit` | **Optional.** How the video fits the ratio: `contain` (no crop), `cover` (crop to fill), `fill` (stretch). **Default:** `contain` |
+| `ratio` | **Optional.** Reserved aspect ratio for the player. Supports `16/9`, `4/3`, `1/1`, or custom `W/H`. Default: `16/9` |
+| `fit` | **Optional.** How the video fits the ratio: `contain` (no crop), `cover` (crop to fill), `fill` (stretch). Default: `contain` |
 
 **Example: Autoplay muted video**
 
@@ -647,7 +647,7 @@ The `pdf` shortcode embeds a PDF file using an inline iframe viewer.
 | `src` | **Required.** PDF URL or local path. Resolves as page resource first, then global resource, then relative URL. |
 | `title` | **Optional.** PDF title for screen readers. |
 | `page` | **Optional.** Jumps to a specific page number on load. |
-| `height` | **Optional.** Height of the viewer frame. **Default:** `800px` |
+| `height` | **Optional.** Height of the viewer frame. Default: `800px` |
 
 ## YouTube
 
@@ -673,9 +673,9 @@ The `typeit` shortcode creates dynamic typewriter animations.
 | Parameter | Description |
 | --- | --- |
 | `initialString` | **Optional.** Text shown before animation. |
-| `speed` | **Optional.** Typing speed in ms. **Default:** `100` |
-| `loop` | **Optional.** Whether to restart. **Default:** `false` |
-| `tag` | **Optional.** HTML tag for wrapping. **Default:** `div` |
+| `speed` | **Optional.** Typing speed in ms. Default: `100` |
+| `loop` | **Optional.** Whether to restart. Default: `false` |
+| `tag` | **Optional.** HTML tag for wrapping. Default: `div` |
 
 **Example: Looping animation with custom speed**
 

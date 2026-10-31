@@ -7,31 +7,25 @@ description: "An introduction to Yore, a minimalist yet powerful Hugo theme desi
 tags: ["concept", "introduction", "getting-started"]
 ---
 
+Built for reading, not for *decoration*.
+
 Yore is a simple yet feature-rich Hugo theme, designed specifically for content-heavy blogs, placing textual clarity first. Despite its simplicity, Yore offers multiple layouts, headers, and customization options.
 
-## Features
+## Features {#features}
 
-- 17:1 ultra high text contrast ratios, far exceeding WCAG-AA 4.5:1
-- 3 distinct header options
-- 2 page hero styles
-- 3-layered CSS structure for flexible styling
-- Prioritizes information delivery
-- Blog, documentation, and gallery layout support
-- Multilingual support
-- Multi-version content support
-- Article series support
-- Accessibility support
-- RTL support
-- Automated responsive image
-- Perfect Google Lighthouse scores on desktop and mobile
-- A+ score on [HTTP Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=yore.zsl0621.cc)
-- GDPR cookie consent banner
-- Semantic CSS layer for consistent visual customization
-- [TailwindCSS v4](https://tailwindcss.com/) lightweight CSS framework
-- [PhotoSwipe](https://photoswipe.com/) image galleries
-- [ECharts](https://echarts.apache.org/) interactive charts
-- [MathJax](https://www.mathjax.org/) LaTeX notation
-- [Pagefind](https://pagefind.app/) site search
-- [Mermaid](https://mermaid.ai/open-source/) diagram using [Pele](https://pele.run/)
-- [iconoir](https://iconoir.com/) and [fontawesome](https://fontawesome.com/icons/packs/brands) SVG icon set
-- [Hugo Knowledge Graph](https://github.com/ZhenShuo2021/hugo-knowledge-graph) article relationship graph
+- **Content delivering**
+
+  17:1 text contrast, far exceeding WCAG-AAA's 7:1 minimum. Content works the same whether it's multilingual, versioned, part of a series, or read right to left. Accessibility support, built-in keyboard focus, reduced motion, screen-reader friendly markup.
+
+- **Layout**
+
+  Pick from 3 header options and 2 hero styles, built on a 3-layered CSS structure that keeps overrides predictable. The same foundation covers blog, documentation, and gallery layouts without fighting the theme.
+
+- **Shipping it**
+
+  Perfect Lighthouse scores on desktop and mobile, an A+ rating on [HTTP Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=yore.zsl0621.cc"), and a GDPR cookie consent banner out of the box. Images resize themselves, so nothing needs manual tuning before launch.
+
+Ready to dive in? [Get started with Yore →](../80-getting-started/index.md)
+{style="margin-block:1.25lh;"}
+
+{{< _internal/features >}}

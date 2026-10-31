@@ -113,7 +113,7 @@
 								{{- end -}}
 								<a
 									href="{{ or .Params.URL .URL }}"
-									class="{{ cond $childActive "yr-header-active" "" }} text-popover-foreground flex items-center gap-2 p-1.5 text-sm"
+									class="{{ cond $childActive "yr-header-active" "" }} hover:bg-muted text-popover-foreground flex items-center gap-2 rounded p-1.5 text-sm transition-colors"
 									aria-label="{{ or .Name .Params.icon }}"
 									{{ if $childActive }}aria-current="page"{{ end }}>
 									{{- .Pre -}}

@@ -7,6 +7,14 @@ if (header) {
 	let blockUpdate = false;
 	let blockTimeout = null;
 
+	const reduceMotion = () =>
+		window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+		document.documentElement.getAttribute('data-a11y-reduce-motion') === 'true';
+
+	const hideHeader = () => {
+		if (!reduceMotion()) header.classList.add('yr-header-hidden');
+	};
+
 	function updateHeader() {
 		if (blockUpdate) {
 			lastScrollY = window.scrollY;
@@ -31,7 +39,7 @@ if (header) {
 		const diff = currentScrollY - lastScrollY;
 		if (Math.abs(diff) > 10) {
 			if (diff > 0) {
-				header.classList.add('yr-header-hidden');
+				hideHeader();
 			} else {
 				header.classList.remove('yr-header-hidden');
 			}
@@ -53,14 +61,14 @@ if (header) {
 	document.addEventListener('click', (e) => {
 		const anchor = e.target.closest('a[href^="#"]');
 		if (anchor && anchor.getAttribute('role') !== 'doc-noteref') {
-			header.classList.add('yr-header-hidden');
+			hideHeader();
 			blockUpdate = true;
 			resetBlockUpdate();
 		}
 	});
 
 	window.addEventListener('hashchange', () => {
-		header.classList.add('yr-header-hidden');
+		hideHeader();
 		blockUpdate = true;
 		resetBlockUpdate();
 	});

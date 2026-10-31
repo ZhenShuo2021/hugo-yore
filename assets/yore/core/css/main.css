@@ -24,8 +24,10 @@
 @import "./layouts/gallery.css" layer(yore);
 @import "../../components/card/index.css" layer(yore);
 @import "../../components/code/chroma.css" layer(yore);
-@import "../../components/code/copy.css" layer(yore);
 @import "../../components/code/code.css" layer(yore);
+{{ if site.Params.codeCopy }}
+	@import "../../components/code/copy.css" layer(yore);
+{{ end }}
 @import "../../components/docs-nav/docs.css" layer(yore);
 @import "../../components/knowledge-graph/knowledge-graph.css";
 @import "../../components/page-actions/page-actions.css" layer(yore);

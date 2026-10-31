@@ -1,16 +1,22 @@
-const defaultCopyText = document.documentElement.getAttribute('data-copy-text') ?? 'Copy';
-const defaultCopiedText = document.documentElement.getAttribute('data-copied-text') ?? 'Copied';
-const defaultCopyFailedText = document.documentElement.getAttribute('data-copy-failed-text') ?? 'Unable to copy';
+const textCopy = document.documentElement.getAttribute('data-copy-text') ?? 'Copy';
+const textCopied = document.documentElement.getAttribute('data-copied-text') ?? 'Copied';
+const textCopyFailed = document.documentElement.getAttribute('data-copy-failed-text') ?? 'Unable to copy';
 
-const copyIcon = `<svg aria-hidden="true" width="24" height="24" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.4 20H9.6C9.26863 20 9 19.7314 9 19.4V9.6C9 9.26863 9.26863 9 9.6 9H19.4C19.7314 9 20 9.26863 20 19.4V19.4C20 19.7314 19.7314 20 19.4 20Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15 9V4.6C15 4.26863 14.7314 4 14.4 4H4.6C4.26863 4 4 4.26863 4 4.6V14.4C4 14.7314 4.26863 15 4.6 15H9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-const checkIcon = `<svg aria-hidden="true" width="24" height="24" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 13L9 17L19 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const iconCopy = `<svg class="copy-icon" aria-hidden="true" width="24" height="24" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.4 20H9.6C9.26863 20 9 19.7314 9 19.4V9.6C9 9.26863 9.26863 9 9.6 9H19.4C19.7314 9 20 9.26863 20 19.4V19.4C20 19.7314 19.7314 20 19.4 20Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15 9V4.6C15 4.26863 14.7314 4 14.4 4H4.6C4.26863 4 4 4.26863 4 4.6V14.4C4 14.7314 4.26863 15 4.6 15H9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const iconCheck = `<svg class="check-icon" aria-hidden="true" width="24" height="24" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 13L9 17L19 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+const statusRegion = document.createElement('div');
+statusRegion.className = 'copy-status';
+statusRegion.setAttribute('role', 'status');
+statusRegion.setAttribute('aria-atomic', 'true');
+document.body.appendChild(statusRegion);
 
 function createCopyButton(highlightDiv) {
 	const button = document.createElement('button');
 	button.className = 'copy-button';
-	button.setAttribute('aria-label', defaultCopyText);
-	button.title = defaultCopyText;
-	button.innerHTML = copyIcon;
+	button.setAttribute('aria-label', textCopy);
+	button.title = textCopy;
+	button.innerHTML = iconCopy + iconCheck;
 	highlightDiv.appendChild(button);
 }
 
@@ -19,24 +25,33 @@ async function copyCode(button, highlightDiv) {
 
 	if (!codeText) return;
 
+	let success = false;
+
 	try {
 		await navigator.clipboard.writeText(codeText);
+		success = true;
 	} catch {
 		try {
-			if (!legacyCopyCode(codeText, button)) {
-				return;
-			}
+			success = legacyCopyCode(codeText, button);
 		} catch {
-			return;
+			success = false;
 		}
 	}
 
-	button.innerHTML = checkIcon;
+	if (!success) {
+		statusRegion.textContent = textCopyFailed;
+		setTimeout(() => {
+			statusRegion.textContent = '';
+		}, 2000);
+		return;
+	}
+
 	button.classList.add('copied');
+	statusRegion.textContent = textCopied;
 
 	setTimeout(() => {
-		button.innerHTML = copyIcon;
 		button.classList.remove('copied');
+		statusRegion.textContent = '';
 	}, 2000);
 }
 

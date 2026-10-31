@@ -18,7 +18,9 @@
 					href="{{ .RelPermalink }}"
 					rel="{{ $meta.rel }}"
 					class="{{ if $isNext -}}
-						items-end text-end
+						items-end text-end sm:col-start-2
+					{{- else -}}
+						sm:col-start-1
 					{{- end }} border-border hover:border-link-hover flex flex-col gap-1 rounded-lg border p-4 transition-colors">
 					<span class="text-muted-foreground flex items-center text-sm">
 						{{ $meta.label }}

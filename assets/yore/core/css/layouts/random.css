@@ -41,6 +41,8 @@ html[data-page-type='random'] footer {
 }
 
 .rp-title {
+	overflow-wrap: anywhere;
+	hyphens: auto;
 	font-size: clamp(1.6rem, 4vw, 2.6rem);
 	font-weight: 500;
 	line-height: 1.25;

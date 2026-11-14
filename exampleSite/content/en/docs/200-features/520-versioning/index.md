@@ -5,10 +5,15 @@ weight: 520
 date: 2026-04-17T00:00:00+08:00
 description: "Serve multiple versions of your documentation from a single Hugo site."
 tags: ["guide", "hugo-core", "versioning", "docs-type"]
-params:
-  sourceLinks:
-    - path: "layouts/_partials/components/version-switcher.html"
 ---
+
+{{< badge
+  text="version-switcher.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/components/version-switcher.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Versioning serves multiple doc versions. Each version maps to a content directory and gets its own URL prefix.
 

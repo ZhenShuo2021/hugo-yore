@@ -5,11 +5,22 @@ description: "A page that redirects visitors to a randomly chosen page on the si
 weight: 260
 date: 2026-07-22T20:59:00+08:00
 tags: ["guide", "random-page", "content-organization"]
-params:
-  sourceLinks:
-    - path: "layouts/random/all.html"
-    - path: "assets/yore/core/css/layouts/random.css"
 ---
+
+{{< badge
+  text="all.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/random/all.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="random.css"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/assets/yore/core/css/layouts/random.css"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 The random page lets readers discover a random article, giving older posts a chance to be seen again. Visiting this page picks a random page from the site and redirects the visitor to it, showing the chosen page's title with a typing animation before redirecting.
 

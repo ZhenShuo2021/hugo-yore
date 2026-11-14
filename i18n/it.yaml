@@ -60,7 +60,6 @@ docs:
   nav_label: Documentazione
   next: Successivo
   prev: Precedente
-  source_files: Codice sorgente
   toc_label: Indice
   toc_nav_label: In questa pagina
 error:

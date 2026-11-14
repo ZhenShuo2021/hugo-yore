@@ -60,7 +60,6 @@ docs:
   nav_label: Documentație
   next: Următorul
   prev: Anterior
-  source_files: Cod sursă
   toc_label: Cuprins
   toc_nav_label: Pe această pagină
 error:

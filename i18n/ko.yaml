@@ -60,7 +60,6 @@ docs:
   nav_label: 문서
   next: 다음
   prev: 이전
-  source_files: 관련 소스 코드
   toc_label: 목차
   toc_nav_label: 이 페이지
 error:

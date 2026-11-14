@@ -5,11 +5,22 @@ weight: 560
 date: 2026-10-24T22:35:00+08:00
 description: "Enable Yore's default HTTP response header template to strengthen your site's security."
 tags: ["guide", "hugo-core"]
-params:
-  sourceLinks:
-    - path: "layouts/_partials/head/resources.html"
-    - path: "layouts/home.headers"
 ---
+
+{{< badge
+  text="resources.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/head/resources.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="home.headers"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/home.headers"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Headers are the HTTP response headers a server sends along with its response to the browser. Yore includes a default headers template. When you enable it, Yore generates a `_headers` file.
 

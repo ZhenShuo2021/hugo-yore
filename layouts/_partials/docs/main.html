@@ -112,29 +112,6 @@
 			{{- end -}}
 		</article>
 
-		{{- /* Source Links */ -}}
-		{{- with .Params.sourceLinks -}}
-			<div class="prose dark:prose-invert border-border mt-10 w-full max-w-none border-t pt-6">
-				<p class="mb-2">
-					{{- i18n "docs.source_files" | default "Source Files" -}}
-				</p>
-				<ul class="space-y-1">
-					{{- range . -}}
-						{{- $url := .url | default (printf "%s%s" site.Params.sourceBaseURL .path) -}}
-						{{- $label := .label | default (path.Base (.path | default $url)) -}}
-						<li>
-							<a href="{{ $url }}" target="_blank" rel="noopener noreferrer">
-								{{- $label -}}
-								<span class="sr-only select-none">
-									{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
-								</span>
-							</a>
-						</li>
-					{{- end -}}
-				</ul>
-			</div>
-		{{- end -}}
-
 		{{- /* Categories and Tags */ -}}
 		{{- if or (.Param "pageShowCategories") (.Param "pageShowTags") -}}
 			{{- partial "page/taxonomy.html" . -}}

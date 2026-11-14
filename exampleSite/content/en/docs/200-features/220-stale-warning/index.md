@@ -6,10 +6,15 @@ description: "Display a warning when an article has not been updated in a long t
 weight: 220
 date: 2026-07-22T00:08:00+08:00
 tags: ["guide", "stale-warning"]
-params:
-  sourceLinks:
-    - path: "layouts/_partials/components/stale-warning.html"
 ---
+
+{{< badge
+  text="stale-warning.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/components/stale-warning.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 The stale content warning shows an admonition on an article when it has not been updated within a configurable number of days. The partial reads `lastmod` in front matter, and falls back to `date`.
 

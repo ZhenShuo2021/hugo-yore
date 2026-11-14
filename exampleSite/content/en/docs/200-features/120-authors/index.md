@@ -6,11 +6,22 @@ date: 2026-04-18T09:01:00+08:00
 description: "Define authors as taxonomy terms and assign them to posts."
 authors: ["yore", "alice", "bob"]
 tags: ["guide", "taxonomy-system", "authors"]
-params:
-  sourceLinks:
-    - path: "layouts/_partials/lib/get-site-author.html"
-    - path: "layouts/authors/term.html"
 ---
+
+{{< badge
+  text="get-site-author.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/lib/get-site-author.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="term.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/authors/term.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Authors are modeled as a [taxonomy](https://gohugo.io/content-management/taxonomies/). Each author has a dedicated content directory with a profile page, and posts reference authors by slug.
 

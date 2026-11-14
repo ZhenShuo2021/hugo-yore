@@ -5,10 +5,15 @@ description: Visualize relationships between posts using backlinks and taxonomy 
 weight: 440
 date: 2026-05-02T11:59:00+08:00
 tags: ["guide", "hugo-core", "knowledge-graph", "content-organization", "visualization"]
-params:
-  sourceLinks:
-    - url: "https://github.com/ZhenShuo2021/hugo-knowledge-graph/blob/main/layouts/home.knowledge-graph.json"
 ---
+
+{{< badge
+  text="home.knowledge-graph.json"
+  url="https://github.com/ZhenShuo2021/hugo-knowledge-graph/blob/main/layouts/home.knowledge-graph.json"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Knowledge Graph visualizes [backlink][backlink] and taxonomy relationships between articles as an interactive graph. Yore supports [Hugo Knowledge Graph][hkg] with no additional HTML/CSS configuration.
 

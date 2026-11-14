@@ -5,10 +5,15 @@ weight: 160
 date: 2026-01-30T21:09:00+08:00
 description: "Configure the favicon and site icons for your website."
 tags: ["guide", "favicon", "icons"]
-params:
-  sourceLinks:
-    - path: "layouts/_partials/head/favicons.html"
 ---
+
+{{< badge
+  text="favicons.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/head/favicons.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Favicons are icons that represent websites on browser tabs. This page explains how to provide favicon resources and how to customize them when the default formats are insufficient.
 

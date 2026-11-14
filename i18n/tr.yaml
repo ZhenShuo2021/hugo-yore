@@ -60,7 +60,6 @@ docs:
   nav_label: Dokümantasyon
   next: Sonraki
   prev: Önceki
-  source_files: Kaynak kodu
   toc_label: İçindekiler
   toc_nav_label: Bu sayfada
 error:

@@ -60,7 +60,6 @@ docs:
   nav_label: ドキュメント
   next: 次へ
   prev: 前へ
-  source_files: 関連ソースコード
   toc_label: 目次
   toc_nav_label: このページ
 error:

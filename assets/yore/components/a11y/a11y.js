@@ -4,6 +4,15 @@ const STORAGE_KEY = 'yore-a11ySettings';
 
 let fontMetrics = null;
 
+function announce(text) {
+	const status = document.getElementById('font-size-status');
+	if (!status || !text) return;
+	status.textContent = '';
+	setTimeout(() => {
+		status.textContent = text;
+	}, 50);
+}
+
 function getFontMetrics() {
 	if (fontMetrics) return fontMetrics;
 
@@ -102,11 +111,12 @@ const FEATURES = {
 				});
 				const decreaseBtn = document.getElementById('font-size-decrease');
 				const increaseBtn = document.getElementById('font-size-increase');
-				if (decreaseBtn) decreaseBtn.disabled = level <= -2;
-				if (increaseBtn) increaseBtn.disabled = level >= 2;
+				if (decreaseBtn) decreaseBtn.setAttribute('aria-disabled', String(level <= -2));
+				if (increaseBtn) increaseBtn.setAttribute('aria-disabled', String(level >= 2));
 
 				const status = document.getElementById('font-size-status');
-				if (status) status.textContent = `${level - -2 + 1} / 5`;
+				if (status)
+					announce(level <= -2 ? status.dataset.min : level >= 2 ? status.dataset.max : `${level + 3} / 5`);
 			};
 
 			const decreaseBtn = document.getElementById('font-size-decrease');
@@ -118,6 +128,8 @@ const FEATURES = {
 					if (level > -2) {
 						updateSetting(key, level - 1);
 						updateDots(level - 1);
+					} else {
+						announce(document.getElementById('font-size-status')?.dataset.min);
 					}
 				};
 			}
@@ -128,6 +140,8 @@ const FEATURES = {
 					if (level < 2) {
 						updateSetting(key, level + 1);
 						updateDots(level + 1);
+					} else {
+						announce(document.getElementById('font-size-status')?.dataset.max);
 					}
 				};
 			}

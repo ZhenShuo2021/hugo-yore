@@ -1,8 +1,11 @@
-<main id="main-content" class="docs-content min-w-0 flex-1 px-4 md:px-6" data-module="{{ partial "lib/page-modules.html" . }}">
+<main
+	id="main-content"
+	class="docs-content min-w-0 flex-1 px-4 md:px-6"
+	data-module="{{ partial "lib/page-modules.html" . }}">
 	{{- partial "inline/docs-content-header.html" . -}}
 
 	{{- with .Content -}}
-		<article class="prose dark:prose-invert mb-10 w-full max-w-none">
+		<article class="prose dark:prose-invert mb-6 w-full max-w-none">
 			{{- . -}}
 		</article>
 	{{- end -}}

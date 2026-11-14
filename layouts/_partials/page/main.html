@@ -62,7 +62,11 @@
 			</div>
 		{{- end -}}
 		{{- if .Param "chineseConverter" -}}
-			<button disabled id="chinese-translate" data-module="translate" class="text-muted-foreground min-h-6 min-w-6 text-sm">
+			<button
+				disabled
+				id="chinese-translate"
+				data-module="translate"
+				class="text-muted-foreground min-h-6 min-w-6 text-sm">
 				繁簡轉換
 				<span aria-hidden="true">
 					{{- partialCached "components/icon.html" "translate" "icon-translate" -}}
@@ -135,7 +139,7 @@
 	{{- end -}}
 
 	{{- if and (in (slice "bottom" "both") (.Param "pageSeriesStyle")) (.GetTerms "series") -}}
-		<div class="prose dark:prose-invert mb-10 max-w-none"><hr></div>
+		<div class="prose dark:prose-invert mb-6 max-w-none"><hr></div>
 		{{- partial "page/series.html" (dict "ctx" .) -}}
 	{{- end -}}
 	{{- if templates.Exists "_partials/comments.html" -}}

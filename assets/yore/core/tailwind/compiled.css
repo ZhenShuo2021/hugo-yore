@@ -983,9 +983,6 @@
     }
     --tw-prose-body: var(--color-foreground);
     --tw-prose-headings: var(--color-foreground);
-    @supports (color: color-mix(in lab, red, red)) {
-      --tw-prose-headings: color-mix(in oklab, var(--color-foreground) 88%, var(--color-accent-500) 12%);
-    }
     --tw-prose-lead: var(--color-muted-foreground);
     --tw-prose-links: var(--color-link-hover);
     --tw-prose-bold: inherit;
@@ -1170,9 +1167,6 @@
   }
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
-  }
-  .mb-10 {
-    margin-bottom: calc(var(--spacing) * 10);
   }
   .mb-12 {
     margin-bottom: calc(var(--spacing) * 12);

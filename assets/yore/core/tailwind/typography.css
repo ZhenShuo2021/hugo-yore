@@ -4,7 +4,7 @@
 	--tw-prose-body: var(--color-foreground);
 
 	/* Headings */
-	--tw-prose-headings: color-mix(in oklab, var(--color-foreground) 88%, var(--color-accent-500) 12%);
+	--tw-prose-headings: var(--color-foreground);
 
 	/* Lead paragraph */
 	--tw-prose-lead: var(--color-muted-foreground);

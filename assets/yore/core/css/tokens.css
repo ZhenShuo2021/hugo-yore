@@ -30,6 +30,9 @@ html[data-theme='light'] {
 	/* Success */
 	--success: oklch(72.3% 0.219 149.579);
 
+	/* Warning */
+	--warning: oklch(76.9% 0.188 70.08);
+
 	/* General borders */
 	--border: var(--color-neutral-300);
 
@@ -76,6 +79,7 @@ html[data-theme='dark'] {
 
 	--destructive: oklch(0.704 0.191 22.216);
 	--success: oklch(72.3% 0.219 149.579);
+	--warning: oklch(82.8% 0.189 84.429);
 
 	--border: var(--color-neutral-700);
 	--input: var(--color-neutral-900);

@@ -1,0 +1,84 @@
+{{- /*
+	Params (dict):
+		text        label
+		variant     brand (default), muted, success, warning, danger
+		appearance  accent (default), filled, outlined, filled-outlined
+		size        s (default), m, l
+		pill        bool, fully rounded ends
+		url         turns the badge into a link
+		start       icon name before the label
+		end         icon name after the label
+
+	Usage:
+		{{ partial "components/badge.html" (dict "text" "New" "variant" "success" "pill" true) }}
+*/ -}}
+{{- $sizes := dict
+	"s" "text-[0.75em]"
+	"m" "text-[0.85em]"
+	"l" "text-[1em]"
+-}}
+{{- $size := index $sizes (.size | default "s") | default "text-[1em]" -}}
+{{- $pill := .pill | partial "lib/tobool.html" -}}
+{{- $url := .url -}}
+
+{{- $classes := slice
+	"not-prose"
+	"transition-colors"
+	"duration-(--dur-150)"
+	"inline-flex"
+	"min-h-[1em]"
+	"min-w-[1.25em]"
+	"items-center"
+	"justify-center"
+	"rounded-sm"
+	"border"
+	"px-[0.625em]"
+	"py-[0.375em]"
+	"align-middle"
+	"leading-none"
+	"font-semibold"
+	"whitespace-nowrap"
+	"no-underline"
+	"select-none"
+	$size
+	"yr-badge"
+	(printf "yr-badge--%s" (.variant | default "brand"))
+	(printf "yr-badge--%s" (.appearance | default "accent"))
+-}}
+{{- if $pill -}}
+	{{- $classes = $classes | append "yr-badge--pill" -}}
+{{- end -}}
+{{- if $url -}}
+	{{- $classes = $classes | append "yr-badge--link" -}}
+{{- end -}}
+
+{{- $inner := .text | htmlEscape -}}
+{{- with .start -}}
+	{{- $icon := partial "components/icon.html" . -}}
+	{{- $inner = printf `<span class="me-[0.5em]">%s</span>%s` $icon $inner -}}
+{{- end -}}
+{{- with .end -}}
+	{{- $icon := partial "components/icon.html" . -}}
+	{{- $inner = printf `%s<span class="ms-[0.5em]">%s</span>` $inner $icon -}}
+{{- end -}}
+
+{{- if $url -}}
+	{{- $external := partial "lib/is-external" $url }}
+	<a
+		class="{{ delimit $classes " " }}"
+		href="{{ $url }}"
+		{{- if $external }}
+			target="_blank" rel="noopener noreferrer"
+		{{- end }}>
+		{{- $inner | safeHTML -}}
+		{{- if $external -}}
+			<span class="sr-only select-none">
+				{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
+			</span>
+		{{- end -}}
+	</a>
+{{- else -}}
+	<span class="{{ delimit $classes " " }}">
+		{{- $inner | safeHTML -}}
+	</span>
+{{- end -}}

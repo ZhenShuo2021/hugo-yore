@@ -12,6 +12,77 @@ series: ["Shortcodes"]
 <!-- rumdl-disable MD045 -->
 <!-- most image here are decorative, not related to the docs -->
 
+## Badge
+
+The `badge` shortcode renders an inline label. Passing `url` turns it into a link.
+
+| Parameter | Description |
+| --- | --- |
+| `text` | **Required.** Label text. |
+| `variant` | **Optional.** Color, `brand`, `muted`, `success`, `warning` or `danger`. Default: `brand` |
+| `appearance` | **Optional.** Style, `accent`, `filled`, `outlined` or `filled-outlined`. Default: `accent` |
+| `size` | **Optional.** Size, `s`, `m` or `l`. Default: `s` |
+| `pill` | **Optional.** Fully rounded ends. Default: `false` |
+| `url` | **Optional.** Renders the badge as a link. External URLs open in a new tab. |
+| `start` | **Optional.** Icon name before the label. |
+| `end` | **Optional.** Icon name after the label. |
+
+**Example**
+
+```text
+{{</* badge
+  text="Success"
+  variant="success"
+  appearance="filled"
+  pill=true
+*/>}}
+```
+
+{{< badge
+  text="Success"
+  variant="success"
+  appearance="filled"
+  pill=true
+>}}
+
+accent (default)
+
+{{< badge text="Info" variant="brand" appearance="accent" url="#" >}}
+{{< badge text="Success" variant="success" appearance="accent" >}}
+{{< badge text="Notice" variant="muted" appearance="accent" >}}
+{{< badge text="Warning" variant="warning" appearance="accent" >}}
+{{< badge text="Danger" variant="danger" appearance="accent" >}}
+
+outlined
+
+{{< badge text="Info" variant="brand" appearance="outlined" url="#" >}}
+{{< badge text="Success" variant="success" appearance="outlined" >}}
+{{< badge text="Notice" variant="muted" appearance="outlined" >}}
+{{< badge text="Warning" variant="warning" appearance="outlined" >}}
+{{< badge text="Danger" variant="danger" appearance="outlined" >}}
+
+filled
+
+{{< badge text="Info" variant="brand" appearance="filled" url="#" >}}
+{{< badge text="Success" variant="success" appearance="filled" >}}
+{{< badge text="Notice" variant="muted" appearance="filled" >}}
+{{< badge text="Warning" variant="warning" appearance="filled" >}}
+{{< badge text="Danger" variant="danger" appearance="filled" >}}
+
+filled-outlined
+
+{{< badge text="Info" variant="brand" appearance="filled-outlined" url="#" >}}
+{{< badge text="Success" variant="success" appearance="filled-outlined" >}}
+{{< badge text="Notice" variant="muted" appearance="filled-outlined" >}}
+{{< badge text="Warning" variant="warning" appearance="filled-outlined" >}}
+{{< badge text="Danger" variant="danger" appearance="filled-outlined" >}}
+
+**Pill, size, and icon**
+
+{{< badge text="Success" size="s" start="check-circle" variant="success" appearance="outlined" pill=true url="#" >}}
+{{< badge text="Success" size="m" start="check-circle" variant="success" appearance="outlined" pill=true >}}
+{{< badge text="Success" size="l" start="check-circle" variant="success" appearance="outlined" pill=true >}}
+
 ## Email
 
 The `email` shortcode obfuscates an email address to reduce exposure to scrapers. The address is base64-encoded at build time and decoded client-side into a `mailto` link.

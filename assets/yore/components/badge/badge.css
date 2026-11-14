@@ -1,0 +1,91 @@
+/*
+	A variant sets --badge-color. Everything else is derived from it.
+	--badge-text is the only text color, `color` always reads it.
+
+	Every rule has the same specificity (0,1,0), dark theme rules use :where()
+	for that, so the order alone decides. Defaults come first, then variants,
+	so a variant that sets --badge-text overrides every appearance.
+*/
+.yr-badge {
+	--badge-color: var(--primary);
+	--badge-text: color-mix(in oklab, var(--badge-color) 45%, var(--foreground));
+	--badge-border: color-mix(in oklab, var(--badge-color) 40%, var(--background));
+	--badge-tint: color-mix(in oklab, var(--badge-color) 16%, var(--background));
+	--badge-bg: var(--badge-color);
+
+	color: var(--badge-text);
+	background-color: var(--badge-bg);
+	border-color: transparent;
+}
+
+:where(html[data-theme='dark']) .yr-badge {
+	--badge-tint: color-mix(in oklab, var(--badge-color) 50%, var(--background));
+	--badge-text: color-mix(in oklab, var(--badge-color) 65%, var(--foreground));
+	--badge-border: color-mix(in oklab, var(--badge-color) 80%, var(--background));
+}
+
+:where(html[data-theme='dark']) .yr-badge--filled,
+:where(html[data-theme='dark']) .yr-badge--filled-outlined {
+	--badge-text: var(--foreground);
+}
+
+/*
+	Text on the solid fill is black or white by the lightness of the fill.
+	success, warning and danger are light in both themes, so a fixed
+	foreground token would not keep its contrast.
+*/
+.yr-badge--accent {
+	--badge-text: oklch(from var(--badge-color) clamp(0, (l - 0.65) * -1000, 1) 0 h);
+}
+
+/* variants */
+.yr-badge--muted {
+	--badge-color: var(--muted-foreground);
+	--badge-tint: var(--muted);
+	--badge-border: var(--border);
+}
+:where(html[data-theme='dark']) .yr-badge--muted {
+	--badge-tint: color-mix(in oklab, var(--muted-foreground) 5%, var(--background));
+	--badge-border: var(--muted-foreground);
+}
+
+.yr-badge--success {
+	--badge-color: var(--success);
+}
+
+.yr-badge--warning {
+	--badge-color: var(--warning);
+}
+
+.yr-badge--danger {
+	--badge-color: var(--destructive);
+}
+
+/* appearances, accent is the base look */
+.yr-badge--filled {
+	--badge-bg: var(--badge-tint);
+}
+
+.yr-badge--outlined {
+	--badge-bg: transparent;
+	border-color: oklch(from var(--badge-text) calc(l * 0.9) c h);
+}
+
+.yr-badge--filled-outlined {
+	--badge-bg: var(--badge-tint);
+	border-color: var(--badge-border);
+}
+
+.yr-badge--pill {
+	border-radius: 9999px;
+}
+
+/* link */
+.yr-badge--link:hover {
+	background-color: color-mix(in oklab, var(--badge-bg) 85%, currentColor);
+}
+
+.yr-badge--link:focus-visible {
+	outline: 2px solid var(--outline);
+	outline-offset: 2px;
+}

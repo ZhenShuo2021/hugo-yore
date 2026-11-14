@@ -7,6 +7,7 @@ a11y_panel:
   font_size: Schriftgröße
   high_contrast: Hoher Kontrast
   increase_font_size: Schriftgröße vergrößern
+  line_height: Zeilenhöhe
   reduce_motion: Bewegung reduzieren
   reduce_transparency: Transparenz reduzieren
   show_link_underline: Links unterstreichen

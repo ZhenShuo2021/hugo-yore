@@ -7,6 +7,7 @@ a11y_panel:
   font_size: Taille de la police
   high_contrast: Contraste élevé
   increase_font_size: Augmenter la taille de police
+  line_height: Interligne
   reduce_motion: Réduire les animations
   reduce_transparency: Réduire la transparence
   show_link_underline: Afficher le soulignement des liens

@@ -7,6 +7,7 @@ a11y_panel:
   font_size: フォントサイズ
   high_contrast: ハイコントラスト
   increase_font_size: フォントサイズを拡大
+  line_height: 行間
   reduce_motion: モーションを減らす
   reduce_transparency: 透明度を下げる
   show_link_underline: リンクの下線を表示する

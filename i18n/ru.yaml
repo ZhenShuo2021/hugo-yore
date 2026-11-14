@@ -7,6 +7,7 @@ a11y_panel:
   font_size: Размер шрифта
   high_contrast: Высокая контрастность
   increase_font_size: Увеличить размер шрифта
+  line_height: Межстрочный интервал
   reduce_motion: Уменьшить анимацию
   reduce_transparency: Уменьшить прозрачность
   show_link_underline: Показать подчеркивание ссылок

@@ -7,6 +7,7 @@ a11y_panel:
   font_size: 字體大小
   high_contrast: 高對比
   increase_font_size: 放大字體
+  line_height: 行高
   reduce_motion: 減少動態效果
   reduce_transparency: 降低透明度
   show_link_underline: 顯示連結底線

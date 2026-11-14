@@ -4,13 +4,18 @@ const STORAGE_KEY = 'yore-a11ySettings';
 
 let fontMetrics = null;
 
+const LINE_HEIGHTS = [0, 2.25, 2.75];
+
 function announce(text) {
-	const status = document.getElementById('font-size-status');
+	const status = document.getElementById('a11y-status');
 	if (!status || !text) return;
 	status.textContent = '';
 	setTimeout(() => {
 		status.textContent = text;
 	}, 50);
+	setTimeout(() => {
+		status.textContent = '';
+	}, 1500);
 }
 
 function getFontMetrics() {
@@ -30,6 +35,29 @@ function getFontMetrics() {
 
 	fontMetrics = { baseFontSizePx, browserDefaultPx };
 	return fontMetrics;
+}
+
+function initCycle(key, btnId, min, max, current) {
+	const btn = document.getElementById(btnId);
+	if (!btn) return;
+
+	const render = (level, speak) => {
+		btn.querySelectorAll('.font-size-dot').forEach((dot) => {
+			dot.classList.toggle('active', Number(dot.dataset.level) === level);
+		});
+		const label = `${btn.dataset.label}, ${level - min + 1} / ${max - min + 1}`;
+		btn.setAttribute('aria-label', label);
+		if (speak) announce(label);
+	};
+
+	btn.onclick = () => {
+		const level = getSettings()[key];
+		const next = level >= max ? min : level + 1;
+		updateSetting(key, next);
+		render(next, true);
+	};
+
+	render(current, false);
 }
 
 const FEATURES = {
@@ -86,6 +114,22 @@ const FEATURES = {
 		},
 	},
 
+	lineHeight: {
+		default: 0,
+		apply: (level) => {
+			const value = LINE_HEIGHTS[level];
+			const root = document.documentElement;
+			if (value) {
+				root.setAttribute('data-a11y-line-height', '');
+				root.style.setProperty('--a11y-line-height', value);
+			} else {
+				root.removeAttribute('data-a11y-line-height');
+				root.style.removeProperty('--a11y-line-height');
+			}
+		},
+		initUI: (key, level) => initCycle(key, 'line-height-btn', 0, LINE_HEIGHTS.length - 1, level),
+	},
+
 	fontSize: {
 		default: 0, // offset from base: -2, -1, 0, 1, 2
 		apply: (level, initial = false) => {
@@ -104,50 +148,7 @@ const FEATURES = {
 				storage.setRaw('yore-a11yFontSize', value);
 			}
 		},
-		initUI: (key, currentLevel) => {
-			const updateDots = (level) => {
-				document.querySelectorAll('.font-size-dot').forEach((dot) => {
-					dot.classList.toggle('active', Number(dot.dataset.level) === level);
-				});
-				const decreaseBtn = document.getElementById('font-size-decrease');
-				const increaseBtn = document.getElementById('font-size-increase');
-				if (decreaseBtn) decreaseBtn.setAttribute('aria-disabled', String(level <= -2));
-				if (increaseBtn) increaseBtn.setAttribute('aria-disabled', String(level >= 2));
-
-				const status = document.getElementById('font-size-status');
-				if (status)
-					announce(level <= -2 ? status.dataset.min : level >= 2 ? status.dataset.max : `${level + 3} / 5`);
-			};
-
-			const decreaseBtn = document.getElementById('font-size-decrease');
-			const increaseBtn = document.getElementById('font-size-increase');
-
-			if (decreaseBtn) {
-				decreaseBtn.onclick = () => {
-					const level = getSettings().fontSize;
-					if (level > -2) {
-						updateSetting(key, level - 1);
-						updateDots(level - 1);
-					} else {
-						announce(document.getElementById('font-size-status')?.dataset.min);
-					}
-				};
-			}
-
-			if (increaseBtn) {
-				increaseBtn.onclick = () => {
-					const level = getSettings().fontSize;
-					if (level < 2) {
-						updateSetting(key, level + 1);
-						updateDots(level + 1);
-					} else {
-						announce(document.getElementById('font-size-status')?.dataset.max);
-					}
-				};
-			}
-
-			updateDots(currentLevel);
-		},
+		initUI: (key, level) => initCycle(key, 'font-size-btn', -2, 2, level),
 	},
 };
 
@@ -159,6 +160,7 @@ function getSettings() {
 	const saved = storage.get(STORAGE_KEY, {});
 	settings = { ...defaults, ...saved };
 	settings.fontSize = Number(settings.fontSize) || 0;
+	settings.lineHeight = Number(settings.lineHeight) || 0;
 	return settings;
 }
 

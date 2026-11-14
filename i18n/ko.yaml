@@ -7,6 +7,7 @@ a11y_panel:
   font_size: 글꼴 크기
   high_contrast: 고대비
   increase_font_size: 글자 크기 늘리기
+  line_height: 줄 간격
   reduce_motion: 모션 줄이기
   reduce_transparency: 투명도 줄이기
   show_link_underline: 링크 밑줄 표시

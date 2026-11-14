@@ -26,6 +26,18 @@ html[data-a11y-link-underline] {
 	}
 }
 
+html[data-a11y-line-height='2.25'] {
+	--a11y-line-height: 2.25
+}
+html[data-a11y-line-height='2.75'] {
+	--a11y-line-height: 2.75
+}
+
+html[data-a11y-line-height] .prose,
+html[data-a11y-line-height] .prose * {
+	line-height: var(--a11y-line-height) !important;
+}
+
 html[data-a11y-high-contrast][data-theme='light'] {
 	--background: var(--color-neutral-50);
 	--foreground: var(--color-neutral-950);

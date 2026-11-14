@@ -7,6 +7,7 @@ a11y_panel:
   font_size: Yazı tipi boyutu
   high_contrast: Yüksek kontrast
   increase_font_size: Yazı tipi boyutunu büyüt
+  line_height: Satır yüksekliği
   reduce_motion: Hareketi azalt
   reduce_transparency: Saydamlığı azalt
   show_link_underline: Bağlantı alt çizgisini göster

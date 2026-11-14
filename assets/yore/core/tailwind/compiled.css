@@ -9,8 +9,6 @@
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-amber-300: oklch(87.9% 0.169 91.605);
-    --color-amber-700: oklch(55.5% 0.163 48.998);
     --color-sky-400: oklch(74.6% 0.16 232.661);
     --color-sky-600: oklch(58.8% 0.158 241.966);
     --color-slate-100: oklch(96.8% 0.007 247.896);
@@ -53,8 +51,6 @@
     --text-xl--line-height: calc(1.75 / 1.25);
     --text-2xl: 1.5rem;
     --text-2xl--line-height: calc(2 / 1.5);
-    --text-3xl: 1.875rem;
-    --text-3xl--line-height: calc(2.25 / 1.875);
     --text-4xl: 2.25rem;
     --text-4xl--line-height: calc(2.5 / 2.25);
     --text-5xl: 3rem;
@@ -422,6 +418,9 @@
   }
   .m-0\! {
     margin: 0px !important;
+  }
+  .m-4 {
+    margin: calc(var(--spacing) * 4);
   }
   .mx-1 {
     margin-inline: var(--spacing);
@@ -1234,6 +1233,14 @@
     width: calc(var(--spacing) * 6);
     height: calc(var(--spacing) * 6);
   }
+  .size-12 {
+    width: calc(var(--spacing) * 12);
+    height: calc(var(--spacing) * 12);
+  }
+  .size-full {
+    width: 100%;
+    height: 100%;
+  }
   .h-\(--header-height\) {
     height: var(--header-height);
   }
@@ -1347,6 +1354,9 @@
   }
   .min-w-32 {
     min-width: calc(var(--spacing) * 32);
+  }
+  .min-w-\[40vw\] {
+    min-width: 40vw;
   }
   .min-w-full {
     min-width: 100%;
@@ -1932,10 +1942,6 @@
     font-size: var(--text-2xl) !important;
     line-height: var(--tw-leading, var(--text-2xl--line-height)) !important;
   }
-  .text-3xl {
-    font-size: var(--text-3xl);
-    line-height: var(--tw-leading, var(--text-3xl--line-height));
-  }
   .text-4xl {
     font-size: var(--text-4xl);
     line-height: var(--tw-leading, var(--text-4xl--line-height));
@@ -2015,14 +2021,8 @@
   .whitespace-nowrap {
     white-space: nowrap;
   }
-  .text-\(--brand-foreground\) {
-    color: var(--brand-foreground);
-  }
   .text-\(--seal\) {
     color: var(--seal);
-  }
-  .text-amber-700 {
-    color: var(--color-amber-700);
   }
   .text-background {
     color: var(--color-background);
@@ -2238,17 +2238,8 @@
       color: var(--color-link-hover);
     }
   }
-  .group-has-checked\:border-brand-500:is(:where(.group):has(:checked) *) {
-    border-color: var(--color-brand-500);
-  }
   .group-has-checked\:bg-brand-500:is(:where(.group):has(:checked) *) {
     background-color: var(--color-brand-500);
-  }
-  .group-has-checked\:opacity-100:is(:where(.group):has(:checked) *) {
-    opacity: 100%;
-  }
-  .group-aria-disabled\:block:is(:where(.group)[aria-disabled="true"] *) {
-    display: block;
   }
   .before\:absolute::before {
     content: var(--tw-content);
@@ -2309,9 +2300,6 @@
     .hover\:opacity-90:hover {
       opacity: 90%;
     }
-    .hover\:not-aria-disabled\:border-foreground:hover:not([aria-disabled="true"]) {
-      border-color: var(--color-foreground);
-    }
   }
   .focus\:not-sr-only:focus {
     position: static;
@@ -2361,18 +2349,8 @@
   .has-focus-visible\:outline-offset-2:has(:focus-visible) {
     outline-offset: 2px;
   }
-  .has-focus-visible\:outline-ring:has(:focus-visible) {
-    outline-color: var(--color-ring);
-  }
-  .aria-disabled\:cursor-not-allowed[aria-disabled="true"] {
-    cursor: not-allowed;
-  }
-  .aria-disabled\:border-dashed[aria-disabled="true"] {
-    --tw-border-style: dashed;
-    border-style: dashed;
-  }
-  .aria-disabled\:border-amber-700[aria-disabled="true"] {
-    border-color: var(--color-amber-700);
+  .has-focus-visible\:outline-\(--outline\):has(:focus-visible) {
+    outline-color: var(--outline);
   }
   @media (prefers-reduced-motion: no-preference) {
     .motion-safe\:animate-bounce {
@@ -2484,9 +2462,6 @@
   .dark\:bg-zinc-800:where([data-theme=dark], [data-theme=dark] *) {
     background-color: var(--color-zinc-800);
   }
-  .dark\:text-amber-300:where([data-theme=dark], [data-theme=dark] *) {
-    color: var(--color-amber-300);
-  }
   .dark\:text-sky-400:where([data-theme=dark], [data-theme=dark] *) {
     color: var(--color-sky-400);
   }
@@ -2526,9 +2501,6 @@
     .dark\:hover\:bg-zinc-700:where([data-theme=dark], [data-theme=dark] *):hover {
       background-color: var(--color-zinc-700);
     }
-  }
-  .dark\:aria-disabled\:border-amber-300:where([data-theme=dark], [data-theme=dark] *)[aria-disabled="true"] {
-    border-color: var(--color-amber-300);
   }
   @media print {
     .print\:hidden {

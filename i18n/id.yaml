@@ -7,6 +7,7 @@ a11y_panel:
   font_size: Ukuran font
   high_contrast: Kontras tinggi
   increase_font_size: Perbesar ukuran font
+  line_height: Tinggi baris
   reduce_motion: Kurangi gerakan
   reduce_transparency: Kurangi transparansi
   show_link_underline: Tampilkan garis bawah tautan

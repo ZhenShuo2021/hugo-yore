@@ -89,14 +89,14 @@ This is a **bold introduction** to grab the reader's attention.
 
 ```txt
 {{%/* text-center %}}
-*{{% ruby "とうきょう" %}}東京[^1]{{% /ruby %}}* text.
+*{{% ruby "とうきょう" %}}東京{{% /ruby %}}*[^1] text.
 
 [^1]: footnote content
 {{% /text-center */%}}
 ```
 
 {{% text-center %}}
-*{{% ruby "とうきょう" %}}東京[^1]{{% /ruby %}}* text.
+*{{% ruby "とうきょう" %}}東京{{% /ruby %}}*[^1] text.
 {{% /text-center %}}
 
 [^1]: footnote content

@@ -12,14 +12,18 @@
 
 	{{- if site.Store.Get "renderFunctionalHeader" -}}
 		<div class="{{ if site.Menus.main }}border-s border-border ps-6{{ end }} flex items-center gap-6">
-			{{- if .IsTranslated -}}
-				<div class="[&_button_.yr-icon]:size-5!">
-					{{- partial "components/translations.html" . -}}
-				</div>
-			{{- end -}}
-			{{- if site.Params.versionSwitcher -}}
-				{{- partial "components/yr-version-switcher.html" $ -}}
-			{{- end -}}
+			<div class="contents" data-header-slot>
+				{{- if .IsTranslated -}}
+					<div class="[&_button_.yr-icon]:size-5!">
+						{{- partial "components/translations.html" . -}}
+					</div>
+				{{- end -}}
+			</div>
+			<div class="contents" data-header-slot>
+				{{- if site.Params.versionSwitcher -}}
+					{{- partial "components/yr-version-switcher.html" $ -}}
+				{{- end -}}
+			</div>
 
 			{{- if site.Params.accessibilityEnabled -}}
 				<button
@@ -82,7 +86,7 @@
 
 	{{- if $item.HasChildren -}}
 		{{- with $item -}}
-			<div class="relative flex" data-nav-item>
+			<div class="relative flex" data-nav-item data-module="nested-menu">
 				<button
 					type="button"
 					class="{{ $activeClass }} text-foreground hover:text-link-hover me-[-0.4em] flex items-center gap-1.5 font-medium"

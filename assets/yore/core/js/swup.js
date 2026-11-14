@@ -69,6 +69,14 @@ export function init() {
 		{ priority: -1 },
 	);
 
+	// The content may even be nonexistent, so the slot content needs to be changed.
+	swup.hooks.on('content:replace', (visit) => {
+		const next = visit.to.document.querySelectorAll('[data-header-slot]');
+		document.querySelectorAll('[data-header-slot]').forEach((slot, i) => {
+			slot.innerHTML = next[i].innerHTML;
+		});
+	});
+
 	// Sync the site header with the new page. It lives outside the swup container and isn't replaced,
 	// so its active state is copied over and its hidden state (hide-on-scroll) would otherwise persist
 	swup.hooks.on('content:replace', (visit) => {

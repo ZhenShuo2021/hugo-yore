@@ -136,13 +136,17 @@
 				</button>
 			{{- end -}}
 
-			{{- if .IsTranslated -}}
-				{{- partial "components/translations.html" . -}}
-			{{- end -}}
 
-			{{- if site.Params.versionSwitcher -}}
-				{{- partial "components/yr-version-switcher.html" $ -}}
-			{{- end -}}
+			<div class="contents" data-header-slot>
+				{{- if .IsTranslated -}}
+					{{- partial "components/translations.html" . -}}
+				{{- end -}}
+			</div>
+			<div class="contents" data-header-slot>
+				{{- if site.Params.versionSwitcher -}}
+					{{- partial "components/yr-version-switcher.html" $ -}}
+				{{- end -}}
+			</div>
 
 			{{- if site.Params.accessibilityEnabled | default false -}}
 				<div class="flex items-center">

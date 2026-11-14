@@ -94,11 +94,16 @@ a[data-depth='0'] {
 		max-height: 100dvh;
 		margin: 0;
 		border: 0;
-		transform: translateX(-100%);
+		--drawer-hidden: translateX(-100%);
+		transform: var(--drawer-hidden);
 		transition:
 			transform var(--dur-300) ease,
 			overlay var(--dur-300) ease allow-discrete,
 			display var(--dur-300) ease allow-discrete;
+	}
+
+	.docs-sidebar-container[popover]:dir(rtl) {
+		--drawer-hidden: translateX(100%);
 	}
 
 	.docs-sidebar-container[popover]:popover-open {
@@ -108,7 +113,7 @@ a[data-depth='0'] {
 
 	@starting-style {
 		.docs-sidebar-container[popover]:popover-open {
-			transform: translateX(-100%);
+			transform: var(--drawer-hidden);
 		}
 	}
 

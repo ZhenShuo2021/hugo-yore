@@ -78,8 +78,9 @@ async function init() {
 		const buttonRect = toggle.getBoundingClientRect();
 		const menuRect = menu.getBoundingClientRect();
 
-		let left = buttonRect.right - menuRect.width;
-		if (left < VIEWPORT_PADDING) left = VIEWPORT_PADDING;
+		const isRtl = getComputedStyle(toggle).direction === 'rtl';
+		let left = isRtl ? buttonRect.left : buttonRect.right - menuRect.width;
+		left = Math.max(VIEWPORT_PADDING, Math.min(left, window.innerWidth - menuRect.width - VIEWPORT_PADDING));
 
 		menu.style.top = `${buttonRect.bottom + GAP}px`;
 		menu.style.left = `${left}px`;

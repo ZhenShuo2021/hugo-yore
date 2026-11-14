@@ -2258,11 +2258,11 @@
   .focus\:fixed:focus {
     position: fixed;
   }
+  .focus\:start-0:focus {
+    inset-inline-start: calc(var(--spacing) * 0);
+  }
   .focus\:top-0:focus {
     top: 0px;
-  }
-  .focus\:left-0:focus {
-    left: 0px;
   }
   .focus\:z-1000:focus {
     z-index: 1000;

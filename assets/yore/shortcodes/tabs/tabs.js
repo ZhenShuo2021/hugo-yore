@@ -81,11 +81,9 @@ function tabKeydownHandler(event) {
 
 	switch (event.key) {
 		case 'ArrowRight':
-		case 'ArrowDown':
 			nextIndex = (currentIndex + 1) % buttons.length;
 			break;
 		case 'ArrowLeft':
-		case 'ArrowUp':
 			nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
 			break;
 		case 'Home':
@@ -102,7 +100,7 @@ function tabKeydownHandler(event) {
 	}
 
 	event.preventDefault();
-	setFocusableTab(buttons, nextIndex);
+	switchTabs(container, nextIndex);
 	buttons[nextIndex].focus();
 }
 

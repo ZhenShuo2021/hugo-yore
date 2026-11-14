@@ -6,9 +6,14 @@
 {{- $attrs := "" -}}
 {{- with .Get "group" }}{{ $attrs = printf `%s data-tab-group="%s"` $attrs . }}{{ end -}}
 {{- with .Get "default" }}{{ $attrs = printf `%s data-default-tab="%s"` $attrs . }}{{ end -}}
+
+{{- $tablistAttrs := "" -}}
+{{- with .Get "ariaLabel" }}
+	{{- $tablistAttrs = printf `%s aria-label="%s"` $tablistAttrs . }}
+{{- end }}
 <div class="tab__container my-4 w-full" {{ $attrs | safeHTMLAttr }}>
 	<div class="tab__nav">
-		<div class="flex flex-wrap gap-1" role="tablist">
+		<div class="flex flex-wrap gap-1" role="tablist" {{ $tablistAttrs | safeHTMLAttr }}>
 			{{- range $nTabs, $_ := .Store.Get "tabs" -}}
 				{{- $isActive := false -}}
 				{{- if $default -}}

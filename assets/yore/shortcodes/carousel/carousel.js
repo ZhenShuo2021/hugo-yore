@@ -1,22 +1,15 @@
+import { defineModule } from '../../core/js/modules.js';
+
 const DURATION = 25;
 const FRICTION = 0.68;
 const STEP = 1000 / 60;
 const SETTLE_LIMIT = 0.0001;
-
-const instances = new WeakMap();
 
 const mod = (n, m) => ((n % m) + m) % m;
 
 const shouldReduceMotion = () =>
 	window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
 	document.documentElement.hasAttribute('data-a11y-reduce-motion');
-
-function findRoots(scope) {
-	// The carousel root is the parent element of its viewport
-	return Array.from(scope.querySelectorAll('.carousel-viewport'), (viewport) => viewport.parentElement).filter(
-		Boolean,
-	);
-}
 
 function createCarousel(root) {
 	const viewport = root.querySelector('.carousel-viewport');
@@ -208,17 +201,9 @@ function createCarousel(root) {
 	return { destroy };
 }
 
-export function initCarousels(scope = document) {
-	findRoots(scope).forEach((root) => {
-		if (instances.has(root)) return;
-		const instance = createCarousel(root);
-		if (instance) instances.set(root, instance);
-	});
+function initCarousel(root) {
+	const instance = createCarousel(root);
+	return instance ? () => instance.destroy() : undefined;
 }
 
-export function destroyCarousels(scope = document) {
-	findRoots(scope).forEach((root) => {
-		instances.get(root)?.destroy();
-		instances.delete(root);
-	});
-}
+defineModule('carousel', initCarousel);

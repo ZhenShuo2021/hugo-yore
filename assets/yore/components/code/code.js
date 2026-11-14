@@ -1,3 +1,6 @@
+import delegateEvent from 'delegate-it';
+import { defineModule } from '../../core/js/modules.js';
+
 const textCopy = document.documentElement.getAttribute('data-copy-text') ?? 'Copy';
 const textCopied = document.documentElement.getAttribute('data-copied-text') ?? 'Copied';
 const textCopyFailed = document.documentElement.getAttribute('data-copy-failed-text') ?? 'Unable to copy';
@@ -89,14 +92,14 @@ function extractText(highlightDiv) {
 	return tableCode ? tableCode.textContent.trim() : codeElement.textContent.trim();
 }
 
-document.querySelectorAll('.highlight:has(pre.chroma)').forEach(createCopyButton);
-
-document.addEventListener('click', (event) => {
-	const button = event.target.closest('.copy-button');
-	if (!button) return;
-
+delegateEvent('.copy-button', 'click', (event) => {
+	const button = event.delegateTarget;
 	const highlightDiv = button.closest('.highlight');
-	if (!highlightDiv) return;
-
-	copyCode(button, highlightDiv);
+	if (highlightDiv) copyCode(button, highlightDiv);
 });
+
+function initCode(root) {
+	root.querySelectorAll('.highlight:has(pre.chroma):not(:has(> .copy-button))').forEach(createCopyButton);
+}
+
+defineModule('code', initCode);

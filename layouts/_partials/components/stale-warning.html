@@ -19,5 +19,5 @@
 
 	{{- $payload := dict "html" $admonition "lastmod" $refDateStr "thresholdDays" $thresholdDays -}}
 
-	<script id="stale-content-warning-data" type="application/json">{{ $payload | jsonify | safeJS }}</script>
+	<script id="stale-content-warning-data" data-module="stale-warning" type="application/json">{{ $payload | jsonify | safeJS }}</script>
 {{- end -}}

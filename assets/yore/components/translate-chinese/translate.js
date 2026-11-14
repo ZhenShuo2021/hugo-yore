@@ -1,8 +1,12 @@
 import * as params from '@params';
-const OpenCC = await import(params.url);
-const button = document.getElementById('chinese-translate');
-const status = document.getElementById('chinese-translate-status');
-if (button) {
+import { defineModule } from '../../core/js/modules.js';
+
+async function initTranslate(button, { signal }) {
+	const status = document.getElementById('chinese-translate-status');
+
+	const OpenCC = await import(params.openccUrl);
+	if (signal.aborted) return;
+
 	button.disabled = false;
 
 	button.addEventListener('click', () => {
@@ -35,5 +39,7 @@ if (button) {
 
 		document.documentElement.lang = isTraditionalChinese ? 'zh-Hans' : 'zh-Hant';
 		status.textContent = isTraditionalChinese ? '已切换为简体中文' : '已切換為繁體中文';
-	});
+	}, { signal });
 }
+
+defineModule('translate', initTranslate);

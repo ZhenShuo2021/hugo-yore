@@ -1,4 +1,6 @@
-export function initCosmic(canvas) {
+export default function () {
+	var canvas = document.getElementById('cosmic-lines');
+	if (!canvas) return;
 	var CFG = {
 		curves: 40,
 		segments: 280,
@@ -129,9 +131,9 @@ export function initCosmic(canvas) {
 	var slot = document.querySelector('[data-cosmic-slot]');
 	var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
-	/* uniform 結構在 WGSL 中的位元組大小（含尾端對齊到 16）。
-	   線條有 5 組（曲線 1 組加 4 個環），各自放在 uniform buffer 的不同位移，
-	   這樣同一個 render pass 內的每次 draw 才能讀到各自的參數。 */
+	/* Byte size of the uniform struct in WGSL (padded to 16).
+	   There are 5 line groups (1 curve + 4 rings), each at a different offset in the uniform buffer,
+	   so every draw within the same render pass reads its own parameters. */
 	var LINE_SIZE = 336,
 		STAR_SIZE = 240,
 		BG_SIZE = 48,
@@ -262,7 +264,7 @@ export function initCosmic(canvas) {
 			'  return vec4f(col * a, a * (1.0 - U.alpha.w));',
 			'}',
 		].join('\n'),
-		/* WebGPU 沒有 point sprite，星點改用 instanced 的四邊形，邊長與原本的 gl_PointSize 相同。 */
+		/* WebGPU has no point sprites; stars use instanced quads with the same side length as the original gl_PointSize. */
 		star: [
 			'struct StarU {',
 			'  proj: mat4x4f,',
@@ -527,8 +529,8 @@ export function initCosmic(canvas) {
 		return true;
 	}
 
-	/* 球體的落點：讀取版面中的 slot，把場景用偏軸投影移到 slot 中心並縮放到能放進去。
-	   沒有 slot 時維持原本置中的構圖。 */
+	/* Sphere placement: read the slot in the layout, move the scene to the slot center with an off-axis projection and scale it to fit.
+	   Without a slot, keep the original centered composition. */
 	function place(cw, ch) {
 		ox = 0;
 		oy = 0;
@@ -542,7 +544,7 @@ export function initCosmic(canvas) {
 		oy = 1 - ((r.top + r.height / 2) / ch) * 2;
 	}
 
-	/* WebGPU 的裁切空間深度範圍是 [0, 1]（WebGL 是 [-1, 1]），所以第三列的 z 項跟著改。 */
+	/* WebGPU clip-space depth range is [0, 1] (WebGL is [-1, 1]), so the z terms of the third row change accordingly. */
 	function frustum(aspect, tanHalf, sx, sy) {
 		var f = 1 / tanHalf,
 			n = 0.1,
@@ -694,6 +696,7 @@ export function initCosmic(canvas) {
 	}
 
 	function frame(now) {
+		if (!canvas.isConnected) return dispose();
 		raf = requestAnimationFrame(frame);
 		var dt = Math.min((now - last) * 0.001, 0.05);
 		last = now;
@@ -725,8 +728,8 @@ export function initCosmic(canvas) {
 		return document.documentElement.getAttribute('data-theme') === 'dark';
 	}
 
-	/* 讀取網站 CSS 的 transition 設定，讓 canvas 的明暗切換與頁面同步。
-	   依序檢查舞台元素、body、html，取第一個有時長的。 */
+	/* Read the site's CSS transition so the canvas light/dark switch stays in sync with the page.
+	   Check the stage element, body, html in order and take the first with a duration. */
 	function bezier(x1, y1, x2, y2) {
 		function ax(t) {
 			return 3 * x1 * t * (1 - t) * (1 - t) + 3 * x2 * t * t * (1 - t) + t * t * t;
@@ -792,28 +795,43 @@ export function initCosmic(canvas) {
 		themeEase = tr.ease;
 	}
 	themeTarget = themeT = isDark() ? 1 : 0;
-	new MutationObserver(function () {
+	var mo = new MutationObserver(function () {
 		setTheme(isDark() ? 1 : 0);
-	}).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-	window.addEventListener('appearance-changed', function (e) {
+	});
+	mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+	function onAppearance(e) {
 		setTheme(e.detail && e.detail.appearance === 'dark' ? 1 : 0);
-	});
-
-	document.addEventListener('visibilitychange', function () {
+	}
+	function onVisibility() {
 		last = performance.now();
-	});
+	}
+	window.addEventListener('appearance-changed', onAppearance);
+	document.addEventListener('visibilitychange', onVisibility);
+
+	/* After a swup navigation the canvas is removed and no external destroy is available, so frame() detects !isConnected and tears itself down */
+	var ro;
+	function dispose() {
+		cancelAnimationFrame(raf);
+		mo.disconnect();
+		ro && ro.disconnect();
+		window.removeEventListener('appearance-changed', onAppearance);
+		document.removeEventListener('visibilitychange', onVisibility);
+		window.removeEventListener('resize', queueResize);
+		device && device.destroy();
+	}
 
 	function queueResize() {
 		resizePending = true;
 	}
 
-	/* WebGPU 的裝置初始化是非同步的，所以在這裡等 init 完成後才開始 resize 與動畫。 */
+	/* WebGPU device init is async, so wait for it to finish before starting resize and the animation. */
 	init()
 		.then(function (ok) {
+			if (!canvas.isConnected) return dispose();
 			if (!ok) return;
 			resize();
 			if (window.ResizeObserver) {
-				var ro = new ResizeObserver(queueResize);
+				ro = new ResizeObserver(queueResize);
 				ro.observe(canvas);
 				if (slot) ro.observe(slot);
 			} else window.addEventListener('resize', queueResize);
@@ -823,6 +841,3 @@ export function initCosmic(canvas) {
 			console.warn(e);
 		});
 }
-
-const target = document.getElementById('cosmic-lines');
-if (target) initCosmic(target);

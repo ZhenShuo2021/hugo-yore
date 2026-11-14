@@ -1,3 +1,4 @@
+import delegateEvent from 'delegate-it';
 import * as CookieConsent from '../../lib/cookieconsent/cookieconsent.esm.js';
 import * as params from '@params';
 import userConfig from './config.js';
@@ -76,6 +77,8 @@ if (params.hasSwitcher) {
 }
 
 window.CookieConsent = CookieConsent;
+
+delegateEvent('[data-cookie-settings]', 'click', () => CookieConsent.show(true));
 
 let translation;
 const translationPromise = fetch(translationURL, { priority: 'low' }).then((r) => r.json());

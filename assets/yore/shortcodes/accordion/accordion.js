@@ -1,28 +1,22 @@
-function initAccordion(root) {
-	if (root.dataset.accordionReady) return;
-	root.dataset.accordionReady = 'true';
+import delegateEvent from 'delegate-it';
 
-	var exclusive = root.dataset.exclusive === 'true';
-	var triggers = root.querySelectorAll('.accordion-trigger');
+delegateEvent('.accordion-trigger', 'click', (e) => {
+	const trigger = e.delegateTarget;
+	const root = trigger.closest('[data-accordion]');
+	if (!root) return;
 
-	triggers.forEach(function (trigger) {
-		trigger.addEventListener('click', function () {
-			var panel = document.getElementById(trigger.getAttribute('aria-controls'));
-			var willOpen = trigger.getAttribute('aria-expanded') !== 'true';
+	const exclusive = root.dataset.exclusive === 'true';
+	const panel = document.getElementById(trigger.getAttribute('aria-controls'));
+	const willOpen = trigger.getAttribute('aria-expanded') !== 'true';
 
-			if (exclusive && willOpen) {
-				triggers.forEach(function (otherTrigger) {
-					if (otherTrigger === trigger) return;
-					otherTrigger.setAttribute('aria-expanded', 'false');
-					var otherPanel = document.getElementById(otherTrigger.getAttribute('aria-controls'));
-					if (otherPanel) otherPanel.classList.remove('is-open');
-				});
-			}
-
-			trigger.setAttribute('aria-expanded', String(willOpen));
-			if (panel) panel.classList.toggle('is-open', willOpen);
+	if (exclusive && willOpen) {
+		root.querySelectorAll('.accordion-trigger').forEach((other) => {
+			if (other === trigger) return;
+			other.setAttribute('aria-expanded', 'false');
+			document.getElementById(other.getAttribute('aria-controls'))?.classList.remove('is-open');
 		});
-	});
-}
+	}
 
-document.querySelectorAll('[data-accordion]').forEach(initAccordion);
+	trigger.setAttribute('aria-expanded', String(willOpen));
+	if (panel) panel.classList.toggle('is-open', willOpen);
+});

@@ -2,9 +2,9 @@
 {{- $grouped := partial "inline/section-group-pages" (dict "pages" $pages "ctx" .Page) -}}
 
 
-<div class="layout-wrapper base-spacing">
+<div data-swup-region class="layout-wrapper base-spacing">
 	<aside class="sidebar-left"></aside>
-	<main id="main-content" class="layout-content">
+	<main id="main-content" class="layout-content" data-module="{{ partial "lib/page-modules.html" . }}">
 		<header class="mb-16">
 			{{- if .Param "breadcrumb" | default true -}}
 				<div class="text-muted-foreground text-sm">{{ partial "components/breadcrumbs.html" . }}</div>

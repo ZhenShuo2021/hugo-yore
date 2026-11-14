@@ -7,7 +7,8 @@
 
 const HOVER_CLOSE_DELAY = 100;
 
-function initNavDisclosures(root) {
+function init() {
+	const root = document;
 	const navItems = root.querySelectorAll('[data-nav-item]');
 	const closers = new WeakMap();
 
@@ -64,7 +65,7 @@ function initNavDisclosures(root) {
 
 		item.addEventListener('keydown', (event) => {
 			if (event.key === 'Escape' && isOpen()) {
-				// 避免 mobile dialog 被關掉
+				// Avoid closing the mobile dialog
 				event.preventDefault();
 				close();
 				toggle.focus();
@@ -122,4 +123,4 @@ function initNavDisclosures(root) {
 	});
 }
 
-initNavDisclosures(document);
+init();

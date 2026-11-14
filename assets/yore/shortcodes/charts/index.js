@@ -1,31 +1,53 @@
-(() => {
-	const entries = [];
+const getTheme = (value = document.documentElement.getAttribute('data-theme')) =>
+	value === 'dark' ? 'dark' : null;
 
-	const render = (entry, theme) => {
-		entry.chart?.dispose();
-		entry.chart = echarts.init(entry.dom, theme);
-		entry.chart.setOption(entry.option);
+// echarts registers non-passive wheel listeners while initializing, make them passive
+let initing = false;
+const add = EventTarget.prototype.addEventListener;
+EventTarget.prototype.addEventListener = function (t, f, o) {
+	if (initing && /wheel/.test(t)) o = { capture: !!(o?.capture ?? o), passive: true };
+	return add.call(this, t, f, o);
+};
+
+export default async function (dom, { signal }) {
+	const { default: build } = await import(dom.dataset.chart);
+	if (signal.aborted) return;
+
+	const option = build();
+	let theme = getTheme();
+	let chart = null;
+
+	const render = () => {
+		chart?.dispose();
+		initing = true;
+		chart = echarts.init(dom, theme);
+		initing = false;
+		chart.setOption(option);
 	};
 
-	window.__echartsRegister = (id, build) => {
-		const dom = document.getElementById(id);
-		if (!dom) return;
+	const observer = new IntersectionObserver(
+		(list) => {
+			if (!list.some((e) => e.isIntersecting)) return;
+			observer.disconnect();
+			render();
+		},
+		{ rootMargin: '200px 0px' },
+	);
+	observer.observe(dom);
 
-		const entry = { dom, option: build(), chart: null };
-		entries.push(entry);
-		render(entry);
+	dom.addEventListener('tab-activated', () => requestAnimationFrame(() => chart?.resize()), { signal });
+	window.addEventListener('resize', () => chart?.resize(), { signal });
+	window.addEventListener(
+		'appearance-changed',
+		(e) => {
+			theme = getTheme(e.detail.appearance);
+			if (chart) render();
+		},
+		{ signal },
+	);
 
-		dom.addEventListener('tab-activated', () => {
-			requestAnimationFrame(() => entry.chart?.resize());
-		});
+	return () => {
+		observer.disconnect();
+		chart?.dispose();
 	};
-
-	window.addEventListener('resize', () => {
-		entries.forEach((entry) => entry.chart?.resize());
-	});
-
-	window.addEventListener('appearance-changed', (e) => {
-		const theme = e.detail.appearance;
-		entries.forEach((entry) => render(entry, theme));
-	});
-})();
+}

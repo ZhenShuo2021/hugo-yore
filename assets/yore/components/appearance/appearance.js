@@ -37,5 +37,7 @@ function init() {
 	});
 }
 
+const themeManager = { toggle: toggleTheme };
+
 init();
-export const themeManager = { toggle: toggleTheme };
+window.themeManager = themeManager;

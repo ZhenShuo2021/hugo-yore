@@ -3,7 +3,7 @@
 	{{- $grouped := partial "inline/gallery-group-pages" (dict "pages" $pages "ctx" .Page) -}}
 
 
-	<main id="main-content" class="base-spacing">
+	<main data-swup-region id="main-content" data-module="{{ partial "lib/page-modules.html" . }}" class="base-spacing">
 		{{- if .Param "breadcrumb" -}}
 			<div class="text-muted-foreground text-[0.6em]">
 				{{- partial "components/breadcrumbs.html" . -}}

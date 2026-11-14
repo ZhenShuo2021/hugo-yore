@@ -26,9 +26,6 @@
 {{- $precacheAssets := slice -}}
 
 {{- if .Site.Params.sw.precache.assets -}}
-	{{- $docsJS := partial "inline/build-docs-nav-js" . }}
-	{{- $precacheAssets = $precacheAssets | append $docsJS.RelPermalink -}}
-
 	{{- $precacheAssets = $precacheAssets | append (hugo.Store.Get "swPrecache") -}}
 {{- end -}}
 
@@ -36,6 +33,6 @@
 	"version": "{{ now.UnixNano | xxhash | last 6 }}",
 	"cdnDomains": {{ $cdnDomains | uniq | jsonify }},
 	"precacheHtml": {{ if .Site.Params.sw.precache.html }}true{{ else }}false{{ end }},
-	"precacheAssets": {{ $precacheAssets | jsonify }},
+	"precacheAssets": {{ $precacheAssets | uniq | jsonify }},
 	"pages": {{ $pages | jsonify }}
 }

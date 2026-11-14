@@ -11,6 +11,14 @@
 {{- end -}}
 {{- $schemesDataFinal := $schemesData.Get "data" -}}
 
+{{- $js := resources.Get "yore/components/_internal/theme-switcher/index.js" -}}
+{{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
+{{- $libs := slice
+	(dict "src" "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js" "integrity" "sha512-OeZ4Yrb/W7d2W4rAMOO0HQ9Ro/aWLtpW9BUSR2UOWnSV2hprXLkkYnnCGc9NeLUxxE4ZG7zN16UuT1Elqq8Opg==")
+	(dict "src" "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js" "integrity" "sha512-rQImvJlBa8MV1Tl1SXR5zD2bWfmgCEIzTieFegGg89AAt7j/NBEe50M5CqYQJnRwtkjKMmuYgHBqtD1Ubbk5ww==")
+	(dict "src" "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/display/placeholder.min.js" "integrity" "sha512-acBo6sW2h2GZQ9BqU9v5RyYGPUEr1a9jrukJg825Y0ahxAg/7aqTNPtcalloqnf4DfsRVdcdNmcBNWPD8b8W8Q==")
+-}}
+
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -305,7 +313,14 @@
 	}
 </style>
 
-<div class="ts" id="themeSwitcher" data-schemes="{{ jsonify $schemesDataFinal }}" style="font-size: 0.85em;">
+<div
+	class="ts"
+	id="themeSwitcher"
+	data-schemes="{{ jsonify $schemesDataFinal }}"
+	data-module="theme-switcher"
+	data-module-src="{{ $js.RelPermalink }}"
+	data-libs="{{ jsonify $libs }}"
+	style="font-size: 0.85em;">
 	<div class="ts-tabs">
 		<div class="ts-tab on" data-p="schemes">Schemes</div>
 		<div class="ts-tab" data-p="custom">Custom CSS</div>
@@ -385,28 +400,3 @@
 </div>
 
 <style id="dynScheme"></style>
-
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"
-	integrity="sha512-OeZ4Yrb/W7d2W4rAMOO0HQ9Ro/aWLtpW9BUSR2UOWnSV2hprXLkkYnnCGc9NeLUxxE4ZG7zN16UuT1Elqq8Opg=="
-	crossorigin="anonymous"
-	referrerpolicy="no-referrer"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"
-	integrity="sha512-rQImvJlBa8MV1Tl1SXR5zD2bWfmgCEIzTieFegGg89AAt7j/NBEe50M5CqYQJnRwtkjKMmuYgHBqtD1Ubbk5ww=="
-	crossorigin="anonymous"
-	referrerpolicy="no-referrer"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/display/placeholder.min.js"
-	integrity="sha512-acBo6sW2h2GZQ9BqU9v5RyYGPUEr1a9jrukJg825Y0ahxAg/7aqTNPtcalloqnf4DfsRVdcdNmcBNWPD8b8W8Q=="
-	crossorigin="anonymous"
-	referrerpolicy="no-referrer"></script>
-{{- $opts := dict
-	"format" "esm"
-	"minify" hugo.IsProduction
-	"target" hugo.Data.theme.esBuildTarget
-	"externals" (slice "yore-cookie")
--}}
-{{- $js := resources.Get "yore/components/_internal/theme-switcher/index.js" -}}
-{{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
-<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>

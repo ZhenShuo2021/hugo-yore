@@ -3,9 +3,9 @@
 		id="docs-drawer"
 		popover="manual"
 		tabindex="-1"
+		data-module="docs-nav"
 		class="docs-sidebar-container"
-		data-docs-root="{{ (printf "%v" .FirstSection.Path) | xxhash | first 6 }}"
-		data-current-page-uid="{{ (printf "%v" .Path) | xxhash | first 6 }}">
+		data-docs-root="{{ (printf "%v" .FirstSection.Path) | xxhash | first 6 }}">
 		<div
 			class="docs-sidebar-logo flex h-(--header-height) shrink-0 items-center gap-2 overflow-hidden px-4"
 			aria-hidden="true">
@@ -59,20 +59,22 @@
 			{{- end -}}
 		</div>
 
-		{{- $el := resources.Get "yore/components/docs-nav/docs-nav-el.js" | minify -}}
-		<script>{{ $el.Content | safeJS }}</script>
-		{{- $noop := partialCached "lib/sha256-hash.html" (dict "content" $el.Content "store" true "name" "docs-nav-el") ($el.Content | first 10) -}}
-
-
 		<div class="scrollbar-mask flex-1 overflow-y-auto">
 			<div class="ps-1 pe-2 pt-2 pb-4">
-				{{- partialCached "inline/nav-pages.html" . .FirstSection -}}
+				{{- $html := partialCached "inline/nav-pages.html" . .FirstSection.Path -}}
+				{{- /* Forced expansion of the current section and its ancestors */ -}}
+				{{- $chain := slice .CurrentSection.Path -}}
+				{{- range .CurrentSection.Ancestors -}}
+					{{- $chain = $chain | append .Path -}}
+				{{- end -}}
+				{{- range $chain -}}
+					{{- $uid := (printf "%v" .) | xxhash | first 6 -}}
+					{{- $html = replace $html (printf "@@E:%s@@" $uid) "true" -}}
+				{{- end -}}
+				{{- $html = replaceRE `@@E:[0-9a-f]+@@` "false" $html -}}
+				{{- $html | safeHTML -}}
 			</div>
 		</div>
-
-		{{- $pr := resources.Get "yore/components/docs-nav/docs-nav-process.js" | minify -}}
-		<script>{{ $pr.Content | safeJS }}</script>{{- /**/ -}}
-		{{- $noop := partialCached "lib/sha256-hash.html" (dict "content" $pr.Content "store" true "name" "docs-nav-process") ($pr.Content | first 10) -}}
 	</aside>
 {{- end -}}
 
@@ -118,6 +120,9 @@
 	{{- $parentPageUid := .parentPageUid -}}
 	{{- $depth := .depth | default 0 -}}
 	{{- if $page.IsSection -}}
+		{{- /* The default state is determined solely by docsNavCollapsed.
+			When collapsing, aria-expanded outputs placeholders, and the actual
+			expansion is replaced by docs-nav outside the cache. */ -}}
 		{{- $collapsed := $page.Params.docsNavCollapsed | default false -}}
 		{{- $pageUid := (printf "%v" $page.Path) | xxhash | first 6 -}}
 		<div data-depth="{{ $depth }}">
@@ -127,13 +132,13 @@
 				{{- end }}
 				class="{{ with $page.Param `docsNavClass` -}}
 					{{- . -}}
-				{{- end }} {{ cond $collapsed `is-collapsed` `` }} docs-node-padding hover:bg-muted text-muted-foreground flex w-full cursor-pointer items-center justify-between border-s border-[color-mix(in_oklab,var(--color-border)_50%,var(--color-foreground)_15%)] transition-colors duration-(--dur-200)"
+				{{- end }} docs-node-padding hover:bg-muted text-muted-foreground flex w-full cursor-pointer items-center justify-between border-s border-[color-mix(in_oklab,var(--color-border)_50%,var(--color-foreground)_15%)] transition-colors duration-(--dur-200)"
 				data-section-trigger
 				data-parent-page-uid="{{ $parentPageUid }}"
 				data-page-uid="{{ $pageUid }}"
 				data-depth="{{ $depth }}"
 				tabindex="0"
-				aria-expanded="{{ cond $collapsed `false` `true` }}">
+				aria-expanded="{{ cond $collapsed (printf "@@E:%s@@" $pageUid) "true" }}">
 				<span class="flex items-center gap-1.5 text-start">
 					{{- if $page.Param "docsIcon" -}}
 						{{- partial "components/icon.html" ($page.Param "docsIcon") -}}
@@ -167,11 +172,7 @@
 						{{- $childPages = $childPages.ByParam (strings.TrimPrefix "Param." .) -}}
 					{{- end -}}
 				{{- end -}}
-				<div
-					class="{{ cond $collapsed `is-collapsed` `` }}"
-					data-section-list
-					data-page-uid="{{ $pageUid }}"
-					data-depth="{{ $depth }}">
+				<div data-section-list data-page-uid="{{ $pageUid }}" data-depth="{{ $depth }}">
 					<ul class="docs-nav__sublist border-border m-0 ms-4.75 list-none p-0">
 						{{- range $childPages -}}
 							<li class=" ">
@@ -181,10 +182,6 @@
 					</ul>
 				</div>
 			{{- end -}}
-			{{- /* sl-nav-restore is placed at the end of the div: at this point,
-				btn(a[data-section-trigger][data-page-uid]) and list([data-section-list][data-page-uid]) have both been parsed,
-				and connectedCallback can correctly find both
-			*/}}<sl-nav-restore data-page-uid="{{ $pageUid }}"></sl-nav-restore>
 		</div>
 	{{- else -}}
 		{{- $externalURL := $page.Param "link" -}}

@@ -1,3 +1,5 @@
+import { defineModule } from '../../core/js/modules.js';
+
 const ATTR = 'data-email-cloak';
 const MARKER = 'HGuO03HaHa0xQ7zK';
 
@@ -24,4 +26,4 @@ function decloak(el) {
 	el.removeAttribute(ATTR);
 }
 
-document.querySelectorAll(`[${ATTR}]`).forEach(decloak);
+defineModule('email', decloak);

@@ -171,7 +171,11 @@
 	<canvas id="cosmic-lines" style="opacity:0;transition:opacity 1.4s ease"></canvas>
 </div>
 
-<div class="void-root">
+{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" hugo.IsProduction -}}
+{{- $cosmic := resources.Get "yore/components/webgl/cosmic.js" | js.Build $opts -}}
+{{- if hugo.IsProduction }}{{ $cosmic = $cosmic | fingerprint }}{{ end -}}
+<link rel="modulepreload" href="{{ $cosmic.RelPermalink }}">
+<div class="void-root" data-module="cosmic" data-module-src="{{ $cosmic.RelPermalink }}">
 	<div class="void-veil" aria-hidden="true"></div>
 	<div class="void-copy">
 		{{- if .Title -}}
@@ -188,7 +192,3 @@
 	</div>
 	<div class="void-slot" data-cosmic-slot aria-hidden="true"></div>
 </div>
-
-{{- $js := resources.Get "yore/components/webgl/cosmic.js" | js.Build (dict "minify" true "format" "esm") -}}
-<script type="module">{{ $js.Content | safeJS }}</script>
-{{- $noop := partial "lib/sha256-hash.html" (dict "content" $js.Content "store" true "name" "custom-cosmic") -}}

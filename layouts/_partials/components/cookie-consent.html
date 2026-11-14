@@ -29,6 +29,7 @@
 				"minify" hugo.IsProduction
 				"target" hugo.Data.theme.esBuildTarget
 				"params" $jsParams
+				"shims" (dict "delegate-it" "yore/lib/swup/delegate-it/index.js")
 			-}}
 			{{- $js = . | js.Build $opts -}}
 			{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}

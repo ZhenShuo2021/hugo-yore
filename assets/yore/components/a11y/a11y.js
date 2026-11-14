@@ -209,8 +209,8 @@ function initPanel(panelId) {
 
 	if (close) close.onclick = togglePanel;
 
-	// 點擊 backdrop 關閉：用 mousedown 座標判斷是否落在 dialog 的實際內容框之外
-	// （而非用 event.target 比對，避免內部元素的點擊事件冒泡誤判成點了 backdrop）
+	// Close on backdrop click: use mousedown coordinates to check if outside the dialog content box
+	// (not e.target, so clicks bubbling from inner elements aren't mistaken for backdrop clicks)
 	if (panelEl) {
 		panelEl.addEventListener('mousedown', (e) => {
 			const rect = panelEl.getBoundingClientRect();
@@ -231,19 +231,21 @@ function applyAll() {
 	});
 }
 
-const panel = document.getElementById('a11y-panel');
-if (panel) initPanel(panel.id);
+function init() {
+	const panel = document.getElementById('a11y-panel');
+	if (panel) initPanel(panel.id);
 
-if (window._a11yDisableImages) {
-	new MutationObserver(() => {
-		const img = document.getElementById('background-image');
-		if (img) img.style.display = 'none';
-	}).observe(document, { childList: true, subtree: true });
+	if (window._a11yDisableImages) {
+		new MutationObserver(() => {
+			const img = document.getElementById('background-image');
+			if (img) img.style.display = 'none';
+		}).observe(document, { childList: true, subtree: true });
+	}
+
+	applyAll();
 }
 
-applyAll();
-
-export const a11yPanel = {
+const a11yPanel = {
 	getSettings,
 	updateSetting,
 	addFeature: (name, config) => {
@@ -251,3 +253,6 @@ export const a11yPanel = {
 		FEATURES[name].apply(getSettings()[name] || config.default);
 	},
 };
+
+init();
+window.a11yPanel = a11yPanel;

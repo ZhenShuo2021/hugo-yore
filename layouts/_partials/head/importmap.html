@@ -1,0 +1,56 @@
+{{- /* Static for the whole session: swup never re-applies an importmap, so it lists every import() target on every page */ -}}
+{{- $cookie := partial "inline/build-cookie-js" . -}}
+{{- $mainJS := partial "inline/main-js" . -}}
+{{- $dyn := partialCached "inline/dynamic-js" . "dynamic" -}}
+{{- /* prettier-ignore-start */ -}}
+{{- $s := (dict
+	"imports" (dict
+		"yore-cookie" $cookie.RelPermalink
+		"yore-main" $mainJS.RelPermalink
+		"mermaid" hugo.Data.cdn.mermaid.src
+	)
+	"integrity" $dyn.integrity
+) | jsonify -}}
+{{- /* prettier-ignore-end */ -}}
+{{- $noop := partialCached "lib/sha256-hash.html" (dict "content" $s "store" true "name" "resources-importmap") $s -}}
+<script type="importmap">{{- $s | safeHTML -}}</script>
+{{- /* Conditional JS is loaded by main.js via import(); URLs go in as params, hashes go in the importmap */ -}}
+{{- define "_partials/inline/dynamic-js" -}}
+	{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" hugo.IsProduction -}}
+	{{- $urls := dict -}}
+	{{- $integrity := dict -}}
+
+	{{- with hugo.Data.cdn.typeit -}}
+		{{- $urls = merge $urls (dict "typeitSrc" .src) -}}
+		{{- $integrity = merge $integrity (dict .src .integrity) -}}
+	{{- end -}}
+
+	{{- with hugo.Data.cdn.youtube.js -}}
+		{{- $urls = merge $urls (dict "youtubeSrc" .src) -}}
+		{{- $integrity = merge $integrity (dict .src .integrity) -}}
+	{{- end -}}
+
+	{{- with resources.Get "yore/lib/echarts/echarts.min.js" | fingerprint -}}
+		{{- $urls = merge $urls (dict "echartsJS" .RelPermalink) -}}
+		{{- $integrity = merge $integrity (dict .RelPermalink .Data.Integrity) -}}
+	{{- end -}}
+	{{- with resources.Get "yore/shortcodes/charts/index.js" | fingerprint -}}
+		{{- $urls = merge $urls (dict "chartsJS" .RelPermalink) -}}
+		{{- $integrity = merge $integrity (dict .RelPermalink .Data.Integrity) -}}
+	{{- end -}}
+
+	{{- with resources.Get "yore/components/math/index.js" | js.Build $opts -}}
+		{{- $js := . -}}
+		{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}
+		{{- $urls = merge $urls (dict "mathJS" $js.RelPermalink) -}}
+		{{- with $js.Data.Integrity -}}
+			{{- $integrity = merge $integrity (dict $js.RelPermalink .) -}}
+		{{- end -}}
+	{{- end -}}
+	{{- with resources.Get "yore/lib/mathjax/tex-svg.js" -}}
+		{{- hugo.Store.Add "swPrecache" (slice .RelPermalink) -}}
+		{{- $urls = merge $urls (dict "texSvgJS" .RelPermalink) -}}
+	{{- end -}}
+
+	{{- return (dict "urls" $urls "integrity" $integrity) -}}
+{{- end -}}

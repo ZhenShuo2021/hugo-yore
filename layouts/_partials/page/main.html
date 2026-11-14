@@ -4,10 +4,10 @@
 {{- $hasToc := in .TableOfContents "<ul" -}}
 
 
-<div class="layout-wrapper base-spacing">
+<div data-swup-region class="layout-wrapper base-spacing">
 	<aside class="sidebar-left" aria-hidden="true"></aside>
 
-	<main id="main-content" class="layout-content w-full">
+	<main id="main-content" class="layout-content w-full" data-module="{{ partial "lib/page-modules.html" . }}">
 		{{- if and (.Param "pageHeroStyle") (ne (.Param "pageHeroStyle") "disable") -}}
 			{{- partial "page/hero/main.html" . -}}
 		{{- end -}}
@@ -62,7 +62,7 @@
 			</div>
 		{{- end -}}
 		{{- if .Param "chineseConverter" -}}
-			<button disabled id="chinese-translate" class="text-muted-foreground min-h-6 min-w-6 text-sm">
+			<button disabled id="chinese-translate" data-module="translate" class="text-muted-foreground min-h-6 min-w-6 text-sm">
 				繁簡轉換
 				<span aria-hidden="true">
 					{{- partialCached "components/icon.html" "translate" "icon-translate" -}}

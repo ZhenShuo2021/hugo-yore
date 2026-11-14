@@ -1,6 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
-	const btn = document.getElementById('copy-main-setting-btn');
-	if (!btn) return;
+export default function (btn, { signal }) {
 	const label = btn.querySelector('.copy-btn-label');
 	const defaultCopyText = label.textContent;
 	const defaultCopiedText = document.documentElement.getAttribute('data-copied-text') ?? 'Copied';
@@ -48,5 +46,5 @@ document.addEventListener('DOMContentLoaded', function () {
 		} catch (err) {
 			legacyCopyCode(text);
 		}
-	});
-});
+	}, { signal });
+}

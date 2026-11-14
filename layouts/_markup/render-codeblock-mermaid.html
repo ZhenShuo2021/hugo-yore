@@ -10,7 +10,7 @@
 
 {{- .Page.Store.Set "hasMermaid" true -}}
 
-<pre class="{{ $class }}" data-zoom="{{ $zoom }}"
+<pre class="{{ $class }}" data-module="mermaid" data-zoom="{{ $zoom }}"
 	{{- range $k, $v := .Attributes -}}
 		{{- if not (in (slice "class" "zoom") $k) -}}
 			{{- printf " %s=%q" $k ($v | transform.HTMLEscape) | safeHTMLAttr -}}

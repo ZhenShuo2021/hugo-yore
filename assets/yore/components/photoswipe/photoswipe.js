@@ -18,7 +18,12 @@ const lightboxOptions = {
 	},
 };
 
-function initPhotoSwipe() {
+let lightboxes = [];
+
+export function init() {
+	lightboxes.forEach((lightbox) => lightbox.destroy());
+	lightboxes = [];
+
 	// --- Article images ---
 	const proseImages = document.querySelectorAll(
 		'.prose img:not(a img):not(.carousel-slide img):not(.carousel-thumb img):not(.yr-card img)',
@@ -42,6 +47,7 @@ function initPhotoSwipe() {
 	});
 	registerLightboxUI(proseLightbox);
 	proseLightbox.init();
+	lightboxes.push(proseLightbox);
 
 	// --- Carousel slide images ---
 	const carouselImages = document.querySelectorAll('.carousel-slide img:not(a img)');
@@ -67,6 +73,7 @@ function initPhotoSwipe() {
 	});
 	registerLightboxUI(carouselLightbox);
 	carouselLightbox.init();
+	lightboxes.push(carouselLightbox);
 }
 
 // --- Helpers ---
@@ -157,7 +164,3 @@ function registerLightboxUI(lightbox) {
 		});
 	});
 }
-
-initPhotoSwipe();
-
-export {};

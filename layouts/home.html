@@ -11,7 +11,7 @@
 	{{- .Store.Set "homepageImage" $homepageImage -}}
 
 
-	<main id="main-content">
+	<main data-swup-region id="main-content" data-module="{{ partial "lib/page-modules.html" . }}">
 		{{- if site.Params.homepageLayout -}}
 			{{- partial (printf "home/%s.html" site.Params.homepageLayout) . -}}
 		{{- else -}}

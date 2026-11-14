@@ -11,7 +11,7 @@
 {{- with .Get "ariaLabel" }}
 	{{- $tablistAttrs = printf `%s aria-label="%s"` $tablistAttrs . }}
 {{- end }}
-<div class="tab__container my-4 w-full" {{ $attrs | safeHTMLAttr }}>
+<div class="tab__container my-4 w-full" data-module="tabs" {{ $attrs | safeHTMLAttr }}>
 	<div class="tab__nav">
 		<div class="flex flex-wrap gap-1" role="tablist" {{ $tablistAttrs | safeHTMLAttr }}>
 			{{- range $nTabs, $_ := .Store.Get "tabs" -}}

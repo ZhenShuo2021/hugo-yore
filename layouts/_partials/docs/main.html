@@ -3,7 +3,7 @@
 {{- if and (.Param "pageHeroStyle") (ne (.Param "pageHeroStyle") "disable") -}}
 	{{- partial "page/hero/main.html" . -}}
 {{- end }}
-<div class="border-border flex min-h-screen w-full items-stretch border-b">
+<div data-swup-region class="border-border flex min-h-screen w-full items-stretch border-b">
 	{{- partial "inline/docs-nav.html" . -}}
 	<div class="flex min-w-0 flex-1 items-stretch pt-16 pb-8">
 		{{- if .IsSection -}}
@@ -58,7 +58,7 @@
 			</div>
 		{{- end -}}
 		{{- if .Param "chineseConverter" -}}
-			<button disabled id="chinese-translate" class="text-muted-foreground min-h-6 min-w-6 text-sm">
+			<button disabled id="chinese-translate" data-module="translate" class="text-muted-foreground min-h-6 min-w-6 text-sm">
 				繁簡轉換
 				<span aria-hidden="true">
 					{{- partialCached "components/icon.html" "translate" "icon-translate" -}}
@@ -89,7 +89,7 @@
 {{- end -}}
 
 {{- define "_partials/inline/docs-content.html" -}}
-	<main id="main-content" class="docs-content min-w-0 flex-1 px-4 md:px-6">
+	<main id="main-content" class="docs-content min-w-0 flex-1 px-4 md:px-6" data-module="{{ partial "lib/page-modules.html" . }}">
 		{{- partial "inline/docs-content-header.html" . -}}
 
 		{{- /* Markdown content */ -}}
@@ -183,6 +183,7 @@
 
 {{- define "_partials/inline/docs-toc.html" -}}
 	<aside
+		{{ if site.Params.tocHighlight }}data-module="toc"{{ end }}
 		class="docs-toc toc-sidebar scrollbar-mask sticky top-[calc(var(--header-height)+1.5rem)] me-4 hidden max-h-[calc(100vh-var(--header-height)-5rem)] w-1/4 self-start overflow-auto lg:block"
 		aria-label="{{ i18n "article.on_this_page" | default "On This Page" }}">
 		{{- if eq (.Param "pageKgStyle") "sidebar" -}}

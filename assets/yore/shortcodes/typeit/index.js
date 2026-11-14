@@ -1,14 +1,17 @@
-(() => {
-	const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+import * as params from '@params';
+import { defineModule } from '../../core/js/modules.js';
 
-	document.querySelectorAll('[data-typeit]').forEach((el) => {
-		const { strings, ...options } = JSON.parse(el.dataset.typeit);
+defineModule('typeit', async (el, { signal }) => {
+	await import(params.typeitSrc);
+	if (signal.aborted) return;
 
-		if (reduced) {
-			el.textContent = strings.join(options.breakLines ? '\n' : '');
-			return;
-		}
+	const { strings, ...options } = JSON.parse(el.dataset.typeit);
 
-		new TypeIt(el, { strings, ...options }).go();
-	});
-})();
+	if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		el.textContent = strings.join(options.breakLines ? '\n' : '');
+		return;
+	}
+
+	const instance = new TypeIt(el, { strings, ...options }).go();
+	return () => instance.destroy();
+});

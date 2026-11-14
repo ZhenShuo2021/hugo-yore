@@ -1,0 +1,5 @@
+{{- /* Modules for the page content container (#main-content), gated by the same params as main.js */ -}}
+{{- $mods := slice "tabindex" -}}
+{{- if site.Params.codeCopy -}}{{- $mods = $mods | append "code" -}}{{- end -}}
+{{- if site.Params.footnoteTooltip -}}{{- $mods = $mods | append "footnotes" -}}{{- end -}}
+{{- return delimit $mods " " -}}

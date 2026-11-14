@@ -17,4 +17,4 @@
 	{{- $classAttr = printf ` class="%s"` (. | htmlEscape) -}}
 {{- end -}}
 
-{{- printf `<%s%s data-typeit="%s">%s</%s>` $tag $classAttr ($config | jsonify | htmlEscape) $initialString $tag | safeHTML -}}
+{{- printf `<%s%s data-module="typeit" data-typeit="%s">%s</%s>` $tag $classAttr ($config | jsonify | htmlEscape) $initialString $tag | safeHTML -}}

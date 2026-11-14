@@ -100,13 +100,6 @@
 		list-style-type: decimal;
 	}
 
-	.yr-chevron {
-		transition: transform var(--dur-300) ease;
-		.is-collapsed & {
-			transform: rotate(-90deg);
-		}
-	}
-
 	@media (width >= 48rem) {
 		.yr-full-bleed {
 			/* 65% of full screen width - 100% max container width / 2 (left and right) and negative margin */

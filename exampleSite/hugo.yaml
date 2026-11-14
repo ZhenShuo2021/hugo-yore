@@ -367,6 +367,10 @@ languages:
             collapsed: true # Whether the nested menu is collapsed by default on mobile
 
         # Nested menu
+        - name: Overview
+          parent: Docs
+          pageRef: /docs/40-overview
+          weight: 20
         - name: Configuration
           parent: Docs
           pageRef: /docs/160-configuration/
@@ -379,6 +383,10 @@ languages:
           parent: Docs
           pageRef: /docs/240-shortcodes
           weight: 60
+        - name: Benchmark
+          parent: Docs
+          pageRef: /docs/960-benchmark
+          weight: 80
 
         - name: Gallery
           pageRef: /gallery
@@ -452,6 +460,10 @@ languages:
             # icon: code # 要顯示的圖標，名為「code」
 
         # 子菜單範例
+        - name: 概述
+          parent: 文檔
+          pageRef: /docs/40-overview
+          weight: 20
         - name: 設定
           parent: 文檔
           pageRef: /docs/160-configuration
@@ -464,6 +476,10 @@ languages:
           parent: 文檔
           pageRef: /docs/240-shortcodes
           weight: 60
+        - name: 基準測試
+          parent: 文檔
+          pageRef: /docs/960-benchmark
+          weight: 80
 
         - name: 相冊
           pageRef: /gallery

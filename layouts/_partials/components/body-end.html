@@ -6,20 +6,8 @@
 {{- partial "components/mobile-menu-overlay.html" . -}}
 {{- partial "components/a11y-overlay.html" . -}}
 
-{{- /* Mermaid */ -}}
-{{- if .Store.Get "hasMermaid" -}}
-	{{- $opts := dict "format" "esm" "minify" (hugo.IsProduction) "target" hugo.Data.theme.esBuildTarget "params" (dict "src" hugo.Data.cdn.mermaid.src) -}}
-
-	{{- $mermaidJS := resources.Get "yore/shortcodes/mermaid/mermaid.js" | js.Build $opts -}}
-	{{- if hugo.IsProduction }}{{ $mermaidJS = $mermaidJS | fingerprint }}{{ end -}}
-	<script
-		type="module"
-		src="{{ $mermaidJS.RelPermalink }}"
-		integrity="{{ $mermaidJS.Data.Integrity }}"></script>
-{{- end -}}
-
 {{- if site.Params.searchEnabled -}}
-	<pagefind-modal>
+	<pagefind-modal reset-on-close>
 		<pagefind-modal-header>
 			<pagefind-input></pagefind-input>
 		</pagefind-modal-header>
@@ -31,18 +19,4 @@
 			<pagefind-keyboard-hints></pagefind-keyboard-hints>
 		</pagefind-modal-footer>
 	</pagefind-modal>
-{{- end -}}
-
-{{- /* include prerender in dev server causes page not immediately update */ -}}
-{{- if not hugo.IsServer -}}
-	{{- $isDocs := eq .Type "docs" -}}
-	{{- $name := cond $isDocs "body-end-speculation-rules-docs" "body-end-speculation-rules-default" -}}
-	{{- $json := `` -}}
-	{{- if $isDocs -}}
-		{{- $json = `{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"eager"}]}` -}}
-	{{- else -}}
-		{{- $json = `{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"eager"}],"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}` -}}
-	{{- end -}}
-	{{- $noop := partialCached "lib/sha256-hash.html" (dict "content" $json "store" true "name" $name) $name -}}
-	<script type="speculationrules">{{- $json | safeHTML -}}</script>
 {{- end -}}

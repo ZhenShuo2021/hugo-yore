@@ -1,34 +1,58 @@
+import { registerRouteHook } from '../../core/js/route.js';
 import { once } from '../../core/js/utils.js';
 import * as params from '@params';
 
 // lazy load photoswipe near the viewport or on interaction, never before the load event
 const photoswipeJS = params.photoswipeJS;
-const galleries = document.querySelectorAll('.pswp-gallery');
-if (photoswipeJS) {
+
+let load = null;
+let mod = null;
+
+let current = null;
+
+function destroy() {
+	current?.cleanup();
+	current = null;
+}
+
+function init(scope = document) {
+	current?.cleanup();
+	current = null;
+
+	if (!photoswipeJS) return;
+
+	const galleries = scope.querySelectorAll('.pswp-gallery');
+	if (galleries.length === 0) return;
+
+	if (mod) {
+		mod.init();
+		return;
+	}
+
 	const ac = typeof AbortController === 'function' ? new AbortController() : null;
 	const signal = ac?.signal;
-	let done = false;
 	let timer;
 	let observer;
 
 	// remove every listener, timer and observer once photoswipe is loaded
 	const cleanup = () => {
-		done = true;
 		ac?.abort();
 		clearTimeout(timer);
 		observer?.disconnect();
 	};
 
-	const load = once(async () => {
-		await import(photoswipeJS);
-		cleanup();
+	load ??= once(async () => {
+		mod = await import(photoswipeJS);
+		mod.init();
+		current?.cleanup();
+		current = null;
 	});
 	const warm = () => load().catch(() => {});
 
 	// click before ready: take over, load, then replay the click for photoswipe's own handler
 	const onClick = async (e) => {
 		const img = e.target.closest('img');
-		if (done || !img || img.closest('a') || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+		if (mod || !img || img.closest('a') || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 		e.preventDefault();
 		try {
 			await load();
@@ -63,4 +87,11 @@ if (photoswipeJS) {
 		const observe = () => galleries.forEach((el) => observer.observe(el));
 		document.readyState === 'complete' ? observe() : addEventListener('load', observe, { once: true, signal });
 	}
+
+	current = { cleanup };
 }
+
+registerRouteHook(() => {
+	init();
+	return destroy;
+});

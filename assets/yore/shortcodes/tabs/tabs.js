@@ -1,3 +1,6 @@
+import delegateEvent from 'delegate-it';
+import { defineModule } from '../../core/js/modules.js';
+
 function activatePanel(container, activeIndex) {
 	const buttons = container.querySelectorAll('.tab__button');
 	const panels = container.querySelectorAll('.tab__panel');
@@ -58,21 +61,15 @@ function switchTabs(container, targetIndex) {
 	}
 }
 
-function tabClickHandler(event) {
-	const button = event.target.closest('.tab__button');
-	if (!button) return;
-
+delegateEvent('.tab__button', 'click', (event) => {
+	const button = event.delegateTarget;
 	const container = button.closest('.tab__container');
-	const tabIndex = parseInt(button.dataset.tabIndex);
-
 	button.focus();
-	switchTabs(container, tabIndex);
-}
+	switchTabs(container, parseInt(button.dataset.tabIndex));
+});
 
-function tabKeydownHandler(event) {
-	const button = event.target.closest('.tab__button');
-	if (!button) return;
-
+delegateEvent('.tab__button', 'keydown', (event) => {
+	const button = event.delegateTarget;
 	const container = button.closest('.tab__container');
 	const buttons = Array.from(container.querySelectorAll('.tab__button'));
 	const currentIndex = buttons.indexOf(button);
@@ -102,36 +99,30 @@ function tabKeydownHandler(event) {
 	event.preventDefault();
 	switchTabs(container, nextIndex);
 	buttons[nextIndex].focus();
+});
+
+// Initial state of one container, data-module="tabs"
+function initTabs(container) {
+	const defaultTab = container.dataset.defaultTab;
+	const panels = container.querySelectorAll('.tab__panel');
+	const buttons = container.querySelectorAll('.tab__button');
+
+	let expectedIndex = 0;
+	if (defaultTab) {
+		panels.forEach((panel, index) => {
+			if (panel.dataset.tabLabel === defaultTab) expectedIndex = index;
+		});
+	}
+
+	const alreadyCorrect =
+		panels[expectedIndex]?.classList.contains('tab--active') &&
+		buttons[expectedIndex]?.classList.contains('tab--active');
+
+	if (!alreadyCorrect) {
+		activatePanel(container, expectedIndex);
+	}
+
+	setFocusableTab(buttons, expectedIndex);
 }
 
-function initTabs() {
-	document.querySelectorAll('.tab__container').forEach((container) => {
-		const defaultTab = container.dataset.defaultTab;
-		const panels = container.querySelectorAll('.tab__panel');
-		const buttons = container.querySelectorAll('.tab__button');
-
-		let expectedIndex = 0;
-		if (defaultTab) {
-			panels.forEach((panel, index) => {
-				if (panel.dataset.tabLabel === defaultTab) expectedIndex = index;
-			});
-		}
-
-		const alreadyCorrect =
-			panels[expectedIndex]?.classList.contains('tab--active') &&
-			buttons[expectedIndex]?.classList.contains('tab--active');
-
-		if (!alreadyCorrect) {
-			activatePanel(container, expectedIndex);
-		}
-
-		setFocusableTab(buttons, expectedIndex);
-	});
-
-	document.addEventListener('click', tabClickHandler);
-	document.addEventListener('keydown', tabKeydownHandler);
-}
-
-initTabs();
-
-export {};
+defineModule('tabs', initTabs);

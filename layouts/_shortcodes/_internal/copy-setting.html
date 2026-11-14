@@ -1,5 +1,8 @@
 {{- $copy := resources.Get "yore/icons/iconoir/regular/copy.svg" -}}
 {{- $check := resources.Get "yore/icons/iconoir/regular/check.svg" -}}
+{{- $js := resources.Get "yore/components/_internal/copy-setting/index.js" -}}
+{{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
+{{- $noop := $js.RelPermalink -}}
 <style>
 	.main-setting-copy-btn {
 		display: inline-flex;
@@ -41,17 +44,8 @@
 		display: inline-flex;
 	}
 </style>
-<button type="button" class="main-setting-copy-btn not-prose" id="copy-main-setting-btn">
+<button type="button" class="main-setting-copy-btn not-prose" id="copy-main-setting-btn" data-module="copy-setting" data-module-src="{{ $js.RelPermalink }}">
 	<span class="icon-copy" aria-hidden="true">{{ $copy.Content | safeHTML }}</span>
 	<span class="icon-check" aria-hidden="true">{{ $check.Content | safeHTML }}</span>
 	<span class="copy-btn-label">{{ i18n `code.copy` | default `Copy` }}</span>
 </button>
-{{- $opts := dict
-	"format" "esm"
-	"minify" hugo.IsProduction
-	"target" hugo.Data.theme.esBuildTarget
-	"externals" (slice "yore-cookie")
--}}
-{{- $js := resources.Get "yore/components/_internal/copy-setting/index.js" -}}
-{{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
-<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>

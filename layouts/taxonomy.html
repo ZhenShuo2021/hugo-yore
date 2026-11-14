@@ -1,10 +1,10 @@
 {{- define "main" -}}
-	<div class="layout-wrapper base-spacing">
+	<div data-swup-region class="layout-wrapper base-spacing">
 		<!-- Empty Left Spacer -->
 		<aside class="sidebar-left"></aside>
 
 		<!-- Main Content -->
-		<main id="main-content" class="layout-content">
+		<main id="main-content" class="layout-content" data-module="{{ partial "lib/page-modules.html" . }}">
 			<header class="mb-16">
 				{{- if .Param "breadcrumb" | default true -}}
 					<div class="text-muted-foreground text-sm">

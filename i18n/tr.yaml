@@ -59,7 +59,6 @@ docs:
   nav_label: Dokümantasyon
   next: Sonraki
   prev: Önceki
-  sidebar_label: Dokümantasyon
   source_files: Kaynak kodu
   toc_label: İçindekiler
   toc_nav_label: Bu sayfada

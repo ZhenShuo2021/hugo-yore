@@ -4,7 +4,6 @@
 		popover="manual"
 		tabindex="-1"
 		class="docs-sidebar-container"
-		aria-label="{{ i18n "docs.sidebar_label" | default "Sidebar" }}"
 		data-docs-root="{{ (printf "%v" .FirstSection.Path) | xxhash | first 6 }}"
 		data-current-page-uid="{{ (printf "%v" .Path) | xxhash | first 6 }}">
 		<div
@@ -22,11 +21,7 @@
 						{{- $attrs = printf " width=%d height=%d" site.Params.logoWidth site.Params.logoHeight -}}
 					{{- end -}}
 					<div class="flex h-full w-auto flex-shrink-0 items-center py-1">
-						<a
-							href="{{ site.Home.RelPermalink }}"
-							aria-label="{{ site.Title }}"
-							tabindex="-1"
-							class="flex h-full items-center">
+						<a href="{{ site.Home.RelPermalink }}" alt="" tabindex="-1" class="flex h-full items-center">
 							{{- if $logoDark -}}
 								<img
 									src="{{ $logo.RelPermalink }}"
@@ -106,7 +101,7 @@
 		{{- end -}}
 	{{- end -}}
 	<div>
-		<nav class="docs-nav" aria-label="{{ i18n "docs.nav_label" | default "Documentation" }}">
+		<nav class="docs-nav">
 			<ul class="m-0 list-none p-0">
 				{{- range $rootPages -}}
 					<li class=" ">

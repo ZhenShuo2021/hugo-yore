@@ -59,7 +59,6 @@ docs:
   nav_label: 文档
   next: 下一页
   prev: 上一页
-  sidebar_label: 文档
   source_files: 相关源码
   toc_label: 目录
   toc_nav_label: 本页目录

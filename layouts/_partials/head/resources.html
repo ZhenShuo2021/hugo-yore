@@ -77,8 +77,6 @@
 				"searchCSS" ("pagefind/pagefind-component-ui.css" | relURL)
 				"photoswipeJS" $photoswipeJS
 				"autoCollapseCategories" (site.Params.docsAutoCollapseCategories | default false)
-				"mermaidSrc" hugo.Data.cdn.mermaid.src
-				"openccUrl" hugo.Data.cdn.opencc.src
 			-}}
 			{{- $dyn := partialCached "inline/dynamic-js" $ "dynamic" -}}
 			{{- $jsParams = merge $jsParams $dyn.urls -}}

@@ -52,5 +52,15 @@
 		{{- $urls = merge $urls (dict "texSvgJS" .RelPermalink) -}}
 	{{- end -}}
 
+	{{- with hugo.Data.cdn.opencc -}}
+		{{- $urls = merge $urls (dict "openccUrl" .src) -}}
+		{{- $integrity = merge $integrity (dict .src .integrity) -}}
+	{{- end -}}
+
+	{{- with hugo.Data.cdn.mermaid -}}
+		{{- $urls = merge $urls (dict "mermaidSrc" .src) -}}
+		{{- $integrity = merge $integrity (dict .src .integrity) -}}
+	{{- end -}}
+
 	{{- return (dict "urls" $urls "integrity" $integrity) -}}
 {{- end -}}

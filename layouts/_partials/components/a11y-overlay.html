@@ -1,12 +1,12 @@
 <dialog id="a11y-panel" aria-labelledby="a11y-panel-title" class="yr-dialog-overlay">
 	<div class="max-h-[calc(100dvh-2rem)] overflow-y-auto px-6 py-8">
-		<div class="mb-8 flex items-center justify-between">
-			<h2 id="a11y-panel-title" class="text-foreground text-xl font-medium">
+		<div class="mb-8 flex items-center justify-between gap-4">
+			<h2 id="a11y-panel-title" class="text-foreground min-w-0 text-xl font-medium break-words">
 				{{- i18n "a11y_panel.title" -}}
 			</h2>
 			<button
 				id="a11y-close"
-				class="text-muted-foreground hover:text-foreground flex items-center transition-colors"
+				class="text-muted-foreground hover:text-foreground flex shrink-0 items-center transition-colors"
 				aria-label="{{ i18n `a11y_panel.close` | default `Close accessibility panel` }}"
 				title="{{ i18n `a11y_panel.close` | default `Close accessibility panel` }}">
 				{{- partialCached "components/icon.html" "xmark" "icon-xmark" -}}
@@ -14,8 +14,11 @@
 		</div>
 
 		<div class="space-y-6">
-			<div class="flex items-center justify-between gap-4" role="group" aria-labelledby="font-size-label">
-				<span id="font-size-label" class="text-foreground text-sm">
+			<div
+				class="flex flex-wrap items-center justify-between gap-4"
+				role="group"
+				aria-labelledby="font-size-label">
+				<span id="font-size-label" class="text-foreground min-w-0 text-sm break-words">
 					{{- i18n "a11y_panel.font_size" | default "Font size" -}}
 				</span>
 				<div class="font-size-stepper">
@@ -51,8 +54,8 @@
 				(dict "id" "underlineLinks" "label" (i18n "a11y_panel.show_link_underline" | default "Show link underline"))
 			-}}
 			{{- range $toggles -}}
-				<div class="flex items-center justify-between gap-4">
-					<label for="{{ .id }}" class="text-foreground cursor-text text-sm select-text">
+				<div class="flex flex-wrap items-center justify-between gap-4">
+					<label for="{{ .id }}" class="text-foreground min-w-0 cursor-text text-sm break-words select-text">
 						{{- .label -}}
 					</label>
 					<div class="ios-toggle">

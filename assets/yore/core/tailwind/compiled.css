@@ -329,9 +329,6 @@
   .-start-2 {
     inset-inline-start: calc(var(--spacing) * -2);
   }
-  .end-6 {
-    inset-inline-end: calc(var(--spacing) * 6);
-  }
   .inset-e-2 {
     inset-inline-end: calc(var(--spacing) * 2);
   }
@@ -346,9 +343,6 @@
   }
   .top-5 {
     top: calc(var(--spacing) * 5);
-  }
-  .top-6 {
-    top: calc(var(--spacing) * 6);
   }
   .top-25 {
     top: calc(var(--spacing) * 25);
@@ -1438,6 +1432,9 @@
   }
   .justify-center {
     justify-content: center;
+  }
+  .justify-end {
+    justify-content: flex-end;
   }
   .gap-0\.75 {
     gap: calc(var(--spacing) * 0.75);

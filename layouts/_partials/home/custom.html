@@ -4,9 +4,6 @@
 	}
 
 	/* Disable scroll */
-	:root:has(.void-root) {
-		overflow: hidden;
-	}
 
 	/* Same color as shader */
 	@property --ground {
@@ -38,7 +35,6 @@
 		box-sizing: border-box;
 		padding-block: clamp(0.75rem, 2vh, 1.5rem);
 		padding-block: clamp(0.75rem, 2dvh, 1.5rem);
-		overflow: hidden;
 
 		/* The height is fixed at the viewport minus the sticky header. */
 		block-size: calc(100vh - var(--header-height, 4rem));
@@ -54,7 +50,6 @@
 		position: fixed;
 		inset: 0;
 		z-index: -50;
-		overflow: hidden;
 		background: var(--ground);
 		pointer-events: none;
 	}
@@ -96,7 +91,6 @@
 		min-block-size: 0;
 		inline-size: min(36rem, calc(100% - 2 * var(--pad)));
 		margin-inline: auto;
-		overflow: hidden;
 	}
 	.void-copy > .prose {
 		max-width: none;

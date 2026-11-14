@@ -6,58 +6,63 @@
 		data-module="docs-nav"
 		class="docs-sidebar-container"
 		data-docs-root="{{ (printf "%v" .FirstSection.Path) | xxhash | first 6 }}">
-		<div
-			class="docs-sidebar-logo flex h-(--header-height) shrink-0 items-center gap-2 overflow-hidden px-4"
-			aria-hidden="true">
-			{{- if site.Params.Logo -}}
-				{{- $logo := resources.Get site.Params.Logo -}}
-				{{- $logoDark := "" -}}
-				{{- if site.Params.LogoDark -}}
-					{{- $logoDark = resources.Get site.Params.LogoDark -}}
-				{{- end -}}
-				{{- if $logo -}}
-					{{- $attrs := "" -}}
-					{{- if and site.Params.logoWidth site.Params.logoHeight -}}
-						{{- $attrs = printf " width=%d height=%d" site.Params.logoWidth site.Params.logoHeight -}}
+		{{- if eq site.Params.headerLayout "hideOnScroll" -}}
+			<div
+				class="docs-sidebar-logo flex h-(--header-height) shrink-0 items-center gap-2 overflow-hidden px-4"
+				aria-hidden="true">
+				{{- if site.Params.Logo -}}
+					{{- $logo := resources.Get site.Params.Logo -}}
+					{{- $logoDark := "" -}}
+					{{- if site.Params.LogoDark -}}
+						{{- $logoDark = resources.Get site.Params.LogoDark -}}
 					{{- end -}}
-					<div class="flex h-full w-auto flex-shrink-0 items-center py-1">
-						<a href="{{ site.Home.RelPermalink }}" alt="" tabindex="-1" class="flex h-full items-center">
-							{{- if $logoDark -}}
-								<img
-									src="{{ $logo.RelPermalink }}"
-									alt="{{ site.Title }}"
-									class="h-full w-auto object-contain dark:hidden"
-									{{- $attrs | safeHTMLAttr }}>
-								<img
-									src="{{ $logoDark.RelPermalink }}"
-									alt="{{ site.Title }}"
-									class="hidden h-full w-auto object-contain dark:block"
-									{{- $attrs | safeHTMLAttr }}>
-							{{- else }}
-								<img
-									src="{{ $logo.RelPermalink }}"
-									alt="{{ site.Title }}"
-									class="h-full w-auto object-contain"
-									{{- $attrs | safeHTMLAttr }}>
-							{{- end }}
-						</a>
-					</div>
+					{{- if $logo -}}
+						{{- $attrs := "" -}}
+						{{- if and site.Params.logoWidth site.Params.logoHeight -}}
+							{{- $attrs = printf " width=%d height=%d" site.Params.logoWidth site.Params.logoHeight -}}
+						{{- end -}}
+						<div class="flex h-full w-auto flex-shrink-0 items-center py-1">
+							<a href="{{ site.Home.RelPermalink }}" alt="" tabindex="-1" class="flex h-full items-center">
+								{{- if $logoDark -}}
+									<img
+										src="{{ $logo.RelPermalink }}"
+										alt="{{ site.Title }}"
+										class="h-full w-auto object-contain dark:hidden"
+										{{- $attrs | safeHTMLAttr }}>
+									<img
+										src="{{ $logoDark.RelPermalink }}"
+										alt="{{ site.Title }}"
+										class="hidden h-full w-auto object-contain dark:block"
+										{{- $attrs | safeHTMLAttr }}>
+								{{- else }}
+									<img
+										src="{{ $logo.RelPermalink }}"
+										alt="{{ site.Title }}"
+										class="h-full w-auto object-contain"
+										{{- $attrs | safeHTMLAttr }}>
+								{{- end }}
+							</a>
+						</div>
+					{{- end -}}
 				{{- end -}}
-			{{- end -}}
-			{{- if site.Params.headerShowTitle | default true -}}
-				<a
-					href="{{ site.Home.RelPermalink }}"
-					tabindex="-1"
-					class="text-foreground notranslate min-w-0 shrink truncate text-xl font-medium"
-					translate="no">
-					{{- or site.Params.headerTitle site.Title | safeHTML -}}
-				</a>
-			{{- else if not site.Params.Logo -}}
-				<a tabindex="-1" href="{{ site.Home.RelPermalink }}" class="notranslate sr-only" translate="no">
-					{{- or site.Params.headerTitle site.Title | safeHTML -}}
-				</a>
-			{{- end -}}
-		</div>
+				{{- if site.Params.headerShowTitle | default true -}}
+					<a
+						href="{{ site.Home.RelPermalink }}"
+						tabindex="-1"
+						class="text-foreground notranslate min-w-0 shrink truncate text-xl font-medium"
+						translate="no">
+						{{- or site.Params.headerTitle site.Title | safeHTML -}}
+					</a>
+				{{- else if not site.Params.Logo -}}
+					<a tabindex="-1" href="{{ site.Home.RelPermalink }}" class="notranslate sr-only" translate="no">
+						{{- or site.Params.headerTitle site.Title | safeHTML -}}
+					</a>
+				{{- end -}}
+			</div>
+		{{- else if eq site.Params.headerLayout "sticky" -}}
+			<div class="h-(--header-height)"></div>
+		{{- end -}}
+
 
 		<div class="scrollbar-mask flex-1 overflow-y-auto">
 			<div class="ps-1 pe-2 pt-2 pb-4">

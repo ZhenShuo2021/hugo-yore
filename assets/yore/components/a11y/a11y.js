@@ -42,7 +42,7 @@ function initCycle(key, btnId, min, max, current) {
 	if (!btn) return;
 
 	const render = (level, speak) => {
-		btn.querySelectorAll('.font-size-dot').forEach((dot) => {
+		btn.querySelectorAll('.a11y-levels__dot').forEach((dot) => {
 			dot.classList.toggle('active', Number(dot.dataset.level) === level);
 		});
 		const label = `${btn.dataset.label}, ${level - min + 1} / ${max - min + 1}`;

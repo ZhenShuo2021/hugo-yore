@@ -1,0 +1,339 @@
+html[data-a11y-high-contrast][data-theme] {
+	--background: #000;
+	--foreground: #ff0;
+
+	--card: #000;
+	--card-foreground: #ff0;
+
+	--popover: #000;
+	--popover-foreground: #ff0;
+
+	--primary: #ff0;
+	--primary-foreground: #000;
+
+	--secondary: #000;
+	--secondary-foreground: #ff0;
+
+	--muted: #000;
+	--muted-foreground: #ff0;
+
+	--border: #ff0;
+	--input: #000;
+	--ring: #ff0;
+
+	--sidebar: #000;
+	--sidebar-foreground: #ff0;
+	--sidebar-primary: var(--primary);
+	--sidebar-primary-foreground: var(--primary-foreground);
+	--sidebar-border: var(--border);
+	--sidebar-ring: var(--ring);
+
+	--link: #ff0;
+	--link-hover: #ff0;
+	--brand-foreground: #ff0;
+
+	--hr-border: #ff0;
+
+	* {
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+	a {
+		text-decoration: underline;
+	}
+	a:focus-visible,
+	button:focus-visible {
+		background-color: #ff0 !important;
+		color: #000 !important;
+	}
+	:focus-visible {
+		outline: 3px solid #ff0 !important;
+		outline-offset: 2px;
+	}
+	.docs-nav__link--active {
+		font-weight: bold;
+		border: 2px solid #ff0;
+	}
+	.gallery-page-item .bg-muted {
+		.text-muted-foreground,
+		img {
+			border: 2px solid #ff0;
+		}
+	}
+	[data-code-wrapper] {
+		border: 1px solid #ff0;
+	}
+}
+
+/* component overrides */
+html[data-a11y-high-contrast][data-theme] {
+	--title-bg: #000;
+	--gray-border: #ff0;
+	--backdrop: #000;
+	--outline: #ff0;
+	--seal: #ff0;
+	--destructive: #ff0;
+	--success: #ff0;
+
+	--pele-bg: #000;
+	--pele-fg: #ff0;
+	--pele-muted: #ff0;
+	--pele-line: #ff0;
+	--pele-surface: #000;
+	--pele-surface-alt: #000;
+	--pele-border: #ff0;
+
+	--table-border-strong: #ff0;
+	--table-border-row: #ff0;
+	--table-hover-bg: #000;
+
+	--pf-text: #ff0;
+	--pf-text-secondary: #ff0;
+	--pf-text-muted: #ff0;
+	--pf-border-focus: #ff0;
+	--pf-skeleton: #000;
+	--pf-skeleton-shine: #000;
+	--pf-hover: #000;
+	--pf-mark: #ff0;
+	--pf-scroll-shadow: transparent;
+	--pf-shadow-sm: none;
+	--pf-shadow-md: none;
+	--pf-shadow-lg: none;
+	--pf-error-bg: #000;
+	--pf-error-border: #ff0;
+	--pf-error-text: #ff0;
+	--pf-error-text-secondary: #ff0;
+
+	--tw-prose-body: #ff0;
+	--tw-prose-headings: #ff0;
+	--tw-prose-lead: #ff0;
+	--tw-prose-links: #ff0;
+	--tw-prose-bold: #ff0;
+	--tw-prose-counters: #ff0;
+	--tw-prose-bullets: #ff0;
+	--tw-prose-hr: #ff0;
+	--tw-prose-quotes: #ff0;
+	--tw-prose-quote-borders: #ff0;
+	--tw-prose-captions: #ff0;
+	--tw-prose-kbd: #ff0;
+	--tw-prose-code: #ff0;
+	--tw-prose-pre-code: #ff0;
+	--tw-prose-pre-bg: #000;
+	--tw-prose-th-borders: #ff0;
+	--tw-prose-td-borders: #ff0;
+	--tw-prose-invert-body: #ff0;
+	--tw-prose-invert-headings: #ff0;
+	--tw-prose-invert-lead: #ff0;
+	--tw-prose-invert-links: #ff0;
+	--tw-prose-invert-bold: #ff0;
+	--tw-prose-invert-counters: #ff0;
+	--tw-prose-invert-bullets: #ff0;
+	--tw-prose-invert-hr: #ff0;
+	--tw-prose-invert-quotes: #ff0;
+	--tw-prose-invert-quote-borders: #ff0;
+	--tw-prose-invert-captions: #ff0;
+	--tw-prose-invert-kbd: #ff0;
+	--tw-prose-invert-code: #ff0;
+	--tw-prose-invert-pre-code: #ff0;
+	--tw-prose-invert-pre-bg: #000;
+	--tw-prose-invert-th-borders: #ff0;
+	--tw-prose-invert-td-borders: #ff0;
+}
+
+html[data-a11y-high-contrast][data-theme] {
+	--adm-note-accent: #ff0;
+	--adm-tip-accent: #ff0;
+	--adm-important-accent: #ff0;
+	--adm-warning-accent: #ff0;
+	--adm-caution-accent: #ff0;
+	--adm-abstract-accent: #ff0;
+	--adm-bug-accent: #ff0;
+	--adm-danger-accent: #ff0;
+	--adm-example-accent: #ff0;
+	--adm-failure-accent: #ff0;
+	--adm-info-accent: #ff0;
+	--adm-question-accent: #ff0;
+	--adm-quote-accent: #ff0;
+	--adm-success-accent: #ff0;
+	--adm-todo-accent: #ff0;
+	--adm-note-header-bg: #000;
+	--adm-tip-header-bg: #000;
+	--adm-important-header-bg: #000;
+	--adm-warning-header-bg: #000;
+	--adm-caution-header-bg: #000;
+	--adm-abstract-header-bg: #000;
+	--adm-bug-header-bg: #000;
+	--adm-danger-header-bg: #000;
+	--adm-example-header-bg: #000;
+	--adm-failure-header-bg: #000;
+	--adm-info-header-bg: #000;
+	--adm-question-header-bg: #000;
+	--adm-quote-header-bg: #000;
+	--adm-success-header-bg: #000;
+	--adm-todo-header-bg: #000;
+}
+
+/* code and syntax highlighting */
+html[data-a11y-high-contrast] .chroma,
+html[data-a11y-high-contrast] .bg,
+html[data-a11y-high-contrast] pre,
+html[data-a11y-high-contrast] code {
+	background-color: #000 !important;
+	color: #ff0 !important;
+}
+html[data-a11y-high-contrast] .chroma span,
+html[data-a11y-high-contrast] .chroma .hl {
+	color: #ff0 !important;
+	background-color: transparent !important;
+}
+html[data-a11y-high-contrast] .chroma .hl {
+	outline: 1px solid #ff0;
+}
+html[data-a11y-high-contrast] .chroma .gd,
+html[data-a11y-high-contrast] .chroma .gi {
+	background-color: #000 !important;
+	text-decoration: underline;
+}
+html[data-a11y-high-contrast] .chroma .c,
+html[data-a11y-high-contrast] .chroma .c1,
+html[data-a11y-high-contrast] .chroma .cm,
+html[data-a11y-high-contrast] .chroma .ch,
+html[data-a11y-high-contrast] .chroma .cs,
+html[data-a11y-high-contrast] .chroma .cp,
+html[data-a11y-high-contrast] .chroma .cpf {
+	font-style: italic;
+}
+html[data-a11y-high-contrast] [data-code-wrapper] *,
+html[data-a11y-high-contrast] .code-title,
+html[data-a11y-high-contrast] .code-header {
+	border-color: #ff0 !important;
+}
+
+/* generic surfaces and decorations */
+html[data-a11y-high-contrast] [class*='bg-'],
+html[data-a11y-high-contrast] table,
+html[data-a11y-high-contrast] th,
+html[data-a11y-high-contrast] td,
+html[data-a11y-high-contrast] blockquote,
+html[data-a11y-high-contrast] kbd,
+html[data-a11y-high-contrast] mark,
+html[data-a11y-high-contrast] input,
+html[data-a11y-high-contrast] textarea,
+html[data-a11y-high-contrast] select,
+html[data-a11y-high-contrast] dialog,
+html[data-a11y-high-contrast] [popover] {
+	background-color: #000;
+	color: #ff0;
+	border-color: #ff0;
+}
+html[data-a11y-high-contrast] mark {
+	background-color: #ff0;
+	color: #000;
+}
+html[data-a11y-high-contrast] hr {
+	border-color: #ff0;
+}
+html[data-a11y-high-contrast] [class*='backdrop-blur'],
+html[data-a11y-high-contrast] header,
+html[data-a11y-high-contrast] nav {
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
+	background-color: #000;
+}
+
+/* images and overlays */
+html[data-a11y-high-contrast] img {
+	border: 1px solid #ff0;
+}
+html[data-a11y-high-contrast] .masonry-caption,
+html[data-a11y-high-contrast] [class*='masonry'] figcaption {
+	background: #000 !important;
+	color: #ff0 !important;
+}
+html[data-a11y-high-contrast] .pswp__button,
+html[data-a11y-high-contrast] .pswp__counter,
+html[data-a11y-high-contrast] .pswp__caption,
+html[data-a11y-high-contrast] .pswp__top-bar {
+	background: #000 !important;
+	color: #ff0 !important;
+}
+
+/* pagefind search */
+html[data-a11y-high-contrast] [class*='pf-'],
+html[data-a11y-high-contrast] [class*='pagefind'] {
+	background-color: #000;
+	color: #ff0;
+	border-color: #ff0;
+}
+html[data-a11y-high-contrast] [class*='pf-'] mark {
+	background-color: #ff0;
+	color: #000;
+}
+
+/* shortcodes: carousel, tabs, accordion, steps, charts, mermaid */
+html[data-a11y-high-contrast='true'] .tab--active.tab__button {
+	background-color: #ff0;
+	color: #000;
+}
+html[data-a11y-high-contrast] .tab__button {
+	border-color: #ff0;
+	color: #ff0;
+}
+html[data-a11y-high-contrast] .tab__button.tab--active {
+	background-color: #ff0;
+	color: #000;
+	border-bottom: 3px solid #ff0;
+}
+html[data-a11y-high-contrast] .tab__panel {
+	border-top: 1px solid #ff0;
+}
+html[data-a11y-high-contrast] details,
+html[data-a11y-high-contrast] summary {
+	border-color: #ff0;
+}
+html[data-a11y-high-contrast] .mermaid svg * {
+	stroke: #ff0;
+}
+html[data-a11y-high-contrast] .mermaid svg text,
+html[data-a11y-high-contrast] .mermaid svg tspan {
+	fill: #ff0;
+	stroke: none;
+}
+html[data-a11y-high-contrast] .mermaid svg rect,
+html[data-a11y-high-contrast] .mermaid svg polygon,
+html[data-a11y-high-contrast] .mermaid svg circle,
+html[data-a11y-high-contrast] .mermaid svg ellipse {
+	fill: #000;
+}
+.page-hero--background {
+	display: none;
+}
+
+/* buttons: active/pressed states stay inverted */
+html[data-a11y-high-contrast] [aria-pressed='true'],
+html[data-a11y-high-contrast] [aria-current='page'],
+html[data-a11y-high-contrast] [aria-selected='true'] {
+	background-color: #ff0 !important;
+	color: #000 !important;
+}
+html[data-a11y-high-contrast] .a11y-levels__dot {
+	background: gray;
+	opacity: 0.5;
+}
+html[data-a11y-high-contrast] .a11y-levels__dot.active {
+	background: #ff0;
+	opacity: 1;
+}
+
+/* disable hover background change */
+html[data-a11y-high-contrast]
+	:where(a, button, summary, li, [role]):hover:not(
+		[aria-pressed='true'],
+		[aria-current='page'],
+		[aria-selected='true'],
+		[role='doc-noteref'],
+		.tab--active,
+		:focus-visible
+	) {
+	background-color: #000;
+}

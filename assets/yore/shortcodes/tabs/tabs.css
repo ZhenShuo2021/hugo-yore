@@ -24,7 +24,6 @@
 	outline-offset: 14px;
 }
 
-html[data-a11y-high-contrast='true'] .tab--active.tab__button,
 .tab__button:hover {
 	background-color: color-mix(var(--color-background), rgba(0, 0, 0, 0.15) 80%);
 }

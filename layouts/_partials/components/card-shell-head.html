@@ -7,15 +7,13 @@
 	Params (dict):
 		hoverCard	(bool, optional) - add hover effect.
 		compact		(bool, optional) - compact within `cards` grid.
-		href			(string, optional) - when set, the root element becomes <a> instead
-											of <article>. The tail must receive trusy "href".
 		target		(string, optional) - target of the root <a>, only used with href.
 		attributes (map, optional) - extra attributes on the root element.
 
 	Note:
-		`href` is allowed only if the card contains no other interactive elements
-		(a, button, input, select, textarea). Otherwise, use stretched card with
-		`.yr-link-stretch` (::after + absolute + inset-0).
+		Do not use "a" tag as wrapper because Hugo wraps it with "p" tag when using it
+		inside a shortcode. But this is not a valid HTML structure.
+		Wrap it with "div > a" breaks the subgrid align feature.
 
 		Should follow the guides:
 		- https://piccalil.li/blog/accessible-faux-nested-interactive-controls/
@@ -35,12 +33,5 @@
 	{{- $cls = printf "%s group/card yr-hover-shadow" $cls -}}
 {{- end -}}
 
-{{- if .href -}}
-<a href="{{ .href }}"
-	{{- with .target }} target="{{ . }}"{{ end }}
-	class="{{ $cls }}"
-	{{- with $attrs }} {{ . | safeHTMLAttr }}{{ end }}>
-{{- else -}}
 <article class="{{ $cls }}"
 	{{- with $attrs }} {{ . | safeHTMLAttr }}{{ end }}>
-{{- end -}}

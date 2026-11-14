@@ -50,15 +50,9 @@
 	{{- $fTarget = "_blank" -}}
 {{- end -}}
 
-{{- /* No interactive content: the root element becomes the link. */ -}}
-{{- $textHTML := printf "%s%s" ($desc | default "") ($meta | default "") -}}
-{{- $wrapLink := and $url (not $footer) (not (findRE `<a[\s>]` $textHTML)) -}}
-
 {{- partial "components/card-shell-head.html" (dict
 	"hoverCard" .hoverCard
 	"compact" .compact
-	"href" (cond $wrapLink $url "")
-	"target" $target
 	"attrs" .attrs
 	)
 -}}
@@ -79,7 +73,7 @@
 		{{- with $icon -}}
 			{{- partial "components/icon.html" . -}}
 		{{- end -}}
-		{{- if and $url (not $wrapLink) -}}
+		{{- if and $url -}}
 			<a
 				href="{{ $url }}"
 				{{- with $target }}target="{{ . }}"{{ end }}
@@ -93,7 +87,7 @@
 			{{- end -}}
 		{{- else -}}
 			{{- $title | markdownify -}}
-			{{- if and $wrapLink (eq $target "_blank") -}}
+			{{- if eq $target "_blank" -}}
 				<span class="sr-only select-none">
 					{{- printf " (%s)" (i18n "a11y.opens_external_link" | default "external link") -}}
 				</span>
@@ -161,4 +155,4 @@
 	</div>
 {{- end -}}
 
-{{- partial "components/card-shell-tail.html" (dict "href" $wrapLink) -}}
+{{- partial "components/card-shell-tail.html" (dict) -}}

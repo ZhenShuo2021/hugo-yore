@@ -27,8 +27,6 @@
 
 {{- partial "components/card-shell-head.html" (dict
 	"hoverCard" true
-	"href" $htmlURL
-	"target" "_blank"
 	)
 -}}
 {{- partial "components/card-media.html" (dict
@@ -42,7 +40,9 @@
 <h3
 	class="yr-card__header text-foreground group-hover:text-link-hover flex flex-wrap items-center gap-2 text-lg font-semibold transition-colors">
 	{{- partialCached "components/icon.html" "github" "icon-github" -}}
-	{{- $fullName -}}
+	<a href="{{ $htmlURL }}" target="_blank" class="yr-link-stretch">
+		{{- $fullName -}}
+	</a>
 </h3>
 {{- /**/ -}}
 

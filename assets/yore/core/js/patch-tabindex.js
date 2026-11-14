@@ -49,9 +49,13 @@ function initScrollableWrappers() {
 	document.addEventListener(
 		'keydown',
 		(e) => {
-			if (e.key === 'Tab') start();
+			if (e.key !== 'Tab') return;
+			if (!started) {
+				start();
+				return;
+			}
 		},
-		{ once: true, capture: true },
+		{ capture: true },
 	);
 }
 

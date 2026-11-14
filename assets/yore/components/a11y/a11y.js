@@ -225,19 +225,10 @@ function initPanel(panelId) {
 
 	if (close) close.onclick = togglePanel;
 
-	// Close on backdrop click: use mousedown coordinates to check if outside the dialog content box
-	// (not e.target, so clicks bubbling from inner elements aren't mistaken for backdrop clicks)
-	if (panelEl) {
-		panelEl.addEventListener('mousedown', (e) => {
-			const rect = panelEl.getBoundingClientRect();
-			const clickedOutside =
-				e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom;
-
-			if (clickedOutside && panelEl.open) {
-				togglePanel();
-			}
-		});
-	}
+	// closedby="any" closes on backdrop click and Esc without calling togglePanel, so sync aria-expanded here
+	panelEl?.addEventListener('close', () => {
+		document.querySelectorAll('[id$="a11y-toggle"]').forEach((t) => t.setAttribute('aria-expanded', 'false'));
+	});
 }
 
 function applyAll() {

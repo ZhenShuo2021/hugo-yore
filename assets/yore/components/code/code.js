@@ -33,13 +33,7 @@ async function copyCode(button, highlightDiv) {
 	try {
 		await navigator.clipboard.writeText(codeText);
 		success = true;
-	} catch {
-		try {
-			success = legacyCopyCode(codeText, button);
-		} catch {
-			success = false;
-		}
-	}
+	} catch {}
 
 	if (!success) {
 		statusRegion.textContent = textCopyFailed;
@@ -56,25 +50,6 @@ async function copyCode(button, highlightDiv) {
 		button.classList.remove('copied');
 		statusRegion.textContent = '';
 	}, 2000);
-}
-
-function legacyCopyCode(text, button) {
-	const ta = document.createElement('textarea');
-	ta.value = text;
-	ta.style.cssText = 'position:absolute;left:-9999px';
-	document.body.appendChild(ta);
-	ta.select();
-
-	let success = false;
-
-	try {
-		success = document.execCommand('copy');
-	} finally {
-		document.body.removeChild(ta);
-		button.focus();
-	}
-
-	return success;
 }
 
 function extractText(highlightDiv) {

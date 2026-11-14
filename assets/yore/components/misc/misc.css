@@ -22,3 +22,21 @@ html[data-theme='dark'] .icon-arrow-up::after {
 	position: relative;
 	top: -0.1em;
 }
+
+/* Divider is generated, the empty alt keeps it out of the accessibility tree */
+.breadcrumb > li + li::before {
+	content: '\00a0/\00a0';
+	content: '\00a0/\00a0' / '';
+}
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+	text-decoration: underline;
+}
+.breadcrumb a[aria-current='page'] {
+	font-weight: 600;
+}
+
+/* opacity 0 alone leaves the hidden button in the tab order and the accessibility tree */
+#scroll-to-top:not(.visible) {
+	visibility: hidden;
+}

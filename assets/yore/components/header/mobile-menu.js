@@ -44,19 +44,6 @@ function init() {
 		overlay.addEventListener('close', () => {
 			toggle()?.setAttribute('aria-expanded', 'false');
 		});
-
-		// Close on backdrop click: use mousedown coordinates to check if outside the dialog content box
-		// Not e.target === overlay, so clicks bubbling from inner elements aren't mistaken for backdrop clicks
-		// (That approach wrongly swallowed inner clicks on the a11y panel dialog and broke its checkboxes)
-		overlay.addEventListener('mousedown', (e) => {
-			const rect = overlay.getBoundingClientRect();
-			const clickedOutside =
-				e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom;
-
-			if (clickedOutside && overlay.open) {
-				closeMenu();
-			}
-		});
 	}
 }
 

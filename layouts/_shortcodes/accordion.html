@@ -2,9 +2,6 @@
 {{- $exclusive := .Get "exclusive" | partial "lib/tobool.html" -}}
 {{- $separated := .Get "separated" | partial "lib/tobool.html" -}}
 <div
-	data-accordion
-	data-exclusive="{{ $exclusive }}"
-	data-separated="{{ $separated }}"
 	class="{{ if $separated -}}
 		space-y-3
 	{{- else -}}

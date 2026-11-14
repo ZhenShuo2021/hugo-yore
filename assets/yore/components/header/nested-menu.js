@@ -60,6 +60,9 @@ function init() {
 			}
 		});
 
+		submenu.addEventListener('click', (event) => {
+			if (event.target.closest('a')) close();
+		});
 		item.addEventListener('mouseenter', open);
 		item.addEventListener('mouseleave', scheduleClose);
 

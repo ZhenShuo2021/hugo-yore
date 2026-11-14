@@ -26,7 +26,7 @@ export function init() {
 
 	// --- Article images ---
 	const proseImages = document.querySelectorAll(
-		'.prose img:not(a img):not(.carousel-slide img):not(.carousel-thumb img):not(.yr-card img)',
+		'.prose img:not(a img):not(.carousel-item img):not(.carousel-thumb img):not(.yr-card img)',
 	);
 
 	proseImages.forEach((img) => {
@@ -50,7 +50,7 @@ export function init() {
 	lightboxes.push(proseLightbox);
 
 	// --- Carousel slide images ---
-	const carouselImages = document.querySelectorAll('.carousel-slide img:not(a img)');
+	const carouselImages = document.querySelectorAll('.carousel-item img:not(a img)');
 
 	carouselImages.forEach((img) => {
 		const link = wrapImageForLightbox(img);
@@ -60,7 +60,7 @@ export function init() {
 		link.style.width = '100%';
 		link.style.height = '100%';
 
-		const slide = img.closest('.carousel-slide');
+		const slide = img.closest('.carousel-item');
 		if (slide && slide.dataset.caption) {
 			link.dataset.captionHtml = slide.dataset.caption;
 		}

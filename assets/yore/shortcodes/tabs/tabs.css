@@ -12,7 +12,14 @@
 	padding: 0.3rem 0.5rem;
 }
 
+.tab__tablist {
+	display: flex;
+	gap: 0.25rem;
+	overflow-x: auto;
+}
+
 .tab__button {
+	flex: none;
 	position: relative;
 	border-bottom: 2px solid transparent;
 	border-radius: var(--radius-xs);
@@ -29,14 +36,13 @@
 }
 
 /* prettier-ignore */
-.tab__button.tab--active {
+.tab__button[aria-selected='true'] {
 	background-color: var(--color-background);
 	--tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
 	box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 
-.tab__panel {
-	display: none;
+.tab__body {
 	margin: 1em;
 	> :first-child {
 		margin-top: 1em;
@@ -47,8 +53,8 @@
 	}
 }
 
-.tab__panel.tab--active {
-	display: block;
+.tab__button[aria-selected='true'] {
+	border-bottom-color: currentColor;
 }
 .tab__panel:not(.tab--active):has([id^='echart-'], .mermaid) {
 	display: block;
@@ -66,6 +72,7 @@
 
 	.tab__panel {
 		display: block !important;
+		content-visibility: visible !important;
 		break-inside: avoid;
 		border-top: 1px solid #000;
 		margin-top: 0.5em;

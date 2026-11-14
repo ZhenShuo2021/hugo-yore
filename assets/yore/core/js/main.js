@@ -53,7 +53,6 @@ import '../../components/stale-warning/index.js';
 import '../../components/math/math.js';
 import '../../components/knowledge-graph/knowledge-graph.js';
 import '../../shortcodes/tabs/tabs.js';
-import '../../shortcodes/accordion/accordion.js';
 import '../../shortcodes/carousel/carousel.js';
 import '../../shortcodes/masonry/masonry.js';
 import '../../shortcodes/mermaid/mermaid.js';

@@ -33,7 +33,7 @@ delegateEvent('.tab__button', 'click', (e) => {
 - Use `delegateEvent` from `delegate-it`. Non-bubbling events: use `focusin` and `mouseover`.
 - A `window` value that other code needs is assigned in the same file.
 
-Examples: scroll-to-top, search, mobile-menu, print, clicks of tabs, accordion and code copy.
+Examples: scroll-to-top, search, mobile-menu, print, clicks of tabs and code copy.
 
 ## 2 Route hook
 

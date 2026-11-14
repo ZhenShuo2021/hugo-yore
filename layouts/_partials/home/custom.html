@@ -168,7 +168,7 @@
 	}
 </style>
 <div class="void-stage" aria-hidden="true">
-	<canvas id="cosmic-lines" style="opacity:0;transition:opacity 1.4s ease"></canvas>
+	<canvas id="cosmic-lines" aria-hidden="true" style="opacity:0;transition:opacity 1.4s ease"></canvas>
 </div>
 
 {{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" hugo.IsProduction -}}

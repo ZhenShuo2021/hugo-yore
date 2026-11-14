@@ -13,7 +13,7 @@
 {{- end }}
 <div class="tab__container my-4 w-full" data-module="tabs" {{ $attrs | safeHTMLAttr }}>
 	<div class="tab__nav">
-		<div class="flex flex-wrap gap-1" role="tablist" {{ $tablistAttrs | safeHTMLAttr }}>
+		<div class="tab__tablist" focusgroup="tablist nomemory" {{ $tablistAttrs | safeHTMLAttr }}>
 			{{- range $nTabs, $_ := .Store.Get "tabs" -}}
 				{{- $isActive := false -}}
 				{{- if $default -}}
@@ -22,12 +22,11 @@
 					{{- $isActive = eq $nTabs 0 -}}
 				{{- end -}}
 				<button
+					type="button"
 					id="tab-{{ $uid }}-{{ $nTabs }}"
-					class="tab__button {{ cond $isActive `tab--active` `` }} hover:bg-muted rounded-t-xs border-b-2 border-transparent px-3 py-2 text-sm font-semibold transition-colors duration-(--dur-200)"
-					role="tab"
+					class="tab__button hover:bg-muted rounded-t-xs border-b-2 border-transparent px-3 py-2 text-sm font-semibold transition-colors duration-(--dur-200)"
 					aria-selected="{{ cond $isActive `true` `false` }}"
-					aria-controls="tabpanel-{{ $uid }}-{{ $nTabs }}"
-					tabindex="{{ cond $isActive `0` `-1` }}"
+					{{- if $isActive }}focusgroupstart{{ end }}
 					data-tab-index="{{ $nTabs }}"
 					data-tab-label="{{ index . "label" }}">
 					<span class="flex items-center">

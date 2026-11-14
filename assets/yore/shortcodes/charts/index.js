@@ -35,7 +35,6 @@ export default async function (dom, { signal }) {
 	);
 	observer.observe(dom);
 
-	dom.addEventListener('tab-activated', () => requestAnimationFrame(() => chart?.resize()), { signal });
 	window.addEventListener('resize', () => chart?.resize(), { signal });
 	window.addEventListener(
 		'appearance-changed',

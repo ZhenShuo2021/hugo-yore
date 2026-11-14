@@ -372,6 +372,9 @@
   .-z-50 {
     z-index: calc(50 * -1);
   }
+  .z-10 {
+    z-index: 10;
+  }
   .z-50 {
     z-index: 50;
   }
@@ -416,9 +419,6 @@
   }
   .m-0 {
     margin: 0px;
-  }
-  .m-0\! {
-    margin: 0px !important;
   }
   .m-4 {
     margin: calc(var(--spacing) * 4);
@@ -1081,6 +1081,7 @@
       .heading-anchor::before {
         display: inline-block;
         content: '#';
+        content: '#' / '';
         opacity: 0;
         text-decoration: none;
         transition: opacity var(--dur-200) ease;
@@ -1293,6 +1294,9 @@
   .max-h-\[calc\(100dvh-2rem\)\] {
     max-height: calc(100dvh - 2rem);
   }
+  .max-h-\[calc\(100dvh-10rem\)\] {
+    max-height: calc(100dvh - 10rem);
+  }
   .max-h-\[calc\(100vh-var\(--header-height\)-5rem\)\] {
     max-height: calc(100vh - var(--header-height) - 5rem);
   }
@@ -1370,9 +1374,6 @@
   }
   .min-w-\[40vw\] {
     min-width: 40vw;
-  }
-  .min-w-full {
-    min-width: 100%;
   }
   .flex-1 {
     flex: 1;
@@ -1667,9 +1668,6 @@
     @supports (color: color-mix(in lab, red, red)) {
       border-color: color-mix(in oklab,var(--color-border) 50%,var(--color-foreground) 15%);
     }
-  }
-  .border-accent-500 {
-    border-color: var(--color-accent-500);
   }
   .border-border {
     border-color: var(--color-border);
@@ -2366,6 +2364,9 @@
   .focus\:py-2:focus {
     padding-block: calc(var(--spacing) * 2);
   }
+  .disabled\:opacity-40:disabled {
+    opacity: 40%;
+  }
   .has-checked\:border-brand-500:has(:checked) {
     border-color: var(--color-brand-500);
   }
@@ -2388,6 +2389,9 @@
   }
   .has-focus-visible\:outline-\(--outline\):has(:focus-visible) {
     outline-color: var(--outline);
+  }
+  .aria-\[current\=true\]\:border-accent-500[aria-current="true"] {
+    border-color: var(--color-accent-500);
   }
   @media (prefers-reduced-motion: no-preference) {
     .motion-safe\:animate-bounce {

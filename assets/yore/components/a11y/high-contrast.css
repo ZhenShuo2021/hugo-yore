@@ -271,18 +271,16 @@ html[data-a11y-high-contrast] [class*='pf-'] mark {
 }
 
 /* shortcodes: carousel, tabs, accordion, steps, charts, mermaid */
-html[data-a11y-high-contrast='true'] .tab--active.tab__button {
-	background-color: #ff0;
-	color: #000;
-}
 html[data-a11y-high-contrast] .tab__button {
-	border-color: #ff0;
 	color: #ff0;
 }
-html[data-a11y-high-contrast] .tab__button.tab--active {
-	background-color: #ff0;
-	color: #000;
-	border-bottom: 3px solid #ff0;
+html[data-a11y-high-contrast] .tab__button:not([aria-selected='true']) {
+	border-color: transparent;
+}
+html[data-a11y-high-contrast] .tab__button[aria-selected='true'] {
+	background-color: #000 !important;
+	color: #ff0 !important;
+	border-bottom-color: #ff0;
 }
 html[data-a11y-high-contrast] .tab__panel {
 	border-top: 1px solid #ff0;

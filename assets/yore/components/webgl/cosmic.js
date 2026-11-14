@@ -129,7 +129,9 @@ export default function () {
 		scl = 1,
 		slotKey = '';
 	var slot = document.querySelector('[data-cosmic-slot]');
-	var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+	var reduced =
+		!!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ||
+		document.documentElement.getAttribute('data-a11y-reduce-motion') === 'true';
 
 	/* Byte size of the uniform struct in WGSL (padded to 16).
 	   There are 5 line groups (1 curve + 4 rings), each at a different offset in the uniform buffer,

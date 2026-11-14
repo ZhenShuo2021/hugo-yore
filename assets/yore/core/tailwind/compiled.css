@@ -2214,6 +2214,12 @@
     content: var(--tw-content);
     background-color: var(--color-border);
   }
+  .open\:flex:is([open], :popover-open, :open) {
+    display: flex;
+  }
+  .open\:flex-col:is([open], :popover-open, :open) {
+    flex-direction: column;
+  }
   @media (hover: hover) {
     .hover\:border-link-hover:hover {
       border-color: var(--color-link-hover);

@@ -1,65 +1,122 @@
-<dialog id="a11y-panel" aria-labelledby="a11y-panel-title" class="yr-dialog-overlay">
-	<div class="max-h-[calc(100dvh-2rem)] overflow-y-auto px-6 py-8">
-		<div class="mb-8 flex items-center justify-between">
-			<h2 id="a11y-panel-title" class="text-foreground text-xl font-medium">
+<dialog
+	id="a11y-panel"
+	closedby="any"
+	aria-labelledby="a11y-panel-title"
+	class="a11y-drawer border-border bg-background text-foreground m-0 h-dvh max-h-dvh w-[min(24em,90vw)] max-w-none min-w-[40vw] border-y-0 border-s border-e-0 p-0">
+	<div class="flex h-full flex-col">
+		<div
+			class="border-border flex h-(--header-height) shrink-0 items-center justify-between gap-4 border-b px-4">
+			<h2 id="a11y-panel-title" class="text-foreground min-w-0 text-xl font-medium break-words">
 				{{- i18n "a11y_panel.title" -}}
 			</h2>
 			<button
 				id="a11y-close"
-				class="text-muted-foreground hover:text-foreground flex items-center transition-colors"
+				class="text-muted-foreground hover:text-foreground border-border hover:border-foreground flex size-12 shrink-0 items-center justify-center rounded-full border-2 transition-colors"
 				aria-label="{{ i18n `a11y_panel.close` | default `Close accessibility panel` }}"
 				title="{{ i18n `a11y_panel.close` | default `Close accessibility panel` }}">
 				{{- partialCached "components/icon.html" "xmark" "icon-xmark" -}}
 			</button>
 		</div>
 
-		<div class="space-y-6">
-			<div class="flex items-center justify-between gap-4" role="group" aria-labelledby="font-size-label">
-				<span id="font-size-label" class="text-foreground text-sm">
-					{{- i18n "a11y_panel.font_size" | default "Font size" -}}
-				</span>
-				<div class="font-size-stepper">
-					<button
-						id="font-size-decrease"
-						class="yr-outline font-size-btn"
-						aria-label="{{ i18n `a11y_panel.decrease_font_size` | default `Decrease font size` }}"
-						title="{{ i18n `a11y_panel.decrease_font_size` | default `Decrease font size` }}">
-						A<sup>-</sup>
-					</button>
-					<div class="font-size-levels" aria-hidden="true">
-						<span class="font-size-dot" data-level="-2"></span>
-						<span class="font-size-dot" data-level="-1"></span>
-						<span class="font-size-dot" data-level="0"></span>
-						<span class="font-size-dot" data-level="1"></span>
-						<span class="font-size-dot" data-level="2"></span>
-					</div>
-					<span id="font-size-status" class="sr-only" aria-live="polite"></span>
-					<button
-						id="font-size-increase"
-						class="yr-outline font-size-btn"
-						aria-label="{{ i18n `a11y_panel.increase_font_size` | default `Increase font size` }}"
-						title="{{ i18n `a11y_panel.increase_font_size` | default `Increase font size` }}">
-						A<sup>+</sup>
-					</button>
-				</div>
-			</div>
+		{{- $card := print
+			"group flex flex-col aspect-square items-center justify-between"
+			"border-muted-foreground text-foreground rounded-xl border-2 p-3 transition-colors"
+		-}}
+		{{- $btn := printf "yr-outline %s hover:border-foreground cursor-pointer" $card -}}
 
-			{{- $toggles := slice
-				(dict "id" "highContrast" "label" (i18n "a11y_panel.high_contrast" | default "High contrast"))
-				(dict "id" "reduceMotion" "label" (i18n "a11y_panel.reduce_motion" | default "Reduce motion"))
-				(dict "id" "reduceTransparency" "label" (i18n "a11y_panel.reduce_transparency" | default "Reduce transparency"))
-				(dict "id" "underlineLinks" "label" (i18n "a11y_panel.show_link_underline" | default "Show link underline"))
-			-}}
-			{{- range $toggles -}}
-				<div class="flex items-center justify-between gap-4">
-					<label for="{{ .id }}" class="text-foreground cursor-text text-sm select-text">
-						{{- .label -}}
-					</label>
-					<div class="ios-toggle">
-						<input role="switch" type="checkbox" id="{{ .id }}">
+
+		<div class="flex-1 overflow-y-auto p-4">
+			<div class="grid grid-cols-2 gap-3">
+				<span id="a11y-status" class="sr-only" aria-live="polite"></span>
+				<button
+					id="font-size-btn"
+					class="{{ $btn }}"
+					data-label="{{ i18n `a11y_panel.font_size` | default `Font size` }}"
+					aria-label="{{ i18n `a11y_panel.font_size` | default `Font size` }}">
+					<span class="text-foreground text-center text-lg break-words" aria-hidden="true">
+						{{ i18n `a11y_panel.font_size` | default `Font size` }}
+					</span>
+					<span class="flex flex-1 items-center justify-center select-none" aria-hidden="true">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="40"
+							height="32"
+							viewBox="0 0 40 32"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							focusable="false">
+							<path d="M4 28L13 6l9 22" />
+							<path d="M7 21h12" />
+							<path d="M25 28l6-14 6 14" />
+							<path d="M27 24h8" />
+						</svg>
+					</span>
+					<span class="a11y-levels" aria-hidden="true">
+						<span class="a11y-levels__dot" data-level="-2"></span>
+						<span class="a11y-levels__dot" data-level="-1"></span>
+						<span class="a11y-levels__dot" data-level="0"></span>
+						<span class="a11y-levels__dot" data-level="1"></span>
+						<span class="a11y-levels__dot" data-level="2"></span>
+					</span>
+				</button>
+				<button
+					id="line-height-btn"
+					class="{{ $btn }}"
+					data-label="{{ i18n `a11y_panel.line_height` | default `Line height` }}"
+					aria-label="{{ i18n `a11y_panel.line_height` | default `Line height` }}">
+					<span class="text-foreground text-center text-lg break-words" aria-hidden="true">
+						{{- i18n `a11y_panel.line_height` | default `Line height` -}}
+					</span>
+					<span class="flex flex-1 items-center justify-center select-none" aria-hidden="true">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="32"
+							height="32"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							focusable="false">
+							<path d="M12 4v16" />
+							<path d="M8 8l4-4 4 4" />
+							<path d="M8 16l4 4 4-4" />
+						</svg>
+					</span>
+					<span class="a11y-levels" aria-hidden="true">
+						<span class="a11y-levels__dot" data-level="0"></span>
+						<span class="a11y-levels__dot" data-level="1"></span>
+						<span class="a11y-levels__dot" data-level="2"></span>
+					</span>
+				</button>
+
+				{{- $toggles := slice
+					(dict "id" "highContrast" "label" (i18n "a11y_panel.high_contrast" | default "High contrast"))
+					(dict "id" "reduceMotion" "label" (i18n "a11y_panel.reduce_motion" | default "Reduce motion"))
+					(dict "id" "reduceTransparency" "label" (i18n "a11y_panel.reduce_transparency" | default "Reduce transparency"))
+					(dict "id" "underlineLinks" "label" (i18n "a11y_panel.show_link_underline" | default "Show link underline"))
+				-}}
+				{{- range $toggles -}}
+					<div
+						class="{{ $card }} hover:border-foreground has-checked:border-brand-500 has-checked:ring-brand-500 relative has-checked:ring-1 has-checked:ring-inset has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-(--outline)">
+						<input
+							role="switch"
+							type="checkbox"
+							id="{{ .id }}"
+							class="absolute inset-0 m-0 size-full cursor-pointer opacity-0"
+							aria-label="{{ .label }}">
+						<span class="text-foreground text-center text-lg break-words" aria-hidden="true">{{ .label }}</span>
+						<span
+							class="border-muted-foreground group-has-checked:bg-brand-500 m-4 flex size-6 items-center justify-center rounded-full border-2 transition-colors"
+							aria-hidden="true">
+						</span>
 					</div>
-				</div>
-			{{- end -}}
+				{{- end -}}
+			</div>
 		</div>
 	</div>
 </dialog>

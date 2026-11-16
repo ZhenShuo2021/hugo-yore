@@ -1,3 +1,63 @@
+.carousel-track {
+	display: flex;
+	overflow-x: auto;
+	/* mandatory so the track always rests on a slide, which the settled-scroll status relies on */
+	scroll-snap-type: x mandatory;
+	scrollbar-width: none;
+	touch-action: manipulation;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	> .carousel-item {
+		flex: 0 0 100%;
+		scroll-snap-align: center;
+	}
+
+	&:focus-visible {
+		outline: 2px solid #005fcc;
+		outline-offset: -2px;
+		&:where([data-theme='dark'], [data-theme='dark'] *) {
+			outline: 2px solid #99c8ff;
+		}
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	:root:not([data-a11y-reduce-motion]) .carousel-track {
+		scroll-behavior: smooth;
+	}
+}
+
+/* Looping: park an end slide beside the current one, driven by --current (set by the script, no default on purpose) */
+@supports (width: calc(sibling-index() * 1px)) {
+	/* The first slide parks after the last while --current is the last or second-to-last index. */
+	.carousel-track > :first-child {
+		order: clamp(0, var(--current) - (sibling-count() - 3), 1);
+	}
+
+	/* The last slide parks before the first while --current is 0 or 1. */
+	.carousel-track > :last-child {
+		order: calc(-1 * clamp(0, 2 - var(--current), 1));
+	}
+}
+
+.carousel-prev,
+.carousel-next,
+.carousel-thumb {
+	touch-action: manipulation;
+	cursor: pointer;
+}
+
+.carousel-prev,
+.carousel-next {
+	&:focus-visible {
+		outline: 2px solid #fff;
+		box-shadow: 0 0 0 4px #005fcc;
+	}
+}
+
 .carousel-thumbs {
 	button:focus-visible {
 		border-radius: var(--radius-md);

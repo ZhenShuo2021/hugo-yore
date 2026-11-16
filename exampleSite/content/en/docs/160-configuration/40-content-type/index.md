@@ -4,8 +4,6 @@ weight: 40
 date: 2026-07-07T00:00:00+08:00
 description: "How to assign a content type (blog, docs, gallery) to your pages."
 tags: ["concept", "hugo-core"]
-params:
-  sourceLinks:
 ---
 
 Yore provides three content types: `blog`, `docs`, and `gallery`. Each type renders pages with a different set of templates and supports a different set of configuration fields. This guide shows you how to assign a type to your pages.

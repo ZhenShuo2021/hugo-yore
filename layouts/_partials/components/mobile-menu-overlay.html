@@ -4,15 +4,17 @@
 	site.Params.versionSwitcher
 	site.Params.accessibilityEnabled
 -}}
-	<dialog id="mobile-menu-overlay" class="yr-dialog-overlay">
+	<dialog id="mobile-menu-overlay" closedby="any" class="yr-dialog-overlay open:flex open:flex-col">
 		<div class="max-h-[calc(100dvh-2rem)] scrollbar-gutter-stable overflow-y-auto px-6 py-8">
-			<button
-				id="mobile-menu-close"
-				aria-label="{{ i18n `nav.close_mobile_menu` | default `Close mobile menu` }}"
-				title="{{ i18n `nav.close_mobile_menu` | default `Close mobile menu` }}"
-				class="text-muted-foreground hover:text-foreground absolute end-6 top-6 z-50 flex items-center transition-colors">
-				{{- partialCached "components/icon.html" "xmark" "icon-xmark" -}}
-			</button>
+			<div class="mb-8 flex items-center justify-end gap-4">
+				<button
+					id="mobile-menu-close"
+					aria-label="{{ i18n `nav.close_mobile_menu` | default `Close mobile menu` }}"
+					title="{{ i18n `nav.close_mobile_menu` | default `Close mobile menu` }}"
+					class="text-muted-foreground hover:text-foreground border-border hover:border-foreground flex size-12 shrink-0 items-center justify-center rounded-full border-2 transition-colors">
+					{{- partialCached "components/icon.html" "xmark" "icon-xmark" -}}
+				</button>
+			</div>
 			<nav class="mx-auto max-w-md space-y-6">
 				{{- template "mobile-main-menu" . -}}
 				{{- template "mobile-footer-components" . -}}
@@ -41,15 +43,15 @@
 				<a
 					href="{{ or .Params.URL .URL }}"
 					{{ with or .Name .Params.icon }}aria-label="{{ . }}"{{ end }}
-					class="group text-foreground hover:text-link-hover col-start-1 row-start-1 flex items-center gap-4 py-1 transition-colors">
+					class="group text-foreground hover:text-link-hover col-start-1 row-start-1 flex min-w-0 items-center gap-4 py-1 transition-colors">
 					{{- .Pre -}}
 					{{- with .Params.icon -}}
-						<span class="flex h-8 w-8 items-center justify-center text-2xl">
+						<span class="flex h-8 w-8 shrink-0 items-center justify-center text-2xl">
 							{{- partial "components/icon.html" . -}}
 						</span>
 					{{- end -}}
 					{{- with .Name -}}
-						<span class="text-2xl font-bold tracking-tight">{{ . | markdownify }}</span>
+						<span class="min-w-0 text-2xl font-bold tracking-tight break-words">{{ . | markdownify }}</span>
 					{{- end -}}
 					{{- .Post -}}
 				</a>
@@ -77,15 +79,15 @@
 									<a
 										href="{{ or .Params.URL .URL }}"
 										{{ with or .Name .Params.icon }}aria-label="{{ . }}"{{ end }}
-										class="text-foreground hover:text-link-hover flex items-center gap-3 rounded p-2 transition-colors">
+										class="text-foreground hover:text-link-hover flex min-w-0 items-center gap-3 rounded p-2 transition-colors">
 										{{- .Pre -}}
 										{{- with .Params.icon -}}
-											<span class="flex h-5 w-5 items-center justify-center">
+											<span class="flex h-5 w-5 shrink-0 items-center justify-center">
 												{{- partial "components/icon.html" . -}}
 											</span>
 										{{- end -}}
 										{{- with .Name -}}
-											<span class="text-lg">{{ . | markdownify }}</span>
+											<span class="min-w-0 text-lg break-words">{{ . | markdownify }}</span>
 										{{- end -}}
 										{{- .Post -}}
 									</a>
@@ -134,13 +136,17 @@
 				</button>
 			{{- end -}}
 
-			{{- if .IsTranslated -}}
-				{{- partial "components/translations.html" . -}}
-			{{- end -}}
 
-			{{- if site.Params.versionSwitcher -}}
-				{{- partial "components/yr-version-switcher.html" $ -}}
-			{{- end -}}
+			<div class="contents" data-header-slot>
+				{{- if .IsTranslated -}}
+					{{- partial "components/translations.html" . -}}
+				{{- end -}}
+			</div>
+			<div class="contents" data-header-slot>
+				{{- if site.Params.versionSwitcher -}}
+					{{- partial "components/yr-version-switcher.html" $ -}}
+				{{- end -}}
+			</div>
 
 			{{- if site.Params.accessibilityEnabled | default false -}}
 				<div class="flex items-center">

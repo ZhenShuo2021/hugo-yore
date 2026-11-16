@@ -33,10 +33,15 @@
 	class="tab__panel {{ cond $isActive `tab--active` `` }}"
 	role="tabpanel"
 	aria-labelledby="{{ $tabID }}"
-	tabindex="0"
-	{{- if not $isActive }}{{ printf " hidden" | safeHTMLAttr }}{{ end }}
+	{{- if $isActive }}
+		tabindex="0"
+	{{- else }}
+		hidden="until-found"
+	{{- end }}
 	data-tab-index="{{ $index }}"
 	data-tab-label="{{ $label }}">
-	{{- .Inner -}}
+	<div class="tab__body">
+		{{- .Inner -}}
+	</div>
 </div>
 {{- /**/ -}}

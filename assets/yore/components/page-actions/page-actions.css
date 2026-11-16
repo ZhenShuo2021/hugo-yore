@@ -1,6 +1,7 @@
 /* [popover] elements are promoted to the top layer, positioning it using JS */
 .page-actions__menu {
 	position: fixed;
+	inset: auto;
 	margin: 0;
 	/* Old browser fallback */
 	display: none;

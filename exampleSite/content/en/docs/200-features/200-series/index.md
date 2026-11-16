@@ -5,10 +5,15 @@ description: "Organize related articles across different dates and sections usin
 weight: 200
 date: 2026-01-21T08:52:00+08:00
 tags: ["guide", "taxonomy-system", "series", "content-organization"]
-params:
-  sourceLinks:
-    - path: "layouts/_partials/page/series.html"
 ---
+
+{{< badge
+  text="series.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/page/series.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 The Series feature groups multiple articles published across different dates or sections into a named sequence.
 

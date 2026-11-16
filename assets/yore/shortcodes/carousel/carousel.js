@@ -1,224 +1,258 @@
-const DURATION = 25;
-const FRICTION = 0.68;
-const STEP = 1000 / 60;
-const SETTLE_LIMIT = 0.0001;
+// https://github.com/GoogleChrome/modern-web-guidance/blob/4dd968349e54ca45a05dd5c818fb035c9054b022/skills/modern-web-guidance/guides/ui-components/carousel.md
+import { defineModule } from '../../core/js/modules.js';
 
-const instances = new WeakMap();
+const TOLERANCE = 2;
+const SETTLE_DELAY = 150;
 
-const mod = (n, m) => ((n % m) + m) % m;
-
-const shouldReduceMotion = () =>
-	window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-	document.documentElement.hasAttribute('data-a11y-reduce-motion');
-
-function findRoots(scope) {
-	// The carousel root is the parent element of its viewport
-	return Array.from(scope.querySelectorAll('.carousel-viewport'), (viewport) => viewport.parentElement).filter(
-		Boolean,
-	);
-}
+const idle = (cb) =>
+	'requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 500 }) : setTimeout(cb, 50);
+const cancelIdle = (id) => ('cancelIdleCallback' in window ? cancelIdleCallback(id) : clearTimeout(id));
 
 function createCarousel(root) {
-	const viewport = root.querySelector('.carousel-viewport');
-	const strip = root.querySelector('.carousel-strip');
+	const track = root.querySelector('.carousel-track');
 	const counter = root.querySelector('.carousel-counter');
 	const caption = root.querySelector('.carousel-caption');
-	const thumbs = root.querySelectorAll('.carousel-thumb');
-	const slides = root.querySelectorAll('.carousel-item');
-	if (!viewport || !strip || !caption || !slides.length) return null;
+	const status = root.querySelector('.carousel-status');
+	const prev = root.querySelector('.carousel-prev');
+	const next = root.querySelector('.carousel-next');
+	const thumbs = [...root.querySelectorAll('.carousel-thumb')];
+	const slides = [...root.querySelectorAll('.carousel-item')];
+	if (!track || !caption || !slides.length) return null;
 
 	const total = slides.length;
+	// Looping relies on CSS sibling-count() and sibling-index() to park end slides
+	const loop = total >= 3 && CSS.supports('width', 'calc(sibling-index() * 1px)');
+	const hasScrollEnd = 'onscrollend' in window;
 	const abort = new AbortController();
 	const { signal } = abort;
-	let current = 0;
 
-	// Positions are measured in slide widths, so no pixel measurement is needed
-	let targetPos = 0;
-	let pos = 0;
-	let prevPos = 0;
-	let velocity = 0;
-	let rafId = 0;
-	let lastTime = null;
-	let lag = 0;
-	let stripX = null;
-	const shifts = new Array(total).fill(0);
+	let liveIndex = 0; // slide shown by the markers, caption and counter
+	let settledIndex = null; // last slide the track rested on
+	let parkedFor = null; // value of --current currently applied
+	let pending = null; // slide index a click is scrolling to
+	let frame = 0;
+	let timer = 0;
+	let unlockFrame = 0;
+	let idleId = 0;
 
-	function render(alpha) {
-		const offset = pos * alpha + prevPos * (1 - alpha);
+	// Offset of a slide's center from the track's center along the inline axis
+	function offsetOf(slide) {
+		const t = track.getBoundingClientRect();
+		const s = slide.getBoundingClientRect();
+		return s.left + s.width / 2 - (t.left + t.width / 2);
+	}
 
-		const x = Math.round(-offset * 100 * 1000) / 1000;
-		if (x !== stripX) {
-			strip.style.transform = `translate3d(${x}%,0,0)`;
-			stripX = x;
-		}
-
-		// Each slide is moved to its nearest copy so wrapping takes the shortest path
+	function nearestIndex() {
+		let best = 0;
+		let bestDistance = Infinity;
 		slides.forEach((slide, i) => {
-			const k = Math.round((offset - i) / total);
-			if (k !== shifts[i]) {
-				slide.style.transform = k ? `translateX(${k * total * 100}%)` : '';
-				shifts[i] = k;
+			const distance = Math.abs(offsetOf(slide));
+			if (distance < bestDistance) {
+				best = i;
+				bestDistance = distance;
 			}
 		});
-
-		return offset;
+		return best;
 	}
 
-	function update() {
-		prevPos = pos;
-		velocity += (targetPos - pos) / DURATION;
-		velocity *= FRICTION;
-		pos += velocity;
+	// Visual order differs from DOM order while an end slide is parked
+	function visualOrder() {
+		return [...slides].sort((a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left);
 	}
 
-	function stop() {
-		if (rafId) cancelAnimationFrame(rafId);
-		rafId = 0;
-		lastTime = null;
-		lag = 0;
+	function render(index) {
+		liveIndex = index;
+		if (counter) counter.textContent = `${index + 1} / ${total}`;
+		caption.textContent = slides[index].getAttribute('data-caption') ?? '';
+
+		thumbs.forEach((thumb, i) => {
+			if (i === index) thumb.setAttribute('aria-current', 'true');
+			else thumb.removeAttribute('aria-current');
+		});
+
+		// Scroll the thumbnail strip itself so the page never moves
+		const container = thumbs[index]?.parentElement;
+		if (!container) return;
+		const c = container.getBoundingClientRect();
+		const t = thumbs[index].getBoundingClientRect();
+		if (t.left >= c.left && t.right <= c.right) return;
+		const reduceMotion =
+			window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+			document.documentElement.hasAttribute('data-a11y-reduce-motion');
+		container.scrollBy({
+			left: (t.left + t.right) / 2 - (c.left + c.right) / 2,
+			behavior: reduceMotion ? 'instant' : 'smooth',
+		});
 	}
 
-	function tick(time) {
-		if (!rafId) return;
+	function setActive(index) {
+		if (index !== liveIndex) render(index);
+	}
 
-		if (lastTime === null) {
-			lastTime = time;
-			update();
-			update();
+	// Single handler for everything that waits for scrolling to finish
+	function settle() {
+		if (pending !== null) {
+			// Ignore a scrollend from a scroll that was replaced by a newer one
+			if (Math.abs(offsetOf(slides[pending])) > TOLERANCE) return;
+			pending = null;
 		}
 
-		lag += Math.min(time - lastTime, 100);
-		lastTime = time;
-		while (lag >= STEP) {
-			update();
-			lag -= STEP;
+		const index = nearestIndex();
+		setActive(index);
+
+		if (!loop) {
+			const order = visualOrder();
+			const pos = order.indexOf(slides[index]);
+			if (prev) prev.disabled = pos <= 0;
+			if (next) next.disabled = pos >= order.length - 1;
 		}
 
-		const offset = render(lag / STEP);
+		if (status && settledIndex !== null && index !== settledIndex) {
+			status.textContent = slides[index].getAttribute('data-status') ?? '';
+		}
+		settledIndex = index;
 
-		if (Math.abs(targetPos - offset) < SETTLE_LIMIT) {
-			stop();
-			pos = prevPos = targetPos;
-			velocity = 0;
-			render(1);
+		if (!loop || parkedFor === index) return;
+
+		// Park an end slide beside the current one so the track always has a neighbor on both sides.
+		// It forces a reflow, so it runs when the browser is idle.
+		cancelIdle(idleId);
+		idleId = idle(() => {
+			idleId = 0;
+			if (pending !== null || parkedFor === settledIndex) return;
+			const current = settledIndex;
+			parkedFor = current;
+
+			const slide = slides[current];
+			const before = slide.getBoundingClientRect().left;
+
+			cancelAnimationFrame(unlockFrame);
+			track.style.scrollSnapType = 'none';
+			track.style.overflowX = 'hidden';
+
+			track.style.setProperty('--current', current);
+			slides.forEach((s, i) => {
+				s.inert = (i === 0 && current >= total - 2) || (i === total - 1 && current <= 1);
+			});
+
+			const after = slide.getBoundingClientRect().left;
+			if (after !== before) track.scrollBy({ left: after - before, behavior: 'instant' });
+
+			track.style.scrollSnapType = '';
+			// Restoring overflow immediately breaks looping, so wait two frames
+			unlockFrame = requestAnimationFrame(() => {
+				unlockFrame = requestAnimationFrame(() => {
+					track.style.overflowX = '';
+				});
+			});
+		});
+	}
+
+	function scrollToSlide(index) {
+		pending = index;
+		setActive(index);
+
+		const delta = offsetOf(slides[index]);
+		if (Math.abs(delta) <= TOLERANCE) {
+			pending = null;
 			return;
 		}
-
-		rafId = requestAnimationFrame(tick);
+		// Uses the track's CSS scroll-behavior, so reduced motion is respected
+		track.scrollBy({ left: delta });
 	}
 
-	function start() {
-		if (rafId) return;
-		rafId = requestAnimationFrame(tick);
+	function step(direction) {
+		const base = pending ?? nearestIndex();
+		const order = visualOrder();
+		const target = order[order.indexOf(slides[base]) + direction];
+		if (target) scrollToSlide(slides.indexOf(target));
 	}
 
-	function jump() {
-		stop();
-		pos = prevPos = targetPos;
-		velocity = 0;
-		render(1);
-	}
-
-	function syncUI() {
-		if (counter) counter.textContent = `${current + 1} / ${total}`;
-		caption.textContent = thumbs[current]?.getAttribute('data-caption') ?? '';
-
-		thumbs.forEach((t, i) => {
-			t.classList.toggle('border-accent-500', i === current);
-			t.classList.toggle('border-transparent', i !== current);
-			t.setAttribute('aria-disabled', i === current ? 'true' : 'false');
-		});
-
-		slides.forEach((slide, i) => {
-			slide.inert = i !== current;
-		});
-	}
-
-	function scrollThumbIntoView() {
-		const active = thumbs[current];
-		if (!active) return;
-
-		const { left: sL, right: sR } = active.parentElement.getBoundingClientRect();
-		const { left: tL, right: tR } = active.getBoundingClientRect();
-		if (tL < sL || tR > sR) {
-			active.scrollIntoView({ inline: 'center', behavior: 'smooth', block: 'nearest' });
+	function onScroll() {
+		if (!hasScrollEnd) {
+			clearTimeout(timer);
+			timer = setTimeout(settle, SETTLE_DELAY);
 		}
-	}
 
-	function move(delta) {
-		if (!delta) return;
-
-		targetPos += delta;
-		current = mod(targetPos, total);
-		syncUI();
-		scrollThumbIntoView();
-
-		if (shouldReduceMotion()) {
-			jump();
-		} else {
-			start();
-		}
-	}
-
-	function goTo(index) {
-		let delta = mod(index, total) - current;
-		if (delta > total / 2) delta -= total;
-		else if (delta < -total / 2) delta += total;
-		move(delta);
+		// A pending click already set the marker, and recomputing during a scripted scroll stutters Safari
+		if (pending !== null || frame) return;
+		frame = requestAnimationFrame(() => {
+			frame = 0;
+			setActive(nearestIndex());
+		});
 	}
 
 	function destroy() {
 		abort.abort();
-		stop();
-		current = 0;
-		syncUI();
-		strip.style.transform = '';
+		cancelAnimationFrame(frame);
+		cancelAnimationFrame(unlockFrame);
+		cancelIdle(idleId);
+		clearTimeout(timer);
+		pending = null;
+		parkedFor = null;
+		settledIndex = null;
+
+		track.style.removeProperty('--current');
+		track.style.scrollSnapType = '';
+		track.style.overflowX = '';
 		slides.forEach((slide) => {
-			slide.style.transform = '';
 			slide.inert = false;
 		});
+		track.scrollTo({ left: 0, behavior: 'instant' });
+
+		render(0);
+		if (status) status.textContent = '';
+		if (prev) prev.disabled = false;
+		if (next) next.disabled = false;
 	}
 
-	// Browsers scroll an overflow-hidden container when a clipped element gets focus, which conflicts with the transform
-	viewport.addEventListener(
-		'scroll',
-		() => {
-			viewport.scrollLeft = 0;
-		},
-		{ signal },
-	);
+	track.addEventListener('scroll', onScroll, { signal, passive: true });
+	if (hasScrollEnd) track.addEventListener('scrollend', settle, { signal });
 
-	thumbs.forEach((thumb) => {
+	// User input takes over from any pending click target
+	const releasePending = () => {
+		pending = null;
+	};
+	track.addEventListener('pointerdown', releasePending, { signal });
+	track.addEventListener('wheel', releasePending, { signal, passive: true });
+	track.addEventListener('keydown', releasePending, { signal });
+
+	thumbs.forEach((thumb, i) => {
 		thumb.addEventListener(
 			'click',
 			(e) => {
 				e.preventDefault();
 				e.stopPropagation();
-				goTo(parseInt(thumb.getAttribute('data-index'), 10));
+				scrollToSlide(i);
 			},
 			{ signal },
 		);
 	});
 
-	root.querySelector('.carousel-prev')?.addEventListener('click', () => move(-1), { signal });
-	root.querySelector('.carousel-next')?.addEventListener('click', () => move(1), { signal });
+	prev?.addEventListener('click', () => step(-1), { signal });
+	next?.addEventListener('click', () => step(1), { signal });
 
-	syncUI();
+	// Initial load: no measuring, the markup already renders slide 0 as current
+	caption.textContent = slides[0].getAttribute('data-caption') ?? '';
+	if (!loop) {
+		if (prev) prev.disabled = true;
+		if (next) next.disabled = total < 2;
+	}
+
+	// The first settle waits for the first layout. IntersectionObserver callbacks run after layout.
+	const firstLayout = new IntersectionObserver(() => {
+		firstLayout.disconnect();
+		settle();
+	});
+	firstLayout.observe(track);
+	signal.addEventListener('abort', () => firstLayout.disconnect());
 
 	return { destroy };
 }
 
-export function initCarousels(scope = document) {
-	findRoots(scope).forEach((root) => {
-		if (instances.has(root)) return;
-		const instance = createCarousel(root);
-		if (instance) instances.set(root, instance);
-	});
+function initCarousel(root) {
+	const instance = createCarousel(root);
+	return instance ? () => instance.destroy() : undefined;
 }
 
-export function destroyCarousels(scope = document) {
-	findRoots(scope).forEach((root) => {
-		instances.get(root)?.destroy();
-		instances.delete(root);
-	});
-}
+defineModule('carousel', initCarousel);

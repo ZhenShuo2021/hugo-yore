@@ -33,24 +33,17 @@
 {{- end -}}
 
 {{- define "_partials/inline/find-valid-adjacent.html" -}}
-	{{- $page := .page -}}
+	{{- $candidate := .page -}}
 	{{- $direction := .direction -}}
 	{{- $result := "" -}}
 
-	{{- if $page -}}
-		{{- if $page.RelPermalink -}}
-			{{- $result = $page -}}
-		{{- else -}}
-			{{- $nextCandidate := "" -}}
-			{{- if eq $direction "next" -}}
-				{{- $nextCandidate = $page.Next -}}
-			{{- else -}}
-				{{- $nextCandidate = $page.Prev -}}
-			{{- end -}}
-			{{- if $nextCandidate -}}
-				{{- $result = partial "inline/find-valid-adjacent.html" (dict "page" $nextCandidate "direction" $direction) -}}
-			{{- end -}}
-		{{- end -}}
+	{{- if not $candidate -}}
+		{{- $result = "" -}}
+	{{- else if $candidate.RelPermalink -}}
+		{{- $result = $candidate -}}
+	{{- else -}}
+		{{- $following := cond (eq $direction "next") $candidate.Next $candidate.Prev -}}
+		{{- $result = partial "inline/find-valid-adjacent.html" (dict "page" $following "direction" $direction) -}}
 	{{- end -}}
 
 	{{- return $result -}}

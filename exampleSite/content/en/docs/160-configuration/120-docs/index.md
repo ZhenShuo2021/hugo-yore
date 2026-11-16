@@ -5,11 +5,22 @@ weight: 120
 date: 2026-07-07T00:00:00+08:00
 description: "Configuration fields unique to the docs content type."
 tags: ["reference", "docs-type"]
-params:
-  sourceLinks:
-    - path: "layouts/_partials/docs/main.html"
-    - path: "layouts/_partials/docs/dfs-init.html"
 ---
+
+{{< badge
+  text="Templates"
+  url="https://github.com/ZhenShuo2021/hugo-yore/tree/main/layouts/_partials/docs"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="JS and CSS assets"
+  url="https://github.com/ZhenShuo2021/hugo-yore/tree/main/assets/yore/components/docs-nav"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 All configurations on `docs` content type. The `blog` and `docs` content types share most of their page and section fields, so the documented below are separate into unique fields and common fields. These are theme parameters so the fields should goes under `params` key.
 
@@ -21,19 +32,10 @@ Accepted fields for individual pages of type `docs`. All settings can be overrid
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `sourceLinks` | `[]object` | A list of source files shown at the bottom of the page. Each entry accepts `path` (relative to the site's source repository) and an optional `label` and `url` to override the auto-generated link[^sl]. |
 | `docsNavCollapsed` | `boolean` | Collapse this section by default in the sidebar navigation. Only applies to section pages. |
 | `docsAutoCollapseCategories` | `boolean` | Auto collapse other sections when expanding one. Cannot be overridden in the front matter. |
 | `docsIcon` | `string` | Icon shown next to this page or section in the sidebar navigation. |
 | `docsNavClass` | `string` | Additional CSS class applied to the sidebar nav. |
-
-[^sl]: For example:
-
-    ```yaml
-    sourceLinks:
-      - path: "layouts/_partials/page/"
-        url: https://github.com/ZhenShuo2021/hugo-yore/tree/main/layouts/_partials/page
-    ```
 
 > [!NOTE]
 > Previous/next links on docs pages only traverse other pages within the same docs section, unlike blog's previous/next links, which span the entire site.

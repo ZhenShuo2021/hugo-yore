@@ -1,6 +1,7 @@
 {{- $mx := cond (eq (.Param "blogLayout") "3-col") "mx-2" "" -}}
 {{- $top := cond (eq site.Params.headerLayout "static") "top-5" "top-25" -}}
 <aside
+	{{ if site.Params.tocHighlight }}data-module="toc"{{ end }}
 	class="sidebar-right toc-sidebar {{ $top }} {{ $mx }} scrollbar-mask sticky self-start overflow-auto"
 	aria-label="{{ i18n "article.on_this_page" | default "On This Page" }}">
 	{{- if eq (.Param "pageKgStyle") "sidebar" -}}

@@ -7,6 +7,7 @@ a11y_panel:
   font_size: Tamaño de fuente
   high_contrast: Alto contraste
   increase_font_size: Aumentar tamaño de fuente
+  line_height: Interlineado
   reduce_motion: Reducir movimiento
   reduce_transparency: Reducir transparencia
   show_link_underline: Mostrar subrayado de enlaces
@@ -59,8 +60,6 @@ docs:
   nav_label: Documentación
   next: Siguiente
   prev: Anterior
-  sidebar_label: Documentación
-  source_files: Código fuente
   toc_label: Tabla de contenidos
   toc_nav_label: En esta página
 error:

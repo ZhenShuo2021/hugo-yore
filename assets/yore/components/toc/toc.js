@@ -1,4 +1,5 @@
 import { params } from '../../core/js/utils.js';
+import { defineModule } from '../../core/js/modules.js';
 
 const CONFIG = {
 	tocSelector: '.toc-sidebar',
@@ -143,14 +144,13 @@ function scheduleUpdate() {
 	});
 }
 
-function init() {
-	const toc = document.querySelector(CONFIG.tocSelector);
-	if (!toc) return;
+function initToc(toc, { signal }) {
+	document.addEventListener('scroll', scheduleUpdate, { passive: true, signal });
+	window.addEventListener('resize', scheduleUpdate, { passive: true, signal });
+	toc.addEventListener('keydown', handleTocKeydown, { signal });
 
-	document.addEventListener('scroll', scheduleUpdate, { passive: true });
-	window.addEventListener('resize', scheduleUpdate, { passive: true });
-	toc.addEventListener('keydown', handleTocKeydown);
+	lastActiveLink = null;
 	scheduleUpdate();
 }
 
-init();
+defineModule('toc', initToc);

@@ -89,14 +89,14 @@ This is a **bold introduction** to grab the reader's attention.
 
 ```txt
 {{%/* text-center %}}
-*{{% ruby "とうきょう" %}}東京[^1]{{% /ruby %}}* text.
+*{{% ruby "とうきょう" %}}東京{{% /ruby %}}*[^1] text.
 
 [^1]: footnote content
 {{% /text-center */%}}
 ```
 
 {{% text-center %}}
-*{{% ruby "とうきょう" %}}東京[^1]{{% /ruby %}}* text.
+*{{% ruby "とうきょう" %}}東京{{% /ruby %}}*[^1] text.
 {{% /text-center %}}
 
 [^1]: footnote content
@@ -230,6 +230,7 @@ The `tabs` shortcode is used to present different variants of content, such as i
 | --- | --- |
 | `group` | **Optional.** Group name for synchronized tab switching. |
 | `default` | **Optional.** Label of the tab to be active by default. |
+| `ariaLabel` | **Optional.** Set accessible `aria-label` for the tablist. |
 
 **Tab parameters**
 
@@ -241,7 +242,7 @@ The `tabs` shortcode is used to present different variants of content, such as i
 **Example: Synchronized tabs with icons**
 
 `````md
-{{%/* tabs group="lang" default="Python" %}}
+{{%/* tabs group="lang" default="Python" ariaLabel="Tabs example: programming language group - 1" %}}
   {{< tab label="JavaScript" icon="code" >}}
 
   ```javascript
@@ -267,7 +268,7 @@ The `tabs` shortcode is used to present different variants of content, such as i
   {{< /tab >}}
 {{% /tabs %}}
 
-{{% tabs group="lang" default="Python" %}}
+{{% tabs group="lang" default="Python" ariaLabel="Tabs example: programming language group - 2" %}}
   {{< tab label="JavaScript" icon="code" >}}
 
   ```javascript
@@ -294,7 +295,7 @@ The `tabs` shortcode is used to present different variants of content, such as i
 {{% /tabs */%}}
 `````
 
-{{% tabs group="lang" default="Python" %}}
+{{% tabs group="lang" default="Python" ariaLabel="Tabs example: programming language group - 1" %}}
   {{< tab label="JavaScript" icon="code" >}}
 
   ```javascript
@@ -320,7 +321,7 @@ The `tabs` shortcode is used to present different variants of content, such as i
   {{< /tab >}}
 {{% /tabs %}}
 
-{{% tabs group="lang" default="Python" %}}
+{{% tabs group="lang" default="Python" ariaLabel="Tabs example: programming language group - 2" %}}
   {{< tab label="JavaScript" icon="code" >}}
 
   ```javascript

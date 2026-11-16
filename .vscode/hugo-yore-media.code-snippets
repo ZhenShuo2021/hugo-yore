@@ -1,4 +1,13 @@
 {
+	"Yore Badge": {
+	"scope": "markdown",
+	"prefix": "yore-badge",
+	"body": [
+			"{{< badge text=\"${1:Label}\" variant=\"${2|brand,muted,success,warning,danger|}\" appearance=\"${3|accent,filled,outlined,filled-outlined|}\" size=\"${4|s,m,l|}\" pill=${5|false,true|} url=\"${6:https://example.com}\" start=\"${7:cube}\" end=\"${8:arrow-right}\" >}}"
+		],
+	"description": "Inline badge label."
+	},
+
 	"Yore Card": {
 		"scope": "markdown",
 		"prefix": "yore-card",

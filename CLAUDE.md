@@ -1,6 +1,6 @@
 # hugo-theme-yore
 
-A text-first Hugo theme. Hugo v0.146.0 new template system, Tailwind CSS v4, pnpm.
+A text-first Hugo theme. Hugo new template system, Tailwind CSS v4, swup.js AJAX navigation, pnpm.
 
 ## Hard Rules
 
@@ -81,22 +81,7 @@ The `define` name determines how to call it:
 
 ## JS Rules
 
-Generic JS means JS reused across pages. Non-generic JS belongs to one feature.
-
-1. Put generic JS in `assets/yore/components/<name>/` and always import it from `assets/yore/core/js/main.js`.
-2. HTML loads generic JS with `type="module"`. Do not use a DOM-load listener. Code must follow ES module rules.
-3. Small non-generic JS (tabs, accordion, roughly 20 lines) is also imported from `main.js`.
-4. Large non-generic JS is loaded individually in its own HTML.
-5. Load conditionally. For shortcodes, gate with `.HasShortcode`. Otherwise, gate with `.Page.Store`.
-
-Pass Hugo values into JS through `js.Build` params and read them with `import * as params from '@params'`:
-
-```go-html-template
-{{- $jsParams := dict "myKey" (site.Params.myValue | default "fallback") }}
-{{- $opts := dict "format" "esm" "minify" (not hugo.IsServer) "target" hugo.Data.theme.esBuildTarget "params" $jsParams }}
-{{- $js := resources.Get "js/my-script.js" | js.Build $opts | fingerprint }}
-<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
-```
+Read the `yore-js` skill before writing or changing any JS.
 
 ## A11y Rules
 

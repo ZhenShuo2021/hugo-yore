@@ -5,12 +5,29 @@ description: "Configure the Service Worker for offline support and asset caching
 weight: 400
 date: 2026-06-27T00:00:00+08:00
 tags: ["guide", "scripting", "offline-caching"]
-params:
-  sourceLinks:
-    - path: "assets/yore/sw/sw.js"
-    - path: "assets/yore/sw/config.json.tmpl"
-    - path: "layouts/_partials/head/resources.html"
 ---
+
+{{< badge
+  text="sw.js"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/assets/yore/sw/sw.js"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="config.json.tmpl"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/assets/yore/sw/config.json.tmpl"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="resources.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/head/resources.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 The Service Worker intercepts network requests to serve cached assets as a fallback when offline, keeping the site accessible without a network connection.
 

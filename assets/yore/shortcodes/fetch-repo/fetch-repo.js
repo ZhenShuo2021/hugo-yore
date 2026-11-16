@@ -119,10 +119,7 @@ const updateCard = async (script, ENABLE_CACHE) => {
 	}
 };
 
-const fetchRepo = () => {
-	const ENABLE_CACHE = consent.isGranted('functional');
-	const scripts = document.querySelectorAll('script[data-repo-id]');
-	scripts.forEach((script) => updateCard(script, ENABLE_CACHE));
-};
-
-consent.onReady(() => fetchRepo());
+// The element carries data-repo-url and data-repo-id
+export default function (el) {
+	consent.onReady(() => updateCard(el, consent.isGranted('functional')));
+}

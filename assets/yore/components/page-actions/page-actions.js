@@ -1,3 +1,5 @@
+import { defineModule } from '../../core/js/modules.js';
+
 const POPOVER_POLYFILL = 'https://unpkg.com/@oddbird/popover-polyfill@latest/dist/popover.min.js';
 const INVOKERS_POLYFILL = 'https://esm.run/invokers-polyfill@latest';
 
@@ -59,11 +61,7 @@ async function loadPolyfills(menu) {
 	}
 }
 
-async function init() {
-	const container = document.querySelector('.page-actions');
-	if (!container) {
-		return;
-	}
+async function initPageActions(container) {
 	const toggle = container.querySelector('.page-actions__toggle');
 	const menu = container.querySelector('.page-actions__menu');
 	const mdSourceLink = container.querySelector('.page-actions__view-source');
@@ -78,8 +76,9 @@ async function init() {
 		const buttonRect = toggle.getBoundingClientRect();
 		const menuRect = menu.getBoundingClientRect();
 
-		let left = buttonRect.right - menuRect.width;
-		if (left < VIEWPORT_PADDING) left = VIEWPORT_PADDING;
+		const isRtl = getComputedStyle(toggle).direction === 'rtl';
+		let left = isRtl ? buttonRect.left : buttonRect.right - menuRect.width;
+		left = Math.max(VIEWPORT_PADDING, Math.min(left, window.innerWidth - menuRect.width - VIEWPORT_PADDING));
 
 		menu.style.top = `${buttonRect.bottom + GAP}px`;
 		menu.style.left = `${left}px`;
@@ -182,6 +181,12 @@ async function init() {
 			}
 		});
 	}
+
+	// window listeners are only attached while the menu is open
+	return () => {
+		window.removeEventListener('scroll', positionMenu, true);
+		window.removeEventListener('resize', positionMenu);
+	};
 }
 
-init();
+defineModule('page-actions', initPageActions);

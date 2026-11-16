@@ -1,27 +1,32 @@
-.accordion-panel {
-	display: grid;
-	grid-template-rows: 0fr;
-	transition: grid-template-rows 0.25s ease;
+/* Open and close animation of the content comes from ::details-content in custom-advanced.css */
+.accordion-item > summary {
+	list-style: none;
+	cursor: pointer;
 }
-.accordion-panel.is-open {
-	grid-template-rows: 1fr;
+.accordion-item > summary::-webkit-details-marker {
+	display: none;
 }
-.accordion-trigger .accordion-icon {
-	transition: transform 0.25s ease;
-}
-.accordion-trigger[aria-expanded='true'] .accordion-icon {
-	transform: rotate(90deg);
-}
-.accordion-item:has(.is-open) .accordion-trigger {
-	background-color: var(--color-muted);
-}
-@media (prefers-reduced-motion: reduce) {
-	.accordion-panel,
-	.accordion-trigger .accordion-icon {
-		transition: none;
-	}
-}
-.accordion-trigger:focus-visible {
+.accordion-item > summary:focus-visible {
 	outline-offset: -1px;
 	border-radius: 0.7rem;
+}
+.accordion-item[open] > summary {
+	background-color: var(--color-muted);
+}
+.accordion-item[open] .accordion-icon {
+	rotate: 90deg;
+}
+@media not (prefers-reduced-motion: reduce) {
+	html:not([data-a11y-reduce-motion]) .accordion-icon {
+		transition: rotate 0.25s ease;
+	}
+}
+
+.accordion-item-content {
+	> :first-child {
+		margin-top: 0 !important;
+	}
+	> :last-child {
+		margin-bottom: 0 !important;
+	}
 }

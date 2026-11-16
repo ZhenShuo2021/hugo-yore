@@ -1,88 +1,92 @@
-const header = document.getElementById('site-header');
 
-if (header) {
-	// Do not read window.scrollY at load (it forces layout). The baseline is captured on the first update.
-	let lastScrollY = null;
-	let ticking = false;
-	let blockUpdate = false;
-	let blockTimeout = null;
+function init() {
+	const header = document.getElementById('site-header');
 
-	const reduceMotion = () =>
-		window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-		document.documentElement.getAttribute('data-a11y-reduce-motion') === 'true';
+	if (header) {
+		// Do not read window.scrollY at load (it forces layout). The baseline is captured on the first update.
+		let lastScrollY = null;
+		let ticking = false;
+		let blockUpdate = false;
+		let blockTimeout = null;
 
-	const hideHeader = () => {
-		if (!reduceMotion()) header.classList.add('yr-header-hidden');
-	};
+		const reduceMotion = () =>
+			window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+			document.documentElement.getAttribute('data-a11y-reduce-motion') === 'true';
 
-	function updateHeader() {
-		if (blockUpdate) {
-			lastScrollY = window.scrollY;
-			ticking = false;
-			return;
-		}
+		const hideHeader = () => {
+			if (!reduceMotion()) header.classList.add('yr-header-hidden');
+		};
 
-		const currentScrollY = window.scrollY;
-		if (lastScrollY === null) {
-			lastScrollY = currentScrollY;
-			ticking = false;
-			return;
-		}
-
-		if (currentScrollY <= 0) {
-			header.classList.remove('yr-header-hidden');
-			lastScrollY = currentScrollY;
-			ticking = false;
-			return;
-		}
-
-		const diff = currentScrollY - lastScrollY;
-		if (Math.abs(diff) > 10) {
-			if (diff > 0) {
-				hideHeader();
-			} else {
-				header.classList.remove('yr-header-hidden');
+		function updateHeader() {
+			if (blockUpdate) {
+				lastScrollY = window.scrollY;
+				ticking = false;
+				return;
 			}
-			lastScrollY = currentScrollY;
-		}
-		ticking = false;
-	}
 
-	const resetBlockUpdate = () => {
-		if (blockTimeout) {
-			clearTimeout(blockTimeout);
-		}
-		blockTimeout = setTimeout(() => {
-			blockUpdate = false;
-			blockTimeout = null;
-		}, 100);
-	};
+			const currentScrollY = window.scrollY;
+			if (lastScrollY === null) {
+				lastScrollY = currentScrollY;
+				ticking = false;
+				return;
+			}
 
-	document.addEventListener('click', (e) => {
-		const anchor = e.target.closest('a[href^="#"]');
-		if (anchor && anchor.getAttribute('role') !== 'doc-noteref') {
+			if (currentScrollY <= 0) {
+				header.classList.remove('yr-header-hidden');
+				lastScrollY = currentScrollY;
+				ticking = false;
+				return;
+			}
+
+			const diff = currentScrollY - lastScrollY;
+			if (Math.abs(diff) > 10) {
+				if (diff > 0) {
+					hideHeader();
+				} else {
+					header.classList.remove('yr-header-hidden');
+				}
+				lastScrollY = currentScrollY;
+			}
+			ticking = false;
+		}
+
+		const resetBlockUpdate = () => {
+			if (blockTimeout) {
+				clearTimeout(blockTimeout);
+			}
+			blockTimeout = setTimeout(() => {
+				blockUpdate = false;
+				blockTimeout = null;
+			}, 100);
+		};
+
+		document.addEventListener('click', (e) => {
+			const anchor = e.target.closest('a[href^="#"]');
+			if (anchor && anchor.getAttribute('href') !== '#' && anchor.getAttribute('role') !== 'doc-noteref') {
+				hideHeader();
+				blockUpdate = true;
+				resetBlockUpdate();
+			}
+		});
+
+		window.addEventListener('hashchange', () => {
+			if (!location.hash) return;
 			hideHeader();
 			blockUpdate = true;
 			resetBlockUpdate();
-		}
-	});
+		});
 
-	window.addEventListener('hashchange', () => {
-		hideHeader();
-		blockUpdate = true;
-		resetBlockUpdate();
-	});
-
-	window.addEventListener(
-		'scroll',
-		() => {
-			if (!ticking) {
-				window.requestAnimationFrame(updateHeader);
-				ticking = true;
-			}
-		},
-		{ passive: true },
-	);
+		window.addEventListener(
+			'scroll',
+			() => {
+				if (!ticking) {
+					window.requestAnimationFrame(updateHeader);
+					ticking = true;
+				}
+			},
+			{ passive: true },
+		);
+	}
 }
 
-export {};
+init();

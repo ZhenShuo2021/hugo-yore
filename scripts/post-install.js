@@ -14,6 +14,15 @@ const tasks = [
 	{ src: 'node_modules/iconoir/icons/regular', dest: 'assets/yore/icons/iconoir/regular' },
 	{ src: 'node_modules/iconoir/icons/solid', dest: 'assets/yore/icons/iconoir/solid' },
 	{ src: 'node_modules/@fortawesome/fontawesome-free/svgs/brands', dest: 'assets/yore/icons/fa/brands' },
+	{ src: 'node_modules/delegate-it/*.js', dest: 'assets/yore/lib/swup/delegate-it' },
+	{ src: 'node_modules/path-to-regexp/dist.es2015/index.js', dest: 'assets/yore/lib/swup/path-to-regexp' },
+	{ src: 'node_modules/@swup/plugin/dist/index.modern.js', dest: 'assets/yore/lib/swup/plugin' },
+	{ src: 'node_modules/swup/dist/Swup.modern.js', dest: 'assets/yore/lib/swup/core' },
+	{ src: 'node_modules/@swup/head-plugin/dist/index.modern.js', dest: 'assets/yore/lib/swup/head-plugin' },
+	{
+		src: 'node_modules/@swup/preload-plugin/dist/index.modern.js',
+		dest: 'assets/yore/lib/swup/preload-plugin',
+	},
 ];
 
 await Promise.all(tasks.map(({ src, dest }) => cpy([src, '!**/*.map'], dest, { flat: true })));

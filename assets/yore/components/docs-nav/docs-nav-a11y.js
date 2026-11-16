@@ -1,9 +1,14 @@
+// aria-expanded on the section trigger is the single source of truth for collapsed state
+function isCollapsed(btn) {
+	return btn.getAttribute('aria-expanded') === 'false';
+}
+
 // --- Roving tabindex + full keyboard navigation for docs-nav ---
 function getVisibleLinks(nav) {
 	return Array.from(nav.querySelectorAll('a[data-depth]')).filter((link) => {
 		let node = link.parentElement;
 		while (node && node !== nav) {
-			if (node.hasAttribute('data-section-list') && node.classList.contains('is-collapsed')) {
+			if (node.hasAttribute('data-section-list') && isCollapsed(node.previousElementSibling)) {
 				return false;
 			}
 			node = node.parentElement;
@@ -49,14 +54,14 @@ function initRovingTabindex(nav) {
 				target = visible[visible.length - 1];
 				break;
 			case 'ArrowRight':
-				if (current.hasAttribute('data-section-trigger') && current.classList.contains('is-collapsed')) {
+				if (current.hasAttribute('data-section-trigger') && isCollapsed(current)) {
 					current.click();
 					return;
 				}
 				target = visible[Math.min(index + 1, visible.length - 1)];
 				break;
 			case 'ArrowLeft':
-				if (current.hasAttribute('data-section-trigger') && !current.classList.contains('is-collapsed')) {
+				if (current.hasAttribute('data-section-trigger') && !isCollapsed(current)) {
 					current.click();
 					return;
 				}
@@ -77,8 +82,8 @@ function initRovingTabindex(nav) {
 		target.focus();
 	});
 
-	// section 展開/收合後，若目前 tabbable 的項目變成隱藏，
-	// 把 tabstop 移回觸發變化的按鈕本身。
+	// After a section expands/collapses, if the current tabbable item becomes hidden,
+	// move the tabstop back to the button that triggered the change.
 	nav.addEventListener('click', (e) => {
 		const btn = e.target.closest('a[data-section-trigger]');
 		if (!btn) return;
@@ -90,4 +95,4 @@ function initRovingTabindex(nav) {
 	});
 }
 
-export { initRovingTabindex };
+export { initRovingTabindex, isCollapsed };

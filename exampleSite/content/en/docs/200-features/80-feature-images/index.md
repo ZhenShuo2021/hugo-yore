@@ -5,12 +5,22 @@ weight: 80
 date: 2026-01-15T14:45:00+08:00
 description: "Configure feature images for your articles."
 tags: ["guide", "feature-images", "visualization"]
-params:
-  sourceLinks:
-    - path: "layouts/_partials/head/social.html"
-    - path: "layouts/_partials/page/hero/main.html"
-      label: hero/main.html
 ---
+
+{{< badge
+  text="social.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/head/social.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="hero/main.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/page/hero/main.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Feature images in Yore appear as hero banners, thumbnails, and social sharing metadata.
 

@@ -4,9 +4,6 @@
 	}
 
 	/* Disable scroll */
-	:root:has(.void-root) {
-		overflow: hidden;
-	}
 
 	/* Same color as shader */
 	@property --ground {
@@ -38,7 +35,6 @@
 		box-sizing: border-box;
 		padding-block: clamp(0.75rem, 2vh, 1.5rem);
 		padding-block: clamp(0.75rem, 2dvh, 1.5rem);
-		overflow: hidden;
 
 		/* The height is fixed at the viewport minus the sticky header. */
 		block-size: calc(100vh - var(--header-height, 4rem));
@@ -54,7 +50,6 @@
 		position: fixed;
 		inset: 0;
 		z-index: -50;
-		overflow: hidden;
 		background: var(--ground);
 		pointer-events: none;
 	}
@@ -96,7 +91,6 @@
 		min-block-size: 0;
 		inline-size: min(36rem, calc(100% - 2 * var(--pad)));
 		margin-inline: auto;
-		overflow: hidden;
 	}
 	.void-copy > .prose {
 		max-width: none;
@@ -108,6 +102,8 @@
 		margin-block: clamp(1.25rem, 4dvh, 3rem);
 	}
 	.void-title {
+		overflow-wrap: anywhere;
+		hyphens: auto;
 		margin: 0;
 		font-size: clamp(2.5rem, 2rem + 1.5vw, 4.25rem);
 		font-weight: 700;
@@ -172,10 +168,14 @@
 	}
 </style>
 <div class="void-stage" aria-hidden="true">
-	<canvas id="cosmic-lines" style="opacity:0;transition:opacity 1.4s ease"></canvas>
+	<canvas id="cosmic-lines" aria-hidden="true" style="opacity:0;transition:opacity 1.4s ease"></canvas>
 </div>
 
-<div class="void-root">
+{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" hugo.IsProduction -}}
+{{- $cosmic := resources.Get "yore/components/webgl/cosmic.js" | js.Build $opts -}}
+{{- if hugo.IsProduction }}{{ $cosmic = $cosmic | fingerprint }}{{ end -}}
+<link rel="modulepreload" href="{{ $cosmic.RelPermalink }}">
+<div class="void-root" data-module="cosmic" data-module-src="{{ $cosmic.RelPermalink }}">
 	<div class="void-veil" aria-hidden="true"></div>
 	<div class="void-copy">
 		{{- if .Title -}}
@@ -192,7 +192,3 @@
 	</div>
 	<div class="void-slot" data-cosmic-slot aria-hidden="true"></div>
 </div>
-
-{{- $js := resources.Get "yore/components/webgl/cosmic.js" | js.Build (dict "minify" true "format" "esm") -}}
-<script type="module">{{ $js.Content | safeJS }}</script>
-{{- $noop := partial "lib/sha256-hash.html" (dict "content" $js.Content "store" true "name" "custom-cosmic") -}}

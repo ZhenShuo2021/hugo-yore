@@ -48,7 +48,7 @@ Yore provides reserved partial hooks within the `_partials` directory, allowing 
 
 <style>
 .no-wrap-table td:first-child {
-	white-space: nowrap;
+  white-space: nowrap;
 }
 </style>
 
@@ -73,36 +73,91 @@ Files in `assets`:
 | `css/custom.css` | Loaded at the end of all CSS files and bundled into the full CSS |
 {class="no-wrap-table"}
 
-### Usage Examples
+Below are examples of how to use the extensions.
 
-- Site Verification and Search Console
+#### Example: Conditional Assets
 
-  To add site verification tags for Google Search Console or other services, edit `layouts/_partials/extend-head.html`:
+To load specific stylesheets for pages under the `/events`, edit `layouts/_partials/extend-head.html`:
 
-  ```html {title="layouts/_partials/extend-head.html"}
-  <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
-  ```
-
-- Injecting Conditional Assets
-
-  To load specific stylesheets for pages under the `/events` path, edit `layouts/_partials/extend-head.html`:
-
-  ```go-template {title="layouts/_partials/extend-head.html"}
-  {{ if hasPrefix .Page.Path "/events" }}
-    {{ with resources.Get "css/events.css" }}
-      {{ $eventsCSS := . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ $eventsCSS.RelPermalink }}" integrity="{{ $eventsCSS.Data.Integrity }}">
-    {{ end }}
+```go-template {title="layouts/_partials/extend-head.html"}
+{{ if (eq .Type "events") }}
+  {{ with resources.Get "css/events.css" }}
+    {{ $eventsCSS := . | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $eventsCSS.RelPermalink }}" integrity="{{ $eventsCSS.Data.Integrity }}">
   {{ end }}
-  ```
+{{ end }}
+```
+
+#### Example: Custom JS
+
+Yore uses swup.js for AJAX page transitions, so JS initialization and cleanup must be set up manually to work properly. Taking canvas-confetti as an example:
+
+```go-template {title="layouts/_partials/extend-head.html"}
+<script type="importmap">
+  {
+    "integrity": {
+      "https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/+esm": "sha256-Xex6ozB/dORkRh5KdzsNEyA/x8jOt3/X1YiGBiw0ztU="
+    }
+  }
+</script>
+{{- $js := resources.Get "/js/custom-main.js" -}}
+{{- $opts := dict "format" "esm" "minify" hugo.IsProduction "externals" (slice "yore-main") -}}
+{{- $js = $js | js.Build $opts -}}
+<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+```
+
+```js {title="assets/js/custom-main.js"}
+import * as animation from "./animation.js";
+import { swup } from "yore-main";
+
+// Clean up when leaving the page
+swup.hooks.before('content:replace', () => {
+  animation.destroy();
+});
+
+// Initialize when entering the page
+swup.hooks.on('content:replace', () => {
+  animation.init();
+});
+
+// Initialize on first page load, when swup is not involved
+animation.init();
+```
+
+```js {title="assets/js/animation.js"}
+let timer = null;
+let confetti = null;
+let token = 0;
+
+export async function init() {
+  // Only run if the target exists
+  const target = document.querySelector('[data-confetti]');
+  if (!target) return;
+
+  const id = ++token;
+  const module = await import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/+esm');
+  if (id !== token) return;
+
+  confetti = module.default;
+  timer = setInterval(() => {
+    confetti({
+      particleCount: 40,
+      spread: 70,
+      origin: { x: Math.random(), y: 0 },
+    });
+  }, 600);
+}
+
+export function destroy() {
+  token++;
+  clearInterval(timer);
+  timer = null;
+  confetti?.reset();
+  confetti = null;
+}
+```
+
+This adds checks, cleanup, and race condition handling, in exchange for smooth AJAX page transitions.
 
 ## Customize CSS
 

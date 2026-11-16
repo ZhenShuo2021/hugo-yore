@@ -5,11 +5,22 @@ weight: 160
 date: 2026-07-07T00:00:00+08:00
 description: "Configuration fields for the gallery content type."
 tags: ["reference", "gallery-type"]
-params:
-  sourceLinks:
-    - path: "layouts/gallery/page.html"
-    - path: "layouts/gallery/section.html"
 ---
+
+{{< badge
+  text="page.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/gallery/page.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="section.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/gallery/section.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 The `gallery` content type is designed to be minimal. Pages render without a sidebar, table of contents, or related content by default. These are theme parameters so the fields should goes under `params` key.
 

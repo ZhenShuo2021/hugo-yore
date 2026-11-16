@@ -31,8 +31,6 @@
 
 	{{- partial "components/card-shell-head.html" (dict
 		"hoverCard" true
-		"media" $i.url
-		"href" $targetPage.RelPermalink
 		"attrs" "data-component=yr-card"
 		)
 	-}}
@@ -58,7 +56,9 @@
 
 	<h3
 		class="yr-card__header text-foreground group-hover/card:text-link-hover flex items-center gap-2 text-xl font-semibold transition-colors duration-(--dur-150)">
-		{{- $targetPage.LinkTitle -}}
+		<a href="{{ $targetPage.RelPermalink }}" class="yr-link-stretch">
+			{{- $targetPage.LinkTitle -}}
+		</a>
 	</h3>
 
 	{{- if or $desc $meta -}}
@@ -75,7 +75,7 @@
 					{{- if $targetPage.Date -}}
 						<div class="flex items-center gap-1">
 							<time datetime="{{ $targetPage.Date.Format "2006-01-02" }}">
-								{{- $targetPage.Date.Format (.Param "dateFormat" | default "2006-01-02") -}}
+								{{- $targetPage.Date.Format ($targetPage.Param "dateFormat" | default "2006-01-02") -}}
 							</time>
 						</div>
 					{{- end -}}

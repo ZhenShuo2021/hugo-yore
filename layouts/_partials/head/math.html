@@ -1,5 +1,5 @@
-<style>
-	.mathjax-wrapper {
+<style id="yore-math-style">
+	mjx-container {
 		overflow-x: auto;
 	}
 	mjx-container[display] {
@@ -20,10 +20,7 @@
 		}
 	}
 </style>
-{{- $opts := dict "format" "esm" "target" hugo.Data.theme.esBuildTarget "minify" (hugo.IsProduction) -}}
-{{- $js := resources.Get "yore/components/math/index.js" | js.Build $opts -}}
-{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}
-<script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.integrity }}"></script>
+{{- /* Precache-ed only when site.Params.mathEnabled equals to true in the default site */ -}}
 {{- range resources.Match "yore/lib/mathjax/**" -}}
 	{{- hugo.Store.Add "swPrecache" (slice .RelPermalink) -}}
 	{{- .Publish -}}
@@ -35,9 +32,4 @@
 {{- range resources.Match "yore/lib/mathjax-tex-font/**" -}}
 	{{- hugo.Store.Add "swPrecache" (slice .RelPermalink) -}}
 	{{- .Publish -}}
-{{- end -}}
-
-{{- with resources.Get "yore/lib/mathjax/tex-svg.js" -}}
-	{{- hugo.Store.Add "swPrecache" (slice .RelPermalink) -}}
-	<script defer src="{{- .RelPermalink -}}"></script>
 {{- end -}}

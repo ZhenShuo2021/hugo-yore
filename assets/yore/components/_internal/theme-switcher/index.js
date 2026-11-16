@@ -1,6 +1,50 @@
-document.addEventListener('DOMContentLoaded', function () {
-	const root = document.getElementById('themeSwitcher');
+let libsPromise;
+let timer;
+let active = false;
+let prevScheme = null;
+
+function loadScript({ src, integrity }) {
+	return new Promise((resolve, reject) => {
+		const s = document.createElement('script');
+		s.src = src;
+		if (integrity) s.integrity = integrity;
+		s.crossOrigin = 'anonymous';
+		s.referrerPolicy = 'no-referrer';
+		s.onload = resolve;
+		s.onerror = () => reject(new Error(`Failed to load ${src}`));
+		document.head.appendChild(s);
+	});
+}
+
+/* core first, then mode/addon in parallel. Cached across client-routing visits */
+function loadLibs(list) {
+	if (!libsPromise) {
+		const [core, ...rest] = list;
+		libsPromise = loadScript(core)
+			.then(() => Promise.all(rest.map(loadScript)))
+			.catch((e) => {
+				libsPromise = null;
+				throw e;
+			});
+	}
+	return libsPromise;
+}
+
+/* restore global state that init() touched, call before the DOM is replaced */
+function destroy() {
+	clearTimeout(timer);
+	if (!active) return;
+	active = false;
+	window._cm = null;
+	const el = document.documentElement;
+	if (prevScheme === null) el.removeAttribute('data-color-scheme');
+	else el.setAttribute('data-color-scheme', prevScheme);
+}
+
+export default function (root) {
 	const dynEl = document.getElementById('dynScheme');
+	if (!active) prevScheme = document.documentElement.getAttribute('data-color-scheme');
+	active = true;
 	const CUSTOM_SCHEME_NAME = 'custom';
 	const DEFAULT_SCHEME_NAME = 'latex';
 	let schemes = {};
@@ -87,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	/* tabs */
-	let cmReady = false;
+	let cmInit;
 	document.querySelectorAll('.ts-tab').forEach((tab) => {
 		tab.addEventListener('click', () => {
 			document.querySelectorAll('.ts-tab').forEach((t) => t.classList.remove('on'));
@@ -95,8 +139,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			tab.classList.add('on');
 			document.getElementById(`pnl-${tab.dataset.p}`).classList.add('on');
 			if (tab.dataset.p === 'custom') {
-				if (!cmReady) initCM();
-				else window._cm.focus();
+				cmInit ??= initCM();
+				cmInit.then(() => window._cm?.focus());
 			}
 		});
 	});
@@ -147,10 +191,17 @@ document.addEventListener('DOMContentLoaded', function () {
 		} else drop.classList.remove('on');
 	});
 
-	/* CodeMirror */
-	function initCM() {
+	/* CodeMirror: libs are fetched only when the Custom CSS tab is first opened */
+	async function initCM() {
 		const ta = document.getElementById('cssEditor');
-		if (!ta || typeof CodeMirror === 'undefined') return;
+		if (!ta) return;
+		try {
+			await loadLibs(JSON.parse(root.dataset.libs || '[]'));
+		} catch (e) {
+			cmInit = null;
+			return;
+		}
+		if (!root.isConnected || typeof CodeMirror === 'undefined') return;
 		const cm = CodeMirror.fromTextArea(ta, {
 			mode: 'css',
 			theme: 'night',
@@ -160,13 +211,11 @@ document.addEventListener('DOMContentLoaded', function () {
 			indentWithTabs: false,
 		});
 		window._cm = cm;
-		cmReady = true;
-		cm.focus();
-		let t;
 		cm.on('change', () => {
 			const v = cm.getValue();
-			clearTimeout(t);
-			t = setTimeout(() => {
+			clearTimeout(timer);
+			timer = setTimeout(() => {
+				if (!root.isConnected) return;
 				if (v.trim() === '') {
 					const fallback = schemes[DEFAULT_SCHEME_NAME];
 					if (fallback) apply(fallback, DEFAULT_SCHEME_NAME);
@@ -176,4 +225,6 @@ document.addEventListener('DOMContentLoaded', function () {
 			}, 400);
 		});
 	}
-});
+
+	return destroy;
+}

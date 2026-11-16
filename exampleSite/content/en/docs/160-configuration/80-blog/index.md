@@ -7,10 +7,15 @@ description: "Configuration fields unique to the blog content type."
 tags: ["reference", "blog-type"]
 params:
   pageRelatedLimit: 10
-  sourceLinks:
-    - path: "layouts/_partials/page/"
-      url: https://github.com/ZhenShuo2021/hugo-yore/tree/main/layouts/_partials/page
 ---
+
+{{< badge
+  text="page"
+  url="https://github.com/ZhenShuo2021/hugo-yore/tree/main/layouts/_partials/page"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 All configurations on `blog` content type. The `blog` and `docs` content types share most of their page and section fields, so the documented below are separate into unique fields and common fields.
 

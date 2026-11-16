@@ -7,6 +7,7 @@ a11y_panel:
   font_size: Font size
   high_contrast: High contrast
   increase_font_size: Increase font size
+  line_height: Line height
   reduce_motion: Reduce motion
   reduce_transparency: Reduce transparency
   show_link_underline: Show link underline
@@ -59,8 +60,6 @@ docs:
   nav_label: Documentation
   next: Next
   prev: Previous
-  sidebar_label: Documentation
-  source_files: Source Code
   toc_label: Table of contents
   toc_nav_label: On this page
 error:

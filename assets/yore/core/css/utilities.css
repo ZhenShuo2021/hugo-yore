@@ -44,7 +44,7 @@
 	}
 
 	.yr-header-active {
-		color: var(--color-link-hover);
+		color: var(--color-primary);
 		[data-dropdown-menu] & {
 			background-color: var(--color-muted);
 		}
@@ -98,13 +98,6 @@
 
 	.yr-ol-mark {
 		list-style-type: decimal;
-	}
-
-	.yr-chevron {
-		transition: transform var(--dur-300) ease;
-		.is-collapsed & {
-			transform: rotate(-90deg);
-		}
 	}
 
 	@media (width >= 48rem) {

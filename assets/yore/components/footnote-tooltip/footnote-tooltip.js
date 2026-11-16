@@ -1,3 +1,5 @@
+import { defineModule } from '../../core/js/modules.js';
+
 // Not using the popover API due to 3 polyfill requirements, positioning issue, and modern JS/CSS API.
 // The current implementation meets WCAG 1.4.13 with minimal additional code.
 //
@@ -9,17 +11,40 @@ class FootnoteTooltip {
 		this.tooltipContent = null;
 		this.currentTarget = null;
 		this.hideTimeout = null;
-		this.init();
-	}
-
-	init() {
+		this.touched = false;
 		this.createTooltip();
 		this.attachEventListeners();
+	}
+
+	// Returns the description nodes it created so the caller can remove them with the page
+	scanFootnotes(scope = document) {
+		const descs = [];
+		scope.querySelectorAll('.footnote-ref').forEach((el) => {
+			const footnote = document.getElementById(el.getAttribute('href').substring(1));
+			if (!footnote) return;
+			const desc = document.createElement('div');
+			desc.id = `${footnote.id}-desc`;
+			desc.hidden = true;
+			desc.setAttribute('data-footnote-desc', '');
+			desc.innerHTML = this.getContent(footnote);
+			document.body.appendChild(desc);
+			descs.push(desc);
+			el.setAttribute('aria-describedby', desc.id);
+		});
+		return descs;
+	}
+
+	getContent(footnote) {
+		const content = footnote.cloneNode(true);
+		content.querySelectorAll('.footnote-backref').forEach((el) => el.remove());
+		return content.innerHTML;
 	}
 
 	createTooltip() {
 		this.tooltip = document.createElement('div');
 		this.tooltip.className = 'footnote-tooltip';
+		// use aria-describedby
+		this.tooltip.setAttribute('aria-hidden', 'true');
 
 		this.tooltipContent = document.createElement('div');
 		this.tooltipContent.className = 'prose dark:prose-invert footnote-tooltip-content';
@@ -69,9 +94,8 @@ class FootnoteTooltip {
 
 		document.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape' && this.tooltip.classList.contains('is-visible')) {
-				const target = this.currentTarget;
+				// APG: keep focus on the trigger element throughout; hover must not steal focus
 				this.hideTooltip();
-				if (target) target.focus();
 			}
 		});
 
@@ -79,6 +103,8 @@ class FootnoteTooltip {
 			const footnoteRef = e.target.closest('.footnote-ref');
 
 			if (footnoteRef) {
+				if (e.pointerType !== 'touch') return;
+				this.touched = true;
 				clearTimeout(this.hideTimeout);
 
 				if (this.currentTarget === footnoteRef && this.tooltip.classList.contains('is-visible')) {
@@ -95,9 +121,11 @@ class FootnoteTooltip {
 		});
 
 		document.addEventListener('click', (e) => {
-			if (e.target.closest('.footnote-ref')) {
+			// Only intercept touch-generated clicks; keyboard Enter and mouse keep link navigation
+			if (this.touched && e.target.closest('.footnote-ref')) {
 				e.preventDefault();
 			}
+			this.touched = false;
 		});
 	}
 
@@ -121,11 +149,7 @@ class FootnoteTooltip {
 		const footnoteElement = document.getElementById(footnoteId);
 		if (!footnoteElement) return;
 
-		const content = footnoteElement.cloneNode(true);
-		const backrefs = content.querySelectorAll('.footnote-backref');
-		backrefs.forEach((el) => el.remove());
-
-		this.tooltipContent.innerHTML = content.innerHTML;
+		this.tooltipContent.innerHTML = this.getContent(footnoteElement);
 		this.tooltip.classList.add('is-visible');
 
 		this.positionTooltip(refLink);
@@ -134,7 +158,9 @@ class FootnoteTooltip {
 	}
 
 	positionTooltip(refLink) {
-		const GAP = 8;
+		const arrowSize = parseFloat(getComputedStyle(this.tooltip).getPropertyValue('--arrow-size'));
+		const GAP = Math.round(arrowSize * Math.SQRT1_2); // rotate 45 degree
+		const ARROW_EDGE = 8 + GAP;
 		const EDGE_PADDING = 10;
 
 		const rect = refLink.getBoundingClientRect();
@@ -155,11 +181,20 @@ class FootnoteTooltip {
 		const maxLeft = viewportWidth - tooltipWidth - EDGE_PADDING;
 		const left = Math.max(minLeft, Math.min(linkCenterX - tooltipWidth / 2, maxLeft));
 
+		const arrowX = Math.max(ARROW_EDGE, Math.min(linkCenterX - left, tooltipWidth - ARROW_EDGE));
+		this.tooltip.style.setProperty('--arrow-x', `${arrowX}px`);
+
 		this.tooltip.style.left = `${left}px`;
-		this.tooltip.style.top = `${top}px`;
+		this.tooltip.style.top = `${top + 4}px`;
 	}
 }
 
 const footnoteTooltip = new FootnoteTooltip();
 
-export default FootnoteTooltip;
+defineModule('footnotes', (root) => {
+	const descs = footnoteTooltip.scanFootnotes(root);
+	return () => {
+		footnoteTooltip.hideTooltip();
+		descs.forEach((el) => el.remove());
+	};
+});

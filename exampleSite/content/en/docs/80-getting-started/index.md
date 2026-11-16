@@ -55,7 +55,7 @@ hugo mod init github.com/username/repo
 
 Set up the language configurations.
 
-{{% tabs group="lang" %}}
+{{% tabs group="lang" ariaLabel="Language configuration method" %}}
   {{< tab label="Monolingual site" >}}
 
 1. Change the `defaultContentLanguage` to your language.
@@ -127,7 +127,7 @@ node_modules
 
 With the theme installed, create some sample pages to see how it looks:
 
-{{% tabs group="lang" %}}
+{{% tabs group="lang" ariaLabel="Preview site content language" %}}
 
   {{< tab label="Monolingual site" >}}
 

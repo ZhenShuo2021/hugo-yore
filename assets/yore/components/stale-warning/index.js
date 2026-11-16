@@ -1,7 +1,6 @@
-(function () {
-	var dataEl = document.getElementById('stale-content-warning-data');
-	if (!dataEl) return;
+import { defineModule } from '../../core/js/modules.js';
 
+function showStaleWarning(dataEl) {
 	var payload = JSON.parse(dataEl.textContent);
 	var lastmod = new Date(payload.lastmod);
 
@@ -15,4 +14,6 @@
 		wrapper.innerHTML = payload.html;
 		dataEl.replaceWith(wrapper);
 	}
-})();
+}
+
+defineModule('stale-warning', showStaleWarning);

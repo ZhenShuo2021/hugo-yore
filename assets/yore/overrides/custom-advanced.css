@@ -120,6 +120,23 @@ html {
 	background: var(--table-hover-bg);
 }
 
+/* better footnote ref */
+a.footnote-ref {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 0.1em;
+	width: 1.4em;
+	height: 1.4em;
+	border-radius: 50%;
+	background-color: oklch(from var(--link) l c h / 0.95);
+	color: var(--background);
+}
+a.footnote-ref:hover,
+a.footnote-ref:focus-visible {
+	text-decoration: none;
+}
+
 /* Customize the details summary expand */
 
 /* remove safari marker */
@@ -134,6 +151,7 @@ summary::-webkit-details-marker {
 }
 .yr-details summary::before {
 	content: '▶';
+	content: '▶' / '';
 	display: inline-block;
 	margin-right: 0.5rem;
 	transition: transform var(--dur-200);

@@ -1,10 +1,12 @@
 import * as params from '@params';
+import { defineModule } from '../../core/js/modules.js';
 
-import(params.src).then(({ mount }) => {
-	document.querySelectorAll('pre.mermaid').forEach((el) => {
-		mount(el, el.textContent, { zoom: el.getAttribute('data-zoom') !== 'false' });
-		el.setAttribute('data-processed', 'true');
-	});
-});
+async function initMermaid(el, { signal }) {
+	const { mount } = await import(params.mermaidSrc);
+	if (signal.aborted) return;
+	const instance = mount(el, el.textContent, { zoom: el.getAttribute('data-zoom') !== 'false' });
+	el.setAttribute('data-processed', 'true');
+	return () => instance.destroy();
+}
 
-export {};
+defineModule('mermaid', initMermaid);

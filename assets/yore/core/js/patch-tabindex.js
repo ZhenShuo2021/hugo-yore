@@ -1,3 +1,5 @@
+import { defineModule } from './modules.js';
+
 // patch code and table render hooks' tabindex
 function isScrollable(el) {
 	return el.scrollWidth > el.clientWidth;
@@ -13,8 +15,8 @@ function getScrollTarget(wrapper) {
 	return wrapper.hasAttribute('data-code-wrapper') ? wrapper.querySelector('pre') : wrapper;
 }
 
-function initScrollableWrappers() {
-	const wrappers = document.querySelectorAll('[data-table-wrapper], [data-code-wrapper]');
+function patchTabindex(root, { signal }) {
+	const wrappers = root.querySelectorAll('[data-table-wrapper], [data-code-wrapper]');
 	if (wrappers.length === 0) return;
 
 	const scrollers = [];
@@ -37,23 +39,20 @@ function initScrollableWrappers() {
 
 	let started = false;
 
-	function start() {
-		if (started) return;
-		started = true;
-		scrollers.forEach((scroller) => {
-			setTabindex(scroller, isScrollable(scroller));
-			ro.observe(scroller);
-		});
-	}
-
 	document.addEventListener(
 		'keydown',
 		(e) => {
-			if (e.key === 'Tab') start();
+			if (e.key !== 'Tab' || started) return;
+			started = true;
+			scrollers.forEach((scroller) => {
+				setTabindex(scroller, isScrollable(scroller));
+				ro.observe(scroller);
+			});
 		},
-		{ once: true, capture: true },
+		{ capture: true, signal },
 	);
+
+	return () => ro.disconnect();
 }
 
-initScrollableWrappers();
-export { initScrollableWrappers };
+defineModule('tabindex', patchTabindex);

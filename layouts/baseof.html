@@ -19,6 +19,9 @@
 	data-page-kind="{{ .Kind }}"
 	data-page-type="{{ .Type }}"
 	data-cookie-enabled="{{ site.Params.cookieConsent.enable | default false }}"
+	{{- with (where site.Pages "Type" "random") }}
+		data-random-url="{{ (index . 0).RelPermalink }}"
+	{{- end }}
 	{{- if site.Params.externalLinkWarning }}
 		data-external-link-warning="{{ i18n `external_link.warning` | default `You are about to open an external link. This site is not responsible for its content.` }}"
 	{{- end }}>
@@ -35,7 +38,7 @@
 			{{- else -}}
 				href="#main-content"
 			{{- end }}
-			class="sr-only bg-black text-white focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-1000 focus:px-4 focus:py-2">
+			class="sr-only bg-black text-white focus:not-sr-only focus:fixed focus:start-0 focus:top-0 focus:z-1000 focus:px-4 focus:py-2">
 			{{- i18n "nav.skip_to_main" -}}
 		</a>
 

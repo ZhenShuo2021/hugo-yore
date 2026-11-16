@@ -5,11 +5,22 @@ description: "Enable and configure bidirectional linking to track article refere
 weight: 360
 date: 2026-01-22T16:40:00+08:00
 tags: ["guide", "hugo-core", "backlinks", "content-organization"]
-params:
-  sourceLinks:
-    - path: "layouts/_markup/render-link.backlinks.json"
-    - path: "layouts/home.backlinks.json"
 ---
+
+{{< badge
+  text="render-link.backlinks.json"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_markup/render-link.backlinks.json"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="home.backlinks.json"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/home.backlinks.json"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Yore embeds a backlink system based on [jmooring/hugo-module-backlinks](https://github.com/jmooring/hugo-module-backlinks) to track and display bidirectional links.
 

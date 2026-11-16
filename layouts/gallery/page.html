@@ -1,5 +1,5 @@
 {{- define "main" -}}
-	<main id="main-content" class="base-spacing">
+	<main data-swup-region id="main-content" data-module="{{ partial "lib/page-modules.html" . }}" class="base-spacing">
 		{{- if or .Title (.Param "galleryPageLead") -}}
 			<header class="mb-16 pb-8">
 				{{- if .Param "breadcrumb" -}}
@@ -9,7 +9,7 @@
 				{{- end -}}
 
 				{{- if .Title -}}
-					<h1 class="text-4xl font-medium tracking-tight md:text-5xl">
+					<h1 class="text-4xl font-medium tracking-tight wrap-anywhere hyphens-auto md:text-5xl">
 						{{- .Title -}}
 					</h1>
 				{{- end -}}

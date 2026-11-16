@@ -7,6 +7,7 @@ a11y_panel:
   font_size: ขนาดตัวอักษร
   high_contrast: คอนทราสต์สูง
   increase_font_size: เพิ่มขนาดตัวอักษร
+  line_height: ระยะห่างระหว่างบรรทัด
   reduce_motion: ลดการเคลื่อนไหว
   reduce_transparency: ลดความโปร่งใส
   show_link_underline: แสดงเส้นใต้ลิงก์
@@ -59,8 +60,6 @@ docs:
   nav_label: เอกสาร
   next: ถัดไป
   prev: ก่อนหน้า
-  sidebar_label: เอกสาร
-  source_files: ซอร์สโค้ด
   toc_label: สารบัญ
   toc_nav_label: ในหน้านี้
 error:

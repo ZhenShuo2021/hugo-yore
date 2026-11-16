@@ -3,10 +3,15 @@ title: Color Schemes
 weight: 40
 date: 2026-01-21T10:30:00+08:00
 tags: ["guide", "styling", "color-scheme"]
-params:
-  sourceLinks:
-    - path: "assets/yore/core/css/schemes/"
 ---
+
+{{< badge
+  text="schemes"
+  url="https://github.com/ZhenShuo2021/hugo-yore/tree/main/assets/yore/core/css/schemes"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Yore ships with several built-in color schemes, selectable via `themeColorScheme` in `hugo.yaml`.
 

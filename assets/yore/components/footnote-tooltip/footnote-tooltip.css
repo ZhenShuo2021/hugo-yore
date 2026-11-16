@@ -1,4 +1,8 @@
+.footnote-ref {
+	text-decoration: none;
+}
 .footnote-tooltip {
+	--arrow-size: 14px;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -6,14 +10,15 @@
 	border-radius: 8px;
 	border: 1.2px solid var(--color-border);
 	z-index: 2147483647;
-	overflow: hidden;
 	box-sizing: border-box;
 	width: max-content;
 	max-width: 80vw;
 	visibility: hidden;
 	opacity: 0;
 	pointer-events: none;
-	transition: opacity 0.15s ease;
+	transition:
+		opacity 0.15s ease,
+		visibility 0s linear 0.15s;
 	@media (width >= 40rem) {
 		max-width: 65ch;
 	}
@@ -23,6 +28,44 @@
 	visibility: visible;
 	opacity: 1;
 	pointer-events: auto;
+	transition-delay: 0s;
+}
+
+.footnote-tooltip::before,
+.footnote-tooltip::after {
+	content: '';
+	position: absolute;
+	width: var(--arrow-size);
+	height: var(--arrow-size);
+	/* 1.2px: width of tooltip border */
+	left: calc(var(--arrow-x, 50%) - var(--arrow-size) / 2 - 1.2px);
+}
+
+.footnote-tooltip::before {
+	background: var(--color-border);
+	transform: rotate(45deg);
+}
+
+.footnote-tooltip::after {
+	background: var(--color-popover);
+}
+
+.footnote-tooltip[data-placement='bottom']::before,
+.footnote-tooltip[data-placement='bottom']::after {
+	top: calc(-1.2px - var(--arrow-size) / 2);
+}
+
+.footnote-tooltip[data-placement='bottom']::after {
+	transform: translateY(1.7px) rotate(45deg);
+}
+
+.footnote-tooltip[data-placement='top']::before,
+.footnote-tooltip[data-placement='top']::after {
+	bottom: calc(-1.2px - var(--arrow-size) / 2);
+}
+
+.footnote-tooltip[data-placement='top']::after {
+	transform: translateY(-1.7px) rotate(45deg);
 }
 
 .footnote-tooltip-content {

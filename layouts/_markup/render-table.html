@@ -6,9 +6,9 @@
 	"compact" (.Attributes.compact | default (.Page.Param "renderHook.table.compact") | partial "lib/tobool.html")
 -}}
 
-<div data-table-wrapper role="region"
+<div data-table-wrapper
 	{{- if .Attributes.caption }}
-		{{- (printf "aria-labelledby=\"md-table-%d\"" .Ordinal) | safeHTMLAttr }}
+		{{- (printf " role=\"region\" aria-labelledby=\"md-table-%d\"" .Ordinal) | safeHTMLAttr }}
 	{{- end }}
 	{{- range $k, $v := .Attributes }}
 		{{- if (in (slice `caption` `merge` `center` `compact`) $k )}}

@@ -13,6 +13,7 @@
 {{- $showThumbs := .Get "thumbs" | default true | partial "lib/tobool.html" -}}
 {{- $showArrows := .Get "arrows" | default true | partial "lib/tobool.html" -}}
 {{- $showCounter := .Get "counter" | default true | partial "lib/tobool.html" -}}
+{{- $label := .Get "label" | default (i18n "components.carousel.label" | default "Image carousel") -}}
 
 {{- if and (ne $fit "contain") (ne $fit "cover") -}}
 	{{- errorf "carousel shortcode: `fit` must be \"contain\" or \"cover\", got %q" $fit -}}
@@ -45,15 +46,63 @@
 {{- end -}}
 
 {{- if $items -}}
-	<div id="{{ $id }}" class="pswp-gallery not-prose my-8" role="group" aria-roledescription="carousel">
-		<div class="carousel-viewport relative w-full overflow-hidden" data-pswp-carousel>
-			<div class="carousel-strip flex">
+	<section
+		id="{{ $id }}"
+		data-module="carousel"
+		class="pswp-gallery not-prose my-8"
+		aria-roledescription="carousel"
+		aria-label="{{ $label }}">
+		<div class="carousel-viewport relative w-full" data-pswp-carousel>
+			{{- /* Previous and next buttons come before the track in DOM order */ -}}
+			{{- if and $showArrows (gt (len $items) 1) -}}
+				<button
+					type="button"
+					class="carousel-prev absolute top-1/2 left-4 z-10 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60 disabled:opacity-40"
+					aria-label="{{- i18n "components.carousel.previous_slide" | default "Previous slide" -}}">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true">
+						<polyline points="15 18 9 12 15 6" />
+					</svg>
+				</button>
+				<button
+					type="button"
+					class="carousel-next absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60 disabled:opacity-40"
+					aria-label="{{- i18n "components.carousel.next_slide" | default "Next slide" -}}">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true">
+						<polyline points="9 6 15 12 9 18" />
+					</svg>
+				</button>
+			{{- end -}}
+			<div
+				class="carousel-track"
+				tabindex="0"
+				role="group"
+				aria-label="{{- i18n "components.carousel.slides" | default "Slides" -}}">
 				{{- range $i, $item := $items -}}
 					{{- $resolved := $item.resolved -}}
-					{{- $itemClass := "carousel-item relative min-w-full" -}}
+					{{- $itemClass := "carousel-item relative" -}}
 					{{- $imgClass := "h-full w-full object-contain" -}}
 					{{- if eq $fit "cover" -}}
-						{{- $itemClass = "carousel-item relative min-w-full overflow-hidden" -}}
+						{{- $itemClass = "carousel-item relative overflow-hidden" -}}
 						{{- $imgClass = "h-full w-full object-cover" -}}
 					{{- end -}}
 					<div
@@ -63,7 +112,8 @@
 						aria-roledescription="slide"
 						aria-label="{{- i18n "components.carousel.slide_of_total" (dict "current" (add $i 1) "total" (len $items)) | default (printf "%d of %d" (add $i 1) (len $items)) -}}"
 						style="aspect-ratio: {{ $ratio }};"
-						data-caption="{{ $item.caption }}">
+						data-caption="{{ $item.caption }}"
+						data-status="{{- i18n "components.carousel.status" (dict "current" (add $i 1) "total" (len $items)) | default (printf "Slide %d of %d" (add $i 1) (len $items)) -}}">
 						{{- if and site.Params.imageOptimizationMD (reflect.IsImageResourceProcessable $resolved) -}}
 							{{- /* Same responsive rule as the image render hook: webp at 1320px for all viewports */ -}}
 							{{- $processed := partial "lib/img-opt.html" (dict "imgObj" $resolved "desktopWidth" 1320 "mobileWidth" 1320) -}}
@@ -112,49 +162,11 @@
 				aria-hidden="true">
 				{{- printf "1 / %d" (len $items) -}}
 			</div>
-
-			{{- if and $showArrows (gt (len $items) 1) -}}
-				<button
-					type="button"
-					class="carousel-prev absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
-					aria-label="{{- i18n "components.carousel.previous_slide" | default "Previous slide" -}}">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						aria-hidden="true">
-						<polyline points="15 18 9 12 15 6" />
-					</svg>
-				</button>
-				<button
-					type="button"
-					class="carousel-next absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/60"
-					aria-label="{{- i18n "components.carousel.next_slide" | default "Next slide" -}}">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						aria-hidden="true">
-						<polyline points="9 6 15 12 9 18" />
-					</svg>
-				</button>
-			{{- end -}}
 		</div>
 
 		{{- /**/ -}}
 		<p class="carousel-caption text-muted-foreground mt-2 min-h-6 text-center text-sm"></p>
+		<p class="carousel-status sr-only" role="status" aria-live="polite"></p>
 		{{- /**/ -}}
 
 		{{- if $showThumbs -}}
@@ -167,16 +179,11 @@
 					{{- $resolved := $item.resolved -}}
 					<button
 						type="button"
-						class="carousel-thumb {{ if eq $i 0 -}}
-							border-accent-500
-						{{- else -}}
-							border-transparent
-						{{- end }} h-18 w-18 flex-shrink-0 overflow-hidden rounded-md border-2 transition-all duration-(--dur-200)"
+						class="carousel-thumb aria-[current=true]:border-accent-500 h-18 w-18 flex-shrink-0 overflow-hidden rounded-md border-2 border-transparent transition-all duration-(--dur-200)"
 						data-index="{{ $i }}"
-						data-caption="{{ $item.caption }}"
-						aria-labelledby="{{ $id }}-slide-{{ $i }}"
+						aria-label="{{- i18n "components.carousel.go_to_slide" (dict "current" (add $i 1)) | default (printf "Go to slide %d" (add $i 1)) -}}"
 						{{- if eq $i 0 }}
-							aria-disabled="true"
+							aria-current="true"
 						{{- end }}>
 						{{- $process := and
 							(reflect.IsImageResourceProcessable $resolved)
@@ -214,5 +221,5 @@
 				{{- end -}}
 			</div>
 		{{- end -}}
-	</div>
+	</section>
 {{- end -}}

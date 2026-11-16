@@ -12,7 +12,7 @@ html[data-theme='light'] {
 	--popover-foreground: color-mix(in lch, var(--color-accent-900) 65%, var(--color-neutral-900));
 
 	/* Main CTA buttons */
-	--primary: var(--color-brand-600);
+	--primary: var(--color-brand-700);
 	--primary-foreground: var(--color-neutral-50);
 
 	/* Secondary buttons (e.g., "Cancel"), low contrast */
@@ -29,6 +29,9 @@ html[data-theme='light'] {
 
 	/* Success */
 	--success: oklch(72.3% 0.219 149.579);
+
+	/* Warning */
+	--warning: oklch(76.9% 0.188 70.08);
 
 	/* General borders */
 	--border: var(--color-neutral-300);
@@ -65,7 +68,7 @@ html[data-theme='dark'] {
 	--popover: color-mix(in lch, var(--color-accent-900) 15%, var(--color-neutral-900));
 	--popover-foreground: color-mix(in lch, var(--color-accent-100) 15%, var(--color-neutral-100));
 
-	--primary: var(--color-brand-500);
+	--primary: var(--color-brand-400);
 	--primary-foreground: var(--color-neutral-950);
 
 	--secondary: var(--color-accent-900);
@@ -76,6 +79,7 @@ html[data-theme='dark'] {
 
 	--destructive: oklch(0.704 0.191 22.216);
 	--success: oklch(72.3% 0.219 149.579);
+	--warning: oklch(82.8% 0.189 84.429);
 
 	--border: var(--color-neutral-700);
 	--input: var(--color-neutral-900);

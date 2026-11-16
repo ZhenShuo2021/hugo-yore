@@ -12,7 +12,7 @@
 {{- with .OutputFormats.Get "markdown" -}}
 	{{- $mdURL = .RelPermalink -}}
 {{- end -}}
-<div class="page-actions print:hidden">
+<div class="page-actions print:hidden" data-module="page-actions">
 	<button
 		class="page-actions__toggle group text-foreground -m-2 flex items-center justify-center p-2 ease-in-out"
 		aria-label="{{ i18n `page_actions.actions` | default `Actions` }}"

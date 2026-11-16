@@ -37,7 +37,7 @@
 		"*.{js,ts,json,md,html,css,yml,yaml}": "prettier --write"
 	},
 	"dependencies": {
-		"pagefind": "^1.5.2"
+		"pagefind": "^1.6.0"
 	},
 	"devDependencies": {
 		"@ZhenShuo2021/prettier-plugin-go-template": "github:ZhenShuo2021/prettier-plugin-go-template#v0.0.4",
@@ -46,24 +46,27 @@
 		"@mathjax/mathjax-mhchem-font-extension": "^4.1.1",
 		"@mathjax/mathjax-newcm-font": "^4.1.1",
 		"@mathjax/mathjax-tex-font": "^4.1.1",
-		"@tailwindcss/cli": "^4.3.3",
+		"@swup/head-plugin": "^2.3.1",
+		"@swup/plugin": "^4.0.0",
+		"@swup/preload-plugin": "^3.2.12",
+		"@tailwindcss/cli": "^4.3.5",
 		"@tailwindcss/forms": "^0.5.11",
 		"@tailwindcss/typography": "^0.5.20",
-		"concurrently": "^10.0.5",
+		"concurrently": "^10.0.7",
 		"cpy": "^13.2.3",
 		"echarts": "^6.0.0",
-		"glob": "^13.0.6",
 		"husky": "^9.1.7",
-		"iconoir": "^7.12.1",
-		"js-yaml": "^5.4.2",
-		"lint-staged": "^17.5.1",
+		"iconoir": "^7.12.2",
+		"js-yaml": "^5.5.0",
+		"lint-staged": "^17.6.0",
 		"lodash": "^4.18.1",
 		"mathjax": "~4.1.1",
 		"photoswipe": "^5.4.4",
 		"prettier": "~3.9.6",
 		"prettier-plugin-tailwindcss": "^0.8.1",
 		"rumdl": "^0.3.0",
-		"tailwindcss": "^4.3.3",
+		"swup": "^4.10.0",
+		"tailwindcss": "^4.3.5",
 		"vanilla-cookieconsent": "^3.1.0"
 	},
 	"packageManager": "pnpm@10.33.4+sha512.1c67b3b359b2d408119ba1ed289f34b8fc3c6873412bec6fd264fbdc82489e510fcbecb9ce9d22dae7f3b76269d8441046014bdca53b9979cd7a561ad631b800"

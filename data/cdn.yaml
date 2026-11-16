@@ -1,14 +1,17 @@
+# curl -s <src> | openssl dgst -sha256 -binary | openssl base64 -A
 typeit:
   src: 'https://cdnjs.cloudflare.com/ajax/libs/typeit/8.8.7/index.umd.min.js'
   integrity: 'sha512-w9+WtnRcS5TEPBd/CalFufJcL86KNh81FYMLkH9jbW46+XnKmdciHk+qhueq+thFd11nt2cV6JSX+nvfFLylgw=='
 youtube:
   css:
-    src: 'https://cdnjs.cloudflare.com/ajax/libs/lite-youtube-embed/0.3.3/lite-yt-embed.css'
-    integrity: 'sha512-utq8YFW0J2abvPCECXM0zfICnIVpbEpW4lI5gl01cdJu+Ct3W6GQMszVITXMtBLJunnaTp6bbzk5pheKX2XuXQ=='
+    src: 'https://cdnjs.cloudflare.com/ajax/libs/lite-youtube-embed/0.3.4/lite-yt-embed.min.css'
+    integrity: 'sha512-4vJTtQcaVOyghd6X27POFERZU5M/E77U72BYSbEkYrstxArFUBMArzBSiMSeRvJlLzW/p+QZ62HD3LDEM1fg6w=='
   js:
-    src: 'https://cdnjs.cloudflare.com/ajax/libs/lite-youtube-embed/0.3.3/lite-yt-embed.min.js'
-    integrity: 'sha512-l8cIzs5aAJutiOPIyW/9PAvDevwTA8F17Pmge51rwmKBkjZ47tap3kRv+pI8JX9owkkBpRMuOIUE7v+Rg6os9w=='
+    src: 'https://cdnjs.cloudflare.com/ajax/libs/lite-youtube-embed/0.3.4/lite-yt-embed.min.js'
+    integrity: 'sha512-tF5cBp3fWjbOBbkYgrErVr4VzlBoQquO9zg+6NiL1MacAB3dMSasvq4yNXaCcQmYBsjl1xzUIATVAXjVDihmVg=='
 mermaid:
-  src: https://cdn.jsdelivr.net/npm/pele@1.10.0/dist/pele.js
+  src: 'https://cdn.jsdelivr.net/npm/pele@1.13.0/dist/pele.js'
+  integrity: 'sha256-N76lAFqm0t3pKQMs7V0pWM9kJmfLwf5nX536z0uhWlE='
 opencc:
-  src: https://cdn.jsdelivr.net/npm/opencc-js@1.4.1/dist/esm/full.js
+  src: 'https://cdn.jsdelivr.net/npm/opencc-js@1.4.2/dist/esm/full.js'
+  integrity: 'sha256-hV5clfkNvhFGSfCTWa7fre1nbMSjf1WwdawQGZ0LNWE='

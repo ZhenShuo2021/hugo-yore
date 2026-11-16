@@ -59,6 +59,8 @@
 	}
 
 	.author-name {
+		overflow-wrap: anywhere;
+		hyphens: auto;
 		margin-bottom: 0.5rem;
 		font-size: 2.25rem;
 		font-weight: 800;
@@ -171,7 +173,7 @@
 									<a
 										class="social-link {{ if $isMail }}cloaked-email{{ end }}"
 										{{ if $isMail -}}
-											href="#" data-email-cloak="{{ partial `lib/obfuscate-email.html` $url }}"
+											href="#" data-module="email" data-email-cloak="{{ partial `lib/obfuscate-email.html` $url }}"
 										{{- else -}}
 											href="{{ $url }}"
 										{{- end }}

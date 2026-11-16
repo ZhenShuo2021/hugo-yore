@@ -5,10 +5,15 @@ description: "Enable a comprehensive archive page to aggregate and display all p
 weight: 240
 date: 2026-01-21T08:52:00+08:00
 tags: ["guide", "archive", "content-organization"]
-params:
-  sourceLinks:
-    - path: "layouts/_partials/section/main.html"
 ---
+
+{{< badge
+  text="main.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/section/main.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Yore provides a dedicated archive feature to aggregate all posts into a single list.
 

@@ -7,6 +7,7 @@ a11y_panel:
   font_size: フォントサイズ
   high_contrast: ハイコントラスト
   increase_font_size: フォントサイズを拡大
+  line_height: 行間
   reduce_motion: モーションを減らす
   reduce_transparency: 透明度を下げる
   show_link_underline: リンクの下線を表示する
@@ -59,8 +60,6 @@ docs:
   nav_label: ドキュメント
   next: 次へ
   prev: 前へ
-  sidebar_label: ドキュメント
-  source_files: 関連ソースコード
   toc_label: 目次
   toc_nav_label: このページ
 error:

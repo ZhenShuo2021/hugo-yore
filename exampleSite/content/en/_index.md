@@ -6,4 +6,4 @@ params:
   displayTitle: 'Build <span class="brand">modern</span> websites for your <span class="brand">content</span>'
 ---
 
-[See how it works →](./docs/40-introduction/index.md)
+[See how it works →](./docs/40-overview/index.md)

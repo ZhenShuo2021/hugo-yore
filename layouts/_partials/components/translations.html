@@ -1,5 +1,5 @@
 {{- $id := partial `lib/uid.html` . -}}
-<div class="yr-translation relative flex" data-nav-item>
+<div class="yr-translation relative flex" data-nav-item data-module="nested-menu">
 	<button
 		type="button"
 		class="text-foreground hover:text-link-hover -m-2 flex items-center p-2"
@@ -15,8 +15,8 @@
 		class="opacity-0 transition-opacity duration-(--dur-200)"
 		data-dropdown-menu
 		hidden>
-		<div class="bg-background border-border min-w-32 rounded-lg border p-1 shadow-lg">
-			<div class="flex flex-col gap-0.75">
+		<div class="bg-background border-border min-w-32 overflow-hidden rounded-lg border shadow">
+			<div class="flex max-h-[calc(100dvh-10rem)] flex-col gap-0.75 overflow-y-auto p-1">
 				{{- range .AllTranslations -}}
 					{{- $isCurrent := eq .Language.Lang $.Language.Lang -}}
 					<a

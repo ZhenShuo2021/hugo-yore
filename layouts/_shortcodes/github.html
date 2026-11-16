@@ -27,8 +27,6 @@
 
 {{- partial "components/card-shell-head.html" (dict
 	"hoverCard" true
-	"href" $htmlURL
-	"target" "_blank"
 	)
 -}}
 {{- partial "components/card-media.html" (dict
@@ -42,7 +40,9 @@
 <h3
 	class="yr-card__header text-foreground group-hover:text-link-hover flex flex-wrap items-center gap-2 text-lg font-semibold transition-colors">
 	{{- partialCached "components/icon.html" "github" "icon-github" -}}
-	{{- $fullName -}}
+	<a href="{{ $htmlURL }}" target="_blank" class="yr-link-stretch">
+		{{- $fullName -}}
+	</a>
 </h3>
 {{- /**/ -}}
 
@@ -90,10 +90,10 @@
 -}}
 {{- $js := resources.Get "yore/shortcodes/fetch-repo/fetch-repo.js" | js.Build $opts -}}
 {{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
-<script
-	type="module"
-	src="{{ $js.RelPermalink }}"
-	integrity="{{ $js.Data.Integrity }}"
+<span
+	hidden
+	data-module="repo-card"
+	data-module-src="{{ $js.RelPermalink }}"
 	data-repo-url="{{ $githubURL }}"
-	data-repo-id="{{ $id }}"></script>
+	data-repo-id="{{ $id }}"></span>
 {{- /**/ -}}

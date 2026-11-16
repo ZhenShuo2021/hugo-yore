@@ -5,13 +5,36 @@ description:
 weight: 480
 date: 2026-03-28T18:00:00+08:00
 tags: ["guide", "scripting", "privacy-compliance"]
-params:
-  sourceLinks:
-    - path: "assets/yore/components/cookies/cookie-consent.js"
-    - path: "assets/yore/components/cookies/config.js"
-    - path: "assets/yore/components/cookies/translations"
-    - path: "layouts/_partials/components/cookie-consent.html"
 ---
+
+{{< badge
+  text="cookie-consent.js"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/assets/yore/components/cookies/cookie-consent.js"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="config.js"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/assets/yore/components/cookies/config.js"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="translations"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/assets/yore/components/cookies/translations"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="cookie-consent.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/components/cookie-consent.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Yore integrates [vanilla-cookieconsent][lib] for GDPR-compliant cookie management. Built-in categories are `necessary`, `functional`, `analytics`, and `advertising`.
 

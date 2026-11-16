@@ -1,48 +1,41 @@
 import * as params from '@params';
-import { initRovingTabindex } from './docs-nav-a11y';
+import { initRovingTabindex, isCollapsed } from './docs-nav-a11y';
+import { registerRouteHook } from '../../core/js/route.js';
+import { defineModule } from '../../core/js/modules.js';
 
 const NAV_SELECTOR = '.docs-nav';
-const STORAGE_KEY_PREFIX = 'yore-docs-nav-state';
 const DRAWER_MEDIA = '(min-width: 48em)';
-
-// --- State shape ---
-// { collapsed: { [sectionId]: boolean }, scroll: number }
-
-function getStorageKey() {
-	const aside = document.querySelector('.docs-sidebar-container');
-	const docsRoot = aside?.dataset.docsRoot || '';
-	return `${STORAGE_KEY_PREFIX}:${docsRoot}`;
-}
-
-function getStoredState() {
-	try {
-		return JSON.parse(sessionStorage.getItem(getStorageKey()) || '{}');
-	} catch {
-		return {};
-	}
-}
-
-function saveState(state) {
-	try {
-		sessionStorage.setItem(getStorageKey(), JSON.stringify(state));
-	} catch {}
-}
 
 // --- Helpers ---
 
-function setCollapsed(nav, pageUid, collapsed) {
+function applyCollapsed(nav, pageUid, collapsed) {
 	const btn = nav.querySelector(`a[data-section-trigger][data-page-uid="${pageUid}"]`);
-	const list = nav.querySelector(`[data-section-list][data-page-uid="${pageUid}"]`);
-	if (!btn || !list) return;
-	btn.classList.toggle('is-collapsed', collapsed);
+	if (!btn) return;
 	btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-	list.classList.toggle('is-collapsed', collapsed);
+}
 
-	// Write into state
-	const state = getStoredState();
-	if (!state.collapsed) state.collapsed = {};
-	state.collapsed[pageUid] = collapsed;
-	saveState(state);
+function syncActive(nav) {
+	nav.querySelectorAll('.docs-nav__link--active').forEach((el) => {
+		el.classList.remove('docs-nav__link--active');
+		el.removeAttribute('aria-current');
+	});
+	const active = Array.from(nav.querySelectorAll('a[data-page-uid]')).find(
+		(a) => a.pathname === location.pathname,
+	);
+	if (!active) return;
+	active.classList.add('docs-nav__link--active');
+	active.setAttribute('aria-current', 'page');
+
+	// Ancestor sections of the current page must be expanded, otherwise users can't tell where they are
+	if (active.matches('[data-section-trigger]')) applyCollapsed(nav, active.dataset.pageUid, false);
+	for (
+		let list = active.closest('[data-section-list]');
+		list;
+		list = list.parentElement.closest('[data-section-list]')
+	) {
+		list.previousElementSibling.classList.add('docs-nav__link--active');
+		applyCollapsed(nav, list.dataset.pageUid, false);
+	}
 }
 
 // --- Features ---
@@ -50,8 +43,8 @@ function setCollapsed(nav, pageUid, collapsed) {
 function collapseOtherSiblings(nav, btn) {
 	nav.querySelectorAll(`[data-parent-page-uid="${btn.dataset.parentPageUid}"]`).forEach((sibling) => {
 		if (sibling === btn) return;
-		if (!sibling.classList.contains('is-collapsed')) {
-			setCollapsed(nav, sibling.dataset.pageUid, true);
+		if (!isCollapsed(sibling)) {
+			applyCollapsed(nav, sibling.dataset.pageUid, true);
 		}
 	});
 }
@@ -66,35 +59,20 @@ function initCollapseToggle(nav) {
 		if (!btn) return;
 		e.preventDefault();
 		e.stopPropagation();
-		const willExpand = btn.classList.contains('is-collapsed');
+		const willExpand = isCollapsed(btn);
 		if (willExpand && params.autoCollapseCategories) collapseOtherSiblings(nav, btn);
-		setCollapsed(nav, btn.dataset.pageUid, !willExpand);
+		applyCollapsed(nav, btn.dataset.pageUid, !willExpand);
 	});
 }
 
-// Store scroll on page hide (avoids beforeunload bfcache issues)
-function initScrollPersist() {
-	const scrollContainer = document.querySelector('.docs-sidebar-container .scrollbar-mask');
-	if (!scrollContainer) return;
+// The sidebar persists within one docsRoot, so an open drawer would otherwise stay open after navigation
+let collapseDrawer;
 
-	const persist = () => {
-		const state = getStoredState();
-		state.scroll = scrollContainer.scrollTop;
-		saveState(state);
-	};
-
-	addEventListener('visibilitychange', () => {
-		if (document.visibilityState === 'hidden') persist();
-	});
-	addEventListener('pagehide', persist);
-}
-
-function initDrawer() {
+function initDrawer(signal) {
 	const drawer = document.getElementById('docs-drawer');
-	const openBtn = document.getElementById('docs-drawer-open');
-	if (!drawer || !openBtn) return;
-
-	const mainEl = document.getElementById('main-content');
+	// The button lives in the header, which swup replaces on every visit, so it is looked up when used
+	const openBtn = () => document.getElementById('docs-drawer-open');
+	if (!drawer || !openBtn()) return;
 
 	// Browsers without the Popover API: the drawer is opened with inline styles instead.
 	const isNativePopover = typeof drawer.showPopover === 'function';
@@ -161,57 +139,70 @@ function initDrawer() {
 
 	function openDrawer() {
 		isNativePopover ? drawer.showPopover() : showFallback();
-		if (mainEl) mainEl.setAttribute('inert', '');
-		openBtn.setAttribute('aria-expanded', 'true');
+		document.getElementById('main-content')?.setAttribute('inert', '');
+		openBtn()?.setAttribute('aria-expanded', 'true');
 		drawer.focus({ preventScroll: true });
 	}
 
 	function closeDrawer() {
 		isNativePopover ? drawer.hidePopover() : hideFallback();
 
-		if (mainEl) mainEl.removeAttribute('inert');
-		openBtn.setAttribute('aria-expanded', 'false');
-		openBtn.focus({ preventScroll: true });
+		document.getElementById('main-content')?.removeAttribute('inert');
+		openBtn()?.setAttribute('aria-expanded', 'false');
+		openBtn()?.focus({ preventScroll: true });
 	}
 
-	openBtn.addEventListener('click', () => {
-		if (isDrawerOpen()) {
-			closeDrawer();
-		} else {
-			openDrawer();
-		}
-	});
+	collapseDrawer = () => isDrawerOpen() && closeDrawer();
 
-	document.addEventListener('click', (e) => {
-		if (!isDrawerOpen()) return;
-		if (drawer.contains(e.target) || e.target.closest('#docs-drawer-open')) return;
-		closeDrawer();
-	});
+	// Fallback mode moves the drawer and backdrop to body, so they must be put back
+	signal.addEventListener('abort', () => fallbackOpen && hideFallback());
 
-	document.addEventListener('keydown', (e) => {
-		if (e.key === 'Escape' && isDrawerOpen()) closeDrawer();
-	});
+	document.addEventListener(
+		'click',
+		(e) => {
+			if (e.target.closest('#docs-drawer-open')) {
+				isDrawerOpen() ? closeDrawer() : openDrawer();
+				return;
+			}
+			if (isDrawerOpen() && !drawer.contains(e.target)) closeDrawer();
+		},
+		{ signal },
+	);
+
+	document.addEventListener(
+		'keydown',
+		(e) => {
+			if (e.key === 'Escape' && isDrawerOpen()) closeDrawer();
+		},
+		{ signal },
+	);
 
 	const mql = matchMedia(DRAWER_MEDIA);
 	const onMediaChange = (e) => {
 		if (e.matches && isDrawerOpen()) closeDrawer();
 	};
-	mql.addEventListener('change', onMediaChange);
+	mql.addEventListener('change', onMediaChange, { signal });
 }
 
 // --- Init ---
+// The sidebar persists within one docsRoot and is replaced otherwise, so it mounts once per sidebar element
+function initDocsNav(aside, { signal }) {
+	const nav = aside.querySelector(NAV_SELECTOR);
 
-function init() {
-	if (document.documentElement.getAttribute('data-page-type') !== 'docs') return;
-
-	initDrawer();
-
-	const nav = document.querySelector(NAV_SELECTOR);
+	initDrawer(signal);
 	if (!nav) return;
 
+	syncActive(nav);
 	initCollapseToggle(nav);
-	initScrollPersist();
 	initRovingTabindex(nav);
+
+	registerRouteHook(
+		() => {
+			collapseDrawer?.();
+			syncActive(nav);
+		},
+		{ signal },
+	);
 }
 
-init();
+defineModule('docs-nav', initDocsNav);

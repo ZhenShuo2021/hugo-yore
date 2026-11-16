@@ -83,21 +83,21 @@
 		"scope": "markdown",
 		"prefix": "yore-tabs",
 		"body": [
-			"{{% tabs${1: group=\"${2:lang}\"}${3: default=\"${4:Python}\"} %}}",
-			"  {{< tab label=\"${5:Label A}\"${6: icon=\"${7:code}\"} >}}",
+			"{{% tabs${1: group=\"${2:lang}\"}${3: default=\"${4:Python}\"}${5: ariaLabel=\"${6:Description of this tab}\"} %}}",
+			"  {{< tab label=\"${7:Label A}\"${8: icon=\"${9:code}\"} >}}",
 			"",
-			"  ${8:Content A}",
+			"  ${10:Content A}",
 			"",
 			"  {{< /tab >}}",
 			"",
-			"  {{< tab label=\"${9:Label B}\"${10: icon=\"${11:sun-light}\"} >}}",
+			"  {{< tab label=\"${11:Label B}\"${12: icon=\"${13:sun-light}\"} >}}",
 			"",
-			"  ${12:Content B}",
+			"  ${14:Content B}",
 			"",
 			"  {{< /tab >}}",
 			"{{% /tabs %}}"
 		],
-		"description": "Tabs shortcode: tabbed content with optional group-based synchronization and default active tab."
+		"description": "Tabs shortcode: tabbed content."
 	},
 
 	"Yore Tab (single)": {

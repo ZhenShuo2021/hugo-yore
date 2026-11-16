@@ -67,6 +67,8 @@
 		}
 
 		.author-banner__name {
+			overflow-wrap: anywhere;
+			hyphens: auto;
 			font-size: clamp(1.25rem, 3vw, 1.75rem);
 			font-weight: 500;
 			letter-spacing: -0.02em;
@@ -214,7 +216,7 @@
 											<a
 												class="author-banner__link {{ if $isMail }}cloaked-email{{ end }}"
 												{{ if $isMail -}}
-													href="#" data-email-cloak="{{ partial `lib/obfuscate-email.html` $url }}"
+													href="#" data-module="email" data-email-cloak="{{ partial `lib/obfuscate-email.html` $url }}"
 												{{- else -}}
 													href="{{ $url }}"
 												{{- end }}

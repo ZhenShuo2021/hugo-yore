@@ -5,11 +5,22 @@ description: "Configure the site-wide search functionality powered by Pagefind."
 weight: 280
 date: 2026-01-22T16:30:00+08:00
 tags: ["guide", "search"]
-params:
-  sourceLinks:
-    - path: "assets/yore/components/search/search.css"
-    - path: "build.sh"
 ---
+
+{{< badge
+  text="search.css"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/assets/yore/components/search/search.css"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="build.sh"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/build.sh"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Built-in search is powered by [Pagefind](https://pagefind.app/), a static search library that serves results entirely in the browser with no external service needed.
 

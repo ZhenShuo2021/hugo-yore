@@ -5,11 +5,22 @@ weight: 320
 date: 2026-04-19T06:50:00+08:00
 description: "Per-page action menu with copy URL, copy Markdown, and view repo source."
 tags: ["guide", "scripting", "page-actions"]
-params:
-  sourceLinks:
-    - path: "assets/yore/components/page-actions/page-actions.js"
-    - path: "layouts/_partials/page/page-actions.html"
 ---
+
+{{< badge
+  text="page-actions.js"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/assets/yore/components/page-actions/page-actions.js"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
+{{< badge
+  text="page-actions.html"
+  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/layouts/_partials/page/page-actions.html"
+  variant="muted"
+  appearance="accent"
+  pill=true
+>}}
 
 Page actions add a per-page dropdown menu with utilities for sharing and inspecting content.
 

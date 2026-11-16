@@ -5,121 +5,88 @@
 // https://adrianroselli.com/2019/06/link-disclosure-widget-navigation.html
 // https://w3c.github.io/aria-practices/examples/disclosure/disclosure-navigation-hybrid.html
 
+import { defineModule } from '../../core/js/modules.js';
+
 const HOVER_CLOSE_DELAY = 100;
 
-function initNavDisclosures(root) {
-	const navItems = root.querySelectorAll('[data-nav-item]');
-	const closers = new WeakMap();
+defineModule('nested-menu', (item, { signal }) => {
+	const toggle = item.querySelector('[data-dropdown-toggle]');
+	const submenu = item.querySelector('[data-dropdown-menu]');
+	if (!toggle || !submenu) return;
 
-	navItems.forEach((item) => {
-		const toggle = item.querySelector('[data-dropdown-toggle]');
-		const submenu = item.querySelector('[data-dropdown-menu]');
-		if (!toggle || !submenu) return;
+	let closeTimer = null;
+	let openFrame = null;
 
-		let closeTimer = null;
-		let openFrame = null;
+	const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
 
-		function isOpen() {
-			return toggle.getAttribute('aria-expanded') === 'true';
-		}
+	function open() {
+		clearTimeout(closeTimer);
+		cancelAnimationFrame(openFrame);
+		toggle.setAttribute('aria-expanded', 'true');
+		submenu.hidden = false;
+		openFrame = requestAnimationFrame(() => submenu.setAttribute('data-nav-open', ''));
+	}
 
-		function open() {
-			clearTimeout(closeTimer);
-			cancelAnimationFrame(openFrame);
-			toggle.setAttribute('aria-expanded', 'true');
-			submenu.hidden = false;
+	function close() {
+		cancelAnimationFrame(openFrame);
+		toggle.setAttribute('aria-expanded', 'false');
+		submenu.removeAttribute('data-nav-open');
+		clearTimeout(closeTimer);
+		closeTimer = setTimeout(() => {
+			submenu.hidden = true;
+		}, HOVER_CLOSE_DELAY);
+	}
 
-			openFrame = requestAnimationFrame(() => {
-				submenu.setAttribute('data-nav-open', '');
-			});
-		}
+	function scheduleClose() {
+		clearTimeout(closeTimer);
+		closeTimer = setTimeout(close, HOVER_CLOSE_DELAY);
+	}
 
-		function close() {
-			cancelAnimationFrame(openFrame);
-			toggle.setAttribute('aria-expanded', 'false');
-			submenu.removeAttribute('data-nav-open');
-			clearTimeout(closeTimer);
-			closeTimer = setTimeout(() => {
-				submenu.hidden = true;
-			}, HOVER_CLOSE_DELAY);
-		}
+	toggle.addEventListener('click', () => (isOpen() ? close() : open()), { signal });
+	submenu.addEventListener('click', (e) => e.target.closest('a') && close(), { signal });
+	item.addEventListener('mouseenter', open, { signal });
+	item.addEventListener('mouseleave', scheduleClose, { signal });
 
-		function scheduleClose() {
-			clearTimeout(closeTimer);
-			closeTimer = setTimeout(close, HOVER_CLOSE_DELAY);
-		}
-
-		closers.set(item, close);
-
-		toggle.addEventListener('click', () => {
-			if (isOpen()) {
-				close();
-			} else {
-				open();
-			}
-		});
-
-		item.addEventListener('mouseenter', open);
-		item.addEventListener('mouseleave', scheduleClose);
-
-		item.addEventListener('keydown', (event) => {
-			if (event.key === 'Escape' && isOpen()) {
-				// 避免 mobile dialog 被關掉
-				event.preventDefault();
+	item.addEventListener(
+		'keydown',
+		(e) => {
+			if (e.key === 'Escape' && isOpen()) {
+				// Avoid closing the mobile dialog
+				e.preventDefault();
 				close();
 				toggle.focus();
 			}
-		});
+		},
+		{ signal },
+	);
 
-		item.addEventListener('keydown', (event) => {
+	item.addEventListener(
+		'keydown',
+		(e) => {
 			if (!isOpen()) return;
-
 			const links = Array.from(submenu.querySelectorAll('a'));
-			if (links.length === 0) return;
+			const i = links.indexOf(document.activeElement);
+			if (i === -1) return;
 
-			const currentIndex = links.indexOf(document.activeElement);
-			if (currentIndex === -1) return;
+			const next = {
+				ArrowDown: (i + 1) % links.length,
+				ArrowUp: (i - 1 + links.length) % links.length,
+				Home: 0,
+				End: links.length - 1,
+			}[e.key];
+			if (next === undefined) return;
 
-			let nextIndex = null;
+			e.preventDefault();
+			links[next].focus();
+		},
+		{ signal },
+	);
 
-			switch (event.key) {
-				case 'ArrowDown':
-					nextIndex = (currentIndex + 1) % links.length;
-					break;
-				case 'ArrowUp':
-					nextIndex = (currentIndex - 1 + links.length) % links.length;
-					break;
-				case 'Home':
-					nextIndex = 0;
-					break;
-				case 'End':
-					nextIndex = links.length - 1;
-					break;
-				default:
-					return;
-			}
+	item.addEventListener('focusout', (e) => item.contains(e.relatedTarget) || close(), { signal });
+	document.addEventListener('click', (e) => !item.contains(e.target) && isOpen() && close(), { signal });
 
-			event.preventDefault();
-			links[nextIndex].focus();
-		});
-
-		item.addEventListener('focusout', (event) => {
-			const next = event.relatedTarget;
-			if (!next || !item.contains(next)) {
-				close();
-			}
-		});
-	});
-
-	document.addEventListener('click', (event) => {
-		navItems.forEach((item) => {
-			if (item.contains(event.target)) return;
-			const toggle = item.querySelector('[data-dropdown-toggle]');
-			if (toggle && toggle.getAttribute('aria-expanded') === 'true') {
-				closers.get(item)();
-			}
-		});
-	});
-}
-
-initNavDisclosures(document);
+	return () => {
+		clearTimeout(closeTimer);
+		cancelAnimationFrame(openFrame);
+	};
+});

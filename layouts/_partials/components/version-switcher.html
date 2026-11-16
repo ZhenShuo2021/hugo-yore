@@ -1,6 +1,6 @@
 {{- with .Rotate "version" -}}
 	{{- $id := partial `lib/uid.html` . -}}
-	<div class="yr-version-switcher relative flex" data-nav-item>
+	<div class="yr-version-switcher relative flex" data-nav-item data-module="nested-menu">
 		<button
 			type="button"
 			class="text-foreground hover:text-link-hover flex items-center gap-2"
@@ -16,8 +16,8 @@
 			class="opacity-0 transition-opacity duration-(--dur-200)"
 			data-dropdown-menu
 			hidden>
-			<div class="bg-background border-border min-w-32 rounded-lg border p-1 shadow-lg">
-				<div class="flex flex-col gap-0.75">
+			<div class="bg-background border-border min-w-32 overflow-hidden rounded-lg border shadow">
+				<div class="flex max-h-[calc(100dvh-10rem)] flex-col gap-0.75 overflow-y-auto p-1">
 					{{- range . -}}
 						{{- $isCurrent := eq .Site.Version.Name $.Site.Version.Name -}}
 						<a

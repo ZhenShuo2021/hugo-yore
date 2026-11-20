@@ -1,4 +1,4 @@
-function cookieConsentConfig(tools) {
+function cookieConsentConfig(_tools) {
 	// tools.addCategory({
 	// 	name: 'example_social_media',
 	// 	categoryConfig: {

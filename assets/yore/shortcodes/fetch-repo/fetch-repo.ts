@@ -1,12 +1,17 @@
 import { consent } from 'yore-cookie';
 
-const formatMetric = (n) => {
+type Platform = 'github' | 'gitlab' | 'gitea' | 'codeberg' | 'forgejo' | 'huggingface';
+
+type FieldMap = Record<string, string>;
+
+const formatMetric = (n: unknown): unknown => {
+	if (typeof n !== 'number') return n;
 	if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
 	if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
 	return n;
 };
 
-const platforms = {
+const platforms: Record<Platform, FieldMap> = {
 	github: {
 		full_name: 'full_name',
 		description: 'description',
@@ -41,32 +46,37 @@ const platforms = {
 	huggingface: { description: 'description', likes: 'likes', downloads: 'downloads' },
 };
 
-const processors = {
+const processors: Partial<Record<Platform, Record<string, (value: unknown) => unknown>>> = {
 	huggingface: {
-		description: (value) => value?.replace(/Dataset Card for .+?\s+Dataset Summary\s+/, '').trim() || value,
+		description: (value) => {
+			const text = typeof value === 'string' ? value : '';
+			return text.replace(/Dataset Card for .+?\s+Dataset Summary\s+/, '').trim() || value;
+		},
 	},
 };
 
-const pendingRequests = new Map();
+const pendingRequests = new Map<string, Promise<unknown>>();
 
-const fetchRepoData = async (repoURL, ENABLE_CACHE) => {
+const fetchRepoData = async (repoURL: string, ENABLE_CACHE: boolean): Promise<Record<string, unknown>> => {
 	const cacheKey = `yore-repo-cache-${repoURL}`;
-	const cached = ENABLE_CACHE ? JSON.parse(localStorage.getItem(cacheKey)) : null;
+	const cached = (ENABLE_CACHE ? JSON.parse(localStorage.getItem(cacheKey) ?? 'null') : null) as {
+		time: number;
+		data: Record<string, unknown>;
+	} | null;
 
-	// cache 1 hour
 	if (cached && Date.now() - cached.time < 3600000) {
 		return cached.data;
 	}
 
 	if (pendingRequests.has(repoURL)) {
-		return pendingRequests.get(repoURL);
+		return pendingRequests.get(repoURL) as Promise<Record<string, unknown>>;
 	}
 
-	const requestPromise = (async () => {
+	const requestPromise = (async (): Promise<Record<string, unknown>> => {
 		const response = await fetch(repoURL, {
 			headers: { 'User-agent': 'Mozilla/4.0 Custom User Agent' },
 		});
-		const data = await response.json();
+		const data = (await response.json()) as Record<string, unknown>;
 		if (ENABLE_CACHE) localStorage.setItem(cacheKey, JSON.stringify({ data, time: Date.now() }));
 		return data;
 	})();
@@ -79,12 +89,12 @@ const fetchRepoData = async (repoURL, ENABLE_CACHE) => {
 	}
 };
 
-const updateCard = async (script, ENABLE_CACHE) => {
+const updateCard = async (script: HTMLElement, ENABLE_CACHE: boolean): Promise<void> => {
 	const repoURL = script.getAttribute('data-repo-url');
 	const repoId = script.getAttribute('data-repo-id');
 	if (!repoURL || !repoId) return;
 
-	const platform = Object.keys(platforms).find((p) => repoId.startsWith(p)) || 'github';
+	const platform = (Object.keys(platforms) as Platform[]).find((p) => repoId.startsWith(p)) || 'github';
 	const mapping = platforms[platform];
 
 	Object.values(mapping).forEach((elementSuffix) => {
@@ -92,7 +102,7 @@ const updateCard = async (script, ENABLE_CACHE) => {
 		if (element && element.innerHTML.trim() !== '') {
 			const formatted = formatMetric(element.innerHTML.trim());
 			if (formatted !== element.innerHTML.trim()) {
-				element.innerHTML = formatted;
+				element.innerHTML = String(formatted);
 			}
 		}
 	});
@@ -108,18 +118,21 @@ const updateCard = async (script, ENABLE_CACHE) => {
 		Object.entries(mapping).forEach(([dataField, elementSuffix]) => {
 			const element = document.getElementById(`${repoId}-${elementSuffix}`);
 			if (element) {
-				let value = data[dataField];
-				if (processors[platform]?.[dataField]) value = processors[platform][dataField](value);
+				let value: unknown = data[dataField];
+				const processor = processors[platform]?.[dataField];
+				if (processor) value = processor(value);
 				value = formatMetric(value);
-				if (value != null && value !== '') element.innerHTML = value;
+				if (value != null && value !== '' && (typeof value === 'string' || typeof value === 'number'))
+					element.innerHTML = String(value);
 			}
 		});
 	} catch (error) {
-		console.error(`fetch-repo.js: ${error}`);
+		console.error('fetch-repo.js:', error);
 	}
 };
 
-// The element carries data-repo-url and data-repo-id
-export default function (el) {
-	consent.onReady(() => updateCard(el, consent.isGranted('functional')));
+export default function (el: HTMLElement): void {
+	consent.onReady(() => {
+		void updateCard(el, consent.isGranted('functional'));
+	});
 }

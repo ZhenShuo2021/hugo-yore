@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"noEmit": true,
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"skipLibCheck": true,
+		"target": "es2023",
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"moduleDetection": "force",
+		"lib": ["es2023", "dom", "dom.iterable"],
+		"paths": {
+			"delegate-it": ["./assets/yore/lib/swup/delegate-it/index.js"],
+			"path-to-regexp": ["./assets/yore/lib/swup/path-to-regexp/index.js"]
+		}
+	},
+	"include": ["assets/yore/**/*"],
+	"exclude": ["assets/yore/core/js/critical.js", "assets/yore/components/cookies/cookie-main.js"]
+}

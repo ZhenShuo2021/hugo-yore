@@ -29,12 +29,17 @@
 		"format": "prettier --write --list-different assets data exampleSite i18n layouts scripts",
 		"format:md": "rumdl fmt --include \"**/*.md\"",
 		"format:staged": "lint-staged",
+		"lint": "oxlint",
 		"bump": "node scripts/bump-version.js",
 		"postinstall": "node scripts/post-install.js",
 		"prepare": "husky"
 	},
 	"lint-staged": {
-		"*.{js,ts,json,md,html,css,yml,yaml}": "prettier --write"
+		"*.{js,ts}": [
+			"prettier --write",
+			"oxlint --no-error-on-unmatched-pattern"
+		],
+		"*.{json,md,html,css,yml,yaml}": "prettier --write"
 	},
 	"dependencies": {
 		"pagefind": "^1.6.0"
@@ -61,6 +66,8 @@
 		"lint-staged": "^17.6.0",
 		"lodash": "^4.18.1",
 		"mathjax": "~4.1.1",
+		"oxlint": "^1.94.0",
+		"oxlint-tsgolint": "^7.0.2007",
 		"photoswipe": "^5.4.4",
 		"prettier": "~3.9.6",
 		"prettier-plugin-tailwindcss": "^0.8.1",

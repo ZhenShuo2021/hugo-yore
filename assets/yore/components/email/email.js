@@ -12,7 +12,7 @@ function decloak(el) {
 	let addr;
 	try {
 		addr = atob(b64);
-	} catch (e) {
+	} catch {
 		return;
 	}
 

@@ -1,16 +1,16 @@
 import { defineModule } from '../../core/js/modules.js';
 
 function showStaleWarning(dataEl) {
-	var payload = JSON.parse(dataEl.textContent);
-	var lastmod = new Date(payload.lastmod);
+	const payload = JSON.parse(dataEl.textContent);
+	const lastmod = new Date(payload.lastmod);
 
 	if (isNaN(lastmod.getTime())) return;
 
-	var msPerDay = 1000 * 60 * 60 * 24;
-	var daysSince = Math.floor((Date.now() - lastmod.getTime()) / msPerDay);
+	const msPerDay = 1000 * 60 * 60 * 24;
+	const daysSince = Math.floor((Date.now() - lastmod.getTime()) / msPerDay);
 
 	if (daysSince >= payload.thresholdDays) {
-		var wrapper = document.createElement('div');
+		const wrapper = document.createElement('div');
 		wrapper.innerHTML = payload.html;
 		dataEl.replaceWith(wrapper);
 	}

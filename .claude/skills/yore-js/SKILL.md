@@ -83,3 +83,4 @@ Examples: carousel, chart, mermaid, typeit, toc, docs-nav, stale-warning, email,
 - JS lives in `assets/yore/components/<name>/` or `assets/yore/shortcodes/<name>/`.
 - Hugo values reach JS through `js.Build` params: `import * as params from '@params'`.
 - Shared names are unique and greppable: `delegateEvent`, `defineModule`, `registerRouteHook`.
+- Never manually modify `assets/yore/lib`; only make changes through `scripts/post-install.js`.

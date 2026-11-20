@@ -45,7 +45,7 @@ export default function (btn, { signal }) {
 					btn.dataset.copied = 'false';
 					label.textContent = defaultCopyText;
 				}, 2000);
-			} catch (err) {
+			} catch {
 				legacyCopyCode(text);
 			}
 		},

@@ -49,14 +49,14 @@ import '../../components/email/email.js';
 import '../../components/page-actions/page-actions.js';
 import '../../components/translate-chinese/translate.js';
 import '../../components/docs-nav/docs-nav.js';
-import '../../components/stale-warning/index.js';
+import '../../components/stale-warning/stale-warning.js';
 import '../../components/math/math.js';
 import '../../components/knowledge-graph/knowledge-graph.js';
 import '../../shortcodes/tabs/tabs.js';
 import '../../shortcodes/carousel/carousel.js';
 import '../../shortcodes/masonry/masonry.js';
 import '../../shortcodes/mermaid/mermaid.js';
-import '../../shortcodes/typeit/index.js';
+import '../../shortcodes/typeit/typeit.js';
 import '../../shortcodes/charts/chart.js';
 import '../../shortcodes/youtube/youtube.js';
 

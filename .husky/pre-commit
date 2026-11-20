@@ -4,3 +4,4 @@ if ! git diff --quiet -- assets/yore/core/tailwind/compiled.css; then
   exit 1
 fi
 pnpm format:staged
+pnpm lint

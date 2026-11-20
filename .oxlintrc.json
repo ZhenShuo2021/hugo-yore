@@ -1,0 +1,45 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"plugins": ["oxc", "typescript", "unicorn", "import"],
+	"env": { "browser": true },
+	"options": { "typeAware": true, "typeCheck": true },
+	"ignorePatterns": [
+		"assets/yore/lib/**",
+		"assets/yore/components/webgl/cosmic.js",
+		"assets/yore/core/js/critical.js",
+		"assets/yore/core/js/main.js",
+		"assets/yore/components/cookies/cookie-main.js"
+	],
+	"globals": {
+		"process": "readonly",
+		"CodeMirror": "readonly",
+		"MathJax": "readonly",
+		"TypeIt": "readonly",
+		"echarts": "readonly",
+		"dataLayer": "readonly",
+		"plausible": "readonly"
+	},
+	"categories": { "correctness": "error", "suspicious": "error", "perf": "error" },
+	"rules": {
+		"no-undef": "error",
+		"eqeqeq": ["error", "always", { "null": "ignore" }],
+		"no-var": "error",
+		"prefer-const": "error",
+		"unicorn/consistent-function-scoping": "off",
+		"no-underscore-dangle": "off",
+		"no-await-in-loop": "off",
+		"typescript/consistent-return": "off",
+		"typescript/unbound-method": "off",
+		"unicorn/require-post-message-target-origin": "off",
+		"unicorn/prefer-add-event-listener": "off",
+		"typescript/no-unsafe-type-assertion": "off",
+		"import/default": "error",
+		"import/export": "error",
+		"import/named": "error",
+		"import/namespace": "error",
+		"import/no-cycle": "error",
+		"import/no-self-import": "error",
+		"import/no-duplicates": "error",
+		"import/no-unassigned-import": "off"
+	}
+}

@@ -70,7 +70,7 @@ function extractText(highlightDiv) {
 delegateEvent('.copy-button', 'click', (event) => {
 	const button = event.delegateTarget;
 	const highlightDiv = button.closest('.highlight');
-	if (highlightDiv) copyCode(button, highlightDiv);
+	if (highlightDiv) void copyCode(button, highlightDiv);
 });
 
 function initCode(root) {

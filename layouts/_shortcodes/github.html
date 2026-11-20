@@ -88,7 +88,7 @@
 	"target" hugo.Data.theme.esBuildTarget
 	"externals" (slice "yore-cookie")
 -}}
-{{- $js := resources.Get "yore/shortcodes/fetch-repo/fetch-repo.js" | js.Build $opts -}}
+{{- $js := resources.Get "yore/shortcodes/fetch-repo/fetch-repo.ts" | js.Build $opts -}}
 {{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
 <span
 	hidden

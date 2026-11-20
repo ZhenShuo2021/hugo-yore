@@ -70,29 +70,28 @@
 		{{- hugo.Store.Add "swPrecache" (slice $photoswipeJS) -}}
 	{{- end -}}
 
-	{{- with resources.Get "yore/core/js/main.js" -}}
-		{{- with resources.ExecuteAsTemplate "js/main-bundle.js" $ . -}}
-			{{- $jsParams := dict
-				"headerLayout" site.Params.headerLayout
-				"searchJS" ("pagefind/pagefind-component-ui.js" | relURL)
-				"searchCSS" ("pagefind/pagefind-component-ui.css" | relURL)
-				"photoswipeJS" $photoswipeJS
-				"autoCollapseCategories" (site.Params.docsAutoCollapseCategories | default false)
-			-}}
-			{{- $dyn := partialCached "inline/dynamic-js" $ "dynamic" -}}
-			{{- $jsParams = merge $jsParams $dyn.urls -}}
-			{{- $opts := dict
-				"format" "esm"
-				"minify" hugo.IsProduction
-				"target" hugo.Data.theme.esBuildTarget
-				"params" $jsParams
-				"defines" (dict "process.env.NODE_ENV" (cond hugo.IsProduction "\"production\"" "\"development\""))
-				"shims" (dict "delegate-it" "yore/lib/swup/delegate-it/index.js" "path-to-regexp" "yore/lib/swup/path-to-regexp/index.js" "@swup/plugin" "yore/lib/swup/plugin/index.modern.js" "swup" "yore/lib/swup/core/Swup.modern.js")
-			-}}
-			{{- $mainJS = . | js.Build $opts -}}
-			{{- if hugo.IsProduction -}}{{- $mainJS = $mainJS | fingerprint -}}{{- end -}}
-			{{- return $mainJS -}}
-		{{- end -}}
+	{{- with resources.Get "yore/core/js/main.js" | resources.ExecuteAsTemplate "js/main.js" $ -}}
+		{{- $jsParams := dict
+			"headerLayout" site.Params.headerLayout
+			"searchJS" ("pagefind/pagefind-component-ui.js" | relURL)
+			"searchCSS" ("pagefind/pagefind-component-ui.css" | relURL)
+			"photoswipeJS" $photoswipeJS
+			"autoCollapseCategories" (site.Params.docsAutoCollapseCategories | default false)
+		-}}
+		{{- $dyn := partialCached "inline/dynamic-js" $ "dynamic" -}}
+		{{- $jsParams = merge $jsParams $dyn.urls -}}
+		{{- $defines := dict "process.env.NODE_ENV" (cond hugo.IsProduction "\"production\"" "\"development\"") -}}
+		{{- $opts := dict
+			"format" "esm"
+			"minify" hugo.IsProduction
+			"target" hugo.Data.theme.esBuildTarget
+			"params" $jsParams
+			"defines" $defines
+			"shims" (dict "delegate-it" "yore/lib/swup/delegate-it/index.js" "path-to-regexp" "yore/lib/swup/path-to-regexp/index.js" "@swup/plugin" "yore/lib/swup/plugin/index.modern.js" "swup" "yore/lib/swup/core/Swup.modern.js")
+		-}}
+		{{- $mainJS = . | js.Build $opts -}}
+		{{- if hugo.IsProduction -}}{{- $mainJS = $mainJS | fingerprint -}}{{- end -}}
+		{{- return $mainJS -}}
 	{{- end -}}
 {{- end -}}
 {{- $mainJS := partial "inline/main-js" . -}}
@@ -141,7 +140,7 @@
 		{{- $config := resources.Get "yore/sw/config.json.tmpl" | resources.ExecuteAsTemplate "config.json" . -}}
 		{{- $config = $config.Content | transform.Unmarshal -}}
 		{{- $opts := (dict "params" $config "targetPath" "sw.js") -}}
-		{{- $swJS := resources.Get "yore/sw/sw.js" | js.Build $opts | minify -}}
+		{{- $swJS := resources.Get "yore/sw/sw.ts" | js.Build $opts | minify -}}
 
 		{{- $regOpts := dict "params" (dict "swURL" $swJS.RelPermalink "scope" ("." | relURL)) -}}
 		{{- $js := resources.Get "yore/sw/register.js" | js.Build $regOpts | minify | fingerprint -}}

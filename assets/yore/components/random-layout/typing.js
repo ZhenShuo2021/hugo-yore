@@ -1,9 +1,9 @@
 (function () {
-	var { pick, reduceMotion, i18n } = window.__rp;
+	const { pick, reduceMotion, i18n } = window.__rp;
 	if (!pick) return;
-	var titleEl = document.getElementById('rp-title');
-	var titleLine = titleEl.querySelector('.rp-title-line');
-	var subEl = document.getElementById('rp-sub');
+	const titleEl = document.getElementById('rp-title');
+	const titleLine = titleEl.querySelector('.rp-title-line');
+	const subEl = document.getElementById('rp-sub');
 
 	function go() {
 		window.location.replace(pick.url);

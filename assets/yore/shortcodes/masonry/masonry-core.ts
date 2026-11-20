@@ -6,10 +6,31 @@ const CLASS_NAMES = {
 	loaded: 'masonry-loaded',
 };
 
+interface MasonryOptions {
+	minColumnWidth?: number;
+	gapX?: number;
+	gapY?: number | null;
+	maxCols?: number;
+	heightTolerance?: number;
+	itemSelector?: string;
+	imageSelector?: string;
+}
+
+interface MasonryItem {
+	el: HTMLElement;
+	ratio: number;
+	img: HTMLImageElement;
+	placed: boolean;
+	failed: boolean;
+	col?: number;
+}
+
+type MasonryElement = HTMLElement & { __masonryInstance?: Masonry | null };
+
 const DEFAULT_OPTIONS = {
 	minColumnWidth: 220,
 	gapX: 12,
-	gapY: null, // null => falls back to gapX / 2
+	gapY: null as number | null, // null => falls back to gapX / 2
 	maxCols: 0,
 	heightTolerance: 0,
 	itemSelector: '.item',
@@ -17,28 +38,28 @@ const DEFAULT_OPTIONS = {
 };
 
 export class Masonry {
-	#container;
-	#minColumnWidth;
-	#gapX;
-	#gapY;
-	#maxCols;
-	#heightTolerance;
-	#itemSelector;
-	#imageSelector;
+	#container: HTMLElement;
+	#minColumnWidth: number;
+	#gapX: number;
+	#gapY: number;
+	#maxCols: number;
+	#heightTolerance: number;
+	#itemSelector: string;
+	#imageSelector: string;
 	#columns = 1;
 	#columnWidth = 0;
-	#columnHeights = [];
-	#items = [];
-	#resizeObserver;
+	#columnHeights: number[] = [];
+	#items: MasonryItem[] = [];
+	#resizeObserver: ResizeObserver;
 	#resizeScheduled = false;
-	#resizeRafId = null;
+	#resizeRafId: number | null = null;
 	#lastContainerWidth = 0;
-	#pendingCols = new Set();
+	#pendingCols = new Set<number>();
 	#flushScheduled = false;
-	#flushRafId = null;
+	#flushRafId: number | null = null;
 	#destroyed = false;
 
-	constructor(container, options = {}) {
+	constructor(container: HTMLElement, options: MasonryOptions = {}) {
 		this.#container = container;
 
 		// Filter out undefined values before merging, so that callers can
@@ -68,7 +89,7 @@ export class Masonry {
 		this.#resizeObserver.observe(this.#container);
 	}
 
-	#computeColumns() {
+	#computeColumns(): void {
 		const width = this.#container.clientWidth;
 		if (width <= 0) {
 			this.#columns = 1;
@@ -86,14 +107,14 @@ export class Masonry {
 		const cols = this.#maxCols > 0 ? Math.min(this.#maxCols, autoCols) : autoCols;
 		this.#columns = cols;
 		this.#columnWidth = Math.max(0, (width - this.#gapX * (cols - 1)) / cols);
-		this.#columnHeights = new Array(cols).fill(0);
+		this.#columnHeights = Array.from({ length: cols }, () => 0);
 	}
 
-	#onResize() {
+	#onResize(): void {
 		this.#scheduleResizeFrame();
 	}
 
-	#scheduleResizeFrame() {
+	#scheduleResizeFrame(): void {
 		if (this.#resizeScheduled) return;
 		this.#resizeScheduled = true;
 		this.#resizeRafId = requestAnimationFrame(() => {
@@ -110,7 +131,7 @@ export class Masonry {
 		});
 	}
 
-	#relayoutAll() {
+	#relayoutAll(): void {
 		this.#columnHeights.fill(0);
 		for (const it of this.#items) {
 			if (!it.placed) continue;
@@ -119,17 +140,17 @@ export class Masonry {
 		this.#updateContainerHeight();
 	}
 
-	#placeItem(it) {
+	#placeItem(it: MasonryItem): void {
 		const minHeight = Math.min(...this.#columnHeights);
 		let shortest = this.#columnHeights.indexOf(minHeight);
 		for (let i = 0; i < this.#columnHeights.length; i++) {
-			if (this.#columnHeights[i] <= minHeight + this.#heightTolerance) {
+			if (this.#columnHeights[i]! <= minHeight + this.#heightTolerance) {
 				shortest = i;
 				break;
 			}
 		}
 		const x = shortest * (this.#columnWidth + this.#gapX);
-		const y = this.#columnHeights[shortest];
+		const y = this.#columnHeights[shortest]!;
 		const h = this.#columnWidth > 0 ? this.#columnWidth / it.ratio : 0;
 
 		it.col = shortest;
@@ -140,7 +161,7 @@ export class Masonry {
 		this.#columnHeights[shortest] = y + h + this.#gapY;
 	}
 
-	#relayoutColumn(colIndex) {
+	#relayoutColumn(colIndex: number): void {
 		// The resize handler and the deferred column flush each run on
 		// their own rAF schedule. If resize runs first and shrinks the
 		// column count, the colIndex received here may already be a
@@ -160,11 +181,11 @@ export class Masonry {
 		this.#updateContainerHeight();
 	}
 
-	#updateContainerHeight() {
+	#updateContainerHeight(): void {
 		this.#container.style.height = Math.max(0, ...this.#columnHeights) + 'px';
 	}
 
-	#scheduleColumnFlush(colIndex) {
+	#scheduleColumnFlush(colIndex: number): void {
 		this.#pendingCols.add(colIndex);
 		if (this.#flushScheduled) return;
 		this.#flushScheduled = true;
@@ -177,14 +198,14 @@ export class Masonry {
 		});
 	}
 
-	collectExisting() {
+	collectExisting(): void {
 		if (this.#items.length > 0) return;
 
-		const elements = this.#container.querySelectorAll(`:scope > ${this.#itemSelector}`);
+		const elements = this.#container.querySelectorAll<HTMLElement>(`:scope > ${this.#itemSelector}`);
 		let pending = 0;
 		let collecting = true;
 
-		const tryFinalize = () => {
+		const tryFinalize = (): void => {
 			if (collecting || pending > 0 || this.#destroyed) return;
 			for (const it of this.#items) {
 				if (it.failed) continue;
@@ -195,14 +216,14 @@ export class Masonry {
 		};
 
 		for (const el of elements) {
-			const img = el.querySelector(this.#imageSelector);
+			const img = el.querySelector<HTMLImageElement>(this.#imageSelector);
 			if (!img) continue;
 
 			const dataW = Number(img.getAttribute('width')) || 0;
 			const dataH = Number(img.getAttribute('height')) || 0;
 			const known = dataW > 0 && dataH > 0;
 
-			const it = { el, ratio: known ? dataW / dataH : 0, img, placed: false, failed: false };
+			const it: MasonryItem = { el, ratio: known ? dataW / dataH : 0, img, placed: false, failed: false };
 			this.#items.push(it);
 
 			if (known) {
@@ -220,8 +241,8 @@ export class Masonry {
 		tryFinalize();
 	}
 
-	#watchLoad(it, img, needsMeasure, onSettled) {
-		const onDone = (ok) => {
+	#watchLoad(it: MasonryItem, img: HTMLImageElement, needsMeasure: boolean, onSettled?: () => void): void {
+		const onDone = (ok: boolean): void => {
 			if (this.#destroyed) return;
 			if (!ok || !img.naturalWidth || !img.naturalHeight) {
 				it.el.classList.remove(CLASS_NAMES.unknown);
@@ -243,7 +264,7 @@ export class Masonry {
 				it.ratio = img.naturalWidth / img.naturalHeight;
 				it.el.classList.remove(CLASS_NAMES.unknown);
 				if (it.placed) {
-					this.#scheduleColumnFlush(it.col);
+					this.#scheduleColumnFlush(it.col!);
 				}
 				if (onSettled) onSettled();
 			}
@@ -260,7 +281,7 @@ export class Masonry {
 		img.addEventListener('error', () => onDone(false), { once: true });
 	}
 
-	destroy() {
+	destroy(): void {
 		this.#destroyed = true;
 		this.#resizeObserver.disconnect();
 		this.#pendingCols.clear();
@@ -278,7 +299,7 @@ export class Masonry {
 // This function owns the "how do I call Masonry from a data-attribute
 // driven template" concern; the Masonry class itself has no knowledge
 // of dataset reading or of being re-initialized on the same element.
-export function initMasonryFromElement(el) {
+export function initMasonryFromElement(el: MasonryElement): Masonry {
 	if (el.__masonryInstance) {
 		el.__masonryInstance.destroy();
 		el.__masonryInstance = null;

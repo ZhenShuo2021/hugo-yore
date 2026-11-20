@@ -6,56 +6,53 @@ import { defineModule } from '../../core/js/modules.js';
 const NAV_SELECTOR = '.docs-nav';
 const DRAWER_MEDIA = '(min-width: 48em)';
 
-// --- Helpers ---
-
-function applyCollapsed(nav, pageUid, collapsed) {
+function applyCollapsed(nav: HTMLElement, pageUid: string | undefined, collapsed: boolean): void {
 	const btn = nav.querySelector(`a[data-section-trigger][data-page-uid="${pageUid}"]`);
 	if (!btn) return;
 	btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
 }
 
-function syncActive(nav) {
+function syncActive(nav: HTMLElement): void {
 	nav.querySelectorAll('a[data-active]').forEach((el) => {
 		el.removeAttribute('data-active');
 		el.removeAttribute('aria-current');
 	});
-	const active = Array.from(nav.querySelectorAll('a[data-page-uid]')).find(
+	const active = Array.from(nav.querySelectorAll<HTMLAnchorElement>('a[data-page-uid]')).find(
 		(a) => a.pathname === location.pathname,
 	);
 	if (!active) return;
 	active.setAttribute('data-active', '');
 	active.setAttribute('aria-current', 'page');
 
-	// Ancestor sections of the current page must be expanded, otherwise users can't tell where they are
 	if (active.matches('[data-section-trigger]')) applyCollapsed(nav, active.dataset.pageUid, false);
 	for (
-		let list = active.closest('[data-section-list]');
+		let list = active.closest<HTMLElement>('[data-section-list]');
 		list;
-		list = list.parentElement.closest('[data-section-list]')
+		list = list.parentElement?.closest<HTMLElement>('[data-section-list]') ?? null
 	) {
-		list.previousElementSibling.setAttribute('data-active', '');
+		list.previousElementSibling?.setAttribute('data-active', '');
 		applyCollapsed(nav, list.dataset.pageUid, false);
 	}
 }
 
-// --- Features ---
-
-function collapseOtherSiblings(nav, btn) {
-	nav.querySelectorAll(`[data-parent-page-uid="${btn.dataset.parentPageUid}"]`).forEach((sibling) => {
-		if (sibling === btn) return;
-		if (!isCollapsed(sibling)) {
-			applyCollapsed(nav, sibling.dataset.pageUid, true);
-		}
-	});
+function collapseOtherSiblings(nav: HTMLElement, btn: HTMLElement): void {
+	nav
+		.querySelectorAll<HTMLElement>(`[data-parent-page-uid="${btn.dataset.parentPageUid}"]`)
+		.forEach((sibling) => {
+			if (sibling === btn) return;
+			if (!isCollapsed(sibling)) {
+				applyCollapsed(nav, sibling.dataset.pageUid, true);
+			}
+		});
 }
 
-function initCollapseToggle(nav) {
+function initCollapseToggle(nav: HTMLElement): void {
 	nav.querySelectorAll('a[data-section-trigger]').forEach((btn) => {
 		btn.setAttribute('role', 'button');
 	});
 
-	nav.addEventListener('click', (e) => {
-		const btn = e.target.closest('a[data-section-trigger]');
+	nav.addEventListener('click', (e: MouseEvent) => {
+		const btn = (e.target as Element).closest<HTMLElement>('a[data-section-trigger]');
 		if (!btn) return;
 		e.preventDefault();
 		e.stopPropagation();
@@ -65,27 +62,27 @@ function initCollapseToggle(nav) {
 	});
 }
 
-// The sidebar persists within one docsRoot, so an open drawer would otherwise stay open after navigation
-let collapseDrawer;
+let collapseDrawer: (() => void) | undefined;
 
-function initDrawer(signal) {
+function initDrawer(signal: AbortSignal): void {
 	const drawer = document.getElementById('docs-drawer');
-	// The button lives in the header, which swup replaces on every visit, so it is looked up when used
-	const openBtn = () => document.getElementById('docs-drawer-open');
+
+	const openBtn = (): HTMLElement | null => document.getElementById('docs-drawer-open');
 	if (!drawer || !openBtn()) return;
+	const dr: HTMLElement = drawer;
 
-	// Browsers without the Popover API: the drawer is opened with inline styles instead.
-	const isNativePopover = typeof drawer.showPopover === 'function';
-	const home = { parent: drawer.parentNode, next: drawer.nextSibling };
+	const isNativePopover = typeof dr.showPopover === 'function';
+	const home = { parent: dr.parentNode, next: dr.nextSibling };
 	let fallbackOpen = false;
-	let fallbackBackdrop = null;
-	let savedStyleAttr = null;
+	let fallbackBackdrop: HTMLDivElement | null = null;
+	let savedStyleAttr: string | null = null;
 
-	function showFallback() {
-		savedStyleAttr = drawer.getAttribute('style');
+	function showFallback(): void {
+		savedStyleAttr = dr.getAttribute('style');
 
-		fallbackBackdrop = document.createElement('div');
-		Object.assign(fallbackBackdrop.style, {
+		const backdrop = document.createElement('div');
+		fallbackBackdrop = backdrop;
+		Object.assign(backdrop.style, {
 			position: 'fixed',
 			top: '0',
 			right: '0',
@@ -94,13 +91,12 @@ function initDrawer(signal) {
 			zIndex: '2147483646',
 			background: 'rgba(0, 0, 0, 0.5)',
 		});
-		fallbackBackdrop.style.background = 'var(--backdrop)';
+		backdrop.style.background = 'var(--backdrop)';
 
-		// Emulate the top layer: attach to body so no ancestor can clip or stack over it
-		document.body.appendChild(fallbackBackdrop);
-		document.body.appendChild(drawer);
+		document.body.appendChild(backdrop);
+		document.body.appendChild(dr);
 
-		Object.assign(drawer.style, {
+		Object.assign(dr.style, {
 			display: 'flex',
 			position: 'fixed',
 			top: '0',
@@ -118,13 +114,13 @@ function initDrawer(signal) {
 		fallbackOpen = true;
 	}
 
-	function hideFallback() {
-		if (savedStyleAttr === null) drawer.removeAttribute('style');
-		else drawer.setAttribute('style', savedStyleAttr);
+	function hideFallback(): void {
+		if (savedStyleAttr === null) dr.removeAttribute('style');
+		else dr.setAttribute('style', savedStyleAttr);
 
 		if (home.parent) {
 			const next = home.next && home.next.parentNode === home.parent ? home.next : null;
-			home.parent.insertBefore(drawer, next);
+			home.parent.insertBefore(dr, next);
 		}
 		if (fallbackBackdrop && fallbackBackdrop.parentNode) {
 			fallbackBackdrop.parentNode.removeChild(fallbackBackdrop);
@@ -133,74 +129,79 @@ function initDrawer(signal) {
 		fallbackOpen = false;
 	}
 
-	function isDrawerOpen() {
-		return isNativePopover ? drawer.matches(':popover-open') : fallbackOpen;
+	function isDrawerOpen(): boolean {
+		return isNativePopover ? dr.matches(':popover-open') : fallbackOpen;
 	}
 
-	function openDrawer() {
-		isNativePopover ? drawer.showPopover() : showFallback();
+	function openDrawer(): void {
+		if (isNativePopover) dr.showPopover();
+		else showFallback();
 		document.getElementById('main-content')?.setAttribute('inert', '');
 		openBtn()?.setAttribute('aria-expanded', 'true');
-		drawer.focus({ preventScroll: true });
+		dr.focus({ preventScroll: true });
 	}
 
-	function closeDrawer() {
-		isNativePopover ? drawer.hidePopover() : hideFallback();
+	function closeDrawer(): void {
+		if (isNativePopover) dr.hidePopover();
+		else hideFallback();
 
 		document.getElementById('main-content')?.removeAttribute('inert');
 		openBtn()?.setAttribute('aria-expanded', 'false');
 		openBtn()?.focus({ preventScroll: true });
 	}
 
-	collapseDrawer = () => isDrawerOpen() && closeDrawer();
+	collapseDrawer = () => {
+		if (isDrawerOpen()) closeDrawer();
+	};
 
-	// Fallback mode moves the drawer and backdrop to body, so they must be put back
-	signal.addEventListener('abort', () => fallbackOpen && hideFallback());
+	signal.addEventListener('abort', () => {
+		if (fallbackOpen) hideFallback();
+	});
 
 	document.addEventListener(
 		'click',
-		(e) => {
-			if (e.target.closest('#docs-drawer-open')) {
-				isDrawerOpen() ? closeDrawer() : openDrawer();
+		(e: MouseEvent) => {
+			const target = e.target as Node;
+			if ((target as Element).closest('#docs-drawer-open')) {
+				if (isDrawerOpen()) closeDrawer();
+				else openDrawer();
 				return;
 			}
-			if (isDrawerOpen() && !drawer.contains(e.target)) closeDrawer();
+			if (isDrawerOpen() && !dr.contains(target)) closeDrawer();
 		},
 		{ signal },
 	);
 
 	document.addEventListener(
 		'keydown',
-		(e) => {
+		(e: KeyboardEvent) => {
 			if (e.key === 'Escape' && isDrawerOpen()) closeDrawer();
 		},
 		{ signal },
 	);
 
 	const mql = matchMedia(DRAWER_MEDIA);
-	const onMediaChange = (e) => {
+	const onMediaChange = (e: MediaQueryListEvent): void => {
 		if (e.matches && isDrawerOpen()) closeDrawer();
 	};
 	mql.addEventListener('change', onMediaChange, { signal });
 }
 
-// The hidden state lives on <html> so it survives swup replacing the sidebar
 const SIDEBAR_HIDDEN_ATTR = 'data-docs-sidebar-hidden';
 
-function initSidebarHideButton(aside, signal) {
-	const hideButton = aside.querySelector('.yr-docs-sidebar-hide-button');
-	const sidebarPanel = aside.querySelector('.yr-docs-sidebar-panel');
+function initSidebarHideButton(aside: HTMLElement, signal: AbortSignal): void {
+	const hideButton = aside.querySelector<HTMLElement>('.yr-docs-sidebar-hide-button');
+	const sidebarPanel = aside.querySelector<HTMLElement>('.yr-docs-sidebar-panel');
 	if (!hideButton || !sidebarPanel) return;
 	const root = document.documentElement;
 	const desktopMql = matchMedia(DRAWER_MEDIA);
 
-	const syncSidebarHidden = () => {
+	const syncSidebarHidden = (): void => {
 		const isHidden = root.hasAttribute(SIDEBAR_HIDDEN_ATTR);
-		const label = isHidden ? hideButton.dataset.labelShow : hideButton.dataset.labelHide;
+		const label = (isHidden ? hideButton.dataset.labelShow : hideButton.dataset.labelHide) ?? '';
 		hideButton.setAttribute('title', label);
 		hideButton.setAttribute('aria-label', label);
-		// The panel is only faded out, so inert removes its links from keyboard navigation
-		// The mobile drawer ignores the hidden state
+
 		sidebarPanel.inert = isHidden && desktopMql.matches;
 	};
 
@@ -216,10 +217,8 @@ function initSidebarHideButton(aside, signal) {
 	desktopMql.addEventListener('change', syncSidebarHidden, { signal });
 }
 
-// --- Init ---
-// The sidebar persists within one docsRoot and is replaced otherwise, so it mounts once per sidebar element
-function initDocsNav(aside, { signal }) {
-	const nav = aside.querySelector(NAV_SELECTOR);
+function initDocsNav(aside: HTMLElement, { signal }: { signal: AbortSignal }): void {
+	const nav = aside.querySelector<HTMLElement>(NAV_SELECTOR);
 
 	initDrawer(signal);
 	initSidebarHideButton(aside, signal);

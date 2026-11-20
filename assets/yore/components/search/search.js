@@ -47,7 +47,8 @@ function init() {
 
 		if (!navigator.connection?.saveData) {
 			const preload = () => setTimeout(() => loadSearch().catch(() => {}), 5000);
-			document.readyState === 'complete' ? preload() : addEventListener('load', preload, { once: true });
+			if (document.readyState === 'complete') preload();
+			else addEventListener('load', preload, { once: true });
 		}
 
 		triggers.forEach((el) => {
@@ -77,7 +78,7 @@ function init() {
 			if (document.activeElement?.closest('input, textarea, [contenteditable]')) return;
 			e.preventDefault();
 		}
-		openSearch();
+		void openSearch();
 	};
 
 	triggers.forEach((el) => el.addEventListener('click', onOpen));

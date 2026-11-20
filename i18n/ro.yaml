@@ -73,6 +73,9 @@ footer:
   powered_by: Susținut de {{ .Theme }}
 nav:
   accessibility_panel: Deschide panoul de accesibilitate
+  appearance_dark: Mod întunecat
+  appearance_device: Mod dispozitiv
+  appearance_light: Mod luminos
   breadcrumb: Fir de navigare
   change_language: Schimbă limba
   close_mobile_menu: Închide meniul mobil
@@ -84,7 +87,6 @@ nav:
   search: Căutare
   skip_to_main: Sari la conținut
   switch_version: Schimbă versiunea
-  toggle_dark_mode: Comută modul întunecat
   toggle_mobile_menu: Comută meniul mobil
 page_actions:
   actions: Acțiuni

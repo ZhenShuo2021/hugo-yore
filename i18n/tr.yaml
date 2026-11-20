@@ -73,6 +73,9 @@ footer:
   powered_by: '{{ .Theme }} ile güçlendirilmiştir'
 nav:
   accessibility_panel: Erişilebilirlik panelini aç
+  appearance_dark: Karanlık mod
+  appearance_device: Cihaz modu
+  appearance_light: Açık mod
   breadcrumb: İçerik yolu
   change_language: Dili değiştir
   close_mobile_menu: Mobil menüyü kapat
@@ -84,7 +87,6 @@ nav:
   search: Ara
   skip_to_main: Ana içeriğe geç
   switch_version: Sürümü değiştir
-  toggle_dark_mode: Karanlık modu aç/kapat
   toggle_mobile_menu: Mobil menüyü aç/kapat
 page_actions:
   actions: İşlemler

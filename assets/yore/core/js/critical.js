@@ -1,10 +1,21 @@
 (() => {
 	{{- /* light dark */ -}}
-	{{ if site.Params.themeLightDarkSwitcher }}
-	const theme =
-		localStorage.getItem('yore-appearance') ||
-		document.documentElement.getAttribute('data-default-appearance');
-	document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+	{{- $appearanceSwitcherEnabled := site.Store.Get "appearanceSwitcherEnabled" }}
+	{{- $defaultMode := site.Params.themeLightDarkMode | default `light` }}
+	{{- if not (in (slice `light` `dark` `device`) $defaultMode) }}{{ $defaultMode = `light` }}{{ end }}
+	{{ if $appearanceSwitcherEnabled }}
+	const saved = localStorage.getItem('yore-appearance');
+	const mode = ['light', 'dark', 'device'].includes(saved) ? saved : {{ $defaultMode | jsonify }};
+	document.documentElement.setAttribute('data-appearance', mode);
+	document.documentElement.setAttribute(
+		'data-theme',
+		mode === 'device' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : mode,
+	);
+	{{ else if eq $defaultMode `device` }}
+	document.documentElement.setAttribute(
+		'data-theme',
+		matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+	);
 	{{ end }}
 
 	{{- /* a11y */ -}}

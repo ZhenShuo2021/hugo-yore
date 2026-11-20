@@ -72,6 +72,9 @@ footer:
   powered_by: ขับเคลื่อนโดย {{ .Theme }}
 nav:
   accessibility_panel: เปิดแผงการช่วยการเข้าถึง
+  appearance_dark: โหมดมืด
+  appearance_device: ตามอุปกรณ์
+  appearance_light: โหมดสว่าง
   breadcrumb: เส้นทางการนำทาง
   change_language: เปลี่ยนภาษา
   close_mobile_menu: ปิดเมนูมือถือ
@@ -83,7 +86,6 @@ nav:
   search: ค้นหา
   skip_to_main: ข้ามไปยังเนื้อหาหลัก
   switch_version: สลับเวอร์ชัน
-  toggle_dark_mode: สลับโหมดมืด
   toggle_mobile_menu: สลับเมนูมือถือ
 page_actions:
   actions: การดำเนินการ

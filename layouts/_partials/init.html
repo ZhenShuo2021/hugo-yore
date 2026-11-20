@@ -21,13 +21,20 @@
 {{- end -}}
 {{- site.Store.Set "defaultFeaturedImage" (dict "url" $imageFeaturedURL "obj" $imageFeatured "width" $w "height" $h) -}}
 
+{{- /* light/dark switcher: unset means enabled, false disables */ -}}
+{{- $appearanceSwitcherEnabled := true -}}
+{{- if isset site.Params "themelightdarkswitcher" -}}
+	{{- $appearanceSwitcherEnabled = site.Params.themeLightDarkSwitcher -}}
+{{- end -}}
+{{- site.Store.Set "appearanceSwitcherEnabled" $appearanceSwitcherEnabled -}}
+
 {{- /* render functional header section */ -}}
 {{- $renderFunctionalHeader := or
 	hugo.IsMultilingual
 	site.Params.versionSwitcher
 	site.Params.accessibilityEnabled
 	site.Params.searchEnabled
-	site.Params.themeLightDarkSwitcher
+	$appearanceSwitcherEnabled
 -}}
 {{- site.Store.Set "renderFunctionalHeader" $renderFunctionalHeader -}}
 

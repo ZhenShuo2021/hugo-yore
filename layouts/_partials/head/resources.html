@@ -1,5 +1,6 @@
 {{- /* Critical JS */ -}}
-{{- if or site.Params.themeLightDarkSwitcher site.Params.accessibilityEnabled -}}
+{{- $deviceMode := eq site.Params.themeLightDarkMode "device" -}}
+{{- if or (site.Store.Get "appearanceSwitcherEnabled") site.Params.accessibilityEnabled $deviceMode -}}
 	{{- partialCached "inline/criticalJS" . -}}
 {{- end -}}
 {{- define "_partials/inline/criticalJS" -}}

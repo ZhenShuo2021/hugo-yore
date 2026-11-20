@@ -119,19 +119,26 @@
 		hugo.IsMultilingual
 		site.Params.versionSwitcher
 		site.Params.accessibilityEnabled
+		(site.Store.Get "appearanceSwitcherEnabled")
 	-}}
 		<div class="yr-mobile-menu-footer">
-			{{- if site.Params.themeLightDarkSwitcher | default true -}}
+			{{- if site.Store.Get "appearanceSwitcherEnabled" -}}
 				<button
 					id="mobile-appearance-switcher"
-					aria-label="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
-					title="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
+					aria-label="{{ i18n `nav.appearance_light` | default `Light mode` }}"
+					title="{{ i18n `nav.appearance_light` | default `Light mode` }}"
+					data-label-light="{{ i18n `nav.appearance_light` | default `Light mode` }}"
+					data-label-dark="{{ i18n `nav.appearance_dark` | default `Dark mode` }}"
+					data-label-device="{{ i18n `nav.appearance_device` | default `Device mode` }}"
 					class="text-foreground hover:text-link-hover -m-2 rounded p-2 transition-colors">
-					<span class="block dark:hidden">
+					<span class="yr-appearance-icon" data-mode="light">
 						{{- partialCached "components/icon.html" "sun-light" "icon-sun-light" -}}
 					</span>
-					<span class="hidden dark:block">
+					<span class="yr-appearance-icon" data-mode="dark">
 						{{- partialCached "components/icon.html" "half-moon" "icon-half-moon" -}}
+					</span>
+					<span class="yr-appearance-icon" data-mode="device">
+						{{- partialCached "components/icon.html" "modern-tv" "icon-modern-tv" -}}
 					</span>
 				</button>
 			{{- end -}}

@@ -73,6 +73,9 @@ footer:
   powered_by: Работает на {{ .Theme }}
 nav:
   accessibility_panel: Открыть панель доступности
+  appearance_dark: Тёмная тема
+  appearance_device: Тема устройства
+  appearance_light: Светлая тема
   breadcrumb: Навигационная цепочка
   change_language: Изменить язык
   close_mobile_menu: Закрыть мобильное меню
@@ -84,7 +87,6 @@ nav:
   search: Поиск
   skip_to_main: Перейти к основному содержимому
   switch_version: Переключить версию
-  toggle_dark_mode: Переключить тёмную тему
   toggle_mobile_menu: Переключить мобильное меню
 page_actions:
   actions: Действия

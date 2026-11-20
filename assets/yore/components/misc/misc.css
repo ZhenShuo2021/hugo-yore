@@ -12,6 +12,18 @@ html[data-theme='dark'] .icon-arrow-up::after {
 	background-color: var(--color-neutral-200);
 }
 
+/* appearance switcher: show only the icon matching the current mode */
+.yr-appearance-icon {
+	display: none;
+	align-items: center;
+	justify-content: center;
+}
+html[data-appearance='light'] .yr-appearance-icon[data-mode='light'],
+html[data-appearance='dark'] .yr-appearance-icon[data-mode='dark'],
+html[data-appearance='device'] .yr-appearance-icon[data-mode='device'] {
+	display: inline-flex;
+}
+
 /* external link */
 .external-link {
 	text-wrap: nowrap;

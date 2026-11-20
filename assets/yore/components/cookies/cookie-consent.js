@@ -68,7 +68,7 @@ function waitForCSS(link) {
 	});
 }
 
-syncDarkMode(params.isDark);
+syncDarkMode(document.documentElement.getAttribute('data-theme') === 'dark');
 
 if (params.hasSwitcher) {
 	window.addEventListener('appearance-changed', (e) => {

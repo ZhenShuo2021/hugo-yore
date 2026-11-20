@@ -12,7 +12,7 @@
 	{{- else }}
 		data-theme="light"
 	{{- end }}
-	data-default-appearance="{{ site.Params.themeLightDarkMode }}"
+	data-appearance="{{ site.Params.themeLightDarkMode | default `light` }}"
 	data-copy-text="{{ i18n `code.copy` | default `Copy` }}"
 	data-copied-text="{{ i18n `code.copied` | default `Copied` }}"
 	data-header-layout="{{ site.Params.headerLayout }}"

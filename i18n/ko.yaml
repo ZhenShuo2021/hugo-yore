@@ -72,6 +72,9 @@ footer:
   powered_by: Powered by {{ .Theme }}
 nav:
   accessibility_panel: 접근성 패널 열기
+  appearance_dark: 다크 모드
+  appearance_device: 기기 설정 따르기
+  appearance_light: 라이트 모드
   breadcrumb: 이동 경로
   change_language: 언어 변경
   close_mobile_menu: 모바일 메뉴 닫기
@@ -83,7 +86,6 @@ nav:
   search: 검색
   skip_to_main: 본문으로 건너뛰기
   switch_version: 버전 전환
-  toggle_dark_mode: 다크 모드 전환
   toggle_mobile_menu: 모바일 메뉴 전환
 page_actions:
   actions: 작업

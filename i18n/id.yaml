@@ -72,6 +72,9 @@ footer:
   powered_by: Didukung oleh {{ .Theme }}
 nav:
   accessibility_panel: Buka panel aksesibilitas
+  appearance_dark: Mode gelap
+  appearance_device: Mode perangkat
+  appearance_light: Mode terang
   breadcrumb: Navigasi remah roti
   change_language: Ganti bahasa
   close_mobile_menu: Tutup menu seluler
@@ -83,7 +86,6 @@ nav:
   search: Cari
   skip_to_main: Lewati ke konten utama
   switch_version: Ganti versi
-  toggle_dark_mode: Alihkan mode gelap
   toggle_mobile_menu: Alihkan menu seluler
 page_actions:
   actions: Tindakan

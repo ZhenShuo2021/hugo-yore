@@ -190,8 +190,8 @@ params:
 
   # Theme
   themeColorScheme: latex # Color palette for the theme. [avocado | congo | fire | latex | one-light | wood]
-  themeLightDarkMode: light # Default color mode on first visit. [light | dark]
-  themeLightDarkSwitcher: true # Show a button letting visitors toggle light/dark mode
+  themeLightDarkMode: light # Default color mode on first visit. [light | dark | device]
+  themeLightDarkSwitcher: true # Show a button letting visitors toggle light/dark/device mode
 
   # Author
   # See https://yore.zsl0621.cc/docs/features/authors/

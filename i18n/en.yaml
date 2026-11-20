@@ -72,6 +72,9 @@ footer:
   powered_by: Powered by {{ .Theme }}
 nav:
   accessibility_panel: Open accessibility panel
+  appearance_dark: Dark mode
+  appearance_device: Device mode
+  appearance_light: Light mode
   breadcrumb: Breadcrumb navigation
   change_language: Change language
   close_mobile_menu: Close mobile menu
@@ -83,7 +86,6 @@ nav:
   search: Search
   skip_to_main: Skip to main content
   switch_version: Switch version
-  toggle_dark_mode: Toggle dark mode
   toggle_mobile_menu: Toggle mobile menu
 page_actions:
   actions: Actions

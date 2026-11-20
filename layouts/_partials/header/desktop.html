@@ -38,18 +38,24 @@
 				</button>
 			{{- end -}}
 
-			{{- if site.Params.themeLightDarkSwitcher | default true -}}
+			{{- if site.Store.Get "appearanceSwitcherEnabled" -}}
 				<button
 					id="desktop-appearance-switcher"
-					aria-label="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
-					title="{{ i18n `nav.toggle_dark_mode` | default `Toggle dark mode` }}"
+					aria-label="{{ i18n `nav.appearance_light` | default `Light mode` }}"
+					title="{{ i18n `nav.appearance_light` | default `Light mode` }}"
+					data-label-light="{{ i18n `nav.appearance_light` | default `Light mode` }}"
+					data-label-dark="{{ i18n `nav.appearance_dark` | default `Dark mode` }}"
+					data-label-device="{{ i18n `nav.appearance_device` | default `Device mode` }}"
 					type="button"
 					class="text-foreground hover:text-link-hover -m-2 inline-flex items-center justify-center p-2">
-					<span class="inline-flex items-center justify-center dark:hidden">
+					<span class="yr-appearance-icon" data-mode="light">
 						{{- partialCached "components/icon.html" (dict "name" "sun-light" "class" "size-5!") "icon-sun-light-5" -}}
 					</span>
-					<span class="hidden items-center justify-center dark:inline-flex">
+					<span class="yr-appearance-icon" data-mode="dark">
 						{{- partialCached "components/icon.html" (dict "name" "half-moon" "class" "size-5!") "icon-half-moon-5" -}}
+					</span>
+					<span class="yr-appearance-icon" data-mode="device">
+						{{- partialCached "components/icon.html" (dict "name" "modern-tv" "class" "size-5!") "icon-modern-tv-5" -}}
 					</span>
 				</button>
 			{{- end -}}

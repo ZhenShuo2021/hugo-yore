@@ -72,6 +72,9 @@ footer:
   powered_by: Realizzato con {{ .Theme }}
 nav:
   accessibility_panel: Apri pannello di accessibilità
+  appearance_dark: Modalità scura
+  appearance_device: Modalità dispositivo
+  appearance_light: Modalità chiara
   breadcrumb: Percorso di navigazione
   change_language: Cambia lingua
   close_mobile_menu: Chiudi menu mobile
@@ -83,7 +86,6 @@ nav:
   search: Cerca
   skip_to_main: Salta al contenuto principale
   switch_version: Cambia versione
-  toggle_dark_mode: Attiva/disattiva modalità scura
   toggle_mobile_menu: Attiva/disattiva menu mobile
 page_actions:
   actions: Azioni

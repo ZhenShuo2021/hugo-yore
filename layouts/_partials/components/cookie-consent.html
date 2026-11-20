@@ -17,8 +17,7 @@
 	{{- $enabledCategories := $cc.categories | default (slice "necessary" "functional" "analytics") -}}
 	{{- $jsParams := dict
 		"enabledCategories" $enabledCategories
-		"isDark" (eq site.Params.themeLightDarkMode "dark")
-		"hasSwitcher" (site.Params.themeLightDarkSwitcher | default true)
+		"hasSwitcher" (or (site.Store.Get "appearanceSwitcherEnabled") (eq site.Params.themeLightDarkMode "device"))
 	-}}
 
 	{{- $js := "" -}}

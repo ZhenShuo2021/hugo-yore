@@ -2481,9 +2481,6 @@
   .dark\:hidden:where([data-theme=dark], [data-theme=dark] *) {
     display: none;
   }
-  .dark\:inline-flex:where([data-theme=dark], [data-theme=dark] *) {
-    display: inline-flex;
-  }
   .dark\:border-zinc-600:where([data-theme=dark], [data-theme=dark] *) {
     border-color: var(--color-zinc-600);
   }

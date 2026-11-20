@@ -71,6 +71,9 @@ footer:
   powered_by: 由 {{ .Theme }} 製作
 nav:
   accessibility_panel: 開啟無障礙面板
+  appearance_dark: 深色模式
+  appearance_device: 跟隨裝置
+  appearance_light: 淺色模式
   breadcrumb: 麵包屑導覽
   change_language: 切換語言
   close_mobile_menu: 關閉手機選單
@@ -82,7 +85,6 @@ nav:
   search: 搜尋
   skip_to_main: 快轉到主要內容
   switch_version: 切換版本
-  toggle_dark_mode: 切換深色模式
   toggle_mobile_menu: 切換手機選單
 page_actions:
   actions: 操作選單

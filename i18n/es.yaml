@@ -73,6 +73,9 @@ footer:
   powered_by: Desarrollado por {{ .Theme }}
 nav:
   accessibility_panel: Abrir panel de accesibilidad
+  appearance_dark: Modo oscuro
+  appearance_device: Modo del dispositivo
+  appearance_light: Modo claro
   breadcrumb: Ruta de navegación
   change_language: Cambiar idioma
   close_mobile_menu: Cerrar menú móvil
@@ -84,7 +87,6 @@ nav:
   search: Buscar
   skip_to_main: Ir al contenido
   switch_version: Cambiar versión
-  toggle_dark_mode: Alternar modo oscuro
   toggle_mobile_menu: Alternar menú móvil
 page_actions:
   actions: Acciones

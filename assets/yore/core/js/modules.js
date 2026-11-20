@@ -30,7 +30,8 @@ async function mountModule(el) {
 			if (process.env.NODE_ENV !== 'production') console.debug('yore: mount', name, el);
 			const cleanup = await fn(el, { signal: ctrl.signal });
 			// A [data-module] element without this attribute failed or is still loading
-			if (process.env.NODE_ENV !== 'production') el.dataset.moduleMounted = `${el.dataset.moduleMounted ?? ''} ${name}`.trim();
+			if (process.env.NODE_ENV !== 'production')
+				el.dataset.moduleMounted = `${el.dataset.moduleMounted ?? ''} ${name}`.trim();
 			if (typeof cleanup !== 'function') continue;
 			if (ctrl.signal.aborted) cleanup();
 			else cleanups.push(cleanup);

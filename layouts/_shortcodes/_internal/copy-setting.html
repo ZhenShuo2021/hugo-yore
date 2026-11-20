@@ -44,7 +44,12 @@
 		display: inline-flex;
 	}
 </style>
-<button type="button" class="main-setting-copy-btn not-prose" id="copy-main-setting-btn" data-module="copy-setting" data-module-src="{{ $js.RelPermalink }}">
+<button
+	type="button"
+	class="main-setting-copy-btn not-prose"
+	id="copy-main-setting-btn"
+	data-module="copy-setting"
+	data-module-src="{{ $js.RelPermalink }}">
 	<span class="icon-copy" aria-hidden="true">{{ $copy.Content | safeHTML }}</span>
 	<span class="icon-check" aria-hidden="true">{{ $check.Content | safeHTML }}</span>
 	<span class="copy-btn-label">{{ i18n `code.copy` | default `Copy` }}</span>

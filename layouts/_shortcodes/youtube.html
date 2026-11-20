@@ -2,5 +2,9 @@
 {{- $params := .Get "params" -}}
 
 {{- with $id -}}
-	<lite-youtube data-module="youtube" videoid="{{ $id }}" playlabel="Youtube video" params="{{ $params }}"></lite-youtube>
+	<lite-youtube
+		data-module="youtube"
+		videoid="{{ $id }}"
+		playlabel="Youtube video"
+		params="{{ $params }}"></lite-youtube>
 {{- end -}}

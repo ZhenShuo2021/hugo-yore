@@ -1,5 +1,9 @@
 {{- define "main" -}}
-	<main data-swup-region id="main-content" data-module="{{ partial "lib/page-modules.html" . }}" class="base-spacing">
+	<main
+		data-swup-region
+		id="main-content"
+		data-module="{{ partial "lib/page-modules.html" . }}"
+		class="base-spacing">
 		{{- if or .Title (.Param "galleryPageLead") -}}
 			<header class="mb-16 pb-8">
 				{{- if .Param "breadcrumb" -}}

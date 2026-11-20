@@ -1,4 +1,3 @@
-
 function init() {
 	let openedDetails = [];
 	window.addEventListener('beforeprint', () => {

@@ -1,4 +1,3 @@
-
 function init() {
 	const btn = document.getElementById('scroll-to-top');
 	const sentinel = document.getElementById('scroll-sentinel');

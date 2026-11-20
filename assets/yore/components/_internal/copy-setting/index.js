@@ -25,26 +25,30 @@ export default function (btn, { signal }) {
 		const tableCode = highlightDiv.querySelector('.lntable .lntd:last-child code');
 		return tableCode ? tableCode.textContent.trim() : codeElement.textContent.trim();
 	}
-	btn.addEventListener('click', async function () {
-		const target = document.getElementById('main-setting');
-		if (!target) return;
-		const highlightDiv = target.querySelector('.highlight') || target;
-		const text = extractText(highlightDiv);
-		if (!text) return;
-		try {
-			if (navigator.clipboard && window.isSecureContext) {
-				await navigator.clipboard.writeText(text);
-			} else {
+	btn.addEventListener(
+		'click',
+		async function () {
+			const target = document.getElementById('main-setting');
+			if (!target) return;
+			const highlightDiv = target.querySelector('.highlight') || target;
+			const text = extractText(highlightDiv);
+			if (!text) return;
+			try {
+				if (navigator.clipboard && window.isSecureContext) {
+					await navigator.clipboard.writeText(text);
+				} else {
+					legacyCopyCode(text);
+				}
+				btn.dataset.copied = 'true';
+				label.textContent = defaultCopiedText;
+				setTimeout(function () {
+					btn.dataset.copied = 'false';
+					label.textContent = defaultCopyText;
+				}, 2000);
+			} catch (err) {
 				legacyCopyCode(text);
 			}
-			btn.dataset.copied = 'true';
-			label.textContent = defaultCopiedText;
-			setTimeout(function () {
-				btn.dataset.copied = 'false';
-				label.textContent = defaultCopyText;
-			}, 2000);
-		} catch (err) {
-			legacyCopyCode(text);
-		}
-	}, { signal });
+		},
+		{ signal },
+	);
 }

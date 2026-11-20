@@ -54,11 +54,11 @@ a {
 
 /* https://github.com/GoogleChrome/modern-web-guidance/blob/341268561baaff256927c931ec8215dbd30e3cee/skills/modern-web-guidance/guides/ui-components/dialog.md#L37 */
 dialog:modal {
-  overscroll-behavior: contain;
+	overscroll-behavior: contain;
 }
 dialog::backdrop {
-  overflow: hidden;
-  overscroll-behavior: contain;
+	overflow: hidden;
+	overscroll-behavior: contain;
 }
 
 lite-youtube {

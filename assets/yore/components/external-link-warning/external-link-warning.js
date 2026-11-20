@@ -1,4 +1,3 @@
-
 function init() {
 	const text = document.documentElement.dataset.externalLinkWarning;
 

@@ -36,6 +36,8 @@ export function runRouteHooks() {
 		}
 	}
 	if (process.env.NODE_ENV !== 'production') {
-		console.debug(`yore: route hooks ${hooks.size}, cleanups ${cleanups.length}, ${(performance.now() - start).toFixed(1)}ms`);
+		console.debug(
+			`yore: route hooks ${hooks.size}, cleanups ${cleanups.length}, ${(performance.now() - start).toFixed(1)}ms`,
+		);
 	}
 }

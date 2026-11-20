@@ -1,4 +1,3 @@
-
 function init() {
 	const header = document.getElementById('site-header');
 

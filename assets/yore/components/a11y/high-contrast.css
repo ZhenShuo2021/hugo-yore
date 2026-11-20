@@ -103,7 +103,14 @@ html[data-a11y-high-contrast][data-theme] {
 	--pf-error-border: #ff0;
 	--pf-error-text: #ff0;
 	--pf-error-text-secondary: #ff0;
+}
 
+html[data-a11y-high-contrast] :not(pre) > code {
+	border-color: #ff0;
+}
+
+html[data-a11y-high-contrast] .prose,
+html[data-a11y-high-contrast] .dark\:prose-invert {
 	--tw-prose-body: #ff0;
 	--tw-prose-headings: #ff0;
 	--tw-prose-lead: #ff0;

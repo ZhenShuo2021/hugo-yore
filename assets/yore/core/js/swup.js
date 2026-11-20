@@ -16,7 +16,7 @@ export function init() {
 			new SwupHeadPlugin({
 				attributes: ['lang', 'dir', 'data-page-kind', 'data-page-type'],
 				awaitAssets: true,
-				persistTags: 'link[rel=stylesheet]',
+				persistAssets: true,
 			}),
 			new SwupPreloadPlugin(),
 		],

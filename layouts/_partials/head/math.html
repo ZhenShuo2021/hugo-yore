@@ -1,5 +1,9 @@
 <style id="yore-math-style">
-	mjx-container {
+	/* display=true: block only */
+	.mathjax-src:has(> mjx-container[display='true']) {
+		display: block;
+		width: 100%;
+		max-width: 100%;
 		overflow-x: auto;
 	}
 	mjx-container[display] {

@@ -23,6 +23,9 @@
 		background-color: color-mix(in srgb, var(--foreground) 6%, var(--background));
 	}
 }
+html[data-a11y-high-contrast] .copy-button {
+	color: var(--foreground);
+}
 .copy-button:hover {
 	color: var(--foreground);
 }

@@ -73,6 +73,10 @@ html[data-theme='dark'] code:not(pre code) {
 	}
 }
 
+html[data-a11y-high-contrast] .codeblock-title {
+	background-color: var(--background);
+}
+
 /* LineTableTD */
 .chroma .lntd,
 .chroma .lntd pre {

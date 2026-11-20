@@ -74,7 +74,8 @@ function init(scope = document) {
 		const preload = () => {
 			timer = setTimeout(warm, 5000);
 		};
-		document.readyState === 'complete' ? preload() : addEventListener('load', preload, { once: true, signal });
+		if (document.readyState === 'complete') preload();
+		else addEventListener('load', preload, { once: true, signal });
 
 		observer = new IntersectionObserver(
 			(entries) => {
@@ -85,7 +86,8 @@ function init(scope = document) {
 			{ rootMargin: '200% 0px', threshold: 0 },
 		);
 		const observe = () => galleries.forEach((el) => observer.observe(el));
-		document.readyState === 'complete' ? observe() : addEventListener('load', observe, { once: true, signal });
+		if (document.readyState === 'complete') observe();
+		else addEventListener('load', observe, { once: true, signal });
 	}
 
 	current = { cleanup };

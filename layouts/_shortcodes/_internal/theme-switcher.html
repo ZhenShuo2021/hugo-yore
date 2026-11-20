@@ -11,7 +11,7 @@
 {{- end -}}
 {{- $schemesDataFinal := $schemesData.Get "data" -}}
 
-{{- $js := resources.Get "yore/components/_internal/theme-switcher/index.js" -}}
+{{- $js := resources.Get "yore/components/_internal/theme-switcher/theme-switcher.js" -}}
 {{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
 {{- $libs := slice
 	(dict "src" "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js" "integrity" "sha512-OeZ4Yrb/W7d2W4rAMOO0HQ9Ro/aWLtpW9BUSR2UOWnSV2hprXLkkYnnCGc9NeLUxxE4ZG7zN16UuT1Elqq8Opg==")

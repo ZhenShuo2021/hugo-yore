@@ -1,6 +1,6 @@
 {{- $copy := resources.Get "yore/icons/iconoir/regular/copy.svg" -}}
 {{- $check := resources.Get "yore/icons/iconoir/regular/check.svg" -}}
-{{- $js := resources.Get "yore/components/_internal/copy-setting/index.js" -}}
+{{- $js := resources.Get "yore/components/_internal/copy-setting/copy-setting.js" -}}
 {{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end -}}
 {{- $noop := $js.RelPermalink -}}
 <style>

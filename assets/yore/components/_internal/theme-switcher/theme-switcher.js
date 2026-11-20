@@ -50,7 +50,7 @@ export default function (root) {
 	let schemes = {};
 	try {
 		schemes = JSON.parse(root.dataset.schemes || '{}');
-	} catch (e) {}
+	} catch {}
 
 	/* rewrite html[data-color-scheme="xxx"] selector name to newName,
 		so an imported scheme's CSS matches whatever name it's applied under */
@@ -122,10 +122,10 @@ export default function (root) {
 			});
 		});
 		/* apply default on load */
-		const active = picker.querySelector('.ts-pill.on') || pills[0];
-		if (active) {
-			active.classList.add('on');
-			const n = active.dataset.scheme;
+		const defaultPill = picker.querySelector('.ts-pill.on') || pills[0];
+		if (defaultPill) {
+			defaultPill.classList.add('on');
+			const n = defaultPill.dataset.scheme;
 			if (schemes[n]) apply(schemes[n], n);
 		}
 	}
@@ -150,7 +150,7 @@ export default function (root) {
 		const drop = document.getElementById('loadDrop');
 		drop.innerHTML = '';
 		Object.entries(schemes)
-			.sort(([a], [b]) => a.localeCompare(b))
+			.toSorted(([a], [b]) => a.localeCompare(b))
 			.forEach(([name, css]) => {
 				const item = document.createElement('div');
 				item.className = 'ts-load-item';
@@ -197,7 +197,7 @@ export default function (root) {
 		if (!ta) return;
 		try {
 			await loadLibs(JSON.parse(root.dataset.libs || '[]'));
-		} catch (e) {
+		} catch {
 			cmInit = null;
 			return;
 		}

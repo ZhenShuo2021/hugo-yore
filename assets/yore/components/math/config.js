@@ -1,26 +1,3 @@
-// called by swup hook
-// this is inferred from the source code of mathjax and only for v4.1.1
-const resetMath = () => {
-	const doc = window.MathJax.startup?.document;
-	if (!doc) return;
-	doc.clear();
-	doc.reset({ all: true });
-};
-
-let chain = Promise.resolve();
-
-window.__mathTypeset = () => {
-	chain = chain
-		.catch(() => {})
-		.then(() => {
-			resetMath();
-			return window.MathJax.typesetPromise?.();
-		});
-	return chain;
-};
-
-window.__mathClear = resetMath;
-
 window.MathJax = {
 	loader: {
 		paths: {
@@ -66,9 +43,5 @@ window.MathJax = {
 	},
 	startup: {
 		typeset: false,
-		ready: () => {
-			MathJax.startup.defaultReady();
-			MathJax.startup.promise.then(() => window.__mathTypeset());
-		},
 	},
 };

@@ -1,10 +1,6 @@
 import { params } from '../../core/js/utils.js';
 import { defineModule } from '../../core/js/modules.js';
 
-const CONFIG = {
-	tocSelector: '.toc-sidebar',
-};
-
 function getVisibleBoundingClientRect(element) {
 	const rect = element.getBoundingClientRect();
 	const hasNoHeight = rect.top === rect.bottom;
@@ -15,7 +11,7 @@ function getVisibleBoundingClientRect(element) {
 }
 
 function getTocLinks() {
-	const toc = document.querySelector(CONFIG.tocSelector);
+	const toc = document.querySelector('.toc-sidebar');
 	if (!toc) return [];
 	return Array.from(toc.querySelectorAll('a[href^="#"]'));
 }

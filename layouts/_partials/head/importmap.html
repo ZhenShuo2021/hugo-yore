@@ -34,15 +34,11 @@
 		{{- $urls = merge $urls (dict "echartsJS" .RelPermalink) -}}
 		{{- $integrity = merge $integrity (dict .RelPermalink .Data.Integrity) -}}
 	{{- end -}}
-	{{- with resources.Get "yore/shortcodes/charts/index.js" | fingerprint -}}
-		{{- $urls = merge $urls (dict "chartsJS" .RelPermalink) -}}
-		{{- $integrity = merge $integrity (dict .RelPermalink .Data.Integrity) -}}
-	{{- end -}}
 
-	{{- with resources.Get "yore/components/math/index.js" | js.Build $opts -}}
+	{{- with resources.Get "yore/components/math/config.js" | js.Build $opts -}}
 		{{- $js := . -}}
 		{{- if hugo.IsProduction -}}{{- $js = $js | fingerprint -}}{{- end -}}
-		{{- $urls = merge $urls (dict "mathJS" $js.RelPermalink) -}}
+		{{- $urls = merge $urls (dict "mathConfig" $js.RelPermalink) -}}
 		{{- with $js.Data.Integrity -}}
 			{{- $integrity = merge $integrity (dict $js.RelPermalink .) -}}
 		{{- end -}}

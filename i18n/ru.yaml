@@ -57,9 +57,11 @@ components:
     label: Структура файлов
     omitted: Пропущенное содержимое
 docs:
+  hide_sidebar: Скрыть боковую панель
   nav_label: Документация
   next: Далее
   prev: Назад
+  show_sidebar: Показать боковую панель
   toc_label: Содержание
   toc_nav_label: На этой странице
 error:

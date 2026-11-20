@@ -184,12 +184,45 @@ function initDrawer(signal) {
 	mql.addEventListener('change', onMediaChange, { signal });
 }
 
+// The hidden state lives on <html> so it survives swup replacing the sidebar
+const SIDEBAR_HIDDEN_ATTR = 'data-docs-sidebar-hidden';
+
+function initSidebarHideButton(aside, signal) {
+	const hideButton = aside.querySelector('.yr-docs-sidebar-hide-button');
+	const sidebarPanel = aside.querySelector('.yr-docs-sidebar-panel');
+	if (!hideButton || !sidebarPanel) return;
+	const root = document.documentElement;
+	const desktopMql = matchMedia(DRAWER_MEDIA);
+
+	const syncSidebarHidden = () => {
+		const isHidden = root.hasAttribute(SIDEBAR_HIDDEN_ATTR);
+		const label = isHidden ? hideButton.dataset.labelShow : hideButton.dataset.labelHide;
+		hideButton.setAttribute('title', label);
+		hideButton.setAttribute('aria-label', label);
+		// The panel is only faded out, so inert removes its links from keyboard navigation
+		// The mobile drawer ignores the hidden state
+		sidebarPanel.inert = isHidden && desktopMql.matches;
+	};
+
+	syncSidebarHidden();
+	hideButton.addEventListener(
+		'click',
+		() => {
+			root.toggleAttribute(SIDEBAR_HIDDEN_ATTR);
+			syncSidebarHidden();
+		},
+		{ signal },
+	);
+	desktopMql.addEventListener('change', syncSidebarHidden, { signal });
+}
+
 // --- Init ---
 // The sidebar persists within one docsRoot and is replaced otherwise, so it mounts once per sidebar element
 function initDocsNav(aside, { signal }) {
 	const nav = aside.querySelector(NAV_SELECTOR);
 
 	initDrawer(signal);
+	initSidebarHideButton(aside, signal);
 	if (!nav) return;
 
 	syncActive(nav);

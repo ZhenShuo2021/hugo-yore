@@ -57,9 +57,11 @@ components:
     label: 文件结构
     omitted: 省略的内容
 docs:
+  hide_sidebar: 隐藏侧边栏
   nav_label: 文档
   next: 下一页
   prev: 上一页
+  show_sidebar: 显示侧边栏
   toc_label: 目录
   toc_nav_label: 本页目录
 error:

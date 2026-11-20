@@ -57,9 +57,11 @@ components:
     label: Struktur berkas
     omitted: Konten yang dihilangkan
 docs:
+  hide_sidebar: Sembunyikan bilah samping
   nav_label: Dokumentasi
   next: Berikutnya
   prev: Sebelumnya
+  show_sidebar: Tampilkan bilah samping
   toc_label: Daftar isi
   toc_nav_label: Di halaman ini
 error:

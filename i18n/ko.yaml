@@ -57,9 +57,11 @@ components:
     label: 파일 구조
     omitted: 생략된 내용
 docs:
+  hide_sidebar: 사이드바 숨기기
   nav_label: 문서
   next: 다음
   prev: 이전
+  show_sidebar: 사이드바 표시
   toc_label: 목차
   toc_nav_label: 이 페이지
 error:

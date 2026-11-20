@@ -57,9 +57,11 @@ components:
     label: Structura fișierelor
     omitted: Conținut omis
 docs:
+  hide_sidebar: Ascunde bara laterală
   nav_label: Documentație
   next: Următorul
   prev: Anterior
+  show_sidebar: Afișează bara laterală
   toc_label: Cuprins
   toc_nav_label: Pe această pagină
 error:

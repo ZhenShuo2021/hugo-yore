@@ -244,6 +244,7 @@ params:
   # docsIcon: "xmark" # Icon shown in the docs nav bar
   # docsNavClass: "bg-success" # Extra classes applied to the docs nav
   docsAutoCollapseCategories: true # Automatically collapse other categories in the docs nav when one is expanded
+  docsSidebarHidable: true # Show a button that hides the docs sidebar on desktop on desktop
 
   # These are parameters in https://gohugo.io/methods/pages/
   # sectionSortBy: Weight # Field used to sort pages within a section. [Date | ExpiryDate | Lastmod | Length | LinkTitle | PublishDate | Title | Weight | Param.[FRONT_MATTER_KEY]]

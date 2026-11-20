@@ -57,9 +57,11 @@ components:
     label: ファイル構造
     omitted: 省略された内容
 docs:
+  hide_sidebar: サイドバーを非表示
   nav_label: ドキュメント
   next: 次へ
   prev: 前へ
+  show_sidebar: サイドバーを表示
   toc_label: 目次
   toc_nav_label: このページ
 error:

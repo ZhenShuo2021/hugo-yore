@@ -57,9 +57,11 @@ components:
     label: โครงสร้างไฟล์
     omitted: เนื้อหาที่ถูกละไว้
 docs:
+  hide_sidebar: ซ่อนแถบด้านข้าง
   nav_label: เอกสาร
   next: ถัดไป
   prev: ก่อนหน้า
+  show_sidebar: แสดงแถบด้านข้าง
   toc_label: สารบัญ
   toc_nav_label: ในหน้านี้
 error:

@@ -57,9 +57,11 @@ components:
     label: Dosya yapısı
     omitted: Atlanan içerik
 docs:
+  hide_sidebar: Kenar çubuğunu gizle
   nav_label: Dokümantasyon
   next: Sonraki
   prev: Önceki
+  show_sidebar: Kenar çubuğunu göster
   toc_label: İçindekiler
   toc_nav_label: Bu sayfada
 error:

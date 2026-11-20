@@ -34,6 +34,7 @@ Accepted fields for individual pages of type `docs`. All settings can be overrid
 | --- | --- | --- |
 | `docsNavCollapsed` | `boolean` | Collapse this section by default in the sidebar navigation. Only applies to section pages. |
 | `docsAutoCollapseCategories` | `boolean` | Auto collapse other sections when expanding one. Cannot be overridden in the front matter. |
+| `docsSidebarHidable` | `boolean` | Show a button that hides the sidebar on desktop. Cannot be overridden in the front matter. |
 | `docsIcon` | `string` | Icon shown next to this page or section in the sidebar navigation. |
 | `docsNavClass` | `string` | Additional CSS class applied to the sidebar nav. |
 

@@ -57,9 +57,11 @@ components:
     label: Structure des fichiers
     omitted: Contenu omis
 docs:
+  hide_sidebar: Masquer la barre latérale
   nav_label: Documentation
   next: Suivant
   prev: Précédent
+  show_sidebar: Afficher la barre latérale
   toc_label: Table des matières
   toc_nav_label: Sur cette page
 error:

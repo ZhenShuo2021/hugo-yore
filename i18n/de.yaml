@@ -57,9 +57,11 @@ components:
     label: Dateistruktur
     omitted: Ausgelassener Inhalt
 docs:
+  hide_sidebar: Seitenleiste ausblenden
   nav_label: Dokumentation
   next: Weiter
   prev: Zurück
+  show_sidebar: Seitenleiste einblenden
   toc_label: Inhaltsverzeichnis
   toc_nav_label: Seiteninhalt
 error:

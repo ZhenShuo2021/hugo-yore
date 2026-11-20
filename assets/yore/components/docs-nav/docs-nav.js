@@ -15,15 +15,15 @@ function applyCollapsed(nav, pageUid, collapsed) {
 }
 
 function syncActive(nav) {
-	nav.querySelectorAll('.docs-nav__link--active').forEach((el) => {
-		el.classList.remove('docs-nav__link--active');
+	nav.querySelectorAll('a[data-active]').forEach((el) => {
+		el.removeAttribute('data-active');
 		el.removeAttribute('aria-current');
 	});
 	const active = Array.from(nav.querySelectorAll('a[data-page-uid]')).find(
 		(a) => a.pathname === location.pathname,
 	);
 	if (!active) return;
-	active.classList.add('docs-nav__link--active');
+	active.setAttribute('data-active', '');
 	active.setAttribute('aria-current', 'page');
 
 	// Ancestor sections of the current page must be expanded, otherwise users can't tell where they are
@@ -33,7 +33,7 @@ function syncActive(nav) {
 		list;
 		list = list.parentElement.closest('[data-section-list]')
 	) {
-		list.previousElementSibling.classList.add('docs-nav__link--active');
+		list.previousElementSibling.setAttribute('data-active', '');
 		applyCollapsed(nav, list.dataset.pageUid, false);
 	}
 }

@@ -43,7 +43,7 @@
 		width: 100%;
 	}
 
-	.yr-header-active {
+	#site-header [data-active] {
 		color: var(--color-primary);
 		[data-dropdown-menu] & {
 			background-color: var(--color-muted);

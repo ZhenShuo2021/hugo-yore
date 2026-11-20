@@ -41,7 +41,8 @@ a[data-depth='0'] {
 	border-inline-start-width: 0px;
 }
 
-.docs-nav__link--active {
+.docs-nav__link[data-active],
+[data-section-trigger][data-active] {
 	color: var(--link-hover);
 	border-color: var(--link-hover);
 	font-weight: bold;

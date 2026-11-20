@@ -80,7 +80,7 @@ html[data-a11y-reduce-transparency='true'][data-theme='dark'] .a11y-drawer::back
 }
 
 /* options */
-.a11y-levels__dot.active {
+.a11y-levels__dot[data-active] {
 	opacity: 1;
 	background: var(--color-brand-500);
 }

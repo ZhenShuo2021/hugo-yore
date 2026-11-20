@@ -23,7 +23,7 @@
 }
 
 /* Sidebar TOC */
-.toc-sidebar a.toc--active {
+.toc-sidebar a[data-active] {
 	color: var(--link-hover);
 	border-inline-start-color: var(--link-hover);
 }

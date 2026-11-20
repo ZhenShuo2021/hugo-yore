@@ -15,7 +15,7 @@ function activatePanel(container, activeIndex) {
 	panels.forEach((panel, index) => {
 		const isActive = index === activeIndex;
 
-		panel.classList.toggle('tab--active', isActive);
+		panel.toggleAttribute('data-active', isActive);
 		panel.hidden = isActive ? false : 'until-found';
 		if (isActive) panel.tabIndex = 0;
 		else panel.removeAttribute('tabindex');

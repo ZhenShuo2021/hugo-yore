@@ -56,7 +56,7 @@
 .tab__button[aria-selected='true'] {
 	border-bottom-color: currentColor;
 }
-.tab__panel:not(.tab--active):has([id^='echart-'], .mermaid) {
+.tab__panel:not([data-active]):has([id^='echart-'], .mermaid) {
 	display: block;
 	height: 0;
 	overflow: hidden;

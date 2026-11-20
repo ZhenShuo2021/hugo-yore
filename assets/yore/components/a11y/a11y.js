@@ -43,7 +43,7 @@ function initCycle(key, btnId, min, max, current) {
 
 	const render = (level, speak) => {
 		btn.querySelectorAll('.a11y-levels__dot').forEach((dot) => {
-			dot.classList.toggle('active', Number(dot.dataset.level) === level);
+			dot.toggleAttribute('data-active', Number(dot.dataset.level) === level);
 		});
 		const label = `${btn.dataset.label}, ${level - min + 1} / ${max - min + 1}`;
 		btn.setAttribute('aria-label', label);

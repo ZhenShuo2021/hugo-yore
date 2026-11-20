@@ -75,7 +75,7 @@ The `define` name determines how to call it:
 ## CSS Rules
 
 1. Always use Tailwind CSS.
-2. Put variant classes (e.g. `yr-active`) in a standalone CSS file under `assets/yore/components/<name>/`.
+2. Put variant classes (e.g. `data-active`) in a standalone CSS file under `assets/yore/components/<name>/`.
 3. Prefix all custom classes with `yr-`.
 4. Put reusable atomic utility classes in `assets/yore/core/css/utilities.css`.
 

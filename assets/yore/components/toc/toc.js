@@ -3,7 +3,6 @@ import { defineModule } from '../../core/js/modules.js';
 
 const CONFIG = {
 	tocSelector: '.toc-sidebar',
-	linkActiveClassName: 'toc--active',
 };
 
 function getVisibleBoundingClientRect(element) {
@@ -90,12 +89,12 @@ function updateActiveLink() {
 		const isActive = link === activeLink;
 		if (isActive) {
 			if (lastActiveLink && lastActiveLink !== link) {
-				lastActiveLink.classList.remove(CONFIG.linkActiveClassName);
+				lastActiveLink.removeAttribute('data-active');
 			}
-			link.classList.add(CONFIG.linkActiveClassName);
+			link.setAttribute('data-active', '');
 			lastActiveLink = link;
 		} else {
-			link.classList.remove(CONFIG.linkActiveClassName);
+			link.removeAttribute('data-active');
 		}
 	});
 }

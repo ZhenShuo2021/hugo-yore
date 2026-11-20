@@ -30,7 +30,8 @@
 
 <div
 	id="{{ $panelID }}"
-	class="tab__panel {{ cond $isActive `tab--active` `` }}"
+	class="tab__panel"
+	{{- cond $isActive ` data-active` ` ` | safeHTMLAttr }}
 	role="tabpanel"
 	aria-labelledby="{{ $tabID }}"
 	{{- if $isActive }}

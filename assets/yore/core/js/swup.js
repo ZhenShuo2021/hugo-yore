@@ -83,7 +83,7 @@ export function init() {
 		const sel = '#site-header a, #site-header [data-dropdown-toggle]';
 		const next = visit.to.document.querySelectorAll(sel);
 		document.querySelectorAll(sel).forEach((el, i) => {
-			el.classList.toggle('yr-header-active', next[i].classList.contains('yr-header-active'));
+			el.toggleAttribute('data-active', next[i].hasAttribute('data-active'));
 			const current = next[i].getAttribute('aria-current');
 			current ? el.setAttribute('aria-current', current) : el.removeAttribute('aria-current');
 		});

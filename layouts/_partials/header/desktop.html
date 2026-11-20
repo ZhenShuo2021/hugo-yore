@@ -79,8 +79,8 @@
 		{{- $isActive = or $isCurrent ($context.HasMenuCurrent "main" $item) -}}
 	{{- end -}}
 
-	{{- $activeClass := cond $isActive " yr-header-active" "" -}}
-	{{- $activeClass = cond (site.Params.headerMenuHighlight | default true) $activeClass "" -}}
+	{{- $activeAttr := cond $isActive " data-active" " " -}}
+	{{- $activeAttr = cond (site.Params.headerMenuHighlight | default true) $activeAttr "" | safeHTMLAttr -}}
 	{{- $ariaLabel := printf " aria-label=%q" (or $item.KeyName) | safeHTMLAttr -}}
 	{{- $ariaCurrent := cond $isCurrent " aria-current=page" (cond $isActive " aria-current=true" "") | safeHTMLAttr -}}
 
@@ -89,7 +89,8 @@
 			<div class="relative flex" data-nav-item data-module="nested-menu">
 				<button
 					type="button"
-					class="{{ $activeClass }} text-foreground hover:text-link-hover me-[-0.4em] flex items-center gap-1.5 font-medium"
+					class="text-foreground hover:text-link-hover me-[-0.4em] flex items-center gap-1.5 font-medium"
+					{{- $activeAttr }}
 					aria-expanded="false"
 					aria-controls="submenu-{{ .KeyName | anchorize }}"
 					data-dropdown-toggle>
@@ -117,9 +118,9 @@
 								{{- end -}}
 								<a
 									href="{{ or .Params.URL .URL }}"
-									class="{{ cond $childActive "yr-header-active" "" }} hover:bg-muted text-popover-foreground flex items-center gap-2 rounded p-1.5 text-sm transition-colors"
+									class="hover:bg-muted text-popover-foreground flex items-center gap-2 rounded p-1.5 text-sm transition-colors"
 									aria-label="{{ or .Name .Params.icon }}"
-									{{ if $childActive }}aria-current="page"{{ end }}>
+									{{ if $childActive }}data-active aria-current="page"{{ end }}>
 									{{- .Pre -}}
 									{{- with .Params.icon -}}
 										{{- partial "components/icon.html" . -}}
@@ -139,12 +140,13 @@
 		{{- with $item -}}
 			<a
 				href="{{ or $item.Params.URL $item.URL }}"
-				class="{{ $activeClass }} text-foreground hover:text-link-hover {{ if not .Name -}}
+				class="text-foreground hover:text-link-hover {{ if not .Name -}}
 					p-2 -m-2
 				{{- end }} flex items-center font-medium"
-				{{ $ariaLabel }}
-				{{ with .Params.icon }}{{ (printf ` title="%s"` .) | safeHTMLAttr }}{{ end }}
-				{{ if $isActive }}{{ $ariaCurrent }}{{ end }}>
+				{{- $activeAttr }}
+				{{- $ariaLabel }}
+				{{- with .Params.icon }}{{ (printf ` title="%s"` .) | safeHTMLAttr }}{{ end }}
+				{{- if $isActive }}{{ $ariaCurrent }}{{ end }}>
 				{{- .Pre -}}
 				{{- if .Params.icon -}}
 					{{- if not .Name -}}

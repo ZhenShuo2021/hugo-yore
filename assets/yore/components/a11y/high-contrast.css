@@ -50,7 +50,7 @@ html[data-a11y-high-contrast][data-theme] {
 		outline: 3px solid #ff0 !important;
 		outline-offset: 2px;
 	}
-	.docs-nav__link--active {
+	.docs-nav__link[data-active] {
 		font-weight: bold;
 		border: 2px solid #ff0;
 	}
@@ -318,7 +318,7 @@ html[data-a11y-high-contrast] .a11y-levels__dot {
 	background: gray;
 	opacity: 0.5;
 }
-html[data-a11y-high-contrast] .a11y-levels__dot.active {
+html[data-a11y-high-contrast] .a11y-levels__dot[data-active] {
 	background: #ff0;
 	opacity: 1;
 }
@@ -330,7 +330,7 @@ html[data-a11y-high-contrast]
 		[aria-current='page'],
 		[aria-selected='true'],
 		[role='doc-noteref'],
-		.tab--active,
+		.tab__panel[data-active],
 		:focus-visible
 	) {
 	background-color: #000;

@@ -27,7 +27,6 @@ function initRovingTabindex(nav) {
 	const links = nav.querySelectorAll('a[data-depth]');
 	if (links.length === 0) return;
 
-	const active = nav.querySelector('a.docs-nav__link--active') || links[0];
 	setTabbable(nav, links[0]);
 
 	nav.addEventListener('keydown', (e) => {

@@ -22,10 +22,8 @@
 						{{- $isCurrent := eq .Site.Version.Name $.Site.Version.Name -}}
 						<a
 							href="{{ .RelPermalink }}"
-							class="text-popover-foreground {{ if $isCurrent -}}
-								yr-header-active
-							{{- end }} hover:text-link-hover hover:bg-muted flex items-center rounded p-1.5 text-sm whitespace-nowrap transition-colors"
-							{{ if $isCurrent }}aria-current="true"{{ end }}>
+							class="text-popover-foreground hover:text-link-hover hover:bg-muted flex items-center rounded p-1.5 text-sm whitespace-nowrap transition-colors"
+							{{ if $isCurrent }}data-active aria-current="true"{{ end }}>
 							<span class="min-w-20">{{ .Site.Version.Name }}</span>
 						</a>
 					{{- end -}}

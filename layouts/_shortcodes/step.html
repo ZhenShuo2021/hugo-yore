@@ -22,7 +22,10 @@
 		{{- else if $label -}}
 			<span aria-hidden="true">{{- $label | emojify -}}</span>
 		{{- else if $number -}}
-			<span class="step-number" style="counter-increment: step-counter;" aria-hidden="true"></span>
+			<span
+				class="before:content-[counter(step-counter)]"
+				style="counter-increment: step-counter;"
+				aria-hidden="true"></span>
 		{{- end -}}
 	</span>
 	<div class="step-content">

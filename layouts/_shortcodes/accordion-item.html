@@ -3,17 +3,18 @@
 {{- $exclusive := .Parent.Get "exclusive" | partial "lib/tobool.html" -}}
 {{- $separated := .Parent.Get "separated" | partial "lib/tobool.html" -}}
 <details
-	class="accordion-item {{ if $separated }}border-border overflow-hidden rounded-xl border shadow-sm{{ end }}"
+	class="group/item {{ if $separated }}border-border overflow-hidden rounded-xl border shadow-sm{{ end }}"
 	{{- if $exclusive }}name="accordion-{{ .Parent.Ordinal }}"{{ end }}
 	{{- if $open }}open{{ end }}>
 	<summary
-		class="text-foreground hover:bg-muted flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-sm font-medium transition-colors duration-(--dur-150)">
+		class="group-open/item:bg-muted text-foreground hover:bg-muted flex w-full cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-left text-sm font-medium transition-colors duration-(--dur-150) focus-visible:rounded-[0.7rem] focus-visible:outline-offset-[-1px] [&::-webkit-details-marker]:hidden">
 		<span>{{ $title | .Page.RenderString }}</span>
-		<span class="accordion-icon">
+		<span
+			class="group-open/item:rotate-90 motion-safe:[html:not([data-a11y-reduce-motion])_&]:transition-[rotate] motion-safe:[html:not([data-a11y-reduce-motion])_&]:duration-250 motion-safe:[html:not([data-a11y-reduce-motion])_&]:ease-in-out">
 			{{- partialCached "components/icon.html" "nav-arrow-right" "icon-nav-arrow-right" -}}
 		</span>
 	</summary>
-	<div class="accordion-item-content px-5 py-4">
+	<div class="px-5 py-4 [&>*:first-child]:!mt-0 [&>*:last-child]:!mb-0">
 		{{- .Inner -}}
 	</div>
 </details>

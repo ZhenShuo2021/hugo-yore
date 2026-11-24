@@ -16,7 +16,6 @@ static
 *.md
 
 layouts/_markup
-layouts/_shortcodes/float.html
 layouts/_shortcodes/tree.html
 layouts/_partials/components/card-media.html
 layouts/_partials/components/card-shell-head.html

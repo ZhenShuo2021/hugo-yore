@@ -17,17 +17,23 @@
 {{- end -}}
 
 {{- /* CSS */ -}}
-{{- $buildOpts := dict
-	"minify" (hugo.IsProduction)
-	"target" (slice "chrome121" "firefox122" "safari17.3")
--}}
-
-{{- with resources.Get "yore/core/css/main.css" | resources.ExecuteAsTemplate "css/main-bundle.css" . -}}
-	{{- with . | css.Build $buildOpts -}}
-		{{- $css := . -}}
-		{{- if hugo.IsProduction -}}{{- $css = $css | fingerprint -}}{{- end -}}
-		<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- define "_partials/inline/main-css" -}}
+	{{- $buildOpts := dict
+		"minify" (hugo.IsProduction)
+		"target" (slice "chrome121" "firefox122" "safari17.3")
+	-}}
+	{{- with resources.Get "yore/core/css/main.css" | resources.ExecuteAsTemplate "css/main-bundle.css" . -}}
+		{{- with . | css.Build $buildOpts -}}
+			{{- $css := . -}}
+			{{- if hugo.IsProduction -}}{{- $css = $css | fingerprint -}}{{- end -}}
+			{{- hugo.Store.Add "swPrecache" (slice $css.RelPermalink) -}}
+			{{- return $css -}}
+		{{- end -}}
 	{{- end -}}
+{{- end -}}
+
+{{- with partialCached "inline/main-css" . -}}
+	<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
 {{- end -}}
 
 {{- if site.Params.hugoTailwind -}}
@@ -94,11 +100,14 @@
 		-}}
 		{{- $mainJS = . | js.Build $opts -}}
 		{{- if hugo.IsProduction -}}{{- $mainJS = $mainJS | fingerprint -}}{{- end -}}
+		{{- hugo.Store.Add "swPrecache" (slice $mainJS.RelPermalink) -}}
 		{{- return $mainJS -}}
 	{{- end -}}
 {{- end -}}
-{{- $mainJS := partial "inline/main-js" . -}}
-<script type="module" src="{{ $mainJS.RelPermalink }}" integrity="{{ $mainJS.Data.Integrity }}"></script>
+
+{{- with partialCached "inline/main-js" . -}}
+	<script type="module" src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
+{{- end -}}
 
 {{- /* ========== End of core resources ========== */ -}}
 

@@ -3,17 +3,23 @@
 {{- $default := .Get "default" -}}
 {{- $uid := .Ordinal -}}
 
-{{- $attrs := "" -}}
+{{- $attrs := " " -}}
 {{- with .Get "group" }}{{ $attrs = printf `%s data-tab-group="%s"` $attrs . }}{{ end -}}
 {{- with .Get "default" }}{{ $attrs = printf `%s data-default-tab="%s"` $attrs . }}{{ end -}}
 
-{{- $tablistAttrs := "" -}}
+{{- $tablistAttrs := " " -}}
 {{- with .Get "ariaLabel" }}
 	{{- $tablistAttrs = printf `%s aria-label="%s"` $tablistAttrs . }}
 {{- end }}
-<div class="tab__container my-4 w-full" data-module="tabs" {{ $attrs | safeHTMLAttr }}>
-	<div class="tab__nav">
-		<div class="tab__tablist" focusgroup="tablist nomemory" {{ $tablistAttrs | safeHTMLAttr }}>
+<div
+	class="tab__container border-border bg-background my-4 w-full overflow-hidden rounded-xs border shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
+	data-module="tabs"
+	{{- $attrs | safeHTMLAttr }}>
+	<div class="tab__nav border-border bg-muted border-b px-2 py-[0.3rem]">
+		<div
+			class="tab__tablist flex gap-1 overflow-x-auto"
+			focusgroup="tablist nomemory"
+			{{- $tablistAttrs | safeHTMLAttr }}>
 			{{- range $nTabs, $_ := .Store.Get "tabs" -}}
 				{{- $isActive := false -}}
 				{{- if $default -}}
@@ -24,7 +30,7 @@
 				<button
 					type="button"
 					id="tab-{{ $uid }}-{{ $nTabs }}"
-					class="tab__button hover:bg-muted rounded-t-xs border-b-2 border-transparent px-3 py-2 text-sm font-semibold transition-colors duration-(--dur-200)"
+					class="tab__button aria-selected:bg-background relative flex-none rounded-xs rounded-t-xs border-b-2 border-transparent px-3 py-2 text-sm font-semibold outline-offset-1 transition-colors duration-(--dur-200) hover:bg-[color-mix(in_srgb,var(--color-background),rgba(0,0,0,0.15)_80%)] aria-selected:border-current aria-selected:shadow-sm"
 					aria-selected="{{ cond $isActive `true` `false` }}"
 					{{- if $isActive }}focusgroupstart{{ end }}
 					data-tab-index="{{ $nTabs }}"

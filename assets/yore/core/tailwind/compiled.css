@@ -1430,12 +1430,6 @@
     --tw-scale-z: calc(100% * -1);
     scale: var(--tw-scale-x) var(--tw-scale-y);
   }
-  .scale-50 {
-    --tw-scale-x: 50%;
-    --tw-scale-y: 50%;
-    --tw-scale-z: 50%;
-    scale: var(--tw-scale-x) var(--tw-scale-y);
-  }
   .-scale-x-100 {
     --tw-scale-x: calc(100% * -1);
     scale: var(--tw-scale-x) var(--tw-scale-y);
@@ -1444,8 +1438,8 @@
     --tw-scale-y: calc(100% * -1);
     scale: var(--tw-scale-x) var(--tw-scale-y);
   }
-  .-rotate-15 {
-    rotate: calc(15deg * -1);
+  .\[transform\:scale\(0\.5\)_rotate\(-15deg\)\] {
+    transform: scale(0.5) rotate(-15deg);
   }
   .transform {
     transform: var(--tw-rotate-x, ) var(--tw-rotate-y, ) var(--tw-rotate-z, ) var(--tw-skew-x, ) var(--tw-skew-y, );

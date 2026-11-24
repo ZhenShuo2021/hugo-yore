@@ -1,7 +1,7 @@
 import { defineModule } from '../../core/js/modules.js';
 
-const POPOVER_POLYFILL = 'https://unpkg.com/@oddbird/popover-polyfill@latest/dist/popover.min.js';
-const INVOKERS_POLYFILL = 'https://esm.run/invokers-polyfill@latest';
+const POPOVER_POLYFILL = 'https://cdn.jsdelivr.net/npm/@oddbird/popover-polyfill@0.5.1/dist/popover.min.js';
+const INVOKERS_POLYFILL = 'https://cdn.jsdelivr.net/npm/invokers-polyfill@0.6.1/+esm';
 
 // The popover polyfill injects UA-like styles (inset, margin: auto, fit-content, border,
 // padding, background) that override the site styles. Save the original computed styles

@@ -29,6 +29,9 @@
 {{ if site.Params.codeCopy }}
 	@import "../../components/code/copy.css" layer(yore);
 {{ end }}
+{{ if site.Params.scrollToTop }}
+	@import "../../components/scroll-to-top/scroll-to-top.css" layer(yore);
+{{ end }}
 @import "../../components/docs-nav/docs.css" layer(yore);
 @import "../../components/knowledge-graph/knowledge-graph.css";
 @import "../../components/page-actions/page-actions.css" layer(yore);

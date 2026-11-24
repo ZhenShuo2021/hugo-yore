@@ -324,6 +324,9 @@
   .inset-0 {
     inset: 0px;
   }
+  .inset-\[1px\] {
+    inset: 1px;
+  }
   .inset-x-0 {
     inset-inline: 0px;
   }

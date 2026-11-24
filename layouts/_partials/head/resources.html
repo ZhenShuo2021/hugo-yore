@@ -80,7 +80,10 @@
 		-}}
 		{{- $dyn := partialCached "inline/dynamic-js" $ "dynamic" -}}
 		{{- $jsParams = merge $jsParams $dyn.urls -}}
-		{{- $defines := dict "process.env.NODE_ENV" (cond hugo.IsProduction "\"production\"" "\"development\"") -}}
+		{{- $defines := dict
+			"process.env.NODE_ENV" (cond hugo.IsProduction "\"production\"" "\"development\"")
+			"__READING_PROGRESS__" (cond (site.Params.readingProgress | default false) "true" "false")
+		-}}
 		{{- $opts := dict
 			"format" "esm"
 			"minify" hugo.IsProduction

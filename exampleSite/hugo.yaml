@@ -273,11 +273,12 @@ params:
   mermaidZoom: true # Enable pan and zoom controls on mermaid diagrams
   menuHighlight: true # Highlight the current page's entry in the navigation menu
   scrollToTop: true # Show a "scroll to top" button
+  readingProgress: true # Show reading progress on scroll to top button
   tocHighlight: true # Highlight the current section in the table of contents while scrolling
   footnoteTooltip: true # Show footnote content in a hover tooltip instead of only jumping to it
   hugoTailwind: false # Use Hugo's built-in Tailwind CSS pipeline
   versionSwitcher: false # Show a version switcher for versioned docs
-  repoURL: https://github.com/ZhenShuo2021/hugo-yore/blob/main # Page actions: Base URL to the repository's branch root, used to build "edit this page" / source links
+  repoURL: https://github.com/ZhenShuo2021/hugo-yore/blob/main # Page actions: Base URL to the repository's branch root, used to build "edit this page"
   repoSubdir: exampleSite # Page actions: Path from the repository root to the Hugo project directory. Leave empty if the site is in the repo root
   cookieConsent:
     enable: false # Show a cookie consent dialog

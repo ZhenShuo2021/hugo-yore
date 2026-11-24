@@ -17,7 +17,8 @@
 		"TypeIt": "readonly",
 		"echarts": "readonly",
 		"dataLayer": "readonly",
-		"plausible": "readonly"
+		"plausible": "readonly",
+		"__READING_PROGRESS__": "readonly"
 	},
 	"categories": { "correctness": "error", "suspicious": "error", "perf": "error" },
 	"rules": {

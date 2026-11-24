@@ -44,6 +44,8 @@ declare module '@params' {
 	export const swPages: string[];
 }
 
+declare const __READING_PROGRESS__: boolean;
+
 declare module 'yore-cookie' {
 	export const consent: {
 		onReady(callback: () => void): void;

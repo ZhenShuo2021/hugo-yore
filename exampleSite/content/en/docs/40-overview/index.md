@@ -27,7 +27,7 @@ Yore is a simple yet feature-rich Hugo theme, designed specifically for content-
 
 - **Shipping it**
 
-  Perfect Lighthouse scores on desktop and mobile, an A+ rating on [HTTP Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=yore.zsl0621.cc), and a GDPR cookie consent banner out of the box. Images resize themselves, so nothing needs manual tuning before launch. A 4000-page documentation site [builds in 16 seconds](../960-benchmark/index.md).
+  Perfect Lighthouse scores on desktop and mobile, an A+ rating on [HTTP Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=yore.zsl0621.cc), and a GDPR cookie consent banner out of the box. Images resize themselves, so nothing needs manual tuning before launch. Documentation can be exported as a single PDF file with a table of contents and working internal links. A 4000-page documentation site [builds in 16 seconds](../960-benchmark/index.md).
 
 Ready to dive in? [Get started with Yore →](../80-getting-started/index.md)
 {style="margin-block:1.25lh;"}

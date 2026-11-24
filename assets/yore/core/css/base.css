@@ -67,15 +67,15 @@ lite-youtube {
 
 @media print {
 	@page {
-		size: letter;
-		margin: 0.2in 0.5in;
+		size: A4;
+		margin: 26mm 20mm 22mm;
 	}
 
 	html,
 	body {
 		font-family: 'Times New Roman', Times, serif;
-		font-size: 11.5pt;
-		line-height: 1.35;
+		font-size: 11pt;
+		line-height: 1.45;
 		color: #000;
 		background: #fff;
 	}
@@ -90,7 +90,31 @@ lite-youtube {
 	}
 
 	p {
-		margin: 0 0 6pt;
+		margin: 0 0 0.6em;
+	}
+
+	article p,
+	article li {
+		text-align: justify;
+		hyphens: auto;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		break-after: avoid;
+		break-inside: avoid;
+	}
+
+	table,
+	figure,
+	img,
+	blockquote,
+	tr {
+		break-inside: avoid;
 	}
 
 	a {
@@ -98,8 +122,11 @@ lite-youtube {
 	}
 
 	.heading-anchor::before,
-	footer,
-	button {
+	footer {
 		display: none;
+	}
+
+	button {
+		display: none !important;
 	}
 }

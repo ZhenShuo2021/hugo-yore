@@ -8,7 +8,7 @@
 		(dict "page" $next "rel" "next" "label" (i18n "article.next" | default "Next"))
 	-}}
 	<nav
-		class="border-border mt-10 grid grid-cols-1 gap-3 border-t pt-6 sm:grid-cols-2"
+		class="border-border mt-10 grid grid-cols-1 gap-3 border-t pt-6 sm:grid-cols-2 print:hidden"
 		aria-label="{{ i18n `article.more_articles` | default `More Articles` }}">
 		{{- range $items -}}
 			{{- $meta := . -}}

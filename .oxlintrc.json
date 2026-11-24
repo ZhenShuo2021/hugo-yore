@@ -8,7 +8,8 @@
 		"assets/yore/components/webgl/cosmic.js",
 		"assets/yore/core/js/critical.js",
 		"assets/yore/core/js/main.js",
-		"assets/yore/components/cookies/cookie-main.js"
+		"assets/yore/components/cookies/cookie-main.js",
+		"scripts/pdf/build-pdf.js"
 	],
 	"globals": {
 		"process": "readonly",

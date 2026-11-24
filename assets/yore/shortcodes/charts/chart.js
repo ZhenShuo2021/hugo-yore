@@ -34,7 +34,9 @@ defineModule('chart', async (el, { signal }) => {
 		initing = true;
 		chart = echarts.init(el, theme);
 		initing = false;
-		chart.setOption(option);
+		chart.setOption(
+			matchMedia('(prefers-reduced-motion: reduce)').matches ? { ...option, animation: false } : option,
+		);
 	};
 
 	const observer = new IntersectionObserver(

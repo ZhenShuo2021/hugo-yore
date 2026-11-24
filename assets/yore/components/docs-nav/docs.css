@@ -80,6 +80,12 @@ a[data-depth='0'] {
 	}
 }
 
+@media print {
+	.docs-sidebar-container {
+		display: none;
+	}
+}
+
 /* --- Mobile drawer --- */
 
 /* Reset UA popover defaults */

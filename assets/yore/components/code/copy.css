@@ -17,6 +17,11 @@
 	padding: var(--spacing);
 	color: var(--muted);
 }
+@media print {
+	.copy-button {
+		display: none;
+	}
+}
 @supports (color: color-mix(in lab, red, red)) {
 	.copy-button {
 		color: color-mix(var(--foreground), var(--muted));

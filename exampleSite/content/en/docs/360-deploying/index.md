@@ -13,13 +13,13 @@ Before deploying, make sure your site builds locally with `hugo` without errors.
 
 ## Deploy to GitHub Pages
 
-GitHub Pages builds your site using GitHub Actions. The workflow installs Hugo, runs Pagefind, and publishes the result. Your repository must be hosted on GitHub.
+GitHub Pages builds your site using GitHub Actions. The workflow installs Hugo, runs Pagefind, builds the PDF, and publishes the result. Your repository must be hosted on GitHub.
 
 1. In your repository, go to **Settings > Pages**.
 
 2. Under **Build and deployment**, set the source to **GitHub Actions**.
 
-3. Create `.github/workflows/deploy.yml`. The workflow has two jobs: `build` checks out the repo, installs Hugo and Node dependencies, builds the site, runs Pagefind, and uploads the output as an artifact. `deploy` then publishes that artifact to GitHub Pages.
+3. Create `.github/workflows/deploy.yml`. The workflow has two jobs: `build` checks out the repo, installs Hugo, Node dependencies and Playwright, builds the site, runs Pagefind, generates the PDF, and uploads the output as an artifact. `deploy` then publishes that artifact to GitHub Pages.
 
     ```yaml {title=".github/workflows/deploy.yml"}
     name: Deploy to GitHub Pages
@@ -78,10 +78,16 @@ GitHub Pages builds your site using GitHub Actions. The workflow installs Hugo, 
               extended: true
 
           - name: Install dependencies
-            run: npm ci --omit=dev --ignore-scripts
+            run: npm ci --ignore-scripts
+
+          - name: Install Playwright
+            run: npx playwright install --with-deps chromium
 
           - name: Build
             run: hugo build --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/" && npx pagefind --site public
+
+          - name: Build PDF
+            run: node scripts/build-pdf.js --site public --start /docs/ --out public/docs.pdf --base "${{ steps.pages.outputs.base_url }}/"
 
           - name: Upload artifact
             uses: actions/upload-pages-artifact@v5
@@ -89,6 +95,13 @@ GitHub Pages builds your site using GitHub Actions. The workflow installs Hugo, 
               include-hidden-files: false
               path: ./public
 
+      deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
+        steps:
           - name: Deploy to GitHub Pages
             id: deployment
             uses: actions/deploy-pages@v5
@@ -98,4 +111,4 @@ GitHub Pages builds your site using GitHub Actions. The workflow installs Hugo, 
 
 ## Deploy to Other Hosting Services
 
-See Hugo's [official tutorial](https://gohugo.io/host-and-deploy/). Add `npm run pagefind` to your build step to generate the search index.
+See Hugo's [official tutorial](https://gohugo.io/host-and-deploy/). Add `npm run pagefind` and `npm run pdf` to your build step to generate the search index and the PDF.

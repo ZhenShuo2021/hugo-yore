@@ -2310,6 +2310,12 @@
   :is(.\*\:max-w-none\! > *) {
     max-width: none !important;
   }
+  @media not print {
+    .not-print\:border-b {
+      border-bottom-style: var(--tw-border-style);
+      border-bottom-width: 1px;
+    }
+  }
   :is(:where(.group\/item):is([open], :popover-open, :open) .group-open\/item\:rotate-90) {
     rotate: 90deg;
   }
@@ -2644,6 +2650,12 @@
   @media print {
     .print\:hidden {
       display: none;
+    }
+    .print\:break-inside-avoid {
+      break-inside: avoid;
+    }
+    .print\:px-0 {
+      padding-inline: 0px;
     }
   }
   .\[\&_a\:focus-visible\]\:underline a:focus-visible {

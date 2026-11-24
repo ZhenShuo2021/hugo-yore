@@ -6,7 +6,7 @@
 {{- if $readingProgress }}
 	<div
 		id="scroll-progress"
-		class="pointer-events-none fixed right-3 bottom-4 z-50 h-10 w-10 opacity-0 transition-all duration-(--dur-200) [&.visible]:pointer-events-auto [&.visible]:opacity-100">
+		class="pointer-events-none fixed right-3 bottom-4 z-50 h-10 w-10 opacity-0 transition-all duration-(--dur-200) print:hidden [&.visible]:pointer-events-auto [&.visible]:opacity-100">
 		<!-- No fallback content inside <progress>, it is ignored by assistive technology -->
 		<progress
 			id="reading-progress"

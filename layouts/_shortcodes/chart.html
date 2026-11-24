@@ -1,4 +1,8 @@
 {{- $id := printf "echart-%s" (partial "lib/uid.html" .) -}}
 {{- $code := printf "export default () => {let option; %s return option;};" .Inner -}}
 {{- $chartJS := resources.FromString (printf "yore/shortcodes/charts/%s.js" $id) $code | minify | fingerprint -}}
-<div id="{{ $id }}" data-module="chart" data-chart="{{ $chartJS.RelPermalink }}" class="h-120 w-full"></div>
+<div
+	id="{{ $id }}"
+	data-module="chart"
+	data-chart="{{ $chartJS.RelPermalink }}"
+	class="h-120 w-full print:break-inside-avoid"></div>

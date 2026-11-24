@@ -43,6 +43,9 @@
 	--badge-color: var(--muted-foreground);
 	--badge-tint: var(--muted);
 	--badge-border: var(--border);
+	:where(html[data-theme='dark']) & {
+		--badge-bg: color-mix(in oklab, var(--badge-color) 10%, var(--foreground));
+	}
 }
 :where(html[data-theme='dark']) .yr-badge--muted {
 	--badge-tint: color-mix(in oklab, var(--muted-foreground) 5%, var(--background));

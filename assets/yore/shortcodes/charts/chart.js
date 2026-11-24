@@ -1,4 +1,4 @@
-import * as params from '@params';
+import { echartsJS } from '@params';
 import { defineModule } from '../../core/js/modules.js';
 
 const getTheme = (value = document.documentElement.getAttribute('data-theme')) =>
@@ -6,7 +6,7 @@ const getTheme = (value = document.documentElement.getAttribute('data-theme')) =
 
 let echartsReady;
 const loadEcharts = () =>
-	(echartsReady ??= import(params.echartsJS).catch((e) => {
+	(echartsReady ??= import(echartsJS).catch((e) => {
 		echartsReady = null;
 		throw e;
 	}));

@@ -1,7 +1,7 @@
-import * as params from '@params';
+import { swURL, scope } from '@params';
 
 if (navigator.serviceWorker) {
-	void navigator.serviceWorker.register(params.swURL, { scope: params.scope }).then((reg) => {
+	void navigator.serviceWorker.register(swURL, { scope: scope }).then((reg) => {
 		const ping = () => {
 			const w = reg.installing || reg.waiting || reg.active;
 			if (w) w.postMessage('page-loaded');

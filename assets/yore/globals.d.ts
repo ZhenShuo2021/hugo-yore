@@ -20,8 +20,28 @@ declare const GPUBufferUsage: Record<
 >;
 
 declare module '@params' {
-	const params: Record<string, unknown>;
-	export = params;
+	export const enabledCategories: string[] | undefined;
+	export const hasSwitcher: boolean;
+	export const autoCollapseCategories: boolean;
+	export const readingProgress: boolean;
+	export const headerLayout: string;
+	export const searchJS: string;
+	export const searchCSS: string;
+	export const photoswipeJS: string;
+	export const mathConfig: string;
+	export const texSvgJS: string;
+	export const mermaidSrc: string;
+	export const openccUrl: string;
+	export const echartsJS: string;
+	export const typeitSrc: string;
+	export const youtubeSrc: string;
+	export const swURL: string;
+	export const scope: string;
+	export const swVersion: string;
+	export const swCdnDomains: string[];
+	export const swPrecacheHtml: boolean;
+	export const swPrecacheAssets: string[] | undefined;
+	export const swPages: string[];
 }
 
 declare module 'yore-cookie' {

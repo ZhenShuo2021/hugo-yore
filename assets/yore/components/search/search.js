@@ -1,9 +1,7 @@
 import { once } from '../../core/js/utils.js';
-import * as params from '@params';
+import { searchJS, searchCSS } from '@params';
 
 function init() {
-	const searchJS = params.searchJS;
-	const searchCSS = params.searchCSS;
 	const triggers = document.querySelectorAll('#pf-custom-icon-mobile, #pf-custom-icon-desktop');
 
 	// no-op when lazy loading is disabled, the modal is then expected to be loaded elsewhere

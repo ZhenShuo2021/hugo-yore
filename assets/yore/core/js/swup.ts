@@ -1,14 +1,20 @@
-import Swup from '../../lib/swup/core/Swup.modern.js';
+// Hugo's esbuild can build successfully without vendoring typing files
+import type { Swup as SwupInstance } from 'swup';
+import SwupModule from '../../lib/swup/core/Swup.modern.js';
 import SwupHeadPlugin from '../../lib/swup/head-plugin/index.modern.js';
 import SwupPreloadPlugin from '../../lib/swup/preload-plugin/index.modern.js';
 
-interface VisitLike {
-	to: { document: Document };
-	containers: string[];
+// The bundled copy in lib has no typings, so reuse the ones from the swup package
+const Swup = SwupModule as unknown as typeof SwupInstance;
+
+// `navigating` and `currentHistoryIndex` are protected in swup's typings, so expose them for the bfcache fix
+interface SwupInternals {
+	navigating: boolean;
+	currentHistoryIndex: number;
 }
 
 export function init() {
-	const swup = new Swup({
+	const swup: SwupInstance = new Swup({
 		containers: ['#main-content'],
 		animationSelector: false,
 		linkToSelf: 'navigate',
@@ -29,34 +35,28 @@ export function init() {
 	window.swup = swup;
 
 	// 404 handling and its bfcache fix
-	swup.hooks.replace(
-		'fetch:request',
-		async (
-			visit: unknown,
-			args: { url: string },
-			defaultHandler: (visit: unknown, args: unknown) => Promise<{ status: number }>,
-		) => {
-			const response = await defaultHandler(visit, args);
-			if (response.status === 404) throw new Error(`404: ${args.url}`);
-			return response;
-		},
-	);
+	swup.hooks.replace('fetch:request', async (visit, args, defaultHandler) => {
+		const response = await defaultHandler!(visit, args);
+		if (response.status === 404) throw new Error(`404: ${args.url}`);
+		return response;
+	});
 	window.addEventListener('pageshow', (event) => {
 		if (!event.persisted) return;
-		swup.navigating = false;
+		const internals = swup as unknown as SwupInternals;
+		internals.navigating = false;
 		swup.options.skipPopStateHandling = swup.defaults.skipPopStateHandling;
 		swup.location = new (swup.location.constructor as new (url: string) => typeof swup.location)(
 			window.location.href,
 		);
-		swup.currentHistoryIndex = window.history.state?.index ?? 1;
+		internals.currentHistoryIndex = window.history.state?.index ?? 1;
 	});
 
 	// Docs pages share one sidebar per docsRoot, so only a root change replaces the whole region.
 	// Entering or leaving docs also changes the header, which lives outside the region and is never replaced
 	swup.hooks.before(
 		'content:replace',
-		(visit: VisitLike) => {
-			const next = visit.to.document;
+		(visit) => {
+			const next = visit.to.document!;
 			const cur = document;
 			const isDocs = (doc: Document) => doc.documentElement.dataset.pageType === 'docs';
 			const docsRoot = (doc: Document) =>
@@ -85,8 +85,8 @@ export function init() {
 	);
 
 	// The content may even be nonexistent, so the slot content needs to be changed.
-	swup.hooks.on('content:replace', (visit: VisitLike) => {
-		const next = visit.to.document.querySelectorAll('[data-header-slot]');
+	swup.hooks.on('content:replace', (visit) => {
+		const next = visit.to.document!.querySelectorAll('[data-header-slot]');
 		document.querySelectorAll('[data-header-slot]').forEach((slot, i) => {
 			slot.innerHTML = next[i]!.innerHTML;
 		});
@@ -94,9 +94,9 @@ export function init() {
 
 	// Sync the site header with the new page. It lives outside the swup container and isn't replaced,
 	// so its active state is copied over and its hidden state (hide-on-scroll) would otherwise persist
-	swup.hooks.on('content:replace', (visit: VisitLike) => {
+	swup.hooks.on('content:replace', (visit) => {
 		const sel = '#site-header a, #site-header [data-dropdown-toggle]';
-		const next = visit.to.document.querySelectorAll(sel);
+		const next = visit.to.document!.querySelectorAll(sel);
 		document.querySelectorAll(sel).forEach((el, i) => {
 			el.toggleAttribute('data-active', next[i]!.hasAttribute('data-active'));
 			const current = next[i]!.getAttribute('aria-current');
@@ -108,7 +108,7 @@ export function init() {
 
 	// anchor link focus
 	// https://github.com/swup/a11y-plugin/issues/43
-	swup.hooks.on('scroll:anchor', (visit: unknown, { hash }: { hash: string }) => {
+	swup.hooks.on('scroll:anchor', (visit, { hash }) => {
 		let id = hash.replace(/^#/, '');
 		try {
 			id = decodeURIComponent(id);

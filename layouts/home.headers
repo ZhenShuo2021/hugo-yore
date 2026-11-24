@@ -37,7 +37,7 @@
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
-	Content-Security-Policy: default-src 'self'; object-src 'none'; script-src 'self' {{ $s }} 'wasm-unsafe-eval' 'inline-speculation-rules' https://giscus.app https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://esm.run https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' data: https://fonts.gstatic.com; frame-src https://giscus.app https://www.youtube-nocookie.com https://www.youtube.com; connect-src https:; manifest-src 'self'; img-src 'self' data: https:; media-src 'self' https:; worker-src 'self' blob:;
+	Content-Security-Policy: default-src 'self'; object-src 'none'; script-src 'self' {{ $s }} 'wasm-unsafe-eval' 'inline-speculation-rules' https://giscus.app https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://esm.run https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' data: https://fonts.gstatic.com; frame-src https://giscus.app https://www.youtube-nocookie.com https://www.youtube.com; connect-src 'self' https:; manifest-src 'self'; img-src 'self' data: https:; media-src 'self' https:; worker-src 'self' blob:;
 
 /*.md
   Content-Type: text/markdown; charset=utf-8

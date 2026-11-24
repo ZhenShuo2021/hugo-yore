@@ -1,6 +1,6 @@
 // Hugo's esbuild can build successfully without vendoring typing files
 import type { Swup as SwupInstance } from 'swup';
-import SwupModule from '../../lib/swup/core/Swup.modern.js';
+import SwupModule, { createHistoryRecord } from '../../lib/swup/core/Swup.modern.js';
 import SwupHeadPlugin from '../../lib/swup/head-plugin/index.modern.js';
 import SwupPreloadPlugin from '../../lib/swup/preload-plugin/index.modern.js';
 
@@ -49,6 +49,11 @@ export function init() {
 			window.location.href,
 		);
 		internals.currentHistoryIndex = window.history.state?.index ?? 1;
+	});
+
+	// patch anchor link history
+	swup.hooks.before('link:anchor', (visit: any, { hash }: { hash: string }) => {
+		createHistoryRecord(visit.to.url + hash);
 	});
 
 	// Docs pages share one sidebar per docsRoot, so only a root change replaces the whole region.

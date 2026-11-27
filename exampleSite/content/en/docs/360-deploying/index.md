@@ -87,7 +87,7 @@ GitHub Pages builds your site using GitHub Actions. The workflow installs Hugo, 
             run: hugo build --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/" && npx pagefind --site public
 
           - name: Build PDF
-            run: node scripts/build-pdf.js --site public --start /docs/ --out public/docs.pdf --base "${{ steps.pages.outputs.base_url }}/"
+            run: npx hugo-yore-pdf --site public/ --start /docs/ --out public/docs.pdf --base "${{ steps.pages.outputs.base_url }}/"
 
           - name: Upload artifact
             uses: actions/upload-pages-artifact@v5

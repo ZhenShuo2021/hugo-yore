@@ -8,14 +8,14 @@ tags: ["guide", "pdf"]
 ---
 
 {{< badge
-  text="build-pdf.js"
-  url="https://github.com/ZhenShuo2021/hugo-yore/blob/main/scripts/build-pdf.js"
+  text="hugo-yore-pdf"
+  url="https://github.com/ZhenShuo2021/hugo-yore/tree/main/scripts/pdf"
   variant="muted"
   appearance="accent"
   pill=true
 >}}
 
-The PDF export script merges every page of the documentation into one PDF file. It is a standalone Node.js script that runs after the site is built, and does not affect the Hugo build itself.
+The PDF export command merges every page of the documentation into one PDF file. It is a standalone Node.js package, `hugo-yore-pdf`, that runs after the site is built and does not affect the Hugo build itself. It shares its version number with the theme and is delivered as a tarball attached to each [GitHub Release](https://github.com/ZhenShuo2021/hugo-yore/releases).
 
 It serves the built site with a local static server, prints each page with [Playwright](https://playwright.dev/) in print mode, and merges the results with [pdf-lib](https://pdf-lib.js.org/). The merged file includes:
 
@@ -24,33 +24,21 @@ It serves the built site with a local static server, prints each page with [Play
 - Page numbers in the header of each page.
 - Internal links and footnotes that jump within the PDF. Links to pages outside the documentation point back to the live site when `--base` is set.
 
-<!-- rumdl-disable MD057 -->
+<a href="/docs.pdf" data-no-swup>Example</a>
 
-[Example](/docs.pdf)
+## Step 1: Install the package
 
-<!-- rumdl-enable MD057 -->
-
-## Step 1: Copy the script
-
-Copy [`scripts/build-pdf.js`](https://github.com/ZhenShuo2021/hugo-yore/blob/main/scripts/build-pdf.js) to the same path in your project root. After upgrading the theme, copy it again to get the latest version.
-
-## Step 2: Install dependencies
-
-Install [Node.js](https://nodejs.org/en/download), then add the required packages to your development dependencies:
+Install [Node.js](https://nodejs.org/en/download) (18.14 or later), then install the tarball from the release into your development dependencies:
 
 ```bash
-npm install -D playwright pdf-lib
+npm install -D https://github.com/ZhenShuo2021/hugo-yore/releases/download/v0.14.0/hugo-yore-pdf-0.14.0.tgz
 ```
 
-The script uses ES modules, so make sure `package.json` declares the module type.
+This adds the `hugo-yore-pdf` command, and also installs its dependencies [Playwright](https://playwright.dev/) and [pdf-lib](https://pdf-lib.js.org/). The package declares its own module type, so your `package.json` needs no changes.
 
-```json {title="package.json"}
-{
-  "type": "module"
-}
-```
+The script depends on the markup and print styles of the theme, so use the same version as your theme. To upgrade, replace the version in the URL with the new theme version, for example `vX.Y.Z` and `hugo-yore-pdf-X.Y.Z.tgz`.
 
-## Step 3: Prepare Playwright
+## Step 2: Prepare Playwright
 
 Playwright drives a Chromium browser to render the pages. Download it once:
 
@@ -64,21 +52,26 @@ On Linux machines and CI runners, also install the system libraries Chromium dep
 npx playwright install --with-deps chromium
 ```
 
-## Step 4: Build the PDF
+> [!NOTE]
+> If Chromium fails with `error while loading shared libraries` and you cannot install system packages, for example on a build service without root access, download the missing libraries into a private folder with `apt-get download` and point `LD_LIBRARY_PATH` at it. [`scripts/chromium-libs.sh`](https://github.com/ZhenShuo2021/hugo-yore/blob/main/scripts/chromium-libs.sh) in the theme repository does this and can be copied as a starting point.
 
-Build the site first, then run the script against the output directory.
+## Step 3: Build the PDF
+
+Build the site first, then run the command against the output directory.
 
 ```bash
 hugo --gc --minify
-node scripts/build-pdf.js --site public --start /docs/ --out docs.pdf --base https://example.com
+npx hugo-yore-pdf --site public/ --start /docs/ --out docs.pdf --base https://example.com/
 ```
 
 | Argument | Required | Description |
 | --- | --- | --- |
-| `--site` | Yes | Directory of the built site, usually `public`. |
+| `--site` | Yes | Directory of the built site, usually `public/`. |
 | `--start` | Yes | Path of the first documentation page, such as `/docs/`. Only pages under this path are included. |
 | `--out` | Yes | Output PDF file path. |
 | `--base` | No | URL of the live site. Links to pages not included in the PDF are rewritten to this address. |
+
+The examples write a trailing slash on `--site`, `--start` and `--base`. The script accepts either form, so `docs`, `/docs` and `/docs/` are equivalent for `--start`.
 
 Add a script to `package.json` for convenience:
 
@@ -86,13 +79,13 @@ Add a script to `package.json` for convenience:
 {
   "scripts": {
     "build": "hugo --gc --minify",
-    "pdf": "node scripts/build-pdf.js --site public --start /docs/ --out docs.pdf --base https://example.com"
+    "pdf": "hugo-yore-pdf --site public/ --start /docs/ --out docs.pdf --base https://example.com/"
   }
 }
 ```
 
 > [!IMPORTANT]
-> Run the script **after** the site is built.
+> Run the command **after** the site is built.
 
 ## How it works
 

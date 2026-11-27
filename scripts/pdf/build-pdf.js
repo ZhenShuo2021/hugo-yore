@@ -1,4 +1,5 @@
-// Usage: node scripts/build-pdf.js --site <site dir> --start <docs start path> --out <output file> [--base <live site URL>]
+#!/usr/bin/env node
+// Usage: hugo-yore-pdf --site <site dir> --start <docs start path> --out <output file> [--base <live site URL>]
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import http from 'node:http';
@@ -25,14 +26,17 @@ const { values } = parseArgs({
 		base: { type: 'string' },
 	},
 });
-const { site, start, out, base } = values;
-if (!site || !start || !out) {
+const { site, start: startArg, out, base } = values;
+if (!site || !startArg || !out) {
 	console.error(
-		'Missing arguments. Usage: node scripts/build-pdf.js --site <site dir> --start <docs start path> --out <output file> [--base <live site URL>]',
+		'Missing arguments. Usage: hugo-yore-pdf --site <site dir> --start <docs start path> --out <output file> [--base <live site URL>]',
 	);
 	process.exit(1);
 }
 const root = path.resolve(site);
+// Normalize slashes so `docs`, `/docs` and `/docs/` all mean the same start path
+const trimmedStart = startArg.replace(/^\/+|\/+$/g, '');
+const start = trimmedStart ? `/${trimmedStart}/` : '/';
 
 // ES modules and CSS require a correct Content-Type or the browser refuses to load them (this is how MathJax broke)
 const mime = {

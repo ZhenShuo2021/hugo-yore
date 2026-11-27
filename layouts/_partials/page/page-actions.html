@@ -22,21 +22,24 @@
 		command="toggle-popover"
 		commandfor="page-actions-menu">
 		<span
-			class="page-actions__icon-ellipsis group-hover:text-link-hover inline-flex size-4 items-center justify-center">
+			class="page-actions__icon-ellipsis group-hover:text-link-hover inline-flex size-4 items-center justify-center transition-[opacity,transform] duration-(--dur-150) ease-in-out">
 			{{- partialCached "components/icon.html" "ellipsis-vertical" "icon-ellipsis-vertical" -}}
 		</span>
-		<span class="page-actions__icon-check absolute inline-flex size-4 items-center justify-center opacity-0">
+		<span
+			class="page-actions__icon-check absolute inline-flex size-4 [transform:scale(0.5)_rotate(-15deg)] items-center justify-center opacity-0 transition-[opacity,transform] duration-(--dur-150) ease-in-out">
 			{{- partialCached "components/icon.html" "check" "icon-check" -}}
 		</span>
 	</button>
 	{{- /* MANDATORY: popover API gives native a11y ops without custom JS.
 		Menu positioning is set by page-actions.js because [popover] is promoted
-	  to the top layer, so `position: relative` no longer works.
+	  to the top layer, so `position: relative` no longer works. Positioning it using JS.
+
+		hidden: Old browser fallback
 	*/ -}}
 	<div
 		id="page-actions-menu"
 		popover
-		class="page-actions__menu bg-background border-border z-50 w-max rounded-lg border p-1 shadow-lg">
+		class="page-actions__menu bg-background border-border fixed inset-auto z-50 m-0 hidden w-max rounded-lg border p-1 shadow-lg">
 		<button
 			class="page-actions__copy-url text-popover-foreground hover:text-link-hover hover:bg-muted flex w-full items-center gap-2 rounded p-2 text-sm whitespace-nowrap transition-colors"
 			command="hide-popover"

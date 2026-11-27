@@ -13,8 +13,8 @@ hugo_stats.json
 
 # Custom
 !.vscode
+/.wrangler/
 node_modules
 
-# vscode-front-matter
-frontmatter.json
-.frontmatter
+# PDF script tarball
+/scripts/pdf/*.tgz

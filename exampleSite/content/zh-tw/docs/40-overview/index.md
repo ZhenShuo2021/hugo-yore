@@ -27,7 +27,7 @@ Yore 是一款簡單卻功能豐富的 Hugo 主題，專為大量內容的部落
 
 - **上線發布**
 
-  桌面版與行動版 Lighthouse 皆為滿分，在 [HTTP Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=yore.zsl0621.cc) 取得 A+ 評級，並內建符合 GDPR 的 Cookie 同意橫幅。圖片會自動調整大小，上線前不必手動調校。擁有 4000 頁的文件網站[只需 16 秒即可建置完成](../960-benchmark/index.md)。
+  桌面版與行動版 Lighthouse 皆為滿分，在 [HTTP Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=yore.zsl0621.cc) 取得 A+ 評級，並內建符合 GDPR 的 Cookie 同意橫幅。圖片會自動調整大小，上線前不必手動調校。文件可匯出成單一 PDF 檔案，包含目錄與可運作的內部連結。擁有 4000 頁的文件網站[只需 16 秒即可建置完成](../960-benchmark/index.md)。
 
 準備好了嗎？[開始使用 Yore →](../80-getting-started/index.md)
 {style="margin-block:1.25lh;"}

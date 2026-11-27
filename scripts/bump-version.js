@@ -9,6 +9,8 @@ const rootDir = path.resolve(__dirname, '..');
 
 const pkgPath = path.join(rootDir, 'package.json');
 const themePath = path.join(rootDir, 'data/theme.yaml');
+const pdfPkgPath = path.join(rootDir, 'scripts/pdf/package.json');
+const pdfDocPath = path.join(rootDir, 'exampleSite/content/en/docs/200-features/300-pdf-export/index.md');
 
 function bumpVersion(version, type) {
 	const [major, minor, patch] = version.split('.').map(Number);
@@ -17,10 +19,10 @@ function bumpVersion(version, type) {
 	return `${major}.${minor}.${patch + 1}`;
 }
 
-function updatePackageJson(newVersion) {
-	const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'));
+function updatePackageJson(filePath, newVersion) {
+	const pkg = JSON.parse(readFileSync(filePath, 'utf8'));
 	pkg.version = newVersion;
-	writeFileSync(pkgPath, JSON.stringify(pkg, null, '\t') + '\n');
+	writeFileSync(filePath, JSON.stringify(pkg, null, '\t') + '\n');
 }
 
 function updateThemeYaml(newVersion) {
@@ -29,8 +31,15 @@ function updateThemeYaml(newVersion) {
 	writeFileSync(themePath, updated);
 }
 
+function updatePdfDoc(newVersion) {
+	const raw = readFileSync(pdfDocPath, 'utf8');
+	const pattern = /releases\/download\/v[\d.]+\/hugo-yore-pdf-[\d.]+\.tgz/;
+	if (!pattern.test(raw)) throw new Error(`PDF install URL not found in ${pdfDocPath}`);
+	writeFileSync(pdfDocPath, raw.replace(pattern, `releases/download/v${newVersion}/hugo-yore-pdf-${newVersion}.tgz`));
+}
+
 function commitAndTag(version) {
-	execSync(`git add ${pkgPath} ${themePath}`, { cwd: rootDir, stdio: 'inherit' });
+	execSync(`git add ${pkgPath} ${themePath} ${pdfPkgPath} ${pdfDocPath}`, { cwd: rootDir, stdio: 'inherit' });
 	execSync(`git commit -m "chore: bump version to ${version}"`, { cwd: rootDir, stdio: 'inherit' });
 	execSync(`git tag -a v${version} -m v${version}`, { cwd: rootDir, stdio: 'inherit' });
 }
@@ -40,8 +49,10 @@ function main() {
 	const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'));
 	const newVersion = bumpVersion(pkg.version, type);
 
-	updatePackageJson(newVersion);
+	updatePackageJson(pkgPath, newVersion);
+	updatePackageJson(pdfPkgPath, newVersion);
 	updateThemeYaml(newVersion);
+	updatePdfDoc(newVersion);
 	commitAndTag(newVersion);
 
 	console.log(`${pkg.version} -> ${newVersion}`);

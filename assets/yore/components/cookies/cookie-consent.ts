@@ -1,6 +1,6 @@
 import delegateEvent from 'delegate-it';
 import * as CookieConsent from '../../lib/cookieconsent/cookieconsent.esm.js';
-import * as params from '@params';
+import { enabledCategories as enabledCategoriesParam, hasSwitcher } from '@params';
 import userConfig from './config.js';
 
 declare global {
@@ -35,7 +35,7 @@ const _categoryDefaults: Record<string, CategoryConfig> = {
 	analytics: { autoClear: { cookies: [{ name: /^(_ga|_gid)/ }] } },
 };
 
-const enabledCategories = (params.enabledCategories as string[] | undefined) ?? [];
+const enabledCategories = enabledCategoriesParam ?? [];
 
 const categories: Record<string, CategoryConfig> = {};
 for (const name of enabledCategories) {
@@ -91,7 +91,7 @@ function waitForCSS(link: HTMLLinkElement | null): Promise<void> {
 
 syncDarkMode(document.documentElement.getAttribute('data-theme') === 'dark');
 
-if (params.hasSwitcher) {
+if (hasSwitcher) {
 	window.addEventListener('appearance-changed', (e: Event) => {
 		syncDarkMode((e as CustomEvent<{ appearance: string }>).detail.appearance === 'dark');
 	});

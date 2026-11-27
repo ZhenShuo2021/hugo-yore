@@ -30,7 +30,7 @@
 
 <div
 	id="{{ $panelID }}"
-	class="tab__panel"
+	class="tab__panel focus-visible:outline-2 focus-visible:outline-offset-14 focus-visible:outline-(--outline) [&:not([data-active]):has([id^='echart-'],.mermaid)]:invisible [&:not([data-active]):has([id^='echart-'],.mermaid)]:absolute [&:not([data-active]):has([id^='echart-'],.mermaid)]:inset-s-0 [&:not([data-active]):has([id^='echart-'],.mermaid)]:block [&:not([data-active]):has([id^='echart-'],.mermaid)]:h-0 [&:not([data-active]):has([id^='echart-'],.mermaid)]:w-full [&:not([data-active]):has([id^='echart-'],.mermaid)]:overflow-hidden"
 	{{- cond $isActive ` data-active` ` ` | safeHTMLAttr }}
 	role="tabpanel"
 	aria-labelledby="{{ $tabID }}"
@@ -41,7 +41,7 @@
 	{{- end }}
 	data-tab-index="{{ $index }}"
 	data-tab-label="{{ $label }}">
-	<div class="tab__body">
+	<div class="tab__body m-4 [&>:first-child]:mt-4 [&>:last-child]:mb-4">
 		{{- .Inner -}}
 	</div>
 </div>

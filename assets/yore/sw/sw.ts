@@ -32,15 +32,15 @@ interface NetworkInformation {
 const swScope = self as unknown as SwScope;
 
 const _BUILD = Object.freeze({
-	version: config.version as string,
-	cdnDomains: config.cdnDomains as string[],
-	precacheHtml: config.precacheHtml as boolean,
-	precacheAssets: (config.precacheAssets as string[] | undefined) ?? [],
-	pages: config.pages as string[],
+	swVersion: config.swVersion,
+	swCdnDomains: config.swCdnDomains,
+	swPrecacheHtml: config.swPrecacheHtml,
+	swPrecacheAssets: config.swPrecacheAssets ?? [],
+	swPages: config.swPages,
 });
 
-const VERSION = _BUILD.version;
-const CDN_DOMAINS = new Set(_BUILD.cdnDomains);
+const VERSION = _BUILD.swVersion;
+const CDN_DOMAINS = new Set(_BUILD.swCdnDomains);
 
 const CACHE_VERSIONED = `versioned-${VERSION}`;
 const CACHE_IMAGES = 'images-v1';
@@ -76,7 +76,7 @@ swScope.addEventListener('install', (event) => {
 	event.waitUntil(
 		PAGE_LOADED.then(() => caches.open(CACHE_VERSIONED)).then((cache) => {
 			return Promise.allSettled(
-				_BUILD.precacheAssets.map((url) =>
+				_BUILD.swPrecacheAssets.map((url) =>
 					fetch(url).then((res) => {
 						if (res.ok) void cache.put(url, res);
 					}),
@@ -96,7 +96,7 @@ swScope.addEventListener('activate', (event) => {
 			.keys()
 			.then((keys) => Promise.all(keys.filter((k) => !keep.has(k)).map((k) => caches.delete(k))))
 			.then(() => {
-				if (_BUILD.precacheHtml && !saveData()) void idlePrecacheHtml();
+				if (_BUILD.swPrecacheHtml && !saveData()) void idlePrecacheHtml();
 			}),
 	);
 });
@@ -115,11 +115,9 @@ swScope.addEventListener('fetch', (event) => {
 		return;
 	}
 
-	if (
-		/\/css\/.*\.css$/i.test(url.pathname) ||
-		/\/js\/.*\.(js|mjs|cjs)$/i.test(url.pathname) ||
-		/\/lib\/.+/i.test(url.pathname)
-	) {
+	const sameOrigin = url.origin === swScope.location.origin;
+
+	if ((sameOrigin && /\.(css|js|mjs|cjs)$/i.test(url.pathname)) || /\/lib\/.+/i.test(url.pathname)) {
 		respond(event, CACHE_VERSIONED);
 		return;
 	}
@@ -170,7 +168,7 @@ async function idlePrecacheHtml(): Promise<void> {
 	const cached = await cache.keys();
 	const cachedUrls = new Set(cached.map((r) => r.url));
 
-	const pending = _BUILD.pages.filter((url) => {
+	const pending = _BUILD.swPages.filter((url) => {
 		const abs = new URL(url, swScope.location.origin).href;
 		return !cachedUrls.has(abs);
 	});

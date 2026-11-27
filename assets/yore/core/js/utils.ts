@@ -1,7 +1,3 @@
-import * as params from '@params';
-
-export { params };
-
 export const storage = {
 	get: <T = unknown>(key: string, fallback: T | null = null): T | null => {
 		try {

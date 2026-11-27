@@ -1,16 +1,16 @@
-{{- $cdnDomains := slice -}}
+{{- $swCdnDomains := slice -}}
 {{- range hugo.Data.cdn -}}
 	{{- with .src -}}
-		{{- $cdnDomains = $cdnDomains | append ((urls.Parse .).Host) -}}
+		{{- $swCdnDomains = $swCdnDomains | append ((urls.Parse .).Host) -}}
 	{{- end -}}
 	{{- with .js -}}
 		{{- with .src -}}
-			{{- $cdnDomains = $cdnDomains | append ((urls.Parse .).Host) -}}
+			{{- $swCdnDomains = $swCdnDomains | append ((urls.Parse .).Host) -}}
 		{{- end -}}
 	{{- end -}}
 	{{- with .css -}}
 		{{- with .src -}}
-			{{- $cdnDomains = $cdnDomains | append ((urls.Parse .).Host) -}}
+			{{- $swCdnDomains = $swCdnDomains | append ((urls.Parse .).Host) -}}
 		{{- end -}}
 	{{- end -}}
 {{- end -}}
@@ -23,16 +23,16 @@
 	{{- end -}}
 {{- end -}}
 
-{{- $precacheAssets := slice -}}
+{{- $swPrecacheAssets := slice -}}
 
 {{- if .Site.Params.sw.precache.assets -}}
-	{{- $precacheAssets = $precacheAssets | append (hugo.Store.Get "swPrecache") -}}
+	{{- $swPrecacheAssets = $swPrecacheAssets | append (hugo.Store.Get "swPrecache") -}}
 {{- end -}}
 
 {
-	"version": "{{ now.UnixNano | xxhash | last 6 }}",
-	"cdnDomains": {{ $cdnDomains | uniq | jsonify }},
-	"precacheHtml": {{ if .Site.Params.sw.precache.html }}true{{ else }}false{{ end }},
-	"precacheAssets": {{ $precacheAssets | uniq | jsonify }},
-	"pages": {{ $pages | jsonify }}
+	"swVersion": "{{ now.UnixNano | xxhash | last 6 }}",
+	"swCdnDomains": {{ $swCdnDomains | uniq | jsonify }},
+	"swPrecacheHtml": {{ if .Site.Params.sw.precache.html }}true{{ else }}false{{ end }},
+	"swPrecacheAssets": {{ $swPrecacheAssets | uniq | jsonify }},
+	"swPages": {{ $pages | jsonify }}
 }

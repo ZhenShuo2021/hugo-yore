@@ -1,9 +1,8 @@
 import { registerRouteHook } from '../../core/js/route.js';
 import { once } from '../../core/js/utils.js';
-import * as params from '@params';
+import { photoswipeJS } from '@params';
 
 // lazy load photoswipe near the viewport or on interaction, never before the load event
-const photoswipeJS = params.photoswipeJS;
 
 let load = null;
 let mod = null;

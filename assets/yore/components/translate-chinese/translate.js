@@ -1,10 +1,10 @@
-import * as params from '@params';
+import { openccUrl } from '@params';
 import { defineModule } from '../../core/js/modules.js';
 
 async function initTranslate(button, { signal }) {
 	const status = document.getElementById('chinese-translate-status');
 
-	const OpenCC = await import(params.openccUrl);
+	const OpenCC = await import(openccUrl);
 	if (signal.aborted) return;
 
 	button.disabled = false;

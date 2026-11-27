@@ -136,7 +136,4 @@ html[data-theme='light'] .chroma .err {
 		overflow-wrap: anywhere !important;
 		overflow-x: visible !important;
 	}
-	[data-code-wrapper] {
-		break-inside: avoid;
-	}
 }

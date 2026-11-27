@@ -1,0 +1,75 @@
+/* scroll-to-top */
+.icon-arrow-up::after {
+	--icon-up: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>');
+	content: '';
+	width: 1rem;
+	height: 1rem;
+	-webkit-mask: var(--icon-up) center/1.4rem 1.4rem no-repeat;
+	mask: var(--icon-up) center/1.4rem 1.4rem no-repeat;
+	background-color: var(--color-neutral-800);
+}
+html[data-theme='dark'] .icon-arrow-up::after {
+	background-color: var(--color-neutral-200);
+}
+
+/* opacity 0 alone leaves the hidden button in the tab order and the accessibility tree */
+#scroll-progress:not(.visible),
+:not(#scroll-progress) > #scroll-to-top:not(.visible) {
+	visibility: hidden;
+}
+
+/* Hide native bars (one rule per pseudo-element, since an unknown one would invalidate a combined rule) */
+progress.progress-ring::-webkit-progress-bar {
+	display: none;
+	background: none;
+}
+progress.progress-ring::-webkit-progress-value {
+	display: none;
+	background: none;
+}
+progress.progress-ring::-moz-progress-bar {
+	display: none;
+	background: none;
+}
+progress.progress-ring::slider-fill {
+	display: none;
+	background: none;
+}
+
+progress.progress-ring {
+	--thickness: 1px;
+	--fill-color: var(--primary);
+	--track-color: color-mix(in srgb, var(--primary) 20%, transparent);
+	--value: attr(value type(<number>));
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	border-radius: 50%;
+
+	background: conic-gradient(var(--fill-color) calc(var(--value) * 1%), var(--track-color) 0);
+
+	/* Clip the background to the border-area */
+	background-clip: border-area;
+	border: var(--thickness) solid transparent;
+	background-origin: border-box;
+
+	@media (forced-colors: active) {
+		/* Keeps the gradient, which forced colors mode removes, and draws it in system colors */
+		forced-color-adjust: none;
+		--fill-color: CanvasText;
+		--track-color: Canvas;
+	}
+}
+
+/* Fallback: hollow out the center where background-clip: border-area is unsupported */
+@supports not (background-clip: border-area) {
+	progress.progress-ring {
+		mask-image: radial-gradient(
+			transparent calc(50% - var(--thickness)),
+			black calc(50% - var(--thickness) + 0.5px)
+		);
+		border: 0;
+	}
+}

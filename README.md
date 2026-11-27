@@ -17,6 +17,7 @@ Yore is a minimalist Hugo theme focused on reading. See [demo site](https://yore
 - Multi-version content support
 - Article series support
 - RTL support
+- Export documentation as a single PDF file with [Playwright](https://playwright.dev/)
 - Automated responsive image
 - 3 distinct header options
 - 2 page hero styles

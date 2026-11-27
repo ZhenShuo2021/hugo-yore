@@ -1,4 +1,4 @@
-import { params } from '../../core/js/utils.js';
+import { headerLayout } from '@params';
 import { defineModule } from '../../core/js/modules.js';
 
 function getVisibleBoundingClientRect(element) {
@@ -61,7 +61,7 @@ function getLinkAnchorValue(link) {
 }
 
 function getAnchorTopOffset() {
-	if (params.headerLayout !== 'sticky') {
+	if (headerLayout !== 'sticky') {
 		return 0;
 	}
 	const navbar = document.querySelector('#site-header');

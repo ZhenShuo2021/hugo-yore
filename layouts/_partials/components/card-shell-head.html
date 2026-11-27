@@ -22,7 +22,7 @@
 
 {{- $attrs := .attrs | default "data-component=yr-card" -}}
 
-{{- $cls := "yr-card not-prose relative grid grid-cols-1 overflow-hidden rounded-lg transition-all" -}}
+{{- $cls := "yr-card not-prose relative grid grid-cols-1 overflow-hidden rounded-lg transition-all print:break-inside-avoid" -}}
 {{- if .compact -}}
 	{{- $cls = printf "%s yr-card--compact" $cls -}}
 {{- end -}}

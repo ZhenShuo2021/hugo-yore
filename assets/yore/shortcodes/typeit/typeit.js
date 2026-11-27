@@ -1,8 +1,8 @@
-import * as params from '@params';
+import { typeitSrc } from '@params';
 import { defineModule } from '../../core/js/modules.js';
 
 defineModule('typeit', async (el, { signal }) => {
-	await import(params.typeitSrc);
+	await import(typeitSrc);
 	if (signal.aborted) return;
 
 	const { strings, ...options } = JSON.parse(el.dataset.typeit);

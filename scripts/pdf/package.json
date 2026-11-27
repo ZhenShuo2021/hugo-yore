@@ -1,0 +1,26 @@
+{
+	"name": "hugo-yore-pdf",
+	"version": "0.14.0",
+	"private": true,
+	"description": "Export the hugo-yore documentation as a single PDF.",
+	"license": "MIT",
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ZhenShuo2021/hugo-yore.git",
+		"directory": "scripts/pdf"
+	},
+	"bin": {
+		"hugo-yore-pdf": "./build-pdf.js"
+	},
+	"files": [
+		"build-pdf.js"
+	],
+	"engines": {
+		"node": ">=18.14"
+	},
+	"dependencies": {
+		"pdf-lib": "^1.17.1",
+		"playwright": "^1.57.0"
+	}
+}

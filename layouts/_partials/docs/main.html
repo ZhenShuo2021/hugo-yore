@@ -3,7 +3,7 @@
 {{- if and (.Param "pageHeroStyle") (ne (.Param "pageHeroStyle") "disable") -}}
 	{{- partial "page/hero/main.html" . -}}
 {{- end }}
-<div data-swup-region class="border-border flex min-h-screen w-full items-stretch border-b">
+<div data-swup-region class="border-border flex min-h-screen w-full items-stretch not-print:border-b">
 	{{- partial "inline/docs-nav.html" . -}}
 	<div class="flex min-w-0 flex-1 items-stretch pt-16 pb-8">
 		{{- if .IsSection -}}
@@ -18,7 +18,7 @@
 {{- define "_partials/inline/docs-content-header.html" -}}
 	{{- /* Breadcrumbs */ -}}
 	{{- if .Param "breadcrumb" | default true -}}
-		<div class="text-muted-foreground text-sm">
+		<div class="text-muted-foreground text-sm print:hidden">
 			{{- partial "components/breadcrumbs.html" . -}}
 		</div>
 	{{- end -}}
@@ -35,7 +35,7 @@
 		</div>
 
 		{{- if .Params.pageShowMeta | default site.Params.pageShowMeta -}}
-			<div class="text-muted-foreground flex flex-col gap-1 text-sm">
+			<div class="text-muted-foreground flex flex-col gap-1 text-sm print:hidden">
 				{{- if .Date -}}
 					<div class="flex items-center gap-1">
 						<span>{{ i18n "article.date" | default "Published:" }}</span>
@@ -95,7 +95,7 @@
 {{- define "_partials/inline/docs-content.html" -}}
 	<main
 		id="main-content"
-		class="docs-content min-w-0 flex-1 px-4 md:px-6"
+		class="docs-content min-w-0 flex-1 px-4 md:px-6 print:px-0"
 		data-module="{{ partial "lib/page-modules.html" . }}">
 		{{- partial "inline/docs-content-header.html" . -}}
 

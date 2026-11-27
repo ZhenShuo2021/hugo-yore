@@ -1,4 +1,4 @@
-import * as params from '@params';
+import { autoCollapseCategories } from '@params';
 import { initRovingTabindex, isCollapsed } from './docs-nav-a11y';
 import { registerRouteHook } from '../../core/js/route.js';
 import { defineModule } from '../../core/js/modules.js';
@@ -57,7 +57,7 @@ function initCollapseToggle(nav: HTMLElement): void {
 		e.preventDefault();
 		e.stopPropagation();
 		const willExpand = isCollapsed(btn);
-		if (willExpand && params.autoCollapseCategories) collapseOtherSiblings(nav, btn);
+		if (willExpand && autoCollapseCategories) collapseOtherSiblings(nav, btn);
 		applyCollapsed(nav, btn.dataset.pageUid, !willExpand);
 	});
 }

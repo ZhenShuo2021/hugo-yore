@@ -9,6 +9,15 @@
   @import "../tailwind/compiled.css";
 {{ end }}
 
+@import "./base.css" layer(yore);
+@import "./tokens.css" layer(yore);
+@import "./utilities.css";
+@import "./layouts/blog.css" layer(yore);
+@import "./layouts/gallery.css" layer(yore);
+@import "../../components/docs-nav/docs.css" layer(yore);
+@import "../../components/misc/misc.css" layer(yore);
+@import "../../components/toc/toc.css" layer(yore);
+
 {{ if site.Params.searchEnabled }}
   @import "../../components/search/search.css";
 {{ end }}
@@ -17,11 +26,6 @@
 	@import "../../components/a11y/a11y.css" layer(a11y);
 {{ end }}
 
-@import "./base.css" layer(yore);
-@import "./tokens.css" layer(yore);
-@import "./utilities.css";
-@import "./layouts/blog.css" layer(yore);
-@import "./layouts/gallery.css" layer(yore);
 @import "../../components/badge/badge.css" layer(yore);
 @import "../../components/card/index.css" layer(yore);
 @import "../../components/code/chroma.css" layer(yore);
@@ -29,19 +33,15 @@
 {{ if site.Params.codeCopy }}
 	@import "../../components/code/copy.css" layer(yore);
 {{ end }}
-@import "../../components/docs-nav/docs.css" layer(yore);
+{{ if site.Params.scrollToTop }}
+	@import "../../components/scroll-to-top/scroll-to-top.css" layer(yore);
+{{ end }}
 @import "../../components/knowledge-graph/knowledge-graph.css";
-@import "../../components/page-actions/page-actions.css" layer(yore);
-@import "../../components/misc/misc.css" layer(yore);
-@import "../../components/toc/toc.css" layer(yore);
 
-@import "../../shortcodes/accordion/accordion.css" layer(yore);
 @import "../../shortcodes/carousel/carousel.css" layer(yore);
 @import "../../shortcodes/masonry/masonry.css" layer(yore);
 @import "../../shortcodes/mermaid/mermaid.css" layer(yore);
 @import "../../shortcodes/tabs/tabs.css" layer(yore);
-@import "../../shortcodes/steps/steps.css" layer(yore);
-@import "../../shortcodes/float/float.css" layer(yore);
 
 @import "../../overrides/custom-advanced.css" layer(yore);
 

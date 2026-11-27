@@ -17,4 +17,4 @@ jobs:
           hugo-version: 'latest'
 
       - name: Build
-        run: ./build.sh --minimal-config --skip-pagefind
+        run: ./build.sh --minimal-config --skip-pagefind --skip-pdf

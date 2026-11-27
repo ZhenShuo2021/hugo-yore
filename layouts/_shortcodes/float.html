@@ -1,8 +1,17 @@
 {{- $side := .Get "side" | default "start" -}}
 {{- $size := .Get "size" | default "m" -}}
+{{- $sideClass := cond (eq $side "end") "float-end ms-[1em] me-[0.15em]" "float-start ms-[0.15em] me-[1em]" -}}
+{{- $sizeClass := "md:max-w-[35%]" -}}
+{{- if eq $size "s" -}}
+	{{- $sizeClass = "md:max-w-[20%]" -}}
+{{- else if eq $size "l" -}}
+	{{- $sizeClass = "md:max-w-[45%]" -}}
+{{- end -}}
 
-<div class="float-media float-{{ $side }} size-{{ $size }}">
-<div class="float-content">
-{{- printf "\n\n%s\n\n" .Inner | safeHTML -}}
-</div>
+
+<div
+	class="float-media float-{{ $side }} size-{{ $size }} {{ $sideClass }} {{ $sizeClass }} my-[0.5em] max-w-full [&_img]:block [&_img]:h-auto [&_img]:w-full">
+	<div class="float-content w-full break-words [&>*:first-child]:!mt-0 [&>*:last-child]:!mb-0">
+		{{- printf "\n\n%s\n\n" .Inner | safeHTML -}}
+	</div>
 </div>

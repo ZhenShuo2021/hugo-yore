@@ -21,10 +21,12 @@
 	"scripts": {
 		"build:css": "tailwindcss -i ./assets/yore/core/tailwind/main.css -o ./assets/yore/core/tailwind/compiled.css",
 		"build:hugo": "hugo --minify -s exampleSite --baseURL https://yore.zsl0621.cc/ && pnpm run pagefind --site exampleSite/public",
-		"index": "pnpm pagefind --site exampleSite/public",
+		"search": "pnpm pagefind --site exampleSite/public",
 		"dev": "concurrently 'pnpm dev:hugo' 'pnpm dev:css'",
 		"dev:css": "tailwindcss -i ./assets/yore/core/tailwind/main.css -o ./assets/yore/core/tailwind/compiled.css -w",
 		"dev:hugo": "hugo server -s exampleSite --renderSegments fast --noHTTPCache --bind 0.0.0.0",
+		"build:pdf": "node scripts/pdf/build-pdf.js --site exampleSite/public/ --start /docs/ --out exampleSite/public/docs.pdf --base https://yore.zsl0621.cc/",
+		"preview": "pnpm dlx wrangler pages dev exampleSite/public",
 		"test:versioning": "node tests/versioning.js",
 		"format": "prettier --write --list-different assets data exampleSite i18n layouts scripts",
 		"format:md": "rumdl fmt --include \"**/*.md\"",

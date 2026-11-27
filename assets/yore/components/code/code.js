@@ -14,6 +14,15 @@ statusRegion.setAttribute('role', 'status');
 statusRegion.setAttribute('aria-atomic', 'true');
 document.body.appendChild(statusRegion);
 
+let lastMessage = '';
+
+// https://github.com/GoogleChrome/modern-web-guidance/blob/2b4aa13a/skills/modern-web-guidance/guides/ui-components/copy-button.md
+function announce(message) {
+	if (message === lastMessage) message += '\u00A0';
+	lastMessage = message;
+	statusRegion.textContent = message;
+}
+
 function createCopyButton(highlightDiv) {
 	const button = document.createElement('button');
 	button.className = 'copy-button';
@@ -36,7 +45,7 @@ async function copyCode(button, highlightDiv) {
 	} catch {}
 
 	if (!success) {
-		statusRegion.textContent = textCopyFailed;
+		announce(textCopyFailed);
 		setTimeout(() => {
 			statusRegion.textContent = '';
 		}, 2000);
@@ -44,7 +53,7 @@ async function copyCode(button, highlightDiv) {
 	}
 
 	button.classList.add('copied');
-	statusRegion.textContent = textCopied;
+	announce(textCopied);
 
 	setTimeout(() => {
 		button.classList.remove('copied');

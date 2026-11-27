@@ -1,12 +1,12 @@
-import * as params from '@params';
+import { mathConfig, texSvgJS } from '@params';
 import { once } from '../../core/js/utils.js';
 import { registerRouteHook } from '../../core/js/route.js';
 
 const loadMath = once(async () => {
-	await import(params.mathConfig);
+	await import(mathConfig);
 	// MathJax can't find document.currentScript when loaded as a module, so set the component root explicitly
-	window.MathJax.loader.paths.mathjax = params.texSvgJS.replace(/\/[^/]*$/, '');
-	await import(params.texSvgJS);
+	window.MathJax.loader.paths.mathjax = texSvgJS.replace(/\/[^/]*$/, '');
+	await import(texSvgJS);
 	await window.MathJax.startup.promise;
 });
 

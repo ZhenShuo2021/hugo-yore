@@ -19,6 +19,8 @@ HUGO_VERSION=0.166.0
 GO_VERSION=1.25.0
 MINIMAL_CONFIG=false
 SKIP_PAGEFIND=false
+SKIP_PDF=false
+PDF_LD_LIBRARY_PATH=""
 BASE_URL=""
 
 CUSTOM_CACHE_DIR="${HUGO_CACHEDIR}/__custom__"
@@ -26,6 +28,7 @@ CUSTOM_CACHE_DIR="${HUGO_CACHEDIR}/__custom__"
 export HUGO_CACHEDIR
 export GOPATH="${CUSTOM_CACHE_DIR}/go-pkg"
 export GOMODCACHE="${GOPATH}/pkg/mod"
+export PLAYWRIGHT_BROWSERS_PATH="${CUSTOM_CACHE_DIR}/playwright"
 export TZ=Asia/Taipei
 export HUGO_DEPLOY_ENV
 echo "Deploy environment: ${HUGO_DEPLOY_ENV}"
@@ -48,6 +51,10 @@ main() {
         ;;
       --skip-pagefind)
         SKIP_PAGEFIND=true
+        shift
+        ;;
+      --skip-pdf)
+        SKIP_PDF=true
         shift
         ;;
       *)
@@ -97,6 +104,29 @@ main() {
     echo "Skip PageFind."
   else
     pnpm install --prod --frozen-lockfile --ignore-scripts
+  fi
+
+  # Install PDF dependencies and Playwright browser
+  if [[ "${SKIP_PDF}" == "true" ]]; then
+    echo "Skipping PDF dependencies (--skip-pdf set)."
+  else
+    pnpm install --dir scripts/pdf --ignore-workspace --frozen-lockfile --ignore-scripts
+    # --with-deps installs system packages through apt, which needs root or passwordless sudo.
+    # Without either, sudo waits for a password forever, so skip the flag
+    playwright_deps_flag=""
+    if [[ "$(id -u)" -eq 0 ]] || sudo -n true 2>/dev/null; then
+      playwright_deps_flag="--with-deps"
+    fi
+    if compgen -G "${PLAYWRIGHT_BROWSERS_PATH}/chromium-*" > /dev/null; then
+      echo "Using cached Playwright Chromium..."
+    else
+      echo "Installing Playwright Chromium..."
+      pnpm --dir scripts/pdf --ignore-workspace exec playwright install ${playwright_deps_flag} chromium
+    fi
+    # Without root the system libraries Chromium needs cannot be installed, fetch them into a private folder
+    if [[ -z "${playwright_deps_flag}" ]]; then
+      PDF_LD_LIBRARY_PATH="$(bash scripts/chromium-libs.sh "${PLAYWRIGHT_BROWSERS_PATH}" "${CUSTOM_CACHE_DIR}/chromium-libs")"
+    fi
   fi
 
   # Verify installations
@@ -156,6 +186,23 @@ EOF
     echo "Running Pagefind indexing..."
     pnpm pagefind --site public
     echo "Pagefind indexing complete."
+  fi
+
+  # Build PDF
+  # Must run after Pagefind so the PDF is written into the finished site
+  if [[ "${SKIP_PDF}" == "true" ]]; then
+    echo "Skipping PDF build (--skip-pdf set)."
+  else
+    echo "Building PDF..."
+    if [[ -n "${PDF_LD_LIBRARY_PATH}" ]]; then
+      export LD_LIBRARY_PATH="${PDF_LD_LIBRARY_PATH}${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+    fi
+    if [[ -n "${BASE_URL}" ]]; then
+      node scripts/pdf/build-pdf.js --site public/ --start /docs/ --out public/docs.pdf --base "${BASE_URL}"
+    else
+      node scripts/pdf/build-pdf.js --site public/ --start /docs/ --out public/docs.pdf
+    fi
+    echo "PDF build complete."
   fi
 }
 

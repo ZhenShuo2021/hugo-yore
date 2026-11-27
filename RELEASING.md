@@ -1,8 +1,12 @@
 ## Releasing
 
-1. Update theme version in 2 files:
+1. Run `pnpm bump patch|minor|major`. It updates the version in these files, commits, and creates the tag:
    1. `package.json`
    2. `data/theme.yaml`
+   3. `scripts/pdf/package.json` (must equal the tag version, the release workflow checks it)
+   4. The pinned install URL in `exampleSite/content/en/docs/200-features/300-pdf-export/index.md`
+
+   The release workflow attaches the PDF script tarball to the same Release.
 2. Check whether need to update the minimal Hugo version in 3 files:
    1. `exampleSite/content/en/docs/40-getting-started/index.md`
    2. `layouts/baseof.html`

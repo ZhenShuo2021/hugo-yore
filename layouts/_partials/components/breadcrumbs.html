@@ -1,6 +1,7 @@
 <nav aria-label="{{ i18n `nav.breadcrumb` | default `Breadcrumb navigation` }}" class="flex items-baseline">
 	<span aria-hidden="true" class="shrink-0">&#x276F;&nbsp;</span>
-	<ol class="breadcrumb m-0 min-w-0 list-none pl-0">
+	<ol
+		class="breadcrumb m-0 min-w-0 list-none pl-0 [&_a:focus-visible]:underline [&_a:hover]:underline [&_a[aria-current=page]]:font-semibold [&>li+li]:before:content-['\00a0/\00a0]">
 		{{- range $n, $page := .Ancestors.Reverse -}}
 			{{- if eq $n 0 }}{{ continue }}{{ end -}}
 			{{- if eq .Params.build.render "never" -}}
